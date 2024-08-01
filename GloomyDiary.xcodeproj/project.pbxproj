@@ -15,6 +15,9 @@
 		D97421C92C5ABE15002E47F9 /* GloomyDiaryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D97421C82C5ABE15002E47F9 /* GloomyDiaryTests.swift */; };
 		D97421D32C5ABE15002E47F9 /* GloomyDiaryUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D97421D22C5ABE15002E47F9 /* GloomyDiaryUITests.swift */; };
 		D97421D52C5ABE15002E47F9 /* GloomyDiaryUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D97421D42C5ABE15002E47F9 /* GloomyDiaryUITestsLaunchTests.swift */; };
+		D97421E42C5BF879002E47F9 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = D97421E32C5BF879002E47F9 /* SnapKit */; };
+		D97421E72C5BF90A002E47F9 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = D97421E62C5BF90A002E47F9 /* Lottie */; };
+		D97421EA2C5C0073002E47F9 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = D97421E92C5C0073002E47F9 /* ComposableArchitecture */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,6 +57,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D97421E42C5BF879002E47F9 /* SnapKit in Frameworks */,
+				D97421E72C5BF90A002E47F9 /* Lottie in Frameworks */,
+				D97421EA2C5C0073002E47F9 /* ComposableArchitecture in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -81,6 +87,7 @@
 				D97421C72C5ABE15002E47F9 /* GloomyDiaryTests */,
 				D97421D12C5ABE15002E47F9 /* GloomyDiaryUITests */,
 				D97421AF2C5ABE12002E47F9 /* Products */,
+				D97421E52C5BF90A002E47F9 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -124,6 +131,13 @@
 			path = GloomyDiaryUITests;
 			sourceTree = "<group>";
 		};
+		D97421E52C5BF90A002E47F9 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -140,6 +154,11 @@
 			dependencies = (
 			);
 			name = GloomyDiary;
+			packageProductDependencies = (
+				D97421E32C5BF879002E47F9 /* SnapKit */,
+				D97421E62C5BF90A002E47F9 /* Lottie */,
+				D97421E92C5C0073002E47F9 /* ComposableArchitecture */,
+			);
 			productName = GloomyDiary;
 			productReference = D97421AE2C5ABE12002E47F9 /* GloomyDiary.app */;
 			productType = "com.apple.product-type.application";
@@ -212,6 +231,11 @@
 				Base,
 			);
 			mainGroup = D97421A52C5ABE12002E47F9;
+			packageReferences = (
+				D97421E12C5BF760002E47F9 /* XCRemoteSwiftPackageReference "lottie-ios" */,
+				D97421E22C5BF879002E47F9 /* XCRemoteSwiftPackageReference "SnapKit" */,
+				D97421E82C5C005F002E47F9 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */,
+			);
 			productRefGroup = D97421AF2C5ABE12002E47F9 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -593,6 +617,51 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		D97421E12C5BF760002E47F9 /* XCRemoteSwiftPackageReference "lottie-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/airbnb/lottie-ios";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.5.0;
+			};
+		};
+		D97421E22C5BF879002E47F9 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SnapKit/SnapKit";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.7.1;
+			};
+		};
+		D97421E82C5C005F002E47F9 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/pointfreeco/swift-composable-architecture";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.12.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		D97421E32C5BF879002E47F9 /* SnapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D97421E22C5BF879002E47F9 /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = SnapKit;
+		};
+		D97421E62C5BF90A002E47F9 /* Lottie */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D97421E12C5BF760002E47F9 /* XCRemoteSwiftPackageReference "lottie-ios" */;
+			productName = Lottie;
+		};
+		D97421E92C5C0073002E47F9 /* ComposableArchitecture */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D97421E82C5C005F002E47F9 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */;
+			productName = ComposableArchitecture;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = D97421A62C5ABE12002E47F9 /* Project object */;
 }
