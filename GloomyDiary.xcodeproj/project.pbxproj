@@ -18,6 +18,10 @@
 		D97421E42C5BF879002E47F9 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = D97421E32C5BF879002E47F9 /* SnapKit */; };
 		D97421E72C5BF90A002E47F9 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = D97421E62C5BF90A002E47F9 /* Lottie */; };
 		D97421EA2C5C0073002E47F9 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = D97421E92C5C0073002E47F9 /* ComposableArchitecture */; };
+		D9D9E00E2C5C1C2E0095792A /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D9E00B2C5C1C2E0095792A /* Color.swift */; };
+		D9D9E00F2C5C1C2E0095792A /* Font.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D9E00C2C5C1C2E0095792A /* Font.swift */; };
+		D9D9E0122C5C1C340095792A /* UIColor+Hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D9E0102C5C1C340095792A /* UIColor+Hex.swift */; };
+		D9D9E0162C5C1C3E0095792A /* 나눔손글씨 무궁화.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D9D9E0132C5C1C3E0095792A /* 나눔손글씨 무궁화.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -50,6 +54,10 @@
 		D97421CE2C5ABE15002E47F9 /* GloomyDiaryUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GloomyDiaryUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D97421D22C5ABE15002E47F9 /* GloomyDiaryUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GloomyDiaryUITests.swift; sourceTree = "<group>"; };
 		D97421D42C5ABE15002E47F9 /* GloomyDiaryUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GloomyDiaryUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		D9D9E00B2C5C1C2E0095792A /* Color.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
+		D9D9E00C2C5C1C2E0095792A /* Font.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Font.swift; sourceTree = "<group>"; };
+		D9D9E0102C5C1C340095792A /* UIColor+Hex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Hex.swift"; sourceTree = "<group>"; };
+		D9D9E0132C5C1C3E0095792A /* 나눔손글씨 무궁화.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "나눔손글씨 무궁화.ttf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -104,6 +112,9 @@
 		D97421B02C5ABE12002E47F9 /* GloomyDiary */ = {
 			isa = PBXGroup;
 			children = (
+				D9D9E0152C5C1C3E0095792A /* Resources */,
+				D9D9E0112C5C1C340095792A /* Extensions */,
+				D9D9E00D2C5C1C2E0095792A /* Color+Font */,
 				D97421B12C5ABE12002E47F9 /* AppDelegate.swift */,
 				D97421B32C5ABE12002E47F9 /* SceneDelegate.swift */,
 				D97421B52C5ABE12002E47F9 /* ViewController.swift */,
@@ -136,6 +147,39 @@
 			children = (
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		D9D9E00D2C5C1C2E0095792A /* Color+Font */ = {
+			isa = PBXGroup;
+			children = (
+				D9D9E00B2C5C1C2E0095792A /* Color.swift */,
+				D9D9E00C2C5C1C2E0095792A /* Font.swift */,
+			);
+			path = "Color+Font";
+			sourceTree = "<group>";
+		};
+		D9D9E0112C5C1C340095792A /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				D9D9E0102C5C1C340095792A /* UIColor+Hex.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		D9D9E0142C5C1C3E0095792A /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				D9D9E0132C5C1C3E0095792A /* 나눔손글씨 무궁화.ttf */,
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
+		D9D9E0152C5C1C3E0095792A /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				D9D9E0142C5C1C3E0095792A /* Fonts */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -253,6 +297,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D97421BB2C5ABE14002E47F9 /* Assets.xcassets in Resources */,
+				D9D9E0162C5C1C3E0095792A /* 나눔손글씨 무궁화.ttf in Resources */,
 				D97421BE2C5ABE14002E47F9 /* Base in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -279,6 +324,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				D97421B62C5ABE12002E47F9 /* ViewController.swift in Sources */,
+				D9D9E00E2C5C1C2E0095792A /* Color.swift in Sources */,
+				D9D9E00F2C5C1C2E0095792A /* Font.swift in Sources */,
+				D9D9E0122C5C1C340095792A /* UIColor+Hex.swift in Sources */,
 				D97421B22C5ABE12002E47F9 /* AppDelegate.swift in Sources */,
 				D97421B42C5ABE12002E47F9 /* SceneDelegate.swift in Sources */,
 			);
