@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import Lottie
+import SnapKit
 
 class ViewController: UIViewController {
 
