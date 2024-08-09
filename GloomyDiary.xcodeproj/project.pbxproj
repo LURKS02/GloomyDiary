@@ -22,6 +22,18 @@
 		D9D9E00F2C5C1C2E0095792A /* Font.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D9E00C2C5C1C2E0095792A /* Font.swift */; };
 		D9D9E0122C5C1C340095792A /* UIColor+Hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D9E0102C5C1C340095792A /* UIColor+Hex.swift */; };
 		D9D9E0162C5C1C3E0095792A /* 나눔손글씨 무궁화.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D9D9E0132C5C1C3E0095792A /* 나눔손글씨 무궁화.ttf */; };
+		D9D9E0222C5FE5DE0095792A /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D9E0212C5FE5DE0095792A /* TabBarController.swift */; };
+		D9D9E0272C5FEBA70095792A /* TabBarCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D9E0262C5FEBA70095792A /* TabBarCase.swift */; };
+		D9D9E0292C5FF41C0095792A /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D9E0282C5FF41C0095792A /* HomeViewController.swift */; };
+		D9D9E02B2C5FF4570095792A /* HistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D9E02A2C5FF4570095792A /* HistoryViewController.swift */; };
+		D9D9E02D2C5FF4710095792A /* DiaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D9E02C2C5FF4710095792A /* DiaryViewController.swift */; };
+		D9D9E0302C5FF53E0095792A /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D9E02F2C5FF53E0095792A /* BaseViewController.swift */; };
+		D9D9E0322C5FF6BA0095792A /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D9E0312C5FF6BA0095792A /* HomeView.swift */; };
+		D9D9E0342C5FF6EF0095792A /* HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D9E0332C5FF6EF0095792A /* HistoryView.swift */; };
+		D9D9E0362C5FF72F0095792A /* DiaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D9E0352C5FF72F0095792A /* DiaryView.swift */; };
+		D9D9E03A2C5FFFE80095792A /* BaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D9E0392C5FFFE80095792A /* BaseView.swift */; };
+		D9D9E0692C6279E80095792A /* then.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D9E0682C6279E80095792A /* then.swift */; };
+		D9D9E0942C651FF00095792A /* BaseTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D9E0932C651FF00095792A /* BaseTabBarController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -58,6 +70,18 @@
 		D9D9E00C2C5C1C2E0095792A /* Font.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Font.swift; sourceTree = "<group>"; };
 		D9D9E0102C5C1C340095792A /* UIColor+Hex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Hex.swift"; sourceTree = "<group>"; };
 		D9D9E0132C5C1C3E0095792A /* 나눔손글씨 무궁화.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "나눔손글씨 무궁화.ttf"; sourceTree = "<group>"; };
+		D9D9E0212C5FE5DE0095792A /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
+		D9D9E0262C5FEBA70095792A /* TabBarCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarCase.swift; sourceTree = "<group>"; };
+		D9D9E0282C5FF41C0095792A /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		D9D9E02A2C5FF4570095792A /* HistoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryViewController.swift; sourceTree = "<group>"; };
+		D9D9E02C2C5FF4710095792A /* DiaryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryViewController.swift; sourceTree = "<group>"; };
+		D9D9E02F2C5FF53E0095792A /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
+		D9D9E0312C5FF6BA0095792A /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		D9D9E0332C5FF6EF0095792A /* HistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryView.swift; sourceTree = "<group>"; };
+		D9D9E0352C5FF72F0095792A /* DiaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryView.swift; sourceTree = "<group>"; };
+		D9D9E0392C5FFFE80095792A /* BaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseView.swift; sourceTree = "<group>"; };
+		D9D9E0682C6279E80095792A /* then.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = then.swift; sourceTree = "<group>"; };
+		D9D9E0932C651FF00095792A /* BaseTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTabBarController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -112,9 +136,9 @@
 		D97421B02C5ABE12002E47F9 /* GloomyDiary */ = {
 			isa = PBXGroup;
 			children = (
+				D9D9E02E2C5FF5290095792A /* Base */,
+				D9D9E01B2C5FE56A0095792A /* Presentation */,
 				D9D9E0152C5C1C3E0095792A /* Resources */,
-				D9D9E0112C5C1C340095792A /* Extensions */,
-				D9D9E00D2C5C1C2E0095792A /* Color+Font */,
 				D97421B12C5ABE12002E47F9 /* AppDelegate.swift */,
 				D97421B32C5ABE12002E47F9 /* SceneDelegate.swift */,
 				D97421B52C5ABE12002E47F9 /* ViewController.swift */,
@@ -180,6 +204,82 @@
 				D9D9E0142C5C1C3E0095792A /* Fonts */,
 			);
 			path = Resources;
+			sourceTree = "<group>";
+		};
+		D9D9E01B2C5FE56A0095792A /* Presentation */ = {
+			isa = PBXGroup;
+			children = (
+				D9D9E01D2C5FE5830095792A /* Screen */,
+				D9D9E01C2C5FE57C0095792A /* TabBar */,
+			);
+			path = Presentation;
+			sourceTree = "<group>";
+		};
+		D9D9E01C2C5FE57C0095792A /* TabBar */ = {
+			isa = PBXGroup;
+			children = (
+				D9D9E0232C5FEB060095792A /* Item */,
+				D9D9E0212C5FE5DE0095792A /* TabBarController.swift */,
+			);
+			path = TabBar;
+			sourceTree = "<group>";
+		};
+		D9D9E01D2C5FE5830095792A /* Screen */ = {
+			isa = PBXGroup;
+			children = (
+				D9D9E01E2C5FE58B0095792A /* Home */,
+				D9D9E01F2C5FE59A0095792A /* History */,
+				D9D9E0202C5FE5A00095792A /* Diary */,
+			);
+			path = Screen;
+			sourceTree = "<group>";
+		};
+		D9D9E01E2C5FE58B0095792A /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				D9D9E0282C5FF41C0095792A /* HomeViewController.swift */,
+				D9D9E0312C5FF6BA0095792A /* HomeView.swift */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		D9D9E01F2C5FE59A0095792A /* History */ = {
+			isa = PBXGroup;
+			children = (
+				D9D9E02A2C5FF4570095792A /* HistoryViewController.swift */,
+				D9D9E0332C5FF6EF0095792A /* HistoryView.swift */,
+			);
+			path = History;
+			sourceTree = "<group>";
+		};
+		D9D9E0202C5FE5A00095792A /* Diary */ = {
+			isa = PBXGroup;
+			children = (
+				D9D9E02C2C5FF4710095792A /* DiaryViewController.swift */,
+				D9D9E0352C5FF72F0095792A /* DiaryView.swift */,
+			);
+			path = Diary;
+			sourceTree = "<group>";
+		};
+		D9D9E0232C5FEB060095792A /* Item */ = {
+			isa = PBXGroup;
+			children = (
+				D9D9E0262C5FEBA70095792A /* TabBarCase.swift */,
+			);
+			path = Item;
+			sourceTree = "<group>";
+		};
+		D9D9E02E2C5FF5290095792A /* Base */ = {
+			isa = PBXGroup;
+			children = (
+				D9D9E00D2C5C1C2E0095792A /* Color+Font */,
+				D9D9E0112C5C1C340095792A /* Extensions */,
+				D9D9E02F2C5FF53E0095792A /* BaseViewController.swift */,
+				D9D9E0392C5FFFE80095792A /* BaseView.swift */,
+				D9D9E0682C6279E80095792A /* then.swift */,
+				D9D9E0932C651FF00095792A /* BaseTabBarController.swift */,
+			);
+			path = Base;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -323,11 +423,23 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D9D9E0302C5FF53E0095792A /* BaseViewController.swift in Sources */,
+				D9D9E0322C5FF6BA0095792A /* HomeView.swift in Sources */,
+				D9D9E0942C651FF00095792A /* BaseTabBarController.swift in Sources */,
+				D9D9E0272C5FEBA70095792A /* TabBarCase.swift in Sources */,
+				D9D9E03A2C5FFFE80095792A /* BaseView.swift in Sources */,
 				D97421B62C5ABE12002E47F9 /* ViewController.swift in Sources */,
 				D9D9E00E2C5C1C2E0095792A /* Color.swift in Sources */,
 				D9D9E00F2C5C1C2E0095792A /* Font.swift in Sources */,
+				D9D9E02D2C5FF4710095792A /* DiaryViewController.swift in Sources */,
+				D9D9E0342C5FF6EF0095792A /* HistoryView.swift in Sources */,
 				D9D9E0122C5C1C340095792A /* UIColor+Hex.swift in Sources */,
+				D9D9E0692C6279E80095792A /* then.swift in Sources */,
+				D9D9E02B2C5FF4570095792A /* HistoryViewController.swift in Sources */,
+				D9D9E0292C5FF41C0095792A /* HomeViewController.swift in Sources */,
+				D9D9E0222C5FE5DE0095792A /* TabBarController.swift in Sources */,
 				D97421B22C5ABE12002E47F9 /* AppDelegate.swift in Sources */,
+				D9D9E0362C5FF72F0095792A /* DiaryView.swift in Sources */,
 				D97421B42C5ABE12002E47F9 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
