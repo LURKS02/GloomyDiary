@@ -21,10 +21,22 @@ extension UIColor {
 extension UIColor {
     enum Background: String {
         case mainPurple = "473B57"
-        case darkPurple = "241E2C"
+        case darkPurple = "1B1938"
     }
     
     static func background(_ background: Background) -> UIColor {
         UIColor(hex: background.rawValue)
+    }
+}
+
+extension UIColor {
+    enum Component: String {
+        case darkPurple = "241E2C"
+        case lightGray = "C7B9B9"
+        case fogGray = "5F5562"
+    }
+    
+    static func component(_ component: Component) -> UIColor {
+        UIColor(hex: component.rawValue)
     }
 }

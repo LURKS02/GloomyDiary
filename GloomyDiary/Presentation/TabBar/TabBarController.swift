@@ -11,7 +11,7 @@ class TabBarController: BaseTabBarController {
     override func setup() {
         super.setup()
         
-        self.backgroundColor = .background(.darkPurple)
+        self.backgroundColor = .component(.darkPurple)
         self.selectedFontColor = .text(.highlight)
         self.normalFontColor = .text(.dark)
         self.font = .무궁화.tabBar
