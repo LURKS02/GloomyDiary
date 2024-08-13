@@ -31,7 +31,8 @@ extension UIColor {
 
 extension UIColor {
     enum Component: String {
-        case darkPurple = "241E2C"
+        case darkPurple = "282236"
+        case buttonPurple = "322A3D"
         case lightGray = "C7B9B9"
         case fogGray = "5F5562"
     }
