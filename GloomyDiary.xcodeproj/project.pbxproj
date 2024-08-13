@@ -34,6 +34,9 @@
 		D9D9E03A2C5FFFE80095792A /* BaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D9E0392C5FFFE80095792A /* BaseView.swift */; };
 		D9D9E0692C6279E80095792A /* then.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D9E0682C6279E80095792A /* then.swift */; };
 		D9D9E0942C651FF00095792A /* BaseTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D9E0932C651FF00095792A /* BaseTabBarController.swift */; };
+		D9D9E0CC2C6BE58B0095792A /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = D9D9E0CB2C6BE58B0095792A /* RxCocoa */; };
+		D9D9E0CE2C6BE58B0095792A /* RxRelay in Frameworks */ = {isa = PBXBuildFile; productRef = D9D9E0CD2C6BE58B0095792A /* RxRelay */; };
+		D9D9E0D02C6BE58B0095792A /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = D9D9E0CF2C6BE58B0095792A /* RxSwift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -89,8 +92,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D9D9E0D02C6BE58B0095792A /* RxSwift in Frameworks */,
+				D9D9E0CE2C6BE58B0095792A /* RxRelay in Frameworks */,
 				D97421E42C5BF879002E47F9 /* SnapKit in Frameworks */,
 				D97421E72C5BF90A002E47F9 /* Lottie in Frameworks */,
+				D9D9E0CC2C6BE58B0095792A /* RxCocoa in Frameworks */,
 				D97421EA2C5C0073002E47F9 /* ComposableArchitecture in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -302,6 +308,9 @@
 				D97421E32C5BF879002E47F9 /* SnapKit */,
 				D97421E62C5BF90A002E47F9 /* Lottie */,
 				D97421E92C5C0073002E47F9 /* ComposableArchitecture */,
+				D9D9E0CB2C6BE58B0095792A /* RxCocoa */,
+				D9D9E0CD2C6BE58B0095792A /* RxRelay */,
+				D9D9E0CF2C6BE58B0095792A /* RxSwift */,
 			);
 			productName = GloomyDiary;
 			productReference = D97421AE2C5ABE12002E47F9 /* GloomyDiary.app */;
@@ -379,6 +388,7 @@
 				D97421E12C5BF760002E47F9 /* XCRemoteSwiftPackageReference "lottie-ios" */,
 				D97421E22C5BF879002E47F9 /* XCRemoteSwiftPackageReference "SnapKit" */,
 				D97421E82C5C005F002E47F9 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */,
+				D9D9E0CA2C6BE58B0095792A /* XCRemoteSwiftPackageReference "RxSwift" */,
 			);
 			productRefGroup = D97421AF2C5ABE12002E47F9 /* Products */;
 			projectDirPath = "";
@@ -803,6 +813,14 @@
 				minimumVersion = 1.12.1;
 			};
 		};
+		D9D9E0CA2C6BE58B0095792A /* XCRemoteSwiftPackageReference "RxSwift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ReactiveX/RxSwift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 6.7.1;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -820,6 +838,21 @@
 			isa = XCSwiftPackageProductDependency;
 			package = D97421E82C5C005F002E47F9 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */;
 			productName = ComposableArchitecture;
+		};
+		D9D9E0CB2C6BE58B0095792A /* RxCocoa */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D9D9E0CA2C6BE58B0095792A /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxCocoa;
+		};
+		D9D9E0CD2C6BE58B0095792A /* RxRelay */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D9D9E0CA2C6BE58B0095792A /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxRelay;
+		};
+		D9D9E0CF2C6BE58B0095792A /* RxSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D9D9E0CA2C6BE58B0095792A /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxSwift;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
