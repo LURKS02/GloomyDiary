@@ -21,15 +21,6 @@ final class TalkingView: BaseView {
         $0.font = .무궁화.title
     }
     
-    init(text: String) {
-        super.init(frame: .zero)
-        self.talkingLabel.text = text
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
     override func setup() {
         self.backgroundColor = .component(.darkPurple)
         self.layer.cornerRadius = Matric.cornerRadius
@@ -45,5 +36,11 @@ final class TalkingView: BaseView {
             make.verticalEdges.equalToSuperview().inset(Matric.verticalPadding)
             make.horizontalEdges.equalToSuperview().inset(Matric.horizontalPadding)
         }
+    }
+}
+
+extension TalkingView {
+    func update(text: String) {
+        self.talkingLabel.text = text
     }
 }

@@ -11,8 +11,9 @@ final class HomeView: BaseView {
     struct Matric {
         static let moonTopPadding: CGFloat = 132
         static let ghostMoonPadding: CGFloat = 122
-        static let ghostLeftPadding: CGFloat = 61
+        static let ghostRightPadding: CGFloat = 142
         static let ghostButtonPadding: CGFloat = 65
+        static let buttonBottomPadding: CGFloat = 266
         
         static let stackViewSpacing: CGFloat = 14
         static let ghostImageRightPadding: CGFloat = 25
@@ -31,7 +32,7 @@ final class HomeView: BaseView {
     let ghostImageView = ImageView(imageName: "ghost",
                                    size: Matric.ghostImageSize)
     
-    let talkingView: TalkingView = TalkingView(text: "안녕!\n오늘은 어떤 고민이 있니?").then {
+    let talkingView: TalkingView = TalkingView().then {
         $0.setContentHuggingPriority(.defaultHigh, for: .horizontal)
     }
     
@@ -66,8 +67,8 @@ final class HomeView: BaseView {
         }
         
         ghostStackView.snp.makeConstraints { make in
-            make.left.equalToSuperview().inset(Matric.ghostLeftPadding)
-            make.top.equalTo(moonImageView.snp.bottom).offset(Matric.ghostMoonPadding)
+            make.right.equalToSuperview().inset(Matric.ghostRightPadding)
+            make.bottom.equalTo(startButton.snp.top).offset(-Matric.ghostButtonPadding)
         }
         
         ghostImageView.snp.makeConstraints { make in
@@ -76,7 +77,7 @@ final class HomeView: BaseView {
         
         startButton.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.top.equalTo(ghostStackView.snp.bottom).offset(Matric.ghostButtonPadding)
+            make.bottom.equalToSuperview().offset(-Matric.buttonBottomPadding)
         }
     }
 }
