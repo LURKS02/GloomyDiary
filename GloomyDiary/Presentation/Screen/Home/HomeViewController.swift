@@ -13,6 +13,8 @@ import RxCocoa
 import RxGesture
 
 final class HomeViewController: BaseViewController<HomeView> {
+    private var loopAnimated: Bool = false
+    
     let store: StoreOf<Home>
     
     init(store: StoreOf<Home>) {
@@ -24,10 +26,19 @@ final class HomeViewController: BaseViewController<HomeView> {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        if !loopAnimated {
+            defer { loopAnimated = true }
+            AnimationManager.shared.moveUpAndDown(contentView.ghostImageView, value: 5)
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        contentView.ghostStackView.rx.tapGesture()
+        contentView.rx.tapGesture()
             .when(.recognized)
             .subscribe(onNext: { [weak self] _ in
                 self?.store.send(.ghostTapped)

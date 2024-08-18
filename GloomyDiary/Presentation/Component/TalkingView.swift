@@ -41,6 +41,26 @@ final class TalkingView: BaseView {
 
 extension TalkingView {
     func update(text: String) {
-        self.talkingLabel.text = text
+        UIView.animate(withDuration: 0.3) {
+            self.talkingLabel.alpha = 0.0
+        } completion: { _ in
+            let oldBounds = self.bounds
+            self.talkingLabel.text = text
+            self.layoutIfNeeded()
+            let newBounds = self.bounds
+            
+            let deltaX = oldBounds.width - newBounds.width
+            let deltaY = oldBounds.height - newBounds.height
+            
+            self.frame = oldBounds
+            
+            UIView.animate(withDuration: 0.3, animations: {
+                self.frame = CGRect(x: deltaX, y: deltaY, width: newBounds.width, height: newBounds.height)
+            }) { _ in
+                UIView.animate(withDuration: 0.3) {
+                    self.talkingLabel.alpha = 1.0
+                }
+            }
+        }
     }
 }
