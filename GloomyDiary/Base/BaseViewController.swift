@@ -6,9 +6,12 @@
 //
 
 import UIKit
+import RxSwift
 
 class BaseViewController<T: UIView>: UIViewController {
-    private var contentView: T
+    var contentView: T
+    
+    let disposeBag = DisposeBag()
     
     init(_ contentView: T = T()) {
         self.contentView = contentView

@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import ComposableArchitecture
 
 enum TabBarCase: String {
     case home
@@ -17,7 +18,10 @@ extension TabBarCase {
     var viewController: UIViewController {
         switch self {
         case .home:
-            return HomeViewController()
+            let store = Store(initialState: Home.State()) {
+                Home()
+            }
+            return HomeViewController(store: store)
             
         case .history:
             return HistoryViewController()
