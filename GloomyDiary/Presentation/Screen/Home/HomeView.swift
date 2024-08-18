@@ -10,13 +10,12 @@ import UIKit
 final class HomeView: BaseView {
     struct Matric {
         static let moonTopPadding: CGFloat = 132
-        static let ghostMoonPadding: CGFloat = 122
-        static let ghostRightPadding: CGFloat = 142
         static let ghostButtonPadding: CGFloat = 65
         static let buttonBottomPadding: CGFloat = 266
         
-        static let stackViewSpacing: CGFloat = 14
-        static let ghostImageRightPadding: CGFloat = 25
+        static let ghostTalkingSpacing: CGFloat = 14
+        static let ghostTalkingRightPadding: CGFloat = 23
+        static let ghostImageRightPadding: CGFloat = 119
         
         static let moonImageSize: CGFloat = 43
         static let ghostImageSize: CGFloat = 78
@@ -36,13 +35,6 @@ final class HomeView: BaseView {
         $0.setContentHuggingPriority(.defaultHigh, for: .horizontal)
     }
     
-    lazy var ghostStackView = UIStackView(arrangedSubviews: [talkingView, ghostImageView]).then {
-        $0.axis = .vertical
-        $0.spacing = Matric.stackViewSpacing
-        $0.alignment = .trailing
-        $0.distribution = .fill
-    }
-    
     let startButton = ButtonView(text: "상담하기")
     
     override func setup() {
@@ -52,8 +44,9 @@ final class HomeView: BaseView {
     override func addSubviews() {
         addSubview(gradientView)
         addSubview(moonImageView)
+        addSubview(talkingView)
+        addSubview(ghostImageView)
         addSubview(startButton)
-        addSubview(ghostStackView)
     }
     
     override func setupConstraints() {
@@ -66,13 +59,14 @@ final class HomeView: BaseView {
             make.top.equalToSuperview().offset(Matric.moonTopPadding)
         }
         
-        ghostStackView.snp.makeConstraints { make in
-            make.right.equalToSuperview().inset(Matric.ghostRightPadding)
-            make.bottom.equalTo(startButton.snp.top).offset(-Matric.ghostButtonPadding)
+        talkingView.snp.makeConstraints { make in
+            make.bottom.equalTo(ghostImageView.snp.top).offset(-Matric.ghostTalkingSpacing)
+            make.right.equalTo(ghostImageView.snp.right).offset(-Matric.ghostTalkingRightPadding)
         }
         
         ghostImageView.snp.makeConstraints { make in
-            make.right.equalToSuperview().offset(Matric.ghostImageRightPadding)
+            make.bottom.equalTo(startButton.snp.top).offset(-Matric.ghostButtonPadding)
+            make.right.equalToSuperview().offset(-Matric.ghostImageRightPadding)
         }
         
         startButton.snp.makeConstraints { make in
