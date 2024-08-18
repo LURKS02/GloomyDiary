@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Lottie
 
 final class HomeView: BaseView {
     struct Matric {
@@ -18,7 +19,13 @@ final class HomeView: BaseView {
         static let ghostImageRightPadding: CGFloat = 119
         
         static let moonImageSize: CGFloat = 43
+        static let pulsingCircleSize: CGFloat = 380
         static let ghostImageSize: CGFloat = 78
+        
+        static let pulsingCircleAlpha: CGFloat = 0.3
+        static let pulsingCircleAnimationSpeed: CGFloat = 0.3
+        static let sparklingAlpha: CGFloat = 0.3
+        static let sparklingAnimationSpeed: CGFloat = 0.5
     }
     
     let gradientView: GradientView = GradientView(colors: [.background(.darkPurple),
@@ -27,6 +34,21 @@ final class HomeView: BaseView {
     
     let moonImageView = ImageView(imageName: "moon",
                                   size: Matric.moonImageSize)
+    
+    let pulsingCircleLottieView = LottieAnimationView(name: "pulsingCircle").then {
+        $0.alpha = Matric.pulsingCircleAlpha
+        $0.animationSpeed = Matric.pulsingCircleAnimationSpeed
+        $0.loopMode = .loop
+        $0.play()
+    }
+    
+    let sparklingLottieView = LottieAnimationView(name: "sparkles").then {
+        $0.alpha = Matric.sparklingAlpha
+        $0.animationSpeed = Matric.sparklingAnimationSpeed
+        $0.contentMode = .scaleToFill
+        $0.loopMode = .loop
+        $0.play()
+    }
     
     let ghostImageView = ImageView(imageName: "ghost",
                                    size: Matric.ghostImageSize)
@@ -44,6 +66,8 @@ final class HomeView: BaseView {
     override func addSubviews() {
         addSubview(gradientView)
         addSubview(moonImageView)
+        addSubview(pulsingCircleLottieView)
+        addSubview(sparklingLottieView)
         addSubview(talkingView)
         addSubview(ghostImageView)
         addSubview(startButton)
@@ -57,6 +81,16 @@ final class HomeView: BaseView {
         moonImageView.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
             make.top.equalToSuperview().offset(Matric.moonTopPadding)
+        }
+        
+        pulsingCircleLottieView.snp.makeConstraints { make in
+            make.center.equalTo(moonImageView)
+            make.size.equalTo(Matric.pulsingCircleSize)
+        }
+        
+        sparklingLottieView.snp.makeConstraints { make in
+            make.center.equalTo(moonImageView)
+            make.width.equalToSuperview()
         }
         
         talkingView.snp.makeConstraints { make in
