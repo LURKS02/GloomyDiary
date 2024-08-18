@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D93548332C71E38F00E5EBF9 /* sparkles.json in Resources */ = {isa = PBXBuildFile; fileRef = D93548312C71E38F00E5EBF9 /* sparkles.json */; };
+		D935483A2C72533A00E5EBF9 /* pulsingCircle.json in Resources */ = {isa = PBXBuildFile; fileRef = D93548392C72533A00E5EBF9 /* pulsingCircle.json */; };
 		D97421B22C5ABE12002E47F9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D97421B12C5ABE12002E47F9 /* AppDelegate.swift */; };
 		D97421B42C5ABE12002E47F9 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D97421B32C5ABE12002E47F9 /* SceneDelegate.swift */; };
 		D97421B62C5ABE12002E47F9 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D97421B52C5ABE12002E47F9 /* ViewController.swift */; };
@@ -34,9 +36,17 @@
 		D9D9E03A2C5FFFE80095792A /* BaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D9E0392C5FFFE80095792A /* BaseView.swift */; };
 		D9D9E0692C6279E80095792A /* then.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D9E0682C6279E80095792A /* then.swift */; };
 		D9D9E0942C651FF00095792A /* BaseTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D9E0932C651FF00095792A /* BaseTabBarController.swift */; };
+		D9D9E0BB2C6B93F20095792A /* TalkingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D9E0BA2C6B93F20095792A /* TalkingView.swift */; };
+		D9D9E0BD2C6B96F30095792A /* ButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D9E0BC2C6B96F30095792A /* ButtonView.swift */; };
+		D9D9E0BF2C6B996C0095792A /* ImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D9E0BE2C6B996C0095792A /* ImageView.swift */; };
+		D9D9E0C12C6B9E400095792A /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D9E0C02C6B9E400095792A /* GradientView.swift */; };
+		D9D9E0C72C6BD8260095792A /* Home.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D9E0C62C6BD8260095792A /* Home.swift */; };
+		D9D9E0C92C6BD82C0095792A /* Talking.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D9E0C82C6BD82C0095792A /* Talking.swift */; };
 		D9D9E0CC2C6BE58B0095792A /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = D9D9E0CB2C6BE58B0095792A /* RxCocoa */; };
 		D9D9E0CE2C6BE58B0095792A /* RxRelay in Frameworks */ = {isa = PBXBuildFile; productRef = D9D9E0CD2C6BE58B0095792A /* RxRelay */; };
 		D9D9E0D02C6BE58B0095792A /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = D9D9E0CF2C6BE58B0095792A /* RxSwift */; };
+		D9D9E0DC2C6BEB7F0095792A /* RxGesture in Frameworks */ = {isa = PBXBuildFile; productRef = D9D9E0DB2C6BEB7F0095792A /* RxGesture */; };
+		D9D9E0DF2C7108250095792A /* AnimationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D9E0DE2C7108250095792A /* AnimationManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,6 +67,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		D93548312C71E38F00E5EBF9 /* sparkles.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = sparkles.json; path = ../../../../../Downloads/sparkles.json; sourceTree = "<group>"; };
+		D93548392C72533A00E5EBF9 /* pulsingCircle.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = pulsingCircle.json; path = ../../../../../Downloads/pulsingCircle.json; sourceTree = "<group>"; };
 		D97421AE2C5ABE12002E47F9 /* GloomyDiary.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GloomyDiary.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D97421B12C5ABE12002E47F9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D97421B32C5ABE12002E47F9 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -85,6 +97,13 @@
 		D9D9E0392C5FFFE80095792A /* BaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseView.swift; sourceTree = "<group>"; };
 		D9D9E0682C6279E80095792A /* then.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = then.swift; sourceTree = "<group>"; };
 		D9D9E0932C651FF00095792A /* BaseTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTabBarController.swift; sourceTree = "<group>"; };
+		D9D9E0BA2C6B93F20095792A /* TalkingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TalkingView.swift; sourceTree = "<group>"; };
+		D9D9E0BC2C6B96F30095792A /* ButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonView.swift; sourceTree = "<group>"; };
+		D9D9E0BE2C6B996C0095792A /* ImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageView.swift; sourceTree = "<group>"; };
+		D9D9E0C02C6B9E400095792A /* GradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
+		D9D9E0C62C6BD8260095792A /* Home.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Home.swift; sourceTree = "<group>"; };
+		D9D9E0C82C6BD82C0095792A /* Talking.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Talking.swift; sourceTree = "<group>"; };
+		D9D9E0DE2C7108250095792A /* AnimationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,6 +117,7 @@
 				D97421E72C5BF90A002E47F9 /* Lottie in Frameworks */,
 				D9D9E0CC2C6BE58B0095792A /* RxCocoa in Frameworks */,
 				D97421EA2C5C0073002E47F9 /* ComposableArchitecture in Frameworks */,
+				D9D9E0DC2C6BEB7F0095792A /* RxGesture in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -118,6 +138,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		D93548302C71E37F00E5EBF9 /* Lotties */ = {
+			isa = PBXGroup;
+			children = (
+				D93548392C72533A00E5EBF9 /* pulsingCircle.json */,
+				D93548312C71E38F00E5EBF9 /* sparkles.json */,
+			);
+			path = Lotties;
+			sourceTree = "<group>";
+		};
 		D97421A52C5ABE12002E47F9 = {
 			isa = PBXGroup;
 			children = (
@@ -207,6 +236,7 @@
 		D9D9E0152C5C1C3E0095792A /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				D93548302C71E37F00E5EBF9 /* Lotties */,
 				D9D9E0142C5C1C3E0095792A /* Fonts */,
 			);
 			path = Resources;
@@ -215,6 +245,7 @@
 		D9D9E01B2C5FE56A0095792A /* Presentation */ = {
 			isa = PBXGroup;
 			children = (
+				D9D9E0B92C6B93E80095792A /* Component */,
 				D9D9E01D2C5FE5830095792A /* Screen */,
 				D9D9E01C2C5FE57C0095792A /* TabBar */,
 			);
@@ -243,6 +274,8 @@
 		D9D9E01E2C5FE58B0095792A /* Home */ = {
 			isa = PBXGroup;
 			children = (
+				D9D9E0C82C6BD82C0095792A /* Talking.swift */,
+				D9D9E0C62C6BD8260095792A /* Home.swift */,
 				D9D9E0282C5FF41C0095792A /* HomeViewController.swift */,
 				D9D9E0312C5FF6BA0095792A /* HomeView.swift */,
 			);
@@ -278,6 +311,7 @@
 		D9D9E02E2C5FF5290095792A /* Base */ = {
 			isa = PBXGroup;
 			children = (
+				D9D9E0DD2C7108140095792A /* Helper */,
 				D9D9E00D2C5C1C2E0095792A /* Color+Font */,
 				D9D9E0112C5C1C340095792A /* Extensions */,
 				D9D9E02F2C5FF53E0095792A /* BaseViewController.swift */,
@@ -286,6 +320,25 @@
 				D9D9E0932C651FF00095792A /* BaseTabBarController.swift */,
 			);
 			path = Base;
+			sourceTree = "<group>";
+		};
+		D9D9E0B92C6B93E80095792A /* Component */ = {
+			isa = PBXGroup;
+			children = (
+				D9D9E0BA2C6B93F20095792A /* TalkingView.swift */,
+				D9D9E0BC2C6B96F30095792A /* ButtonView.swift */,
+				D9D9E0BE2C6B996C0095792A /* ImageView.swift */,
+				D9D9E0C02C6B9E400095792A /* GradientView.swift */,
+			);
+			path = Component;
+			sourceTree = "<group>";
+		};
+		D9D9E0DD2C7108140095792A /* Helper */ = {
+			isa = PBXGroup;
+			children = (
+				D9D9E0DE2C7108250095792A /* AnimationManager.swift */,
+			);
+			path = Helper;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -311,6 +364,7 @@
 				D9D9E0CB2C6BE58B0095792A /* RxCocoa */,
 				D9D9E0CD2C6BE58B0095792A /* RxRelay */,
 				D9D9E0CF2C6BE58B0095792A /* RxSwift */,
+				D9D9E0DB2C6BEB7F0095792A /* RxGesture */,
 			);
 			productName = GloomyDiary;
 			productReference = D97421AE2C5ABE12002E47F9 /* GloomyDiary.app */;
@@ -389,6 +443,7 @@
 				D97421E22C5BF879002E47F9 /* XCRemoteSwiftPackageReference "SnapKit" */,
 				D97421E82C5C005F002E47F9 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */,
 				D9D9E0CA2C6BE58B0095792A /* XCRemoteSwiftPackageReference "RxSwift" */,
+				D9D9E0DA2C6BEB7F0095792A /* XCRemoteSwiftPackageReference "RxGesture" */,
 			);
 			productRefGroup = D97421AF2C5ABE12002E47F9 /* Products */;
 			projectDirPath = "";
@@ -406,9 +461,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D935483A2C72533A00E5EBF9 /* pulsingCircle.json in Resources */,
 				D97421BB2C5ABE14002E47F9 /* Assets.xcassets in Resources */,
 				D9D9E0162C5C1C3E0095792A /* 나눔손글씨 무궁화.ttf in Resources */,
 				D97421BE2C5ABE14002E47F9 /* Base in Resources */,
+				D93548332C71E38F00E5EBF9 /* sparkles.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -435,6 +492,7 @@
 			files = (
 				D9D9E0302C5FF53E0095792A /* BaseViewController.swift in Sources */,
 				D9D9E0322C5FF6BA0095792A /* HomeView.swift in Sources */,
+				D9D9E0C12C6B9E400095792A /* GradientView.swift in Sources */,
 				D9D9E0942C651FF00095792A /* BaseTabBarController.swift in Sources */,
 				D9D9E0272C5FEBA70095792A /* TabBarCase.swift in Sources */,
 				D9D9E03A2C5FFFE80095792A /* BaseView.swift in Sources */,
@@ -442,15 +500,21 @@
 				D9D9E00E2C5C1C2E0095792A /* Color.swift in Sources */,
 				D9D9E00F2C5C1C2E0095792A /* Font.swift in Sources */,
 				D9D9E02D2C5FF4710095792A /* DiaryViewController.swift in Sources */,
+				D9D9E0C92C6BD82C0095792A /* Talking.swift in Sources */,
+				D9D9E0BB2C6B93F20095792A /* TalkingView.swift in Sources */,
 				D9D9E0342C5FF6EF0095792A /* HistoryView.swift in Sources */,
 				D9D9E0122C5C1C340095792A /* UIColor+Hex.swift in Sources */,
+				D9D9E0C72C6BD8260095792A /* Home.swift in Sources */,
+				D9D9E0BF2C6B996C0095792A /* ImageView.swift in Sources */,
 				D9D9E0692C6279E80095792A /* then.swift in Sources */,
 				D9D9E02B2C5FF4570095792A /* HistoryViewController.swift in Sources */,
 				D9D9E0292C5FF41C0095792A /* HomeViewController.swift in Sources */,
+				D9D9E0BD2C6B96F30095792A /* ButtonView.swift in Sources */,
 				D9D9E0222C5FE5DE0095792A /* TabBarController.swift in Sources */,
 				D97421B22C5ABE12002E47F9 /* AppDelegate.swift in Sources */,
 				D9D9E0362C5FF72F0095792A /* DiaryView.swift in Sources */,
 				D97421B42C5ABE12002E47F9 /* SceneDelegate.swift in Sources */,
+				D9D9E0DF2C7108250095792A /* AnimationManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -821,6 +885,14 @@
 				minimumVersion = 6.7.1;
 			};
 		};
+		D9D9E0DA2C6BEB7F0095792A /* XCRemoteSwiftPackageReference "RxGesture" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/RxSwiftCommunity/RxGesture.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.0.4;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -853,6 +925,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = D9D9E0CA2C6BE58B0095792A /* XCRemoteSwiftPackageReference "RxSwift" */;
 			productName = RxSwift;
+		};
+		D9D9E0DB2C6BEB7F0095792A /* RxGesture */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D9D9E0DA2C6BEB7F0095792A /* XCRemoteSwiftPackageReference "RxGesture" */;
+			productName = RxGesture;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
