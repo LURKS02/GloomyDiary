@@ -31,7 +31,7 @@ final class HomeViewController: BaseViewController<HomeView> {
         
         if !loopAnimated {
             defer { loopAnimated = true }
-            AnimationManager.shared.moveUpAndDown(contentView.ghostImageView, value: 5)
+            contentView.ghostImageView.startLoopMoving()
         }
     }
     
