@@ -41,6 +41,32 @@ final class TalkingView: BaseView {
 
 extension TalkingView {
     func update(text: String) {
+//        let currentFrame = self.bounds
+//        var newFrame: CGRect = CGRectZero
+//    
+//        AnimationManager.shared.run(animations: [ .init(view: talkingLabel,
+//                                                        type: .fadeInOut(value: 0.0),
+//                                                        duration: 0.3,
+//                                                        curve: .easeInOut,
+//                                                        completion: { [weak self] in
+//            self?.talkingLabel.text = text
+//            self?.layoutIfNeeded()
+//            newFrame = self?.bounds ?? CGRectZero
+//            self?.frame = currentFrame
+//        }),
+//                                                  .init(view: self, 
+//                                                        type: .expandInOut(x: currentFrame.width - newFrame.width,
+//                                                                           y: currentFrame.height - newFrame.height,
+//                                                                           width: newFrame.width,
+//                                                                           height: newFrame.height),
+//                                                        duration: 0.3,
+//                                                        curve: .easeInOut),
+//                                                  .init(view: talkingLabel,
+//                                                        type: .fadeInOut(value: 1.0),
+//                                                        duration: 0.3,
+//                                                        curve: .easeInOut)
+//        ], mode: .once)
+//        
         UIView.animate(withDuration: 0.3) {
             self.talkingLabel.alpha = 0.0
         } completion: { _ in
