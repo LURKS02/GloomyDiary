@@ -7,8 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D92F49832C79F58300CD7D2A /* GhostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D92F49822C79F58300CD7D2A /* GhostView.swift */; };
 		D93548332C71E38F00E5EBF9 /* sparkles.json in Resources */ = {isa = PBXBuildFile; fileRef = D93548312C71E38F00E5EBF9 /* sparkles.json */; };
 		D935483A2C72533A00E5EBF9 /* pulsingCircle.json in Resources */ = {isa = PBXBuildFile; fileRef = D93548392C72533A00E5EBF9 /* pulsingCircle.json */; };
+		D935483D2C725BDA00E5EBF9 /* Animation.swift in Sources */ = {isa = PBXBuildFile; fileRef = D935483C2C725BDA00E5EBF9 /* Animation.swift */; };
 		D97421B22C5ABE12002E47F9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D97421B12C5ABE12002E47F9 /* AppDelegate.swift */; };
 		D97421B42C5ABE12002E47F9 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D97421B32C5ABE12002E47F9 /* SceneDelegate.swift */; };
 		D97421B62C5ABE12002E47F9 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D97421B52C5ABE12002E47F9 /* ViewController.swift */; };
@@ -67,8 +69,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		D92F49822C79F58300CD7D2A /* GhostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GhostView.swift; sourceTree = "<group>"; };
 		D93548312C71E38F00E5EBF9 /* sparkles.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = sparkles.json; path = ../../../../../Downloads/sparkles.json; sourceTree = "<group>"; };
 		D93548392C72533A00E5EBF9 /* pulsingCircle.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = pulsingCircle.json; path = ../../../../../Downloads/pulsingCircle.json; sourceTree = "<group>"; };
+		D935483C2C725BDA00E5EBF9 /* Animation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Animation.swift; sourceTree = "<group>"; };
 		D97421AE2C5ABE12002E47F9 /* GloomyDiary.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GloomyDiary.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D97421B12C5ABE12002E47F9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D97421B32C5ABE12002E47F9 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -145,6 +149,14 @@
 				D93548312C71E38F00E5EBF9 /* sparkles.json */,
 			);
 			path = Lotties;
+			sourceTree = "<group>";
+		};
+		D935483B2C725BCD00E5EBF9 /* Animation */ = {
+			isa = PBXGroup;
+			children = (
+				D935483C2C725BDA00E5EBF9 /* Animation.swift */,
+			);
+			path = Animation;
 			sourceTree = "<group>";
 		};
 		D97421A52C5ABE12002E47F9 = {
@@ -311,11 +323,14 @@
 		D9D9E02E2C5FF5290095792A /* Base */ = {
 			isa = PBXGroup;
 			children = (
+				D935483B2C725BCD00E5EBF9 /* Animation */,
 				D9D9E0DD2C7108140095792A /* Helper */,
 				D9D9E00D2C5C1C2E0095792A /* Color+Font */,
 				D9D9E0112C5C1C340095792A /* Extensions */,
 				D9D9E02F2C5FF53E0095792A /* BaseViewController.swift */,
 				D9D9E0392C5FFFE80095792A /* BaseView.swift */,
+				D9D9E0BE2C6B996C0095792A /* ImageView.swift */,
+				D9D9E0C02C6B9E400095792A /* GradientView.swift */,
 				D9D9E0682C6279E80095792A /* then.swift */,
 				D9D9E0932C651FF00095792A /* BaseTabBarController.swift */,
 			);
@@ -327,8 +342,7 @@
 			children = (
 				D9D9E0BA2C6B93F20095792A /* TalkingView.swift */,
 				D9D9E0BC2C6B96F30095792A /* ButtonView.swift */,
-				D9D9E0BE2C6B996C0095792A /* ImageView.swift */,
-				D9D9E0C02C6B9E400095792A /* GradientView.swift */,
+				D92F49822C79F58300CD7D2A /* GhostView.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -502,6 +516,8 @@
 				D9D9E02D2C5FF4710095792A /* DiaryViewController.swift in Sources */,
 				D9D9E0C92C6BD82C0095792A /* Talking.swift in Sources */,
 				D9D9E0BB2C6B93F20095792A /* TalkingView.swift in Sources */,
+				D935483D2C725BDA00E5EBF9 /* Animation.swift in Sources */,
+				D92F49832C79F58300CD7D2A /* GhostView.swift in Sources */,
 				D9D9E0342C5FF6EF0095792A /* HistoryView.swift in Sources */,
 				D9D9E0122C5C1C340095792A /* UIColor+Hex.swift in Sources */,
 				D9D9E0C72C6BD8260095792A /* Home.swift in Sources */,

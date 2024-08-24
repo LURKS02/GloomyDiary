@@ -50,8 +50,7 @@ final class HomeView: BaseView {
         $0.play()
     }
     
-    let ghostImageView = ImageView(imageName: "ghost",
-                                   size: Matric.ghostImageSize)
+    let ghostImageView = GhostView(size: Matric.ghostImageSize)
     
     let talkingView: TalkingView = TalkingView().then {
         $0.setContentHuggingPriority(.defaultHigh, for: .horizontal)

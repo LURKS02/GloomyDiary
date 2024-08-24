@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class ImageView: BaseView {
+class ImageView: BaseView {
     private let imageView = UIImageView()
     
     private let size: CGFloat
