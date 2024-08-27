@@ -11,8 +11,9 @@ struct Animation {
     var closure: () -> Void
     var duration: TimeInterval
     var curve: UIView.AnimationCurve
+    var completion: () -> Void
     
-    init(view: UIView, type: AnimationType, duration: TimeInterval, curve: UIView.AnimationCurve) {
+    init(view: UIView?, type: AnimationType, duration: TimeInterval, curve: UIView.AnimationCurve = .easeInOut, completion: @escaping () -> Void = {}) {
         switch type {
         case .moveUp(let value):
             self.closure = { [weak view] in
@@ -34,6 +35,7 @@ struct Animation {
         
         self.duration = duration
         self.curve = curve
+        self.completion = completion
     }
 }
 
@@ -41,7 +43,7 @@ extension Animation {
     enum AnimationType {
         case moveUp(value: Double)
         case moveDown(value: Double)
-        case fadeInOut(value: TimeInterval)
+        case fadeInOut(value: CGFloat)
         case expandInOut(x: CGFloat, y: CGFloat, width: CGFloat, height: CGFloat)
     }
 }

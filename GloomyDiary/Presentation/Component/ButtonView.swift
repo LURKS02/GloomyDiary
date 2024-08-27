@@ -14,14 +14,14 @@ final class ButtonView: BaseView {
         static let buttonCornerRadius: CGFloat = 28
     }
     
-    private let buttonLabel: UILabel = UILabel().then {
-        $0.textColor = .text(.highlight)
-        $0.font = .무궁화.title
+    let button: UIButton = UIButton().then {
+        $0.titleLabel?.textColor = .text(.highlight)
+        $0.titleLabel?.font = .무궁화.title
     }
     
     init(text: String) {
         super.init(frame: .zero)
-        self.buttonLabel.text = text
+        self.button.setTitle(text, for: .normal)
     }
     
     required init?(coder: NSCoder) {
@@ -35,11 +35,11 @@ final class ButtonView: BaseView {
     }
     
     override func addSubviews() {
-        addSubview(buttonLabel)
+        addSubview(button)
     }
     
     override func setupConstraints() {
-        buttonLabel.snp.makeConstraints { make in
+        button.snp.makeConstraints { make in
             make.center.equalToSuperview()
         }
         
