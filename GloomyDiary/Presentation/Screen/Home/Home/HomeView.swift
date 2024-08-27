@@ -32,8 +32,7 @@ final class HomeView: BaseView {
                                                            .background(.mainPurple),
                                                            .background(.mainPurple)])
     
-    let moonImageView = ImageView(imageName: "moon",
-                                  size: Matric.moonImageSize)
+    let moonImageView = ImageView(imageName: "moon", size: Matric.moonImageSize)
     
     let pulsingCircleLottieView = LottieAnimationView(name: "pulsingCircle").then {
         $0.alpha = Matric.pulsingCircleAlpha
@@ -50,7 +49,7 @@ final class HomeView: BaseView {
         $0.play()
     }
     
-    let ghostImageView = GhostView(size: Matric.ghostImageSize)
+    let ghostImageView = GhostView(imageName: "ghost", size: Matric.ghostImageSize)
     
     let talkingView: TalkingView = TalkingView().then {
         $0.setContentHuggingPriority(.defaultHigh, for: .horizontal)
@@ -59,7 +58,6 @@ final class HomeView: BaseView {
     let startButton = ButtonView(text: "상담하기")
     
     override func setup() {
-        super.setup()
     }
     
     override func addSubviews() {
