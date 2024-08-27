@@ -8,9 +8,18 @@
 
 /* Begin PBXBuildFile section */
 		D92F49832C79F58300CD7D2A /* GhostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D92F49822C79F58300CD7D2A /* GhostView.swift */; };
+		D92F49872C7A020200CD7D2A /* ChoosingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D92F49862C7A020200CD7D2A /* ChoosingViewController.swift */; };
+		D92F49892C7A022000CD7D2A /* ChoosingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D92F49882C7A022000CD7D2A /* ChoosingView.swift */; };
+		D92F498B2C7A026700CD7D2A /* Choosing.swift in Sources */ = {isa = PBXBuildFile; fileRef = D92F498A2C7A026700CD7D2A /* Choosing.swift */; };
+		D92F49902C7A02BF00CD7D2A /* Character.swift in Sources */ = {isa = PBXBuildFile; fileRef = D92F498F2C7A02BF00CD7D2A /* Character.swift */; };
+		D92F49922C7A08EA00CD7D2A /* IntroduceLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D92F49912C7A08EA00CD7D2A /* IntroduceLabel.swift */; };
+		D92F49942C7A191100CD7D2A /* CharacterButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D92F49932C7A191100CD7D2A /* CharacterButtonView.swift */; };
 		D93548332C71E38F00E5EBF9 /* sparkles.json in Resources */ = {isa = PBXBuildFile; fileRef = D93548312C71E38F00E5EBF9 /* sparkles.json */; };
 		D935483A2C72533A00E5EBF9 /* pulsingCircle.json in Resources */ = {isa = PBXBuildFile; fileRef = D93548392C72533A00E5EBF9 /* pulsingCircle.json */; };
 		D935483D2C725BDA00E5EBF9 /* Animation.swift in Sources */ = {isa = PBXBuildFile; fileRef = D935483C2C725BDA00E5EBF9 /* Animation.swift */; };
+		D937405A2C7E4075003E02FD /* CounselingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D93740592C7E4075003E02FD /* CounselingViewController.swift */; };
+		D937405C2C7E4099003E02FD /* CounselingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D937405B2C7E4099003E02FD /* CounselingView.swift */; };
+		D937405E2C7E40BF003E02FD /* Counseling.swift in Sources */ = {isa = PBXBuildFile; fileRef = D937405D2C7E40BF003E02FD /* Counseling.swift */; };
 		D97421B22C5ABE12002E47F9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D97421B12C5ABE12002E47F9 /* AppDelegate.swift */; };
 		D97421B42C5ABE12002E47F9 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D97421B32C5ABE12002E47F9 /* SceneDelegate.swift */; };
 		D97421B62C5ABE12002E47F9 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D97421B52C5ABE12002E47F9 /* ViewController.swift */; };
@@ -70,9 +79,18 @@
 
 /* Begin PBXFileReference section */
 		D92F49822C79F58300CD7D2A /* GhostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GhostView.swift; sourceTree = "<group>"; };
+		D92F49862C7A020200CD7D2A /* ChoosingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChoosingViewController.swift; sourceTree = "<group>"; };
+		D92F49882C7A022000CD7D2A /* ChoosingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChoosingView.swift; sourceTree = "<group>"; };
+		D92F498A2C7A026700CD7D2A /* Choosing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Choosing.swift; sourceTree = "<group>"; };
+		D92F498F2C7A02BF00CD7D2A /* Character.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Character.swift; sourceTree = "<group>"; };
+		D92F49912C7A08EA00CD7D2A /* IntroduceLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroduceLabel.swift; sourceTree = "<group>"; };
+		D92F49932C7A191100CD7D2A /* CharacterButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterButtonView.swift; sourceTree = "<group>"; };
 		D93548312C71E38F00E5EBF9 /* sparkles.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = sparkles.json; path = ../../../../../Downloads/sparkles.json; sourceTree = "<group>"; };
 		D93548392C72533A00E5EBF9 /* pulsingCircle.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = pulsingCircle.json; path = ../../../../../Downloads/pulsingCircle.json; sourceTree = "<group>"; };
 		D935483C2C725BDA00E5EBF9 /* Animation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Animation.swift; sourceTree = "<group>"; };
+		D93740592C7E4075003E02FD /* CounselingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CounselingViewController.swift; sourceTree = "<group>"; };
+		D937405B2C7E4099003E02FD /* CounselingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CounselingView.swift; sourceTree = "<group>"; };
+		D937405D2C7E40BF003E02FD /* Counseling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Counseling.swift; sourceTree = "<group>"; };
 		D97421AE2C5ABE12002E47F9 /* GloomyDiary.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GloomyDiary.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D97421B12C5ABE12002E47F9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D97421B32C5ABE12002E47F9 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -142,6 +160,35 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		D92F49842C7A01B200CD7D2A /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				D9D9E0C62C6BD8260095792A /* Home.swift */,
+				D9D9E0282C5FF41C0095792A /* HomeViewController.swift */,
+				D9D9E0312C5FF6BA0095792A /* HomeView.swift */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		D92F49852C7A01BD00CD7D2A /* Choosing */ = {
+			isa = PBXGroup;
+			children = (
+				D92F49862C7A020200CD7D2A /* ChoosingViewController.swift */,
+				D92F49882C7A022000CD7D2A /* ChoosingView.swift */,
+				D92F498A2C7A026700CD7D2A /* Choosing.swift */,
+			);
+			path = Choosing;
+			sourceTree = "<group>";
+		};
+		D92F498E2C7A029A00CD7D2A /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				D9D9E0C82C6BD82C0095792A /* Talking.swift */,
+				D92F498F2C7A02BF00CD7D2A /* Character.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		D93548302C71E37F00E5EBF9 /* Lotties */ = {
 			isa = PBXGroup;
 			children = (
@@ -157,6 +204,16 @@
 				D935483C2C725BDA00E5EBF9 /* Animation.swift */,
 			);
 			path = Animation;
+			sourceTree = "<group>";
+		};
+		D93740582C7E4066003E02FD /* Counsel */ = {
+			isa = PBXGroup;
+			children = (
+				D93740592C7E4075003E02FD /* CounselingViewController.swift */,
+				D937405B2C7E4099003E02FD /* CounselingView.swift */,
+				D937405D2C7E40BF003E02FD /* Counseling.swift */,
+			);
+			path = Counsel;
 			sourceTree = "<group>";
 		};
 		D97421A52C5ABE12002E47F9 = {
@@ -183,6 +240,7 @@
 		D97421B02C5ABE12002E47F9 /* GloomyDiary */ = {
 			isa = PBXGroup;
 			children = (
+				D92F498E2C7A029A00CD7D2A /* Model */,
 				D9D9E02E2C5FF5290095792A /* Base */,
 				D9D9E01B2C5FE56A0095792A /* Presentation */,
 				D9D9E0152C5C1C3E0095792A /* Resources */,
@@ -286,10 +344,9 @@
 		D9D9E01E2C5FE58B0095792A /* Home */ = {
 			isa = PBXGroup;
 			children = (
-				D9D9E0C82C6BD82C0095792A /* Talking.swift */,
-				D9D9E0C62C6BD8260095792A /* Home.swift */,
-				D9D9E0282C5FF41C0095792A /* HomeViewController.swift */,
-				D9D9E0312C5FF6BA0095792A /* HomeView.swift */,
+				D93740582C7E4066003E02FD /* Counsel */,
+				D92F49852C7A01BD00CD7D2A /* Choosing */,
+				D92F49842C7A01B200CD7D2A /* Home */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -343,6 +400,8 @@
 				D9D9E0BA2C6B93F20095792A /* TalkingView.swift */,
 				D9D9E0BC2C6B96F30095792A /* ButtonView.swift */,
 				D92F49822C79F58300CD7D2A /* GhostView.swift */,
+				D92F49912C7A08EA00CD7D2A /* IntroduceLabel.swift */,
+				D92F49932C7A191100CD7D2A /* CharacterButtonView.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -505,6 +564,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D9D9E0302C5FF53E0095792A /* BaseViewController.swift in Sources */,
+				D92F49902C7A02BF00CD7D2A /* Character.swift in Sources */,
 				D9D9E0322C5FF6BA0095792A /* HomeView.swift in Sources */,
 				D9D9E0C12C6B9E400095792A /* GradientView.swift in Sources */,
 				D9D9E0942C651FF00095792A /* BaseTabBarController.swift in Sources */,
@@ -512,16 +572,24 @@
 				D9D9E03A2C5FFFE80095792A /* BaseView.swift in Sources */,
 				D97421B62C5ABE12002E47F9 /* ViewController.swift in Sources */,
 				D9D9E00E2C5C1C2E0095792A /* Color.swift in Sources */,
+				D92F49872C7A020200CD7D2A /* ChoosingViewController.swift in Sources */,
+				D937405C2C7E4099003E02FD /* CounselingView.swift in Sources */,
 				D9D9E00F2C5C1C2E0095792A /* Font.swift in Sources */,
 				D9D9E02D2C5FF4710095792A /* DiaryViewController.swift in Sources */,
+				D92F498B2C7A026700CD7D2A /* Choosing.swift in Sources */,
+				D937405A2C7E4075003E02FD /* CounselingViewController.swift in Sources */,
 				D9D9E0C92C6BD82C0095792A /* Talking.swift in Sources */,
 				D9D9E0BB2C6B93F20095792A /* TalkingView.swift in Sources */,
+				D92F49942C7A191100CD7D2A /* CharacterButtonView.swift in Sources */,
+				D937405E2C7E40BF003E02FD /* Counseling.swift in Sources */,
 				D935483D2C725BDA00E5EBF9 /* Animation.swift in Sources */,
 				D92F49832C79F58300CD7D2A /* GhostView.swift in Sources */,
 				D9D9E0342C5FF6EF0095792A /* HistoryView.swift in Sources */,
 				D9D9E0122C5C1C340095792A /* UIColor+Hex.swift in Sources */,
+				D92F49892C7A022000CD7D2A /* ChoosingView.swift in Sources */,
 				D9D9E0C72C6BD8260095792A /* Home.swift in Sources */,
 				D9D9E0BF2C6B996C0095792A /* ImageView.swift in Sources */,
+				D92F49922C7A08EA00CD7D2A /* IntroduceLabel.swift in Sources */,
 				D9D9E0692C6279E80095792A /* then.swift in Sources */,
 				D9D9E02B2C5FF4570095792A /* HistoryViewController.swift in Sources */,
 				D9D9E0292C5FF41C0095792A /* HomeViewController.swift in Sources */,
