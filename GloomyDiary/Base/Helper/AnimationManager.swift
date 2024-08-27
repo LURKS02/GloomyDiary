@@ -26,6 +26,11 @@ final class AnimationManager {
         let animator = UIViewPropertyAnimator(duration: animation.duration,
                                               curve: animation.curve,
                                               animations: animation.closure)
+        
+        animator.addCompletion { _ in
+            animation.completion()
+        }
+        
         animator.addCompletion { [weak self] _ in
             let nextIndex = (index + 1) % animations.count
             self?.runLoopAnimations(animations: animations, index: nextIndex)
@@ -38,6 +43,11 @@ final class AnimationManager {
         let animator = UIViewPropertyAnimator(duration: animation.duration,
                                               curve: animation.curve,
                                               animations: animation.closure)
+        
+        animator.addCompletion { _ in
+            animation.completion()
+        }
+        
         animator.addCompletion { [weak self] _ in
             let nextIndex = (index + 1)
             if nextIndex < animations.count {
