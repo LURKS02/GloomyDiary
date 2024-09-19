@@ -47,8 +47,7 @@ final class HomeViewController: BaseViewController<HomeView> {
             })
             .disposed(by: disposeBag)
         
-        contentView.startButton.rx.touchDownGesture()
-            .when(.recognized)
+        contentView.startButton.rx.tap
             .subscribe(onNext: { [weak self] _ in
                 AnimationManager.shared.run(animations: [.init(view: self?.contentView.talkingView,
                                                                type: .fadeInOut(value: 0.0),
@@ -74,7 +73,9 @@ final class HomeViewController: BaseViewController<HomeView> {
                                                                type: .fadeInOut(value: 0.0),
                                                                duration: 1.0,
                                                                completion: {
-                    let navigationViewController = UINavigationController(rootViewController: ChoosingViewController(firstInitialize: false))
+                    let store: StoreOf<Choosing> = Store(initialState: .init(), reducer: { Choosing() })
+                    let choosingViewController = ChoosingViewController(store: store)
+                    let navigationViewController = UINavigationController(rootViewController: choosingViewController)
                     navigationViewController.modalPresentationStyle = .fullScreen
                     self?.present(navigationViewController, animated: false)})],
                                             mode: .once)

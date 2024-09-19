@@ -27,9 +27,9 @@ struct Animation {
             self.closure = { [weak view] in
                 view?.alpha = value
             }
-        case .expandInOut(let x, let y, let width, let height):
+        case .expandInOut(let frame):
             self.closure = { [weak view] in
-                view?.frame = CGRect(x: x, y: y, width: width, height: height)
+                view?.frame = frame
             }
         }
         
@@ -44,6 +44,6 @@ extension Animation {
         case moveUp(value: Double)
         case moveDown(value: Double)
         case fadeInOut(value: CGFloat)
-        case expandInOut(x: CGFloat, y: CGFloat, width: CGFloat, height: CGFloat)
+        case expandInOut(frame: CGRect)
     }
 }
