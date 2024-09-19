@@ -9,103 +9,89 @@ import UIKit
 import ComposableArchitecture
 
 final class ChoosingViewController: BaseViewController<ChoosingView> {
-    let store: StoreOf<Choosing> = Store(initialState: Choosing.State()) {
-        Choosing()
-    }
+    let store: StoreOf<Choosing>
     
-    private let firstInitialize: Bool
-    
-    init(firstInitialize: Bool) {
-        self.firstInitialize = firstInitialize
+    init(store: StoreOf<Choosing>) {
+        self.store = store
         super.init()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+}
+
+
+// MARK: - View Controller Life Cycle
+
+extension ChoosingViewController {
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        contentView.addCharactersToStack(Character.allCases)
+        contentView.hideAllComponents()
+        
+        bind()
+    }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        contentView.firstIntroduceLabel.alpha = 0.0
-        contentView.secondIntroduceLabel.alpha = 0.0
-        contentView.characterButtonStackView.alpha = 0.0
-        contentView.characterIntroduceLabel.alpha = 0.0
-        contentView.counselButton.alpha = 0.0
-        contentView.characterButtonStackView.arrangedSubviews.forEach { view in
-            guard let view = view as? CharacterButtonView else { return }
-            view.button.isEnabled = false
-        }
-        
-        AnimationManager.shared.run(animations: [
-            .init(view: contentView.moonImageView, type: .moveUp(value: 35), duration: 1.5),
-            .init(view: contentView.firstIntroduceLabel,
-                                                       type: .fadeInOut(value: 1.0),
-                                                       duration: 1.8),
-                                                 .init(view:contentView.secondIntroduceLabel,
-                                                       type: .fadeInOut(value: 1.0), duration: 2.0),
-                                                 .init(view: contentView.characterButtonStackView,
-                                                       type: .fadeInOut(value: 1.0),
-                                                       duration: 1.5),
-                                                 .init(view: contentView.characterIntroduceLabel,
-                                                       type: .fadeInOut(value: 1.0),
-                                                       duration: 1.8, 
-                                                       completion: { [weak self] in
-                                                           self?.contentView.characterButtonStackView.arrangedSubviews.forEach { view in
-                                                               guard let view = view as? CharacterButtonView else { return }
-                                                               view.button.isEnabled = true
-                                                           }
-                                                       })],
-                                    mode: .once)
+        contentView.showAllComponents()
     }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        store.send(.initialize(firstInitialize))
-        
-        contentView.characterButtonStackView.arrangedSubviews.forEach { view in
-            guard let characterView = view as? CharacterButtonView else { return }
-            
-            characterView.button.rx.tap
+}
+
+
+// MARK: - bind
+
+private extension ChoosingViewController {
+    func bind() {
+        contentView.allCharacterButtons.forEach { button in
+            button.rx.tap
                 .subscribe(onNext: { [weak self] _ in
-                    self?.contentView.characterButtonStackView.arrangedSubviews.forEach { view in
-                        guard let view = view as? CharacterButtonView else { return }
-                        view.button.isSelected = false
-                    }
+                    self?.contentView.allCharacterButtons
+                        .forEach { $0.isSelected = false }
                     
-                    characterView.button.isSelected = true
+                    button.isSelected = true
+                    self?.contentView.enableCounselButton()
+                    guard let bound = button.getCharacterFrame() else { return }
                     
-                    self?.contentView.counselButton.alpha = 1.0
-                    
-                    switch characterView.tag {
-                    case 0:
-                        self?.store.send(.characterTapped(character: .chan))
-                    case 1:
-                        self?.store.send(.characterTapped(character: .gomi))
-                    case 2:
-                        self?.store.send(.characterTapped(character: .beomji))
-                    default:
-                        return
-                    }
+                    self?.store.send(.characterTapped(tag: button.tag))
                 })
                 .disposed(by: disposeBag)
         }
         
-        contentView.counselButton.button.rx.tap
+        contentView.counselButton.rx.tap
             .subscribe(onNext: { [weak self] _ in
-                self?.navigationController?.pushViewController(CounselingViewController(), animated: true)
+                guard let chosenCharacter = self?.store.chosenCharacter else { return }
+                let store: StoreOf<Counseling> = Store(initialState: .init(character: chosenCharacter), reducer: { Counseling() })
+                let counselingViewController = CounselingViewController(store: store)
+                self?.navigationController?.delegate = self
+                self?.navigationController?.pushViewController(counselingViewController,
+                                                                   animated: true)
             })
             .disposed(by: disposeBag)
         
         observe { [weak self] in
             guard let self else { return }
             
-            self.contentView.firstIntroduceLabel.update(text: store.firstIntroduceText)
+            self.contentView.setCharacterIntroduceMessage(character: store.chosenCharacter)
             
-            self.contentView.secondIntroduceLabel.update(text: store.secondIntroduceText)
-            
-            self.contentView.characterIntroduceLabel.update(text: store.characterIntroduceText)
+            self.contentView.setMessage(isFirst: store.isFirst)
         }
+    }
+}
+
+extension ChoosingViewController {
+    func getCharacterFrame() -> CGRect? {
+        guard let selectedButton = contentView.allCharacterButtons.filter({ $0.isSelected }).first else { return nil }
+        guard let frame = selectedButton.getCharacterFrame() else { return nil }
+        return contentView.convert(frame, from: selectedButton)
+    }
+}
+
+extension ChoosingViewController: UINavigationControllerDelegate {
+    func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationController.Operation, from fromVC: UIViewController, to toVC: UIViewController) -> (any UIViewControllerAnimatedTransitioning)? {
+        ChoosingTransition()
     }
 }
