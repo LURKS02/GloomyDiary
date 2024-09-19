@@ -10,18 +10,6 @@ import UIKit
 class ImageView: BaseView {
     private let imageView = UIImageView()
     
-    private let size: CGFloat
-    
-    init(imageName: String, size: CGFloat) {
-        self.size = size
-        super.init(frame: .zero)
-        imageView.image = UIImage(named: imageName)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
     override func addSubviews() {
         addSubview(imageView)
     }
@@ -32,6 +20,19 @@ class ImageView: BaseView {
         }
         
         self.snp.makeConstraints { make in
+            make.height.equalTo(0)
+            make.width.equalTo(0)
+        }
+    }
+}
+
+extension ImageView {
+    func setImage(_ name: String) {
+        imageView.image = UIImage(named: name)
+    }
+    
+    func setSize(_ size: CGFloat) {
+        self.snp.updateConstraints { make in
             make.height.equalTo(size)
             make.width.equalTo(size)
         }
