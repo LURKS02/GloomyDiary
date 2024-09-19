@@ -7,28 +7,17 @@
 
 import UIKit
 
-final class IntroduceLabel: BaseView {
-    private let introduceLabel: UILabel = UILabel().then {
-        $0.textColor = .text(.highlight)
-        $0.font = .무궁화.title
-        $0.textAlignment = .center
-        $0.numberOfLines = 0
+final class IntroduceLabel: UILabel {
+    init() {
+        super.init(frame: .zero)
+        
+        self.textColor = .text(.highlight)
+        self.font = .무궁화.title
+        self.textAlignment = .center
+        self.numberOfLines = 0
     }
     
-    override func setup() {
-    }
-    
-    override func addSubviews() {
-        addSubview(introduceLabel)
-    }
-    
-    override func setupConstraints() {
-        introduceLabel.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
-        }
-    }
-    
-    func update(text: String) {
-        introduceLabel.text = text
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 }
