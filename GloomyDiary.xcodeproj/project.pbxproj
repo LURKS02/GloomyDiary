@@ -13,7 +13,7 @@
 		D92F498B2C7A026700CD7D2A /* Choosing.swift in Sources */ = {isa = PBXBuildFile; fileRef = D92F498A2C7A026700CD7D2A /* Choosing.swift */; };
 		D92F49902C7A02BF00CD7D2A /* Character.swift in Sources */ = {isa = PBXBuildFile; fileRef = D92F498F2C7A02BF00CD7D2A /* Character.swift */; };
 		D92F49922C7A08EA00CD7D2A /* IntroduceLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D92F49912C7A08EA00CD7D2A /* IntroduceLabel.swift */; };
-		D92F49942C7A191100CD7D2A /* CharacterButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D92F49932C7A191100CD7D2A /* CharacterButtonView.swift */; };
+		D92F49942C7A191100CD7D2A /* CharacterButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = D92F49932C7A191100CD7D2A /* CharacterButton.swift */; };
 		D93548332C71E38F00E5EBF9 /* sparkles.json in Resources */ = {isa = PBXBuildFile; fileRef = D93548312C71E38F00E5EBF9 /* sparkles.json */; };
 		D935483A2C72533A00E5EBF9 /* pulsingCircle.json in Resources */ = {isa = PBXBuildFile; fileRef = D93548392C72533A00E5EBF9 /* pulsingCircle.json */; };
 		D935483D2C725BDA00E5EBF9 /* Animation.swift in Sources */ = {isa = PBXBuildFile; fileRef = D935483C2C725BDA00E5EBF9 /* Animation.swift */; };
@@ -31,9 +31,13 @@
 		D97421E42C5BF879002E47F9 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = D97421E32C5BF879002E47F9 /* SnapKit */; };
 		D97421E72C5BF90A002E47F9 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = D97421E62C5BF90A002E47F9 /* Lottie */; };
 		D97421EA2C5C0073002E47F9 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = D97421E92C5C0073002E47F9 /* ComposableArchitecture */; };
+		D9B07F3E2C8B5F430048B2D9 /* Extension+UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9B07F3D2C8B5F430048B2D9 /* Extension+UIImage.swift */; };
+		D9B07F402C8B66320048B2D9 /* Extension+UIStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9B07F3F2C8B66320048B2D9 /* Extension+UIStackView.swift */; };
+		D9B07F902C995F300048B2D9 /* ChoosingTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9B07F8F2C995F300048B2D9 /* ChoosingTransition.swift */; };
+		D9B07F922C99C8360048B2D9 /* stars.json in Resources */ = {isa = PBXBuildFile; fileRef = D9B07F912C99C8360048B2D9 /* stars.json */; };
 		D9D9E00E2C5C1C2E0095792A /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D9E00B2C5C1C2E0095792A /* Color.swift */; };
 		D9D9E00F2C5C1C2E0095792A /* Font.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D9E00C2C5C1C2E0095792A /* Font.swift */; };
-		D9D9E0122C5C1C340095792A /* UIColor+Hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D9E0102C5C1C340095792A /* UIColor+Hex.swift */; };
+		D9D9E0122C5C1C340095792A /* Extension+UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D9E0102C5C1C340095792A /* Extension+UIColor.swift */; };
 		D9D9E0162C5C1C3E0095792A /* 나눔손글씨 무궁화.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D9D9E0132C5C1C3E0095792A /* 나눔손글씨 무궁화.ttf */; };
 		D9D9E0222C5FE5DE0095792A /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D9E0212C5FE5DE0095792A /* TabBarController.swift */; };
 		D9D9E0272C5FEBA70095792A /* TabBarCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D9E0262C5FEBA70095792A /* TabBarCase.swift */; };
@@ -48,7 +52,7 @@
 		D9D9E0692C6279E80095792A /* then.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D9E0682C6279E80095792A /* then.swift */; };
 		D9D9E0942C651FF00095792A /* BaseTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D9E0932C651FF00095792A /* BaseTabBarController.swift */; };
 		D9D9E0BB2C6B93F20095792A /* TalkingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D9E0BA2C6B93F20095792A /* TalkingView.swift */; };
-		D9D9E0BD2C6B96F30095792A /* ButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D9E0BC2C6B96F30095792A /* ButtonView.swift */; };
+		D9D9E0BD2C6B96F30095792A /* HorizontalButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D9E0BC2C6B96F30095792A /* HorizontalButton.swift */; };
 		D9D9E0BF2C6B996C0095792A /* ImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D9E0BE2C6B996C0095792A /* ImageView.swift */; };
 		D9D9E0C12C6B9E400095792A /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D9E0C02C6B9E400095792A /* GradientView.swift */; };
 		D9D9E0C72C6BD8260095792A /* Home.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D9E0C62C6BD8260095792A /* Home.swift */; };
@@ -58,6 +62,9 @@
 		D9D9E0D02C6BE58B0095792A /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = D9D9E0CF2C6BE58B0095792A /* RxSwift */; };
 		D9D9E0DC2C6BEB7F0095792A /* RxGesture in Frameworks */ = {isa = PBXBuildFile; productRef = D9D9E0DB2C6BEB7F0095792A /* RxGesture */; };
 		D9D9E0DF2C7108250095792A /* AnimationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D9E0DE2C7108250095792A /* AnimationManager.swift */; };
+		D9DDE73F2C8A10E7004AE15C /* CounselLetterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9DDE73E2C8A10E7004AE15C /* CounselLetterView.swift */; };
+		D9DDE7442C8A269C004AE15C /* RoundedIconButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9DDE7432C8A269C004AE15C /* RoundedIconButton.swift */; };
+		D9DDE7462C8A2960004AE15C /* Extension+UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9DDE7452C8A2960004AE15C /* Extension+UIView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -84,7 +91,7 @@
 		D92F498A2C7A026700CD7D2A /* Choosing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Choosing.swift; sourceTree = "<group>"; };
 		D92F498F2C7A02BF00CD7D2A /* Character.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Character.swift; sourceTree = "<group>"; };
 		D92F49912C7A08EA00CD7D2A /* IntroduceLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroduceLabel.swift; sourceTree = "<group>"; };
-		D92F49932C7A191100CD7D2A /* CharacterButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterButtonView.swift; sourceTree = "<group>"; };
+		D92F49932C7A191100CD7D2A /* CharacterButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterButton.swift; sourceTree = "<group>"; };
 		D93548312C71E38F00E5EBF9 /* sparkles.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = sparkles.json; path = ../../../../../Downloads/sparkles.json; sourceTree = "<group>"; };
 		D93548392C72533A00E5EBF9 /* pulsingCircle.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = pulsingCircle.json; path = ../../../../../Downloads/pulsingCircle.json; sourceTree = "<group>"; };
 		D935483C2C725BDA00E5EBF9 /* Animation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Animation.swift; sourceTree = "<group>"; };
@@ -103,9 +110,13 @@
 		D97421CE2C5ABE15002E47F9 /* GloomyDiaryUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GloomyDiaryUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D97421D22C5ABE15002E47F9 /* GloomyDiaryUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GloomyDiaryUITests.swift; sourceTree = "<group>"; };
 		D97421D42C5ABE15002E47F9 /* GloomyDiaryUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GloomyDiaryUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		D9B07F3D2C8B5F430048B2D9 /* Extension+UIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+UIImage.swift"; sourceTree = "<group>"; };
+		D9B07F3F2C8B66320048B2D9 /* Extension+UIStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+UIStackView.swift"; sourceTree = "<group>"; };
+		D9B07F8F2C995F300048B2D9 /* ChoosingTransition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChoosingTransition.swift; sourceTree = "<group>"; };
+		D9B07F912C99C8360048B2D9 /* stars.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = stars.json; path = ../../../../../Downloads/stars.json; sourceTree = "<group>"; };
 		D9D9E00B2C5C1C2E0095792A /* Color.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		D9D9E00C2C5C1C2E0095792A /* Font.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Font.swift; sourceTree = "<group>"; };
-		D9D9E0102C5C1C340095792A /* UIColor+Hex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Hex.swift"; sourceTree = "<group>"; };
+		D9D9E0102C5C1C340095792A /* Extension+UIColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Extension+UIColor.swift"; sourceTree = "<group>"; };
 		D9D9E0132C5C1C3E0095792A /* 나눔손글씨 무궁화.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "나눔손글씨 무궁화.ttf"; sourceTree = "<group>"; };
 		D9D9E0212C5FE5DE0095792A /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		D9D9E0262C5FEBA70095792A /* TabBarCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarCase.swift; sourceTree = "<group>"; };
@@ -120,12 +131,15 @@
 		D9D9E0682C6279E80095792A /* then.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = then.swift; sourceTree = "<group>"; };
 		D9D9E0932C651FF00095792A /* BaseTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTabBarController.swift; sourceTree = "<group>"; };
 		D9D9E0BA2C6B93F20095792A /* TalkingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TalkingView.swift; sourceTree = "<group>"; };
-		D9D9E0BC2C6B96F30095792A /* ButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonView.swift; sourceTree = "<group>"; };
+		D9D9E0BC2C6B96F30095792A /* HorizontalButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalButton.swift; sourceTree = "<group>"; };
 		D9D9E0BE2C6B996C0095792A /* ImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageView.swift; sourceTree = "<group>"; };
 		D9D9E0C02C6B9E400095792A /* GradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
 		D9D9E0C62C6BD8260095792A /* Home.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Home.swift; sourceTree = "<group>"; };
 		D9D9E0C82C6BD82C0095792A /* Talking.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Talking.swift; sourceTree = "<group>"; };
 		D9D9E0DE2C7108250095792A /* AnimationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationManager.swift; sourceTree = "<group>"; };
+		D9DDE73E2C8A10E7004AE15C /* CounselLetterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CounselLetterView.swift; sourceTree = "<group>"; };
+		D9DDE7432C8A269C004AE15C /* RoundedIconButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedIconButton.swift; sourceTree = "<group>"; };
+		D9DDE7452C8A2960004AE15C /* Extension+UIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+UIView.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -176,6 +190,7 @@
 				D92F49862C7A020200CD7D2A /* ChoosingViewController.swift */,
 				D92F49882C7A022000CD7D2A /* ChoosingView.swift */,
 				D92F498A2C7A026700CD7D2A /* Choosing.swift */,
+				D9B07F8F2C995F300048B2D9 /* ChoosingTransition.swift */,
 			);
 			path = Choosing;
 			sourceTree = "<group>";
@@ -192,6 +207,7 @@
 		D93548302C71E37F00E5EBF9 /* Lotties */ = {
 			isa = PBXGroup;
 			children = (
+				D9B07F912C99C8360048B2D9 /* stars.json */,
 				D93548392C72533A00E5EBF9 /* pulsingCircle.json */,
 				D93548312C71E38F00E5EBF9 /* sparkles.json */,
 			);
@@ -290,7 +306,10 @@
 		D9D9E0112C5C1C340095792A /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				D9D9E0102C5C1C340095792A /* UIColor+Hex.swift */,
+				D9D9E0102C5C1C340095792A /* Extension+UIColor.swift */,
+				D9DDE7452C8A2960004AE15C /* Extension+UIView.swift */,
+				D9B07F3D2C8B5F430048B2D9 /* Extension+UIImage.swift */,
+				D9B07F3F2C8B66320048B2D9 /* Extension+UIStackView.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -397,11 +416,13 @@
 		D9D9E0B92C6B93E80095792A /* Component */ = {
 			isa = PBXGroup;
 			children = (
+				D9DDE7402C8A2168004AE15C /* CounselLetter */,
 				D9D9E0BA2C6B93F20095792A /* TalkingView.swift */,
-				D9D9E0BC2C6B96F30095792A /* ButtonView.swift */,
+				D9D9E0BC2C6B96F30095792A /* HorizontalButton.swift */,
 				D92F49822C79F58300CD7D2A /* GhostView.swift */,
 				D92F49912C7A08EA00CD7D2A /* IntroduceLabel.swift */,
-				D92F49932C7A191100CD7D2A /* CharacterButtonView.swift */,
+				D92F49932C7A191100CD7D2A /* CharacterButton.swift */,
+				D9DDE7432C8A269C004AE15C /* RoundedIconButton.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -412,6 +433,14 @@
 				D9D9E0DE2C7108250095792A /* AnimationManager.swift */,
 			);
 			path = Helper;
+			sourceTree = "<group>";
+		};
+		D9DDE7402C8A2168004AE15C /* CounselLetter */ = {
+			isa = PBXGroup;
+			children = (
+				D9DDE73E2C8A10E7004AE15C /* CounselLetterView.swift */,
+			);
+			path = CounselLetter;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -537,6 +566,7 @@
 				D935483A2C72533A00E5EBF9 /* pulsingCircle.json in Resources */,
 				D97421BB2C5ABE14002E47F9 /* Assets.xcassets in Resources */,
 				D9D9E0162C5C1C3E0095792A /* 나눔손글씨 무궁화.ttf in Resources */,
+				D9B07F922C99C8360048B2D9 /* stars.json in Resources */,
 				D97421BE2C5ABE14002E47F9 /* Base in Resources */,
 				D93548332C71E38F00E5EBF9 /* sparkles.json in Resources */,
 			);
@@ -565,14 +595,18 @@
 			files = (
 				D9D9E0302C5FF53E0095792A /* BaseViewController.swift in Sources */,
 				D92F49902C7A02BF00CD7D2A /* Character.swift in Sources */,
+				D9DDE7462C8A2960004AE15C /* Extension+UIView.swift in Sources */,
 				D9D9E0322C5FF6BA0095792A /* HomeView.swift in Sources */,
 				D9D9E0C12C6B9E400095792A /* GradientView.swift in Sources */,
 				D9D9E0942C651FF00095792A /* BaseTabBarController.swift in Sources */,
 				D9D9E0272C5FEBA70095792A /* TabBarCase.swift in Sources */,
+				D9DDE7442C8A269C004AE15C /* RoundedIconButton.swift in Sources */,
 				D9D9E03A2C5FFFE80095792A /* BaseView.swift in Sources */,
+				D9B07F402C8B66320048B2D9 /* Extension+UIStackView.swift in Sources */,
 				D97421B62C5ABE12002E47F9 /* ViewController.swift in Sources */,
 				D9D9E00E2C5C1C2E0095792A /* Color.swift in Sources */,
 				D92F49872C7A020200CD7D2A /* ChoosingViewController.swift in Sources */,
+				D9DDE73F2C8A10E7004AE15C /* CounselLetterView.swift in Sources */,
 				D937405C2C7E4099003E02FD /* CounselingView.swift in Sources */,
 				D9D9E00F2C5C1C2E0095792A /* Font.swift in Sources */,
 				D9D9E02D2C5FF4710095792A /* DiaryViewController.swift in Sources */,
@@ -580,24 +614,26 @@
 				D937405A2C7E4075003E02FD /* CounselingViewController.swift in Sources */,
 				D9D9E0C92C6BD82C0095792A /* Talking.swift in Sources */,
 				D9D9E0BB2C6B93F20095792A /* TalkingView.swift in Sources */,
-				D92F49942C7A191100CD7D2A /* CharacterButtonView.swift in Sources */,
+				D92F49942C7A191100CD7D2A /* CharacterButton.swift in Sources */,
 				D937405E2C7E40BF003E02FD /* Counseling.swift in Sources */,
 				D935483D2C725BDA00E5EBF9 /* Animation.swift in Sources */,
 				D92F49832C79F58300CD7D2A /* GhostView.swift in Sources */,
 				D9D9E0342C5FF6EF0095792A /* HistoryView.swift in Sources */,
-				D9D9E0122C5C1C340095792A /* UIColor+Hex.swift in Sources */,
+				D9D9E0122C5C1C340095792A /* Extension+UIColor.swift in Sources */,
 				D92F49892C7A022000CD7D2A /* ChoosingView.swift in Sources */,
+				D9B07F3E2C8B5F430048B2D9 /* Extension+UIImage.swift in Sources */,
 				D9D9E0C72C6BD8260095792A /* Home.swift in Sources */,
 				D9D9E0BF2C6B996C0095792A /* ImageView.swift in Sources */,
 				D92F49922C7A08EA00CD7D2A /* IntroduceLabel.swift in Sources */,
 				D9D9E0692C6279E80095792A /* then.swift in Sources */,
 				D9D9E02B2C5FF4570095792A /* HistoryViewController.swift in Sources */,
 				D9D9E0292C5FF41C0095792A /* HomeViewController.swift in Sources */,
-				D9D9E0BD2C6B96F30095792A /* ButtonView.swift in Sources */,
+				D9D9E0BD2C6B96F30095792A /* HorizontalButton.swift in Sources */,
 				D9D9E0222C5FE5DE0095792A /* TabBarController.swift in Sources */,
 				D97421B22C5ABE12002E47F9 /* AppDelegate.swift in Sources */,
 				D9D9E0362C5FF72F0095792A /* DiaryView.swift in Sources */,
 				D97421B42C5ABE12002E47F9 /* SceneDelegate.swift in Sources */,
+				D9B07F902C995F300048B2D9 /* ChoosingTransition.swift in Sources */,
 				D9D9E0DF2C7108250095792A /* AnimationManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
