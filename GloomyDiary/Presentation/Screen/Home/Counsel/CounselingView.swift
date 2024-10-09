@@ -74,18 +74,45 @@ extension CounselingView {
     func activateEditing() {
         counselLetterView.setState(.inProgress)
     }
+}
+
+
+// MARK: - Animations
+
+extension CounselingView {
+    @MainActor
+    func showAllComponents() async {
+        await withCheckedContinuation { continuation in
+            AnimationGroup(animations: [.init(view: characterGreetingLabel,
+                                              animationCase: .fadeIn,
+                                              duration: 1.5),
+                                        .init(view: counselLetterView,
+                                              animationCase: .fadeIn,
+                                              duration: 1.0),
+                                        .init(view: letterSendingButton,
+                                              animationCase: .fadeIn,
+                                              duration: 1.0)],
+                           mode: .serial,
+                           loop: .once(completion: { continuation.resume() }))
+            .run()
+        }
+    }
     
-    func showAllComponents() {
-        AnimationManager.shared.run(animations: [
-            .init(view: characterGreetingLabel,
-                  type: .fadeInOut(value: 1.0),
-                  duration: 1.5),
-            .init(view: counselLetterView,
-                  type: .fadeInOut(value: 1.0),
-                  duration: 1.0),
-            .init(view: letterSendingButton,
-                  type: .fadeInOut(value: 1.0),
-                  duration: 1.0)
-        ], mode: .once)
+    @MainActor
+    func removeAllComponents() async {
+        await withCheckedContinuation { continuation in
+            AnimationGroup(animations: [.init(view: characterGreetingLabel,
+                                              animationCase: .fadeOut,
+                                              duration: 1.0),
+                                        .init(view: counselLetterView,
+                                              animationCase: .fadeOut,
+                                              duration: 1.0),
+                                        .init(view: letterSendingButton,
+                                              animationCase: .fadeOut,
+                                              duration: 1.0)],
+                           mode: .parallel,
+                           loop: .once(completion: { continuation.resume() }))
+            .run()
+        }
     }
 }

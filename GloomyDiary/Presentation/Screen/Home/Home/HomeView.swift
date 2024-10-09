@@ -114,3 +114,32 @@ final class HomeView: BaseView {
         }
     }
 }
+
+
+// MARK: - Animations
+
+extension HomeView {
+    @MainActor
+    func playFadeOutAllComponents() async {
+        await withCheckedContinuation { continuation in
+            AnimationGroup(animations: [.init(view: self.ghostTalkingView,
+                                              animationCase: .fadeOut,
+                                              duration: 1.0),
+                                        .init(view: self.sparklingLottieView,
+                                              animationCase: .fadeOut,
+                                              duration: 1.0),
+                                        .init(view: self.startButton,
+                                              animationCase: .fadeOut,
+                                              duration: 1.0),
+                                        .init(view: self.ghostImageView,
+                                              animationCase: .fadeOut,
+                                              duration: 1.0),
+                                        .init(view: self.pulsingCircleLottieView,
+                                              animationCase: .fadeOut,
+                                              duration: 1.0)],
+                           mode: .parallel,
+                           loop: .once(completion: { continuation.resume() }))
+            .run()
+        }
+    }
+}

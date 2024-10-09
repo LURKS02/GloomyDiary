@@ -115,19 +115,24 @@ private extension CounselingViewController {
     @objc func keyboardWillShow(notification: NSNotification) {
         guard let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else { return }
         let keyboardHeight = keyboardFrame.cgRectValue.height
-        
-        UIView.animate(withDuration: 0.3) {
-            self.contentView.subviews.forEach {
-                $0.transform = .identity.translatedBy(x: 0, y: -self.contentView.characterGreetingLabel.frame.height - 90)
-            }
-        }
+        let animations = self.contentView.subviews.map { Animation(view: $0,
+                                                                   animationCase: .transform(transform: .identity.translatedBy(x: 0, y: -self.contentView.characterGreetingLabel.frame.height - 90)),
+                                                                   duration: 0.3) }
+        AnimationGroup(animations: animations,
+                       mode: .parallel,
+                       loop: .once(completion: nil))
+        .run()
     }
     
     @objc func keyboardWillHide(notification: NSNotification) {
-        UIView.animate(withDuration: 0.3) {
-            self.contentView.subviews.forEach {
-                $0.transform = .identity
-            }
-        }
+        let animations = self.contentView.subviews.map { Animation(view: $0,
+                                                                   animationCase: .transform(transform: .identity),
+                                                                   duration: 0.3) }
+        AnimationGroup(animations: animations,
+                       mode: .parallel,
+                       loop: .once(completion: nil))
+        .run()
+    }
+}
     }
 }

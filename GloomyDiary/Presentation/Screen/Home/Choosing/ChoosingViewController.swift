@@ -37,7 +37,10 @@ extension ChoosingViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        contentView.showAllComponents()
+        Task {
+            await contentView.playFadeInAllComponents()
+            contentView.enableAllCharacterButtons()
+        }
     }
 }
 
