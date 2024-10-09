@@ -8,42 +8,48 @@
 import UIKit
 
 struct Animation {
-    var closure: () -> Void
+    var view: UIView
+    var animationCase: AnimationCase
     var duration: TimeInterval
-    var curve: UIView.AnimationCurve
-    var completion: () -> Void
-    
-    init(view: UIView?, type: AnimationType, duration: TimeInterval, curve: UIView.AnimationCurve = .easeInOut, completion: @escaping () -> Void = {}) {
-        switch type {
-        case .moveUp(let value):
-            self.closure = { [weak view] in
-                view?.transform = .identity.translatedBy(x: 0, y: -value)
-            }
-        case .moveDown(let value):
-            self.closure = { [weak view] in
-                view?.transform = .identity.translatedBy(x: 0, y: value)
-            }
-        case .fadeInOut(let value):
-            self.closure = { [weak view] in
-                view?.alpha = value
-            }
-        case .expandInOut(let frame):
-            self.closure = { [weak view] in
-                view?.frame = frame
-            }
-        }
-        
-        self.duration = duration
-        self.curve = curve
-        self.completion = completion
-    }
+    var curve: UIView.AnimationCurve = .easeInOut
 }
 
 extension Animation {
-    enum AnimationType {
-        case moveUp(value: Double)
-        case moveDown(value: Double)
-        case fadeInOut(value: CGFloat)
-        case expandInOut(frame: CGRect)
+    var closure: () -> Void {
+        switch animationCase {
+        case .moveUp(value: let value):
+            { [weak view] in
+                view?.transform = .identity.translatedBy(x: 0, y: -value)
+            }
+        case .moveDown(let value):
+            { [weak view] in
+                view?.transform = .identity.translatedBy(x: 0, y: value)
+            }
+        case .fadeIn:
+            { [weak view] in
+                view?.alpha = 1.0
+            }
+        case .fadeOut:
+            { [weak view] in
+                view?.alpha = 0.0
+            }
+        case .redraw(let frame):
+            { [weak view] in
+                view?.frame = frame
+            }
+        case .transform(let transform):
+            { [weak view] in
+                view?.transform = transform
+            }
+        }
     }
+}
+
+enum AnimationCase {
+    case moveUp(value: Double)
+    case moveDown(value: Double)
+    case fadeIn
+    case fadeOut
+    case redraw(frame: CGRect)
+    case transform(transform: CGAffineTransform)
 }
