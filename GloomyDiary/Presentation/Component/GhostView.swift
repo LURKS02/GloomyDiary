@@ -8,16 +8,28 @@
 import Foundation
 
 final class GhostView: ImageView {
+    @MainActor
+    func playBounce() {
+        AnimationGroup(animations: [.init(view: self,
+                                          animationCase: .moveUp(value: 5),
+                                          duration: 1.0),
+                                    .init(view: self,
+                                          animationCase: .moveDown(value: 5),
+                                          duration: 1.0)],
+                       mode: .serial,
+                       loop: .infinite)
+        .run()
+    }
     
-    func startLoopMoving() {
-        AnimationManager.shared.run(animations: [.init(view: self,
-                                                       type: .moveUp(value: 5),
-                                                       duration: 1.0,
-                                                       curve: .easeInOut),
-                                                 .init(view: self,
-                                                       type: .moveDown(value: 5),
-                                                       duration: 1.0,
-                                                       curve: .easeInOut)],
-                                    mode: .infinite)
+    @MainActor
+    func playFadeIn() async {
+        await withCheckedContinuation { continuation in
+            AnimationGroup(animations: [.init(view: self,
+                                              animationCase: .fadeIn,
+                                              duration: 1.0)],
+                           mode: .parallel,
+                           loop: .once(completion: { continuation.resume() }))
+            .run()
+        }
     }
 }

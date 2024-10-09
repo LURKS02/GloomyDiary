@@ -41,35 +41,9 @@ final class TalkingView: BaseView {
 
 extension TalkingView {
     func update(text: String) {
-//        let currentFrame = self.bounds
-//        var newFrame: CGRect = CGRectZero
-//    
-//        AnimationManager.shared.run(animations: [ .init(view: talkingLabel,
-//                                                        type: .fadeInOut(value: 0.0),
-//                                                        duration: 0.3,
-//                                                        curve: .easeInOut,
-//                                                        completion: { [weak self] in
-//            self?.talkingLabel.text = text
-//            self?.layoutIfNeeded()
-//            newFrame = self?.bounds ?? CGRectZero
-//            self?.frame = currentFrame
-//        }),
-//                                                  .init(view: self, 
-//                                                        type: .expandInOut(x: currentFrame.width - newFrame.width,
-//                                                                           y: currentFrame.height - newFrame.height,
-//                                                                           width: newFrame.width,
-//                                                                           height: newFrame.height),
-//                                                        duration: 0.3,
-//                                                        curve: .easeInOut),
-//                                                  .init(view: talkingLabel,
-//                                                        type: .fadeInOut(value: 1.0),
-//                                                        duration: 0.3,
-//                                                        curve: .easeInOut)
-//        ], mode: .once)
-//        
-        UIView.animate(withDuration: 0.3) {
-            self.talkingLabel.alpha = 0.0
-        } completion: { _ in
+        Task {
+            await playTalkingLabelFadeOut()
+            
             let oldBounds = self.bounds
             self.talkingLabel.text = text
             self.layoutIfNeeded()
@@ -80,13 +54,49 @@ extension TalkingView {
             
             self.frame = oldBounds
             
-            UIView.animate(withDuration: 0.3, animations: {
-                self.frame = CGRect(x: deltaX, y: deltaY, width: newBounds.width, height: newBounds.height)
-            }) { _ in
-                UIView.animate(withDuration: 0.3) {
-                    self.talkingLabel.alpha = 1.0
-                }
-            }
+            await playFrameAnimation(CGRect(x: deltaX,
+                                            y: deltaY,
+                                            width: newBounds.width,
+                                            height: newBounds.height))
+            await playTalkingLabelFadeIn()
+        }
+    }
+}
+
+extension TalkingView {
+    @MainActor
+    func playTalkingLabelFadeOut() async {
+        await withCheckedContinuation { continuation in
+            AnimationGroup(animations: [.init(view: talkingLabel,
+                                              animationCase: .fadeOut,
+                                              duration: 0.3)],
+                           mode: .parallel,
+                           loop: .once(completion: { continuation.resume() }))
+            .run()
+        }
+    }
+    
+    @MainActor
+    func playTalkingLabelFadeIn() async {
+        await withCheckedContinuation { continuation in
+            AnimationGroup(animations: [.init(view: talkingLabel,
+                                              animationCase: .fadeIn,
+                                              duration: 0.3)],
+                           mode: .parallel,
+                           loop: .once(completion: { continuation.resume() }))
+            .run()
+        }
+    }
+    
+    @MainActor
+    func playFrameAnimation(_ frame: CGRect) async {
+        await withCheckedContinuation { continuation in
+            AnimationGroup(animations: [.init(view: self,
+                                              animationCase: .redraw(frame: frame),
+                                              duration: 0.3)],
+                           mode: .parallel,
+                           loop: .once(completion: { continuation.resume() }))
+            .run()
         }
     }
 }

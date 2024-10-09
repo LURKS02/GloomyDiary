@@ -29,12 +29,14 @@ final class HomeViewController: BaseViewController<HomeView> {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        if !loopAnimated {
-            defer { loopAnimated = true }
-            contentView.ghostImageView.startLoopMoving()
+        Task {
+            await contentView.ghostImageView.playFadeIn()
         }
         
-        AnimationManager.shared.run(animations: [.init(view: self.contentView.ghostImageView, type: .fadeInOut(value: 1.0), duration: 1.0, curve: .easeIn)], mode: .once)
+        if !loopAnimated {
+            defer { loopAnimated = true }
+            contentView.ghostImageView.playBounce()
+        }
     }
     
     override func viewDidLoad() {
@@ -49,42 +51,36 @@ final class HomeViewController: BaseViewController<HomeView> {
         
         contentView.startButton.rx.tap
             .subscribe(onNext: { [weak self] _ in
-                AnimationManager.shared.run(animations: [.init(view: self?.contentView.talkingView,
-                                                               type: .fadeInOut(value: 0.0),
-                                                               duration: 1.0)],
-                                            mode: .once)
-                AnimationManager.shared.run(animations: [.init(view: self?.contentView.sparklingLottieView,
-                                                               type: .fadeInOut(value: 0.0),
-                                                               duration: 1.0)],
-                                            mode: .once)
-                AnimationManager.shared.run(animations: [.init(view: self?.contentView.startButton,
-                                                               type: .fadeInOut(value: 0.0),
-                                                               duration: 1.0)],
-                                            mode: .once)
-                AnimationManager.shared.run(animations: [.init(view: self?.contentView.ghostImageView,
-                                                               type: .fadeInOut(value: 0.0),
-                                                               duration: 1.0)],
-                                            mode: .once)
-                AnimationManager.shared.run(animations: [.init(view: self?.contentView.pulsingCircleLottieView,
-                                                               type: .fadeInOut(value: 0.0),
-                                                               duration: 1.0)],
-                                            mode: .once)
-                AnimationManager.shared.run(animations: [.init(view: self?.tabBarController?.tabBar,
-                                                               type: .fadeInOut(value: 0.0),
-                                                               duration: 1.0,
-                                                               completion: {
-                    let store: StoreOf<Choosing> = Store(initialState: .init(), reducer: { Choosing() })
-                    let choosingViewController = ChoosingViewController(store: store)
-                    let navigationViewController = UINavigationController(rootViewController: choosingViewController)
-                    navigationViewController.modalPresentationStyle = .fullScreen
-                    self?.present(navigationViewController, animated: false)})],
-                                            mode: .once)
+                guard let self else { return }
+                
+                Task {
+                    async let contentViewAnimation: Void = self.contentView.playFadeOutAllComponents()
+                    async let tabBarAnimation: Void = self.playFadeOutTabBar()
+                    
+                    _ = await (contentViewAnimation, tabBarAnimation)
+                    
+                    self.navigateToCharacterSelection()
+                }
             })
             .disposed(by: disposeBag)
         
         observe { [weak self] in
             guard let self else { return }
             self.contentView.talkingView.update(text: store.talkingType.description)
+
+// MARK: - Animations
+
+extension HomeViewController {
+    @MainActor
+    func playFadeOutTabBar() async {
+        guard let tabBarController = self.tabBarController else { return }
+        await withCheckedContinuation { continuation in
+            AnimationGroup(animations: [.init(view: tabBarController.tabBar,
+                                              animationCase: .fadeOut,
+                                              duration: 1.0)],
+                           mode: .parallel,
+                           loop: .once(completion: { continuation.resume() }))
+            .run()
         }
     }
 }

@@ -129,71 +129,6 @@ extension ChoosingView {
         disableAllCharacterButtons()
     }
     
-    func removeAllComponents(completion: @escaping () -> Void) {
-        AnimationManager.shared.run(animations: [
-            .init(view: moonImageView,
-                  type: .fadeInOut(value: 0.0),
-                  duration: 1.0)
-        ], mode: .once)
-        AnimationManager.shared.run(animations: [
-            .init(view: firstIntroduceLabel,
-                  type: .fadeInOut(value: 0.0),
-                  duration: 1.0)
-        ], mode: .once)
-        AnimationManager.shared.run(animations: [
-            .init(view: secondIntroduceLabel,
-                  type: .fadeInOut(value: 0.0),
-                  duration: 1.0)
-        ], mode: .once)
-        AnimationManager.shared.run(animations: [
-            .init(view: characterButtonStackView,
-                  type: .fadeInOut(value: 0.0),
-                  duration: 1.0)
-        ], mode: .once)
-        AnimationManager.shared.run(animations: [
-            .init(view: counselButton,
-                  type: .fadeInOut(value: 0.0),
-                  duration: 1.0)
-        
-        ], mode: .once)
-        AnimationManager.shared.run(animations: [
-            .init(view: gradientView,
-                  type: .fadeInOut(value: 0.0),
-                  duration: 1.0)
-        ], mode: .once)
-        AnimationManager.shared.run(animations: [
-            .init(view: characterIntroduceLabel,
-                  type: .fadeInOut(value: 0.0),
-                  duration: 1.0,
-                  completion: {
-                      completion()
-                  })
-        ], mode: .once)
-    }
-    
-    func showAllComponents() {
-        AnimationManager.shared.run(animations: [
-            .init(view: moonImageView,
-                  type: .moveUp(value: 35),
-                  duration: 1.5),
-            .init(view: firstIntroduceLabel,
-                  type: .fadeInOut(value: 1.0),
-                  duration: 1.8),
-            .init(view: secondIntroduceLabel,
-                  type: .fadeInOut(value: 1.0),
-                  duration: 2.0),
-            .init(view: characterButtonStackView,
-                  type: .fadeInOut(value: 1.0),
-                  duration: 1.5),
-            .init(view: characterIntroduceLabel,
-                  type: .fadeInOut(value: 1.0),
-                  duration: 1.8,
-                  completion: { [weak self] in
-                      self?.enableAllCharacterButtons()
-                  })
-        ],
-                                    mode: .once)
-    }
     
     func setMessage(isFirst: Bool) {
         if isFirst {
@@ -205,6 +140,33 @@ extension ChoosingView {
             firstIntroduceLabel.text = "반가워요!"
             secondIntroduceLabel.text = "오늘은 어떤 일이 있었나요?\n"
                                       + "당신의 이야기를 들려주세요."
+    @MainActor
+    func playFadeOutAllComponents() async {
+        await withCheckedContinuation { continuation in
+            AnimationGroup(animations: [.init(view: moonImageView,
+                                              animationCase: .fadeOut,
+                                              duration: 1.0),
+                                        .init(view: firstIntroduceLabel,
+                                              animationCase: .fadeOut,
+                                              duration: 1.0),
+                                        .init(view: secondIntroduceLabel,
+                                              animationCase: .fadeOut,
+                                              duration: 1.0),
+                                        .init(view: characterButtonStackView,
+                                              animationCase: .fadeOut,
+                                              duration: 1.0),
+                                        .init(view: counselButton,
+                                              animationCase: .fadeOut,
+                                              duration: 1.0),
+                                        .init(view: gradientView,
+                                              animationCase: .fadeOut,
+                                              duration: 1.0),
+                                        .init(view: characterIntroduceLabel,
+                                              animationCase: .fadeOut,
+                                              duration: 1.0)],
+                           mode: .parallel,
+                           loop: .once(completion: { continuation.resume() }))
+            .run()
         }
     }
     
@@ -214,6 +176,29 @@ extension ChoosingView {
                                          + "선택해주세요."
         } else {
             characterIntroduceLabel.text = character?.introduceMessage
+    @MainActor
+    func playFadeInAllComponents() async {
+        await withCheckedContinuation { continuation in
+            AnimationGroup(animations: [.init(view: moonImageView,
+                                              animationCase: .moveUp(value: 35),
+                                              duration: 1.5),
+                                        .init(view: firstIntroduceLabel,
+                                              animationCase: .fadeIn,
+                                              duration: 1.8),
+                                        .init(view: secondIntroduceLabel,
+                                              animationCase: .fadeIn,
+                                              duration: 2.0),
+                                        .init(view: characterButtonStackView,
+                                              animationCase: .fadeIn,
+                                              duration: 1.5),
+                                        .init(view: characterIntroduceLabel,
+                                              animationCase: .fadeIn,
+                                              duration: 1.8)],
+                           mode: .serial,
+                           loop: .once(completion: { continuation.resume() }))
+            .run()
+        }
+    }
         }
     }
     
