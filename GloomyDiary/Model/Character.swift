@@ -7,10 +7,18 @@
 
 import Foundation
 
-enum Character: CaseIterable {
-    case chan
-    case gomi
-    case beomji
+enum Character: String, CaseIterable {
+    case chan = "chan"
+    case gomi = "gomi"
+    case beomji = "beomji"
+    
+    init?(identifier: String) {
+        self.init(rawValue: identifier)
+    }
+    
+    var identifier: String {
+        self.rawValue
+    }
     
     var name: String {
         switch self {

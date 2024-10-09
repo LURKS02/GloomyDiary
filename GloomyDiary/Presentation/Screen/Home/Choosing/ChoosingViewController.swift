@@ -49,17 +49,11 @@ extension ChoosingViewController {
 
 private extension ChoosingViewController {
     func bind() {
-        contentView.allCharacterButtons.forEach { button in
-            button.rx.tap
+        contentView.allCharacterButtons.forEach { characterButton in
+            characterButton.rx.tap
                 .subscribe(onNext: { [weak self] _ in
-                    self?.contentView.allCharacterButtons
-                        .forEach { $0.isSelected = false }
-                    
-                    button.isSelected = true
-                    self?.contentView.enableCounselButton()
-                    guard let bound = button.getCharacterFrame() else { return }
-                    
-                    self?.store.send(.characterTapped(tag: button.tag))
+                    guard let self else { return }
+                    store.send(.characterTapped(identifier: characterButton.identifier))
                 })
                 .disposed(by: disposeBag)
         }
