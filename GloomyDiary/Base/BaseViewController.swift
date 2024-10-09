@@ -18,7 +18,7 @@ class BaseViewController<T: UIView>: UIViewController {
         super.init(nibName: nil, bundle: nil)
     }
     
-    override func viewDidLoad() {
+    override func loadView() {
         self.view = contentView
     }
     
