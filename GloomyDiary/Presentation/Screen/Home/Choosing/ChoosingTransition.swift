@@ -8,99 +8,128 @@
 import UIKit
 import Lottie
 
-final class ChoosingTransition: NSObject { }
+final class ChoosingTransition: NSObject {
+    private let dummyView = UIImageView()
+    
+    private let starLottieView = LottieAnimationView(name: "stars").then {
+        $0.frame = .init(x: 0, y: 0, width: 300, height: 135)
+        $0.animationSpeed = 2.0
+        $0.loopMode = .loop
+        $0.contentMode = .scaleToFill
+        $0.play()
+    }
+    
+    private let readyLabel = IntroduceLabel()
+}
 
 extension ChoosingTransition: UIViewControllerAnimatedTransitioning {
     func transitionDuration(using transitionContext: (any UIViewControllerContextTransitioning)?) -> TimeInterval {
-        return 7.0
+        return 3.4
     }
     
     func animateTransition(using transitionContext: any UIViewControllerContextTransitioning) {
         let containerView = transitionContext.containerView
-        guard let fromView = transitionContext.view(forKey: .from) as? ChoosingView else { return }
-        guard let toView = transitionContext.view(forKey: .to) as? CounselingView else { return }
-        
-        guard let fromViewController = transitionContext.viewController(forKey: .from) as? ChoosingViewController else { return }
-        
-        guard let chosenCharacter = fromViewController.store.chosenCharacter else { return }
-        let dummyView = UIImageView(image: UIImage(named: chosenCharacter.imageName))
-        let imageView = UIImageView(image: UIImage(named: chosenCharacter.imageName))
-        let starLottieView = LottieAnimationView(name: "stars").then {
-            $0.alpha = 0.0
-            $0.animationSpeed = 2.0
-            $0.loopMode = .loop
-            $0.contentMode = .scaleToFill
-            $0.play()
-        }
-        let readyLabel: IntroduceLabel = IntroduceLabel().then {
-            $0.text = chosenCharacter.counselReadyMessage
-            $0.alpha = 0
-        }
-        
-        guard let frame = fromViewController.getCharacterFrame() else { return }
-        fromViewController.contentView.addSubview(dummyView)
-        dummyView.frame = frame
-        imageView.frame = frame
+        guard let fromView = transitionContext.view(forKey: .from) as? ChoosingView,
+              let toView = transitionContext.view(forKey: .to) as? CounselingView,
+              let fromViewController = transitionContext.viewController(forKey: .from) as? ChoosingViewController,
+              let chosenCharacter = fromViewController.store.chosenCharacter else { return }
         
         containerView.addSubview(fromView)
-        fromView.removeAllComponents {
-            dummyView.removeFromSuperview()
-            containerView.addSubview(imageView)
+        fromView.addSubview(dummyView)
+        
+        Task {
+            guard let selectedButton = fromView.allCharacterButtons.first(where: { $0.isSelected }),
+                  let selectedButtonImageView = selectedButton.imageView else { return }
+            let selectedButtonImageFrame = selectedButtonImageView.convert(selectedButtonImageView.bounds, to: fromView)
+            dummyView.image = UIImage(named: chosenCharacter.imageName)
+            dummyView.frame = selectedButtonImageFrame
+            readyLabel.text = chosenCharacter.counselWaitingMessage
+            readyLabel.sizeToFit()
+            
+            await fromView.playFadeOutAllComponents()
+            
+            let dummyViewImageFrame = dummyView.convert(dummyView.bounds, to: containerView)
+            dummyView.frame = dummyViewImageFrame
+            
+            containerView.addSubview(dummyView)
             containerView.addSubview(starLottieView)
             containerView.addSubview(readyLabel)
             
-            let screenWidth = UIScreen.main.bounds.width
-            let starViewWidth = starLottieView.frame.width
-            let starViewHeight = starLottieView.frame.height
-            starLottieView.frame = .init(x: (screenWidth - 300) / 2, y: 250, width: 300, height: starViewHeight * 300 / starViewWidth)
-            readyLabel.frame = .init(x: (screenWidth - readyLabel.intrinsicContentSize.width) / 2, y: 400, width: readyLabel.intrinsicContentSize.width, height: readyLabel.intrinsicContentSize.height)
+            let containerViewWidth = containerView.bounds.width
+            starLottieView.center = .init(x: containerViewWidth / 2,
+                                          y: 300)
+            readyLabel.center = .init(x: containerViewWidth / 2,
+                                      y: 430)
+            starLottieView.alpha = 0.0
+            readyLabel.alpha = 0.0
             
             toView.alpha = 0.0
             containerView.addSubview(toView)
             toView.layoutIfNeeded()
-            let afterFrame = toView.characterImageView.frame
+            let resultFrame = toView.characterImageView.frame
             
-            UIView.animateKeyframes(withDuration: self.transitionDuration(using: transitionContext), delay: 0, options: [], animations: {
-                UIView.addKeyframe(withRelativeStartTime: 0.0, relativeDuration: 0.1) {
-                    let imageViewWidth = imageView.frame.width
-                    let imageViewHeight = imageView.frame.height
-                    
-                    let targetX = (screenWidth - imageViewWidth) / 2
-                    let targetY: CGFloat = 300
-                    
-                    imageView.frame = .init(x: targetX, y: targetY, width: imageViewWidth, height: imageViewHeight)
-                    imageView.transform = CGAffineTransform(scaleX: 2, y: 2)
-                }
-                
-                UIView.addKeyframe(withRelativeStartTime: 0.1, relativeDuration: 0.05) {
-                    starLottieView.alpha = 1.0
-                    readyLabel.alpha = 1.0
-                }
-                
-                UIView.addKeyframe(withRelativeStartTime: 0.15, relativeDuration: 0.7) {
-                    
-                }
-                
-                UIView.addKeyframe(withRelativeStartTime: 0.85, relativeDuration: 0.05) {
-                    starLottieView.alpha = 0.0
-                    readyLabel.alpha = 0.0
-                }
-                
-                UIView.addKeyframe(withRelativeStartTime: 0.9, relativeDuration: 0.1) {
-                    imageView.transform = .identity
-                    imageView.frame = afterFrame
-                }
-                
-            }, completion: {
-                transitionContext.completeTransition($0)
-                
-                starLottieView.removeFromSuperview()
-                readyLabel.removeFromSuperview()
-                imageView.removeFromSuperview()
-                
-                toView.alpha = 1.0
-                toView.showAllComponents()
-            })
+            let dummyViewDoubleScaleWidth = dummyView.bounds.width * 2
+            let dummyViewDoubleScaleHeight = dummyView.bounds.height * 2
+            let dummyViewMiddleFrame = CGRect(x: (containerViewWidth - dummyViewDoubleScaleWidth) / 2,
+                                              y: 250,
+                                              width: dummyViewDoubleScaleWidth,
+                                              height: dummyViewDoubleScaleHeight)
+            
+            await playDummyViewTo(frame: dummyViewMiddleFrame)
+            await playWaitingViewsFadeIn()
+            sleep(1)
+            await playWaitingViewsFadeOut()
+            await playDummyViewTo(frame: resultFrame)
+            
+            starLottieView.removeFromSuperview()
+            readyLabel.removeFromSuperview()
+            toView.alpha = 1.0
+            await toView.showAllComponents()
+            transitionContext.completeTransition(true)
+        }
+    }
+}
+
+private extension ChoosingTransition {
+    @MainActor
+    func playDummyViewTo(frame: CGRect) async {
+        await withCheckedContinuation { continuation in
+            AnimationGroup(animations: [.init(view: dummyView,
+                                              animationCase: .redraw(frame: frame),
+                                              duration: 1.0)],
+                           mode: .serial,
+                           loop: .once(completion: { continuation.resume() }))
+            .run()
+        }
+    }
+    
+    @MainActor
+    func playWaitingViewsFadeIn() async {
+        await withCheckedContinuation { continuation in
+            AnimationGroup(animations: [.init(view: starLottieView,
+                                              animationCase: .fadeIn,
+                                              duration: 0.7),
+                                        .init(view: readyLabel,
+                                              animationCase: .fadeIn,
+                                              duration: 0.7)],
+                           mode: .parallel,
+                           loop: .once(completion: { continuation.resume() }))
+            .run()
+        }
+    }
+    
+    @MainActor
+    func playWaitingViewsFadeOut() async {
+        await withCheckedContinuation { continuation in
+            AnimationGroup(animations: [.init(view: starLottieView,
+                                              animationCase: .fadeOut,
+                                              duration: 0.7),
+                                        .init(view: readyLabel,
+                                              animationCase: .fadeOut,
+                                              duration: 0.7)],
+                           mode: .parallel,
+                           loop: .once(completion: { continuation.resume() }))
+            .run()
         }
     }
 }

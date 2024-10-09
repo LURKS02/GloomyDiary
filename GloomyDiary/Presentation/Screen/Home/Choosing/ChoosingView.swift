@@ -8,6 +8,9 @@
 import UIKit
 
 final class ChoosingView: BaseView {
+    
+    // MARK: - Matric
+    
     struct Matric {
         static let secondIntroduceLabelSuperViewPadding: CGFloat = 240
         static let firstSecondIntroduceLabelPadding: CGFloat = 31
@@ -20,31 +23,77 @@ final class ChoosingView: BaseView {
         static let moonTopPadding: CGFloat = 132
     }
     
-    private let moonImageView: ImageView = ImageView().then {
+    
+    // MARK: - Views
+    
+    let moonImageView: ImageView = ImageView().then {
         $0.setImage("moon")
         $0.setSize(43)
     }
     
-    private let gradientView: GradientView = GradientView(colors: [.background(.darkPurple),
-                                                                   .background(.mainPurple),
-                                                                   .background(.mainPurple)])
+    let gradientView: GradientView = GradientView(colors: [.background(.darkPurple),
+                                                           .background(.mainPurple),
+                                                           .background(.mainPurple)])
     
-    private lazy var firstIntroduceLabel: IntroduceLabel = IntroduceLabel()
+    lazy var firstIntroduceLabel: IntroduceLabel = IntroduceLabel().then {
+        $0.text = isFirstProcess ? "첫 번째 상담을 진행해볼까요?" : "반가워요!"
+    }
     
-    private lazy var secondIntroduceLabel: IntroduceLabel = IntroduceLabel()
+    lazy var secondIntroduceLabel: IntroduceLabel = IntroduceLabel().then {
+        $0.text = isFirstProcess ? "\"울다\"에는\n" +
+                                   "여러분들의 이야기를 들어줄\n" +
+                                   "세 마리의 상담사가 있어요." 
+                                   :
+                                   "오늘은 어떤 일이 있었나요?\n" +
+                                   "당신의 이야기를 들려주세요."
+    }
     
-    private let characterButtonStackView: UIStackView = UIStackView().then {
+    let characterButtonStackView: UIStackView = UIStackView().then {
         $0.axis = .horizontal
         $0.spacing = Matric.stackViewSpacing
         $0.alignment = .fill
         $0.distribution = .fill
     }
     
-    let characterIntroduceLabel: IntroduceLabel = IntroduceLabel()
+    let characterIntroduceLabel: IntroduceLabel = IntroduceLabel().then {
+        $0.text = "상담하고 싶은 친구를\n" +
+                  "선택해주세요."
+    }
     
     let counselButton: HorizontalButton = HorizontalButton().then {
         $0.setTitle("상담하기", for: .normal)
     }
+    
+    
+    // MARK: - Properties
+    
+    let isFirstProcess: Bool
+    
+    var allCharacterButtons: [CharacterButton] {
+        self.characterButtonStackView.arrangedSubviews
+            .compactMap { $0 as? CharacterButton }
+    }
+    
+    
+    // MARK: - Initialize
+    
+    init(isFirstProcess: Bool) {
+        self.isFirstProcess = isFirstProcess
+        
+        super.init(frame: .zero)
+        
+        Character.allCases.forEach { character in
+            let button = CharacterButton(character: character)
+            characterButtonStackView.addArrangedSubview(button)
+        }
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    
+    // MARK: - View Life Cycle
     
     override func setup() {
         backgroundColor = .background(.mainPurple)
@@ -98,27 +147,9 @@ final class ChoosingView: BaseView {
 }
 
 
-// MARK: - Sugar
+// MARK: - Animations
 
 extension ChoosingView {
-    var allCharacterButtons: [CharacterButton] {
-        self.characterButtonStackView.arrangedSubviews
-            .compactMap { $0 as? CharacterButton }
-    }
-}
-
-
-// MARK: - functions
-
-extension ChoosingView {
-    func addCharactersToStack(_ characters: [Character]) {
-        characterButtonStackView.removeAllArrangedSubviews()
-        
-        characters.enumerated().map { index, character in
-            CharacterButton(character: character).then { $0.tag = index }
-        }.forEach { characterButtonStackView.addArrangedSubview($0) }
-    }
-    
     func hideAllComponents() {
         firstIntroduceLabel.alpha = 0.0
         secondIntroduceLabel.alpha = 0.0
@@ -129,17 +160,6 @@ extension ChoosingView {
         disableAllCharacterButtons()
     }
     
-    
-    func setMessage(isFirst: Bool) {
-        if isFirst {
-            firstIntroduceLabel.text = "첫 번째 상담을 진행해볼까요?"
-            secondIntroduceLabel.text = "\"울다\"에는\n"
-                                      + "여러분들의 이야기를 들어줄\n"
-                                      + "세 마리의 상담사가 있어요."
-        } else {
-            firstIntroduceLabel.text = "반가워요!"
-            secondIntroduceLabel.text = "오늘은 어떤 일이 있었나요?\n"
-                                      + "당신의 이야기를 들려주세요."
     @MainActor
     func playFadeOutAllComponents() async {
         await withCheckedContinuation { continuation in
@@ -170,12 +190,6 @@ extension ChoosingView {
         }
     }
     
-    func setCharacterIntroduceMessage(character: Character?) {
-        if character == nil {
-            characterIntroduceLabel.text = "상담하고 싶은 친구를\n"
-                                         + "선택해주세요."
-        } else {
-            characterIntroduceLabel.text = character?.introduceMessage
     @MainActor
     func playFadeInAllComponents() async {
         await withCheckedContinuation { continuation in
@@ -199,7 +213,20 @@ extension ChoosingView {
             .run()
         }
     }
+}
+
+extension ChoosingView {
+    func spotlight(to character: Character?) {
+        guard let character else { return }
+        
+        deselectAllCharacterButtons()
+        allCharacterButtons.forEach { characterButton in
+            if characterButton.identifier == character.identifier {
+                characterButton.isSelected = true
+            }
         }
+        characterIntroduceLabel.text = character.introduceMessage
+        enableCounselButton()
     }
     
     func enableAllCharacterButtons() {
@@ -210,6 +237,11 @@ extension ChoosingView {
     func disableAllCharacterButtons() {
         self.allCharacterButtons
             .forEach { $0.isEnabled = false }
+    }
+    
+    func deselectAllCharacterButtons() {
+        self.allCharacterButtons
+            .forEach { $0.isSelected = false }
     }
     
     func enableCounselButton() {

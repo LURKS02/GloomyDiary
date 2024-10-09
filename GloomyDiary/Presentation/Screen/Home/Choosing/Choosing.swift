@@ -12,28 +12,20 @@ import ComposableArchitecture
 struct Choosing {
     @ObservableState
     struct State: Equatable {
-        var isFirst: Bool = false
+        let isFirstProcess: Bool = false
         var chosenCharacter: Character? = nil
     }
     
     enum Action {
-        case characterTapped(tag: Int)
+        case characterTapped(identifier: String)
     }
     
     var body: some Reducer<State, Action> {
         Reduce { state, action in
             switch action {
-            case .characterTapped(let tag):
-                switch tag {
-                case 0:
-                    state.chosenCharacter = .chan
-                case 1:
-                    state.chosenCharacter = .gomi
-                case 2:
-                    state.chosenCharacter = .beomji
-                default:
-                    state.chosenCharacter = nil
-                }
+            case .characterTapped(let identifier):
+                guard let character = Character(identifier: identifier) else { return .none }
+                state.chosenCharacter = character
                 return .none
             }
         }
