@@ -8,6 +8,9 @@
 import UIKit
 
 final class CharacterButton: UIButton {
+    
+    // MARK: - Matric
+    
     private struct Matric {
         static let imageSize: CGFloat = 58
         static let imageTopPadding: CGFloat = 18
@@ -21,19 +24,34 @@ final class CharacterButton: UIButton {
         static let buttonHeight: CGFloat = 136
     }
     
+    
+    // MARK: - Properties
+
+    let identifier: String
+    
+    var characterFrame: CGRect? {
+        self.imageView?.frame
+    }
+    
+    
+    // MARK: - Initialize
+    
     init(character: Character) {
+        self.identifier = character.identifier
+        
         super.init(frame: .zero)
         
         setup()
         setupConstraints()
-        setupConfiguration()
-        updateConfiguration(title: character.name)
-        updateConfiguration(imageName: character.imageName)
+        setupConfiguration(with: character)
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    
+    // MARK: - View Life Cycle
     
     private func setup() {
         self.layer.borderWidth = Matric.buttonBorderWidth
@@ -41,7 +59,14 @@ final class CharacterButton: UIButton {
         self.layer.masksToBounds = true
     }
     
-    private func setupConfiguration() {
+    private func setupConstraints() {
+        self.snp.makeConstraints { make in
+            make.width.equalTo(Matric.buttonWidth)
+            make.height.equalTo(Matric.buttonHeight)
+        }
+    }
+    
+    private func setupConfiguration(with character: Character) {
         var configuration = UIButton.Configuration.plain()
         
         configuration.imagePlacement = .top
@@ -57,33 +82,20 @@ final class CharacterButton: UIButton {
         }
         
         self.configuration = configuration
+        updateConfiguration(title: character.name)
+        updateConfiguration(imageName: character.imageName)
     }
     
-    private func setupConstraints() {
-        self.snp.makeConstraints { make in
-            make.width.equalTo(Matric.buttonWidth)
-            make.height.equalTo(Matric.buttonHeight)
-        }
-    }
-}
-
-private extension CharacterButton {
-    func updateConfiguration(title: String) {
+    private func updateConfiguration(title: String) {
         var title = AttributedString(title)
         title.font = .무궁화.title
         title.foregroundColor = .text(.highlight)
         self.configuration?.attributedTitle = title
     }
     
-    func updateConfiguration(imageName: String) {
+    private func updateConfiguration(imageName: String) {
         guard let image = UIImage(named: imageName) else { return }
         let resizedImage = image.resized(width: Matric.imageSize, height: Matric.imageSize)
         self.configuration?.image = resizedImage
-    }
-}
-
-extension CharacterButton {
-    func getCharacterFrame() -> CGRect? {
-        self.imageView?.frame
     }
 }

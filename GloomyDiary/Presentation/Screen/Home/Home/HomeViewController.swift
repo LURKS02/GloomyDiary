@@ -13,9 +13,16 @@ import RxCocoa
 import RxGesture
 
 final class HomeViewController: BaseViewController<HomeView> {
-    private var loopAnimated: Bool = false
     
     let store: StoreOf<Home>
+    
+    
+    // MARK: - Properties
+    
+    private var loopAnimated: Bool = false
+    
+    
+    // MARK: - Initialize
     
     init(store: StoreOf<Home>) {
         self.store = store
@@ -24,6 +31,15 @@ final class HomeViewController: BaseViewController<HomeView> {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    
+    // MARK: - View Controller Life Cycle
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        bind()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -38,10 +54,13 @@ final class HomeViewController: BaseViewController<HomeView> {
             contentView.ghostImageView.playBounce()
         }
     }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
+}
+
+
+// MARK: - bind
+
+extension HomeViewController {
+    private func bind() {
         contentView.gradientView.rx.tapGesture()
             .when(.recognized)
             .subscribe(onNext: { [weak self] _ in
@@ -66,7 +85,24 @@ final class HomeViewController: BaseViewController<HomeView> {
         
         observe { [weak self] in
             guard let self else { return }
-            self.contentView.talkingView.update(text: store.talkingType.description)
+            self.contentView.ghostTalkingView.update(text: store.talkingType.description)
+        }
+    }
+}
+
+
+// MARK: - Navigation
+
+extension HomeViewController {
+    func navigateToCharacterSelection() {
+        let store: StoreOf<Choosing> = Store(initialState: .init(), reducer: { Choosing() })
+        let choosingViewController = ChoosingViewController(store: store)
+        let navigationViewController = UINavigationController(rootViewController: choosingViewController)
+        navigationViewController.modalPresentationStyle = .fullScreen
+        self.present(navigationViewController, animated: false)
+    }
+}
+
 
 // MARK: - Animations
 

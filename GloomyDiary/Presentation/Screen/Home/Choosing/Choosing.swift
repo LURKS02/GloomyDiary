@@ -12,7 +12,7 @@ import ComposableArchitecture
 struct Choosing {
     @ObservableState
     struct State: Equatable {
-        var isFirst: Bool = false
+        let isFirstProcess: Bool = false
         var chosenCharacter: Character? = nil
     }
     

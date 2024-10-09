@@ -9,10 +9,17 @@ import UIKit
 import ComposableArchitecture
 
 final class CounselingViewController: BaseViewController<CounselingView> {
+    
     let store: StoreOf<Counseling>
+    
+    
+    // MARK: - Properties
     
     private let maxTextCount = 300
     
+    
+    // MARK: - Initialize
+
     init(store: StoreOf<Counseling>) {
         self.store = store
         super.init()
@@ -25,12 +32,10 @@ final class CounselingViewController: BaseViewController<CounselingView> {
     deinit {
         NotificationCenter.default.removeObserver(self)
     }
-}
-
-
-// MARK: - View Controller Life Cycle
-
-extension CounselingViewController {
+    
+    
+    // MARK: - View Controller Life Cycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -40,6 +45,9 @@ extension CounselingViewController {
         contentView.counselLetterView.letterCharacterCountLabel.text = "0/\(maxTextCount)"
     }
     
+    
+    // MARK: - Touch Cycle
+
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesBegan(touches, with: event)
         
@@ -51,7 +59,7 @@ extension CounselingViewController {
 // MARK: - bind
 
 private extension CounselingViewController {
-    func bind() {
+    private func bind() {
         contentView.counselLetterView.letterTextView.delegate = self
         
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
@@ -67,7 +75,8 @@ private extension CounselingViewController {
         
         contentView.letterSendingButton.rx.tap
             .subscribe(onNext: { [weak self] _ in
-                
+                guard let self else { return }
+                navigateToResult(with: store.character)
             })
             .disposed(by: disposeBag)
         
@@ -75,7 +84,6 @@ private extension CounselingViewController {
             guard let self else { return }
             
             self.contentView.configure(with: store.character)
-            
             self.contentView.counselLetterView.setState(store.counselState)
         }
     }
@@ -134,5 +142,22 @@ private extension CounselingViewController {
         .run()
     }
 }
+
+
+// MARK: - Naivation
+
+extension CounselingViewController {
+    func navigateToResult(with character: Character) {
+        let store: StoreOf<CounselResult> = Store(initialState: .init(character: character), reducer: { CounselResult() })
+        let resultViewController = ResultViewController(store: store)
+        navigationController?.delegate = self
+        navigationController?.pushViewController(resultViewController,
+                                                 animated: true)
+    }
+}
+
+extension CounselingViewController: UINavigationControllerDelegate {
+    func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationController.Operation, from fromVC: UIViewController, to toVC: UIViewController) -> (any UIViewControllerAnimatedTransitioning)? {
+        CounselTransition()
     }
 }

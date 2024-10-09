@@ -9,29 +9,30 @@ import UIKit
 import ComposableArchitecture
 
 final class ChoosingViewController: BaseViewController<ChoosingView> {
+    
     let store: StoreOf<Choosing>
+    
+    
+    // MARK: - Initialize
     
     init(store: StoreOf<Choosing>) {
         self.store = store
-        super.init()
+        let contentView = ChoosingView(isFirstProcess: store.isFirstProcess)
+        super.init(contentView)
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-}
 
 
 // MARK: - View Controller Life Cycle
-
-extension ChoosingViewController {
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        contentView.addCharactersToStack(Character.allCases)
-        contentView.hideAllComponents()
-        
         bind()
+        contentView.hideAllComponents()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -60,30 +61,29 @@ private extension ChoosingViewController {
         
         contentView.counselButton.rx.tap
             .subscribe(onNext: { [weak self] _ in
-                guard let chosenCharacter = self?.store.chosenCharacter else { return }
-                let store: StoreOf<Counseling> = Store(initialState: .init(character: chosenCharacter), reducer: { Counseling() })
-                let counselingViewController = CounselingViewController(store: store)
-                self?.navigationController?.delegate = self
-                self?.navigationController?.pushViewController(counselingViewController,
-                                                                   animated: true)
+                guard let self,
+                      let chosenCharacter = store.chosenCharacter else { return }
+                navigateToCounseling(with: chosenCharacter)
             })
             .disposed(by: disposeBag)
         
         observe { [weak self] in
             guard let self else { return }
             
-            self.contentView.setCharacterIntroduceMessage(character: store.chosenCharacter)
-            
-            self.contentView.setMessage(isFirst: store.isFirst)
+            self.contentView.spotlight(to: store.chosenCharacter)
         }
     }
 }
 
+// MARK: - Navigation
+
 extension ChoosingViewController {
-    func getCharacterFrame() -> CGRect? {
-        guard let selectedButton = contentView.allCharacterButtons.filter({ $0.isSelected }).first else { return nil }
-        guard let frame = selectedButton.getCharacterFrame() else { return nil }
-        return contentView.convert(frame, from: selectedButton)
+    func navigateToCounseling(with character: Character) {
+        let store: StoreOf<Counseling> = Store(initialState: .init(character: character), reducer: { Counseling() })
+        let counselingViewController = CounselingViewController(store: store)
+        navigationController?.delegate = self
+        navigationController?.pushViewController(counselingViewController,
+                                                 animated: true)
     }
 }
 

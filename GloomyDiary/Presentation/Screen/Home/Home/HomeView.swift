@@ -9,7 +9,10 @@ import UIKit
 import Lottie
 
 final class HomeView: BaseView {
-    struct Matric {
+    
+    // MARK: - Matric
+
+    private struct Matric {
         static let moonTopPadding: CGFloat = 132
         static let ghostButtonPadding: CGFloat = 65
         static let buttonBottomPadding: CGFloat = 266
@@ -28,11 +31,14 @@ final class HomeView: BaseView {
         static let sparklingAnimationSpeed: CGFloat = 0.5
     }
     
+    
+    // MARK: - Views
+    
     let gradientView: GradientView = GradientView(colors: [.background(.darkPurple),
                                                            .background(.mainPurple),
                                                            .background(.mainPurple)])
     
-    private let moonImageView: ImageView = ImageView().then {
+    let moonImageView: ImageView = ImageView().then {
         $0.setImage("moon")
         $0.setSize(Matric.moonImageSize)
     }
@@ -57,7 +63,7 @@ final class HomeView: BaseView {
         $0.setSize(Matric.ghostImageSize)
     }
     
-    let talkingView: TalkingView = TalkingView().then {
+    let ghostTalkingView: TalkingView = TalkingView().then {
         $0.setContentHuggingPriority(.defaultHigh, for: .horizontal)
     }
     
@@ -65,7 +71,11 @@ final class HomeView: BaseView {
         $0.setTitle("상담하기", for: .normal)
     }
     
+    
+    // MARK: - View Life Cycle
+    
     override func setup() {
+        
     }
     
     override func addSubviews() {
@@ -73,7 +83,7 @@ final class HomeView: BaseView {
         addSubview(moonImageView)
         addSubview(pulsingCircleLottieView)
         addSubview(sparklingLottieView)
-        addSubview(talkingView)
+        addSubview(ghostTalkingView)
         addSubview(ghostImageView)
         addSubview(startButton)
     }
@@ -98,7 +108,7 @@ final class HomeView: BaseView {
             make.width.equalToSuperview()
         }
         
-        talkingView.snp.makeConstraints { make in
+        ghostTalkingView.snp.makeConstraints { make in
             make.bottom.equalTo(ghostImageView.snp.top).offset(-Matric.ghostTalkingSpacing)
             make.right.equalTo(ghostImageView.snp.right).offset(-Matric.ghostTalkingRightPadding)
         }
