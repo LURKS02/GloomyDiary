@@ -10,9 +10,9 @@ import Lottie
 
 final class HomeView: BaseView {
     
-    // MARK: - Matric
+    // MARK: - Metric
 
-    private struct Matric {
+    private struct Metric {
         static let moonTopPadding: CGFloat = 132
         static let ghostButtonPadding: CGFloat = 65
         static let buttonBottomPadding: CGFloat = 266
@@ -40,19 +40,19 @@ final class HomeView: BaseView {
     
     let moonImageView: ImageView = ImageView().then {
         $0.setImage("moon")
-        $0.setSize(Matric.moonImageSize)
+        $0.setSize(Metric.moonImageSize)
     }
     
     let pulsingCircleLottieView = LottieAnimationView(name: "pulsingCircle").then {
-        $0.alpha = Matric.pulsingCircleAlpha
-        $0.animationSpeed = Matric.pulsingCircleAnimationSpeed
+        $0.alpha = Metric.pulsingCircleAlpha
+        $0.animationSpeed = Metric.pulsingCircleAnimationSpeed
         $0.loopMode = .loop
         $0.play()
     }
     
     let sparklingLottieView = LottieAnimationView(name: "sparkles").then {
-        $0.alpha = Matric.sparklingAlpha
-        $0.animationSpeed = Matric.sparklingAnimationSpeed
+        $0.alpha = Metric.sparklingAlpha
+        $0.animationSpeed = Metric.sparklingAnimationSpeed
         $0.contentMode = .scaleToFill
         $0.loopMode = .loop
         $0.play()
@@ -60,7 +60,7 @@ final class HomeView: BaseView {
     
     let ghostImageView: GhostView = GhostView().then {
         $0.setImage("ghost")
-        $0.setSize(Matric.ghostImageSize)
+        $0.setSize(Metric.ghostImageSize)
     }
     
     let ghostTalkingView: TalkingView = TalkingView().then {
@@ -95,12 +95,12 @@ final class HomeView: BaseView {
         
         moonImageView.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.top.equalToSuperview().offset(Matric.moonTopPadding)
+            make.top.equalToSuperview().offset(Metric.moonTopPadding)
         }
         
         pulsingCircleLottieView.snp.makeConstraints { make in
             make.center.equalTo(moonImageView)
-            make.size.equalTo(Matric.pulsingCircleSize)
+            make.size.equalTo(Metric.pulsingCircleSize)
         }
         
         sparklingLottieView.snp.makeConstraints { make in
@@ -109,18 +109,18 @@ final class HomeView: BaseView {
         }
         
         ghostTalkingView.snp.makeConstraints { make in
-            make.bottom.equalTo(ghostImageView.snp.top).offset(-Matric.ghostTalkingSpacing)
-            make.right.equalTo(ghostImageView.snp.right).offset(-Matric.ghostTalkingRightPadding)
+            make.bottom.equalTo(ghostImageView.snp.top).offset(-Metric.ghostTalkingSpacing)
+            make.right.equalTo(ghostImageView.snp.right).offset(-Metric.ghostTalkingRightPadding)
         }
         
         ghostImageView.snp.makeConstraints { make in
-            make.bottom.equalTo(startButton.snp.top).offset(-Matric.ghostButtonPadding)
-            make.right.equalToSuperview().offset(-Matric.ghostImageRightPadding)
+            make.bottom.equalTo(startButton.snp.top).offset(-Metric.ghostButtonPadding)
+            make.right.equalToSuperview().offset(-Metric.ghostImageRightPadding)
         }
         
         startButton.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.bottom.equalToSuperview().offset(-Matric.buttonBottomPadding)
+            make.bottom.equalToSuperview().offset(-Metric.buttonBottomPadding)
         }
     }
 }

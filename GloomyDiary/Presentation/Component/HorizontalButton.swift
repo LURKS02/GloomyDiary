@@ -8,7 +8,7 @@
 import UIKit
 
 final class HorizontalButton: UIButton {
-    private struct Matric {
+    private struct Metric {
         static let buttonWidth: CGFloat = 180
         static let buttonHeight: CGFloat = 56
         static let buttonCornerRadius: CGFloat = 28
@@ -35,14 +35,14 @@ final class HorizontalButton: UIButton {
         self.setTitleColor(.text(.highlight), for: .normal)
         self.setTitleColor(.text(.buttonDisabled), for: .disabled)
         self.backgroundColor = .component(.buttonPurple)
-        self.applyCornerRadius(Matric.buttonCornerRadius)
+        self.applyCornerRadius(Metric.buttonCornerRadius)
         self.titleLabel?.font = .무궁화.title
     }
     
     private func setupConstraints() {
         self.snp.makeConstraints { make in
-            make.height.equalTo(Matric.buttonHeight)
-            make.width.equalTo(Matric.buttonWidth)
+            make.height.equalTo(Metric.buttonHeight)
+            make.width.equalTo(Metric.buttonWidth)
         }
     }
 }

@@ -8,7 +8,7 @@
 import UIKit
 
 final class TalkingView: BaseView {
-    private struct Matric {
+    private struct Metric {
         static let verticalPadding: CGFloat = 18
         static let horizontalPadding: CGFloat = 23
         static let cornerRadius: CGFloat = 20
@@ -23,7 +23,7 @@ final class TalkingView: BaseView {
     
     override func setup() {
         self.backgroundColor = .component(.darkPurple)
-        self.layer.cornerRadius = Matric.cornerRadius
+        self.layer.cornerRadius = Metric.cornerRadius
         self.layer.masksToBounds = true
     }
     
@@ -33,8 +33,8 @@ final class TalkingView: BaseView {
     
     override func setupConstraints() {
         talkingLabel.snp.makeConstraints { make in
-            make.verticalEdges.equalToSuperview().inset(Matric.verticalPadding)
-            make.horizontalEdges.equalToSuperview().inset(Matric.horizontalPadding)
+            make.verticalEdges.equalToSuperview().inset(Metric.verticalPadding)
+            make.horizontalEdges.equalToSuperview().inset(Metric.horizontalPadding)
         }
     }
 }
