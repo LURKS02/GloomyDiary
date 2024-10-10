@@ -108,4 +108,18 @@ enum Character: String, CaseIterable {
             "읽던 책을 정리하는 중 ..."
         }
     }
+    
+    var counselWaitingMessage: String {
+        switch self {
+        case .chan:
+            "찬이가\n" +
+            "열심히 편지를 쓰고 있어요..."
+        case .gomi:
+            "고미가\n" +
+            "골똘히 생각 중이에요..."
+        case .beomji:
+            "범지로부터\n" +
+            "답장을 기다리고 있어요..."
+        }
+    }
 }
