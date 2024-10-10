@@ -84,7 +84,7 @@ private extension CounselingViewController {
             guard let self else { return }
             
             self.contentView.configure(with: store.character)
-            self.contentView.counselLetterView.setState(store.counselState)
+            self.contentView.counselLetterView.state = store.counselState
         }
     }
 }

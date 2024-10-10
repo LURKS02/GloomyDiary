@@ -17,7 +17,7 @@ final class CounselingView: BaseView {
         $0.textAlignment = .left
     }
     
-    let counselLetterView: CounselLetterView = CounselLetterView()
+    let counselLetterView: CounselLetterView = CounselLetterView(state: .notStarted)
     
     let letterSendingButton: HorizontalButton = HorizontalButton().then {
         $0.setTitle("편지 보내기", for: .normal)
@@ -68,11 +68,10 @@ extension CounselingView {
     func configure(with character: Character) {
         characterImageView.setImage(character.imageName)
         characterGreetingLabel.text = character.greetingMessage
-        counselLetterView.setState(.notStarted)
     }
     
     func activateEditing() {
-        counselLetterView.setState(.inProgress)
+        counselLetterView.state = .inProgress
     }
 }
 
@@ -92,7 +91,7 @@ extension CounselingView {
                                         .init(view: letterSendingButton,
                                               animationCase: .fadeIn,
                                               duration: 1.0)],
-                           mode: .serial,
+                           mode: .parallel,
                            loop: .once(completion: { continuation.resume() }))
             .run()
         }
@@ -101,7 +100,10 @@ extension CounselingView {
     @MainActor
     func removeAllComponents() async {
         await withCheckedContinuation { continuation in
-            AnimationGroup(animations: [.init(view: characterGreetingLabel,
+            AnimationGroup(animations: [.init(view: characterImageView,
+                                              animationCase: .fadeOut,
+                                              duration: 1.0),
+                                        .init(view: characterGreetingLabel,
                                               animationCase: .fadeOut,
                                               duration: 1.0),
                                         .init(view: counselLetterView,

@@ -37,13 +37,13 @@ extension ChoosingTransition: UIViewControllerAnimatedTransitioning {
         containerView.addSubview(fromView)
         fromView.addSubview(dummyView)
         
-        Task {
+        Task { @MainActor in
             guard let selectedButton = fromView.allCharacterButtons.first(where: { $0.isSelected }),
                   let selectedButtonImageView = selectedButton.imageView else { return }
             let selectedButtonImageFrame = selectedButtonImageView.convert(selectedButtonImageView.bounds, to: fromView)
             dummyView.image = UIImage(named: chosenCharacter.imageName)
             dummyView.frame = selectedButtonImageFrame
-            readyLabel.text = chosenCharacter.counselWaitingMessage
+            readyLabel.text = chosenCharacter.counselReadyMessage
             readyLabel.sizeToFit()
             
             await fromView.playFadeOutAllComponents()
@@ -56,10 +56,10 @@ extension ChoosingTransition: UIViewControllerAnimatedTransitioning {
             containerView.addSubview(readyLabel)
             
             let containerViewWidth = containerView.bounds.width
-            starLottieView.center = .init(x: containerViewWidth / 2,
-                                          y: 300)
-            readyLabel.center = .init(x: containerViewWidth / 2,
-                                      y: 430)
+            starLottieView.center = CGPoint(x: containerViewWidth / 2,
+                                            y: 300)
+            readyLabel.center = CGPoint(x: containerViewWidth / 2,
+                                        y: 430)
             starLottieView.alpha = 0.0
             readyLabel.alpha = 0.0
             
@@ -68,12 +68,12 @@ extension ChoosingTransition: UIViewControllerAnimatedTransitioning {
             toView.layoutIfNeeded()
             let resultFrame = toView.characterImageView.frame
             
-            let dummyViewDoubleScaleWidth = dummyView.bounds.width * 2
-            let dummyViewDoubleScaleHeight = dummyView.bounds.height * 2
-            let dummyViewMiddleFrame = CGRect(x: (containerViewWidth - dummyViewDoubleScaleWidth) / 2,
+            let dummyViewScaledWidth = 110.0
+            let dummyViewScaledHeight = (dummyView.bounds.height * dummyViewScaledWidth) / dummyView.bounds.width
+            let dummyViewMiddleFrame = CGRect(x: (containerViewWidth - dummyViewScaledWidth) / 2,
                                               y: 250,
-                                              width: dummyViewDoubleScaleWidth,
-                                              height: dummyViewDoubleScaleHeight)
+                                              width: dummyViewScaledWidth,
+                                              height: dummyViewScaledHeight)
             
             await playDummyViewTo(frame: dummyViewMiddleFrame)
             await playWaitingViewsFadeIn()
@@ -81,6 +81,7 @@ extension ChoosingTransition: UIViewControllerAnimatedTransitioning {
             await playWaitingViewsFadeOut()
             await playDummyViewTo(frame: resultFrame)
             
+            dummyView.removeFromSuperview()
             starLottieView.removeFromSuperview()
             readyLabel.removeFromSuperview()
             toView.alpha = 1.0
