@@ -20,11 +20,15 @@ final class RoundedIconButton: UIButton {
         
         setup()
         setupConstraints()
-        applyCircularShape()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        applyCircularShape()
     }
     
     func setup() {
@@ -32,6 +36,7 @@ final class RoundedIconButton: UIButton {
         setImage(iconImage, for: .normal)
         
         backgroundColor = .component(.blackPurple)
+        tintColor = .white
     }
     
     func setupConstraints() {
