@@ -11,15 +11,18 @@ final class RoundedIconButton: UIButton {
     
     private let size: CGFloat
     private let iconName: String
+    private let iconSize: CGFloat
     
-    init(size: CGFloat, iconName: String) {
+    init(size: CGFloat, iconName: String, iconSize: CGFloat = 16) {
         self.size = size
         self.iconName = iconName
+        self.iconSize = iconSize
         
         super.init(frame: .zero)
         
         setup()
         setupConstraints()
+        setupConfiguration()
     }
     
     required init?(coder: NSCoder) {
@@ -32,17 +35,22 @@ final class RoundedIconButton: UIButton {
     }
     
     func setup() {
-        let iconImage = UIImage(systemName: iconName)
-        setImage(iconImage, for: .normal)
         
-        backgroundColor = .component(.blackPurple)
-        tintColor = .white
     }
     
-    func setupConstraints() {
+    private func setupConstraints() {
         self.snp.makeConstraints { make in
             make.width.equalTo(size)
             make.height.equalTo(size)
         }
+    }
+    
+    private func setupConfiguration() {
+        var configuration = UIButton.Configuration.plain()
+        configuration.background.backgroundColor = .component(.blackPurple)
+        configuration.baseForegroundColor = .white
+        configuration.image = UIImage(systemName: iconName)?.resized(width: iconSize, height: iconSize).withRenderingMode(.alwaysTemplate)
+        
+        self.configuration = configuration
     }
 }
