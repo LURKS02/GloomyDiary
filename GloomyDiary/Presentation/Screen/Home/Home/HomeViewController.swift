@@ -103,20 +103,5 @@ extension HomeViewController {
     }
 }
 
-
-// MARK: - Animations
-
-extension HomeViewController {
-    @MainActor
-    func playFadeOutTabBar() async {
-        guard let tabBarController = self.tabBarController else { return }
-        await withCheckedContinuation { continuation in
-            AnimationGroup(animations: [.init(view: tabBarController.tabBar,
-                                              animationCase: .fadeOut,
-                                              duration: 1.0)],
-                           mode: .parallel,
-                           loop: .once(completion: { continuation.resume() }))
-            .run()
-        }
     }
 }
