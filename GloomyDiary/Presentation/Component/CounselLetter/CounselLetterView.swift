@@ -22,7 +22,7 @@ final class CounselLetterView: BaseView {
         static let letterCharacterCountLabelTrailingPadding: CGFloat = 24
         static let letterCharacterCountLabelBottomPadding: CGFloat = 22
         
-        static let uploadButtonTrailingPadding: CGFloat = 23
+        static let uploadButtonTrailingPadding: CGFloat = 20
         static let uploadButtonBottomPadding: CGFloat = 20
     }
     
@@ -49,7 +49,7 @@ final class CounselLetterView: BaseView {
     
     let letterCharacterCountLabel: IntroduceLabel = IntroduceLabel()
     
-    private var uploadButton: RoundedIconButton = RoundedIconButton(size: 51, iconName: "arrow.up.square")
+    let copyButton: RoundedIconButton = RoundedIconButton(size: 35, iconName: "doc.on.doc", iconSize: 15)
     
     
     // MARK: - Properties
@@ -93,7 +93,7 @@ final class CounselLetterView: BaseView {
         addSubview(letterWritingGuideLabel)
         addSubview(letterTextView)
         addSubview(letterCharacterCountLabel)
-        addSubview(uploadButton)
+        addSubview(copyButton)
     }
     
     override func setupConstraints() {
@@ -119,7 +119,7 @@ final class CounselLetterView: BaseView {
             make.bottom.equalToSuperview().offset(-Metric.letterCharacterCountLabelBottomPadding)
         }
         
-        uploadButton.snp.makeConstraints { make in
+        copyButton.snp.makeConstraints { make in
             make.trailing.equalToSuperview().offset(-Metric.uploadButtonTrailingPadding)
             make.bottom.equalToSuperview().offset(-Metric.uploadButtonBottomPadding)
         }
@@ -130,7 +130,7 @@ private extension CounselLetterView {
     func setupWithInitialState() {
         letterTextView.isHidden = true
         letterCharacterCountLabel.isHidden = true
-        uploadButton.isHidden = true
+        copyButton.isHidden = true
         
         letterImageView.isHidden = false
         letterWritingGuideLabel.isHidden = false
@@ -139,7 +139,7 @@ private extension CounselLetterView {
     func setupWithInProgressState() {
         letterImageView.isHidden = true
         letterWritingGuideLabel.isHidden = true
-        uploadButton.isHidden = true
+        copyButton.isHidden = true
         
         letterTextView.isHidden = false
         letterCharacterCountLabel.alpha = 0.3
@@ -151,7 +151,7 @@ private extension CounselLetterView {
         letterWritingGuideLabel.isHidden = true
         letterImageView.isHidden = true
         
-        uploadButton.isHidden = false
+        copyButton.isHidden = false
         letterTextView.text = "상담이 종료되었어요."
         letterTextView.isHidden = false
         letterTextView.isEditable = false
