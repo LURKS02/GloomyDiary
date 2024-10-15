@@ -13,16 +13,11 @@ struct AnimationGroup {
     let loop: Loop
     
     func run() {
-        let animators = animations.map { UIViewPropertyAnimator(duration: $0.duration,
-                                   curve: $0.curve,
-                                   animations: $0.closure)
-        }
-        
         switch mode {
         case .serial:
-            serializeAnimations(loop, animators: animators)
+            serializeAnimations(loop, animations: animations)
         case .parallel:
-            parallelizeAnimations(loop, animators: animators)
+            parallelizeAnimations(loop, animations: animations)
         }
     }
 }
@@ -40,35 +35,43 @@ extension AnimationGroup {
 }
 
 private extension AnimationGroup {
-    func serializeAnimations(_ loop: Loop, animators: [UIViewPropertyAnimator]) {
+    func serializeAnimations(_ loop: Loop, animations: [Animation]) {
+        let animators = animations.map { UIViewPropertyAnimator(duration: $0.duration,
+                                                                curve: $0.curve,
+                                                                animations: $0.closure) }
         switch loop {
         case .once(let completion):
             startSequentialAnimators(with: animators, completion: completion ?? {})
         case .infinite:
-            loopAnimators(with: animators)
+            loopAnimators(with: animations)
         }
     }
     
-    func parallelizeAnimations(_ loop: Loop, animators: [UIViewPropertyAnimator]) {
+    func parallelizeAnimations(_ loop: Loop, animations: [Animation]) {
+        let animators = animations.map { UIViewPropertyAnimator(duration: $0.duration,
+                                                                curve: $0.curve,
+                                                                animations: $0.closure) }
         switch loop {
         case .once(let completion):
             startParallelAnimators(with: animators, completion: completion ?? {})
         case .infinite:
-            animators.forEach { loopAnimators(with: [$0] )}
+            loopAnimators(with: animations)
         }
     }
     
-    func loopAnimators(with animators: [UIViewPropertyAnimator]) {
-        guard !animators.isEmpty else { return }
+    func loopAnimators(with animations: [Animation], at index: Int = 0) {
+        guard !animations.isEmpty else { return }
         
-        for (index, animator) in animators.enumerated() {
-            animator.addCompletion { _ in
-                let nextIndex = (index + 1) % animators.count
-                animators[nextIndex].startAnimation()
-            }
+        let currentAnimation = animations[index]
+        let currentAnimator = UIViewPropertyAnimator(duration: currentAnimation.duration,
+                                                     curve: currentAnimation.curve,
+                                                     animations: currentAnimation.closure)
+        currentAnimator.startAnimation()
+        
+        currentAnimator.addCompletion { _ in
+            let nextIndex = (index + 1) % animations.count
+            self.loopAnimators(with: animations, at: nextIndex)
         }
-        
-        animators.first?.startAnimation()
     }
     
     func startSequentialAnimators(with animators: [UIViewPropertyAnimator], completion: @escaping () -> Void) {
