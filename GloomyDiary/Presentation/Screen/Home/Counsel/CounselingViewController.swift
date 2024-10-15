@@ -11,17 +11,23 @@ import ComposableArchitecture
 final class CounselingViewController: BaseViewController<CounselingView> {
     
     let store: StoreOf<Counseling>
-    
+    private let counselRepository: CounselRepositoryProtocol
     
     // MARK: - Properties
     
     private let maxTextCount = 300
     
+    private lazy var animationClosure: () async throws -> String = { [weak self] in
+        guard let self else { return "" }
+        return try await self.counselRepository.counsel(to: self.store.character, with: self.contentView.counselLetterView.letterTextView.text)
+    }
+    
     
     // MARK: - Initialize
 
-    init(store: StoreOf<Counseling>) {
+    init(store: StoreOf<Counseling>, counselRepository: CounselRepositoryProtocol) {
         self.store = store
+        self.counselRepository = counselRepository
         super.init()
     }
     
@@ -158,6 +164,6 @@ extension CounselingViewController {
 
 extension CounselingViewController: UINavigationControllerDelegate {
     func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationController.Operation, from fromVC: UIViewController, to toVC: UIViewController) -> (any UIViewControllerAnimatedTransitioning)? {
-        CounselTransition()
+        CounselTransition(animationClosure: animationClosure)
     }
 }

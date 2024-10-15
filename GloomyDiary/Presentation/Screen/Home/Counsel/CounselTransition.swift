@@ -9,6 +9,9 @@ import UIKit
 import Lottie
 
 final class CounselTransition: NSObject {
+    
+    private let animationClosure: () async throws -> String
+    
     private let dummyView = UIImageView()
     
     private let starLottieView = LottieAnimationView(name: "stars").then {
@@ -19,6 +22,10 @@ final class CounselTransition: NSObject {
     }
     
     private let readyLabel = IntroduceLabel()
+    
+    init(animationClosure: @escaping () async throws -> String) {
+        self.animationClosure = animationClosure
+    }
 }
 
 extension CounselTransition: UIViewControllerAnimatedTransitioning {
@@ -69,17 +76,18 @@ extension CounselTransition: UIViewControllerAnimatedTransitioning {
                                               width: dummyViewScaledWidth,
                                               height: dummyViewScaledHeight)
             
-            await playDummyViewTo(frame: dummyViewMiddleFrame)
+            await playDummyViewResize(frame: dummyViewMiddleFrame)
             await playWaitingViewsFadeIn()
-            sleep(1)
+            let response = try await animationClosure()
             await playWaitingViewsFadeOut()
-            await playDummyViewTo(frame: resultFrame)
+            await playDummyViewResize(frame: resultFrame)
             
             dummyView.removeFromSuperview()
             starLottieView.removeFromSuperview()
             readyLabel.removeFromSuperview()
+            toView.counselLetterView.letterTextView.text = response
             toView.alpha = 1.0
-            await toView.showAllComponents()
+            await toView.playAllComponentsFadeIn()
             transitionContext.completeTransition(true)
         }
     }
@@ -87,7 +95,7 @@ extension CounselTransition: UIViewControllerAnimatedTransitioning {
 
 private extension CounselTransition {
     @MainActor
-    func playDummyViewTo(frame: CGRect) async {
+    func playDummyViewResize(frame: CGRect) async {
         await withCheckedContinuation { continuation in
             AnimationGroup(animations: [.init(view: dummyView,
                                               animationCase: .redraw(frame: frame),
