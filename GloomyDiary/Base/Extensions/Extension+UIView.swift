@@ -13,11 +13,10 @@ extension UIView {
     }
     
     func applyCircularShape() {
-        self.layoutIfNeeded()
-        
         let halfWidth = self.bounds.width / 2
         let halfHeight = self.bounds.height / 2
         
         self.layer.cornerRadius = min(halfWidth, halfHeight)
+        self.layer.masksToBounds = true
     }
 }

@@ -9,9 +9,9 @@ import UIKit
 
 final class CharacterButton: UIButton {
     
-    // MARK: - Matric
+    // MARK: - Metric
     
-    private struct Matric {
+    private struct Metric {
         static let imageSize: CGFloat = 58
         static let imageTopPadding: CGFloat = 18
         static let imageHorizontalPadding: CGFloat = 25
@@ -54,15 +54,15 @@ final class CharacterButton: UIButton {
     // MARK: - View Life Cycle
     
     private func setup() {
-        self.layer.borderWidth = Matric.buttonBorderWidth
-        self.layer.cornerRadius = Matric.cornerRadius
+        self.layer.borderWidth = Metric.buttonBorderWidth
+        self.layer.cornerRadius = Metric.cornerRadius
         self.layer.masksToBounds = true
     }
     
     private func setupConstraints() {
         self.snp.makeConstraints { make in
-            make.width.equalTo(Matric.buttonWidth)
-            make.height.equalTo(Matric.buttonHeight)
+            make.width.equalTo(Metric.buttonWidth)
+            make.height.equalTo(Metric.buttonHeight)
         }
     }
     
@@ -70,7 +70,7 @@ final class CharacterButton: UIButton {
         var configuration = UIButton.Configuration.plain()
         
         configuration.imagePlacement = .top
-        configuration.imagePadding = Matric.imageNamePadding
+        configuration.imagePadding = Metric.imageNamePadding
         configuration.background.backgroundColor = .component(.buttonPurple)
         
         self.configurationUpdateHandler = { button in
@@ -95,7 +95,7 @@ final class CharacterButton: UIButton {
     
     private func updateConfiguration(imageName: String) {
         guard let image = UIImage(named: imageName) else { return }
-        let resizedImage = image.resized(width: Matric.imageSize, height: Matric.imageSize)
+        let resizedImage = image.resized(width: Metric.imageSize, height: Metric.imageSize)
         self.configuration?.image = resizedImage
     }
 }

@@ -80,7 +80,9 @@ private extension ChoosingViewController {
 extension ChoosingViewController {
     func navigateToCounseling(with character: Character) {
         let store: StoreOf<Counseling> = Store(initialState: .init(character: character), reducer: { Counseling() })
-        let counselingViewController = CounselingViewController(store: store)
+        let aiService: AIServicable = ChatGPTService.shared
+        let counselRepository: CounselRepositoryProtocol = CounselRepository(aiService: aiService)
+        let counselingViewController = CounselingViewController(store: store, counselRepository: counselRepository)
         navigationController?.delegate = self
         navigationController?.pushViewController(counselingViewController,
                                                  animated: true)

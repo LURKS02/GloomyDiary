@@ -9,9 +9,9 @@ import UIKit
 
 final class ChoosingView: BaseView {
     
-    // MARK: - Matric
+    // MARK: - Metric
     
-    struct Matric {
+    private struct Metric {
         static let secondIntroduceLabelSuperViewPadding: CGFloat = 240
         static let firstSecondIntroduceLabelPadding: CGFloat = 31
         static let characterStackViewTopPadding: CGFloat = 30
@@ -50,7 +50,7 @@ final class ChoosingView: BaseView {
     
     let characterButtonStackView: UIStackView = UIStackView().then {
         $0.axis = .horizontal
-        $0.spacing = Matric.stackViewSpacing
+        $0.spacing = Metric.stackViewSpacing
         $0.alignment = .fill
         $0.distribution = .fill
     }
@@ -116,32 +116,32 @@ final class ChoosingView: BaseView {
         
         moonImageView.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.top.equalToSuperview().offset(Matric.moonTopPadding)
+            make.top.equalToSuperview().offset(Metric.moonTopPadding)
         }
         
         firstIntroduceLabel.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.bottom.equalTo(secondIntroduceLabel.snp.top).offset(-Matric.firstSecondIntroduceLabelPadding)
+            make.bottom.equalTo(secondIntroduceLabel.snp.top).offset(-Metric.firstSecondIntroduceLabelPadding)
         }
         
         secondIntroduceLabel.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.top.equalToSuperview().offset(Matric.secondIntroduceLabelSuperViewPadding)
+            make.top.equalToSuperview().offset(Metric.secondIntroduceLabelSuperViewPadding)
         }
         
         characterButtonStackView.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.top.equalTo(secondIntroduceLabel.snp.bottom).offset(Matric.characterStackViewTopPadding)
+            make.top.equalTo(secondIntroduceLabel.snp.bottom).offset(Metric.characterStackViewTopPadding)
         }
         
         characterIntroduceLabel.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.top.equalTo(characterButtonStackView.snp.bottom).offset(Matric.characterStackViewBottomPadding)
+            make.top.equalTo(characterButtonStackView.snp.bottom).offset(Metric.characterStackViewBottomPadding)
         }
         
         counselButton.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.bottom.equalToSuperview().offset(-Matric.counselButtonBottomPadding)
+            make.bottom.equalToSuperview().offset(-Metric.counselButtonBottomPadding)
         }
     }
 }

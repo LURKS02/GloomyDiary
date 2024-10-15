@@ -106,3 +106,5 @@ iOSInjectionProject/
 **/._.DS_Store
 
 xcschememanagement.plist
+
+Keys.plist

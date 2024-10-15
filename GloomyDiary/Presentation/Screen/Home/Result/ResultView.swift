@@ -1,94 +1,88 @@
 //
-//  CounselingView.swift
+//  ResultView.swift
 //  GloomyDiary
 //
-//  Created by 디해 on 8/28/24.
+//  Created by 디해 on 9/19/24.
 //
 
 import UIKit
 
-final class CounselingView: BaseView {
+final class ResultView: BaseView {
     
     let characterImageView: ImageView = ImageView().then {
-        $0.setSize(61)
+        $0.setSize(87)
     }
     
-    let characterGreetingLabel: IntroduceLabel = IntroduceLabel().then {
-        $0.textAlignment = .left
+    let counselLetterView: CounselLetterView = CounselLetterView(state: .completed)
+    
+    let writingDiaryButton: HorizontalButton = HorizontalButton().then {
+        $0.setTitle("다이어리 작성하기", for: .normal)
     }
     
-    let counselLetterView: CounselLetterView = CounselLetterView(state: .notStarted)
-    
-    let letterSendingButton: HorizontalButton = HorizontalButton().then {
-        $0.setTitle("편지 보내기", for: .normal)
-        $0.isEnabled = false
+    let homeButton: HorizontalButton = HorizontalButton().then {
+        $0.setTitle("홈으로", for: .normal)
     }
     
     override func setup() {
         backgroundColor = .background(.mainPurple)
-        characterGreetingLabel.alpha = 0
         counselLetterView.alpha = 0
-        letterSendingButton.alpha = 0
+        writingDiaryButton.alpha = 0
+        homeButton.alpha = 0
     }
     
     override func addSubviews() {
         addSubview(characterImageView)
-        addSubview(characterGreetingLabel)
         addSubview(counselLetterView)
-        addSubview(letterSendingButton)
+        addSubview(writingDiaryButton)
+        addSubview(homeButton)
     }
     
     override func setupConstraints() {
         characterImageView.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(90)
-            make.leading.equalToSuperview().offset(25)
-        }
-        
-        characterGreetingLabel.snp.makeConstraints { make in
-            make.top.equalTo(characterImageView.snp.top)
-            make.leading.equalTo(characterImageView.snp.trailing).offset(20)
-            make.trailing.equalToSuperview().offset(-25)
+            make.top.equalToSuperview().offset(71)
+            make.centerX.equalToSuperview()
         }
         
         counselLetterView.snp.makeConstraints { make in
-            make.top.equalTo(characterGreetingLabel.snp.bottom).offset(70)
+            make.top.equalTo(characterImageView.snp.bottom).offset(14)
             make.leading.equalToSuperview().offset(17)
             make.trailing.equalToSuperview().offset(-17)
-            make.bottom.equalToSuperview().offset(-250)
+            make.bottom.equalToSuperview().offset(-218)
         }
         
-        letterSendingButton.snp.makeConstraints { make in
-            make.top.equalTo(counselLetterView.snp.bottom).offset(50)
+        writingDiaryButton.snp.makeConstraints { make in
+            make.top.equalTo(counselLetterView.snp.bottom).offset(25)
+            make.centerX.equalToSuperview()
+        }
+        
+        homeButton.snp.makeConstraints { make in
+            make.top.equalTo(writingDiaryButton.snp.bottom).offset(10)
             make.centerX.equalToSuperview()
         }
     }
 }
 
-extension CounselingView {
+extension ResultView {
     func configure(with character: Character) {
         characterImageView.setImage(character.imageName)
-        characterGreetingLabel.text = character.greetingMessage
-    }
-    
-    func activateEditing() {
-        counselLetterView.state = .inProgress
+        counselLetterView.state = .completed
     }
 }
 
 
 // MARK: - Animations
 
-extension CounselingView {
+extension ResultView {
     @MainActor
-    func showAllComponents() async {
+    func playAllComponentsFadeIn() async {
         await withCheckedContinuation { continuation in
-            AnimationGroup(animations: [.init(view: characterGreetingLabel,
-                                              animationCase: .fadeIn,
-                                              duration: 1.5),
-                                        .init(view: counselLetterView,
+            AnimationGroup(animations: [.init(view: counselLetterView,
                                               animationCase: .fadeIn,
                                               duration: 1.0),
-                                        .init(view: letterSendingButton,
+                                        .init(view: writingDiaryButton,
+                                              animationCase: .fadeIn,
+                                              duration: 1.0),
+                                        .init(view: homeButton,
                                               animationCase: .fadeIn,
                                               duration: 1.0)],
                            mode: .parallel,
@@ -98,18 +92,18 @@ extension CounselingView {
     }
     
     @MainActor
-    func removeAllComponents() async {
+    func playAllComponentsFadeOut() async {
         await withCheckedContinuation { continuation in
-            AnimationGroup(animations: [.init(view: characterImageView,
+            AnimationGroup(animations: [.init(view: counselLetterView,
                                               animationCase: .fadeOut,
                                               duration: 1.0),
-                                        .init(view: characterGreetingLabel,
+                                        .init(view: writingDiaryButton,
                                               animationCase: .fadeOut,
                                               duration: 1.0),
-                                        .init(view: counselLetterView,
+                                        .init(view: homeButton,
                                               animationCase: .fadeOut,
                                               duration: 1.0),
-                                        .init(view: letterSendingButton,
+                                        .init(view: characterImageView,
                                               animationCase: .fadeOut,
                                               duration: 1.0)],
                            mode: .parallel,
