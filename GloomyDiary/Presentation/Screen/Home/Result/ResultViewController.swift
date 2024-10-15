@@ -65,6 +65,12 @@ private extension ResultViewController {
     }
 }
 
+private extension ResultViewController {
+    func copyToClipboard() {
+        let textToCopy = contentView.counselLetterView.letterTextView.text
+        UIPasteboard.general.string = textToCopy
+        Toast.show(text: "클립보드에 복사되었습니다.")
+    }
     
     func didTapWritingDiaryButton() {
         // TODO: - 다이어리 작성 기능
