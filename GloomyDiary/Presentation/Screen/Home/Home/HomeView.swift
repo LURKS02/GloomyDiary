@@ -129,6 +129,16 @@ final class HomeView: BaseView {
 // MARK: - Animations
 
 extension HomeView {
+    func hideAllComponents() {
+        ghostTalkingView.alpha = 0.0
+        sparklingLottieView.alpha = 0.0
+        startButton.alpha = 0.0
+        ghostImageView.alpha = 0.0
+        pulsingCircleLottieView.alpha = 0.0
+        moonImageView.alpha = 0.0
+        gradientView.alpha = 0.0
+    }
+    
     @MainActor
     func playFadeOutAllComponents() async {
         await withCheckedContinuation { continuation in
@@ -146,6 +156,36 @@ extension HomeView {
                                               duration: 1.0),
                                         .init(view: self.pulsingCircleLottieView,
                                               animationCase: .fadeOut,
+                                              duration: 1.0)],
+                           mode: .parallel,
+                           loop: .once(completion: { continuation.resume() }))
+            .run()
+        }
+    }
+    
+    @MainActor
+    func playAllComponentsFadeIn() async {
+        await withCheckedContinuation { continuation in
+            AnimationGroup(animations: [.init(view: self.ghostTalkingView,
+                                              animationCase: .fadeIn,
+                                              duration: 1.0),
+                                        .init(view: self.sparklingLottieView,
+                                              animationCase: .fade(value: Metric.sparklingAlpha),
+                                              duration: 1.0),
+                                        .init(view: self.startButton,
+                                              animationCase: .fadeIn,
+                                              duration: 1.0),
+                                        .init(view: self.ghostImageView,
+                                              animationCase: .fadeIn,
+                                              duration: 1.0),
+                                        .init(view: self.pulsingCircleLottieView,
+                                              animationCase: .fade(value: Metric.pulsingCircleAlpha),
+                                              duration: 1.0),
+                                        .init(view: self.moonImageView,
+                                              animationCase: .fadeIn,
+                                              duration: 1.0),
+                                        .init(view: gradientView,
+                                              animationCase: .fadeIn,
                                               duration: 1.0)],
                            mode: .parallel,
                            loop: .once(completion: { continuation.resume() }))

@@ -76,3 +76,8 @@ private extension ResultViewController {
         // TODO: - 다이어리 작성 기능
         Toast.show(text: "곧 추가될 기능이에요.")
     }
+    
+    func didTapHomeButton() {
+        self.dismiss(animated: true)
+    }
+}

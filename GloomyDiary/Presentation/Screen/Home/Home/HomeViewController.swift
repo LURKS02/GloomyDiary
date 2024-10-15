@@ -45,10 +45,6 @@ final class HomeViewController: BaseViewController<HomeView> {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        Task {
-            await contentView.ghostImageView.playFadeIn()
-        }
-        
         if !loopAnimated {
             defer { loopAnimated = true }
             contentView.ghostImageView.playBounce()
@@ -70,12 +66,12 @@ extension HomeViewController {
         
         contentView.startButton.rx.tap
             .subscribe(onNext: { [weak self] _ in
-                guard let self else { return }
+                guard let self,
+                      let tabBarController = self.tabBarController as? TabBarController else { return }
                 
                 Task {
                     async let contentViewAnimation: Void = self.contentView.playFadeOutAllComponents()
-                    async let tabBarAnimation: Void = self.playFadeOutTabBar()
-                    
+                    async let tabBarAnimation: Void = tabBarController.playFadeOutTabBar()
                     _ = await (contentViewAnimation, tabBarAnimation)
                     
                     self.navigateToCharacterSelection()
@@ -98,10 +94,17 @@ extension HomeViewController {
         let store: StoreOf<Choosing> = Store(initialState: .init(), reducer: { Choosing() })
         let choosingViewController = ChoosingViewController(store: store)
         let navigationViewController = UINavigationController(rootViewController: choosingViewController)
-        navigationViewController.modalPresentationStyle = .fullScreen
+        
+        self.definesPresentationContext = true
+        navigationViewController.modalPresentationStyle = .overCurrentContext
+        navigationViewController.transitioningDelegate = self
+        
         self.present(navigationViewController, animated: false)
     }
 }
 
+extension HomeViewController: UIViewControllerTransitioningDelegate {
+    func animationController(forDismissed dismissed: UIViewController) -> (any UIViewControllerAnimatedTransitioning)? {
+        ResultDismissTransition()
     }
 }
