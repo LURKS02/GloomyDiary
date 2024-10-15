@@ -32,11 +32,41 @@ extension ResultViewController {
     }
 }
 
+
+// MARK: - bind
+
 private extension ResultViewController {
     func bind() {
+        contentView.counselLetterView.copyButton.rx.tap
+            .subscribe(onNext: { [weak self] _ in
+                guard let self else { return }
+                copyToClipboard()
+            })
+            .disposed(by: disposeBag)
+        
+        contentView.writingDiaryButton.rx.tap
+            .subscribe(onNext: { [weak self] _ in
+                guard let self else { return }
+                didTapWritingDiaryButton()
+            })
+            .disposed(by: disposeBag)
+        
+        contentView.homeButton.rx.tap
+            .subscribe(onNext: { [weak self] _ in
+                guard let self else { return }
+                didTapHomeButton()
+            })
+            .disposed(by: disposeBag)
+        
         observe { [weak self] in
             guard let self else { return }
             self.contentView.configure(with: store.character)
         }
     }
 }
+
+    
+    func didTapWritingDiaryButton() {
+        // TODO: - 다이어리 작성 기능
+        Toast.show(text: "곧 추가될 기능이에요.")
+    }

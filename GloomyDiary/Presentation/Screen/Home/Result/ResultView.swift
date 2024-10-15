@@ -15,27 +15,25 @@ final class ResultView: BaseView {
     
     let counselLetterView: CounselLetterView = CounselLetterView(state: .completed)
     
-    let diaryWritingButton: HorizontalButton = HorizontalButton().then {
+    let writingDiaryButton: HorizontalButton = HorizontalButton().then {
         $0.setTitle("다이어리 작성하기", for: .normal)
-        $0.isEnabled = false
     }
     
     let homeButton: HorizontalButton = HorizontalButton().then {
         $0.setTitle("홈으로", for: .normal)
-        $0.isEnabled = false
     }
     
     override func setup() {
         backgroundColor = .background(.mainPurple)
         counselLetterView.alpha = 0
-        diaryWritingButton.alpha = 0
+        writingDiaryButton.alpha = 0
         homeButton.alpha = 0
     }
     
     override func addSubviews() {
         addSubview(characterImageView)
         addSubview(counselLetterView)
-        addSubview(diaryWritingButton)
+        addSubview(writingDiaryButton)
         addSubview(homeButton)
     }
     
@@ -52,13 +50,13 @@ final class ResultView: BaseView {
             make.bottom.equalToSuperview().offset(-218)
         }
         
-        diaryWritingButton.snp.makeConstraints { make in
+        writingDiaryButton.snp.makeConstraints { make in
             make.top.equalTo(counselLetterView.snp.bottom).offset(25)
             make.centerX.equalToSuperview()
         }
         
         homeButton.snp.makeConstraints { make in
-            make.top.equalTo(diaryWritingButton.snp.bottom).offset(10)
+            make.top.equalTo(writingDiaryButton.snp.bottom).offset(10)
             make.centerX.equalToSuperview()
         }
     }
@@ -76,16 +74,37 @@ extension ResultView {
 
 extension ResultView {
     @MainActor
-    func showAllComponents() async {
+    func playAllComponentsFadeIn() async {
         await withCheckedContinuation { continuation in
             AnimationGroup(animations: [.init(view: counselLetterView,
                                               animationCase: .fadeIn,
                                               duration: 1.0),
-                                        .init(view: diaryWritingButton,
+                                        .init(view: writingDiaryButton,
                                               animationCase: .fadeIn,
                                               duration: 1.0),
                                         .init(view: homeButton,
                                               animationCase: .fadeIn,
+                                              duration: 1.0)],
+                           mode: .parallel,
+                           loop: .once(completion: { continuation.resume() }))
+            .run()
+        }
+    }
+    
+    @MainActor
+    func playAllComponentsFadeOut() async {
+        await withCheckedContinuation { continuation in
+            AnimationGroup(animations: [.init(view: counselLetterView,
+                                              animationCase: .fadeOut,
+                                              duration: 1.0),
+                                        .init(view: writingDiaryButton,
+                                              animationCase: .fadeOut,
+                                              duration: 1.0),
+                                        .init(view: homeButton,
+                                              animationCase: .fadeOut,
+                                              duration: 1.0),
+                                        .init(view: characterImageView,
+                                              animationCase: .fadeOut,
                                               duration: 1.0)],
                            mode: .parallel,
                            loop: .once(completion: { continuation.resume() }))
