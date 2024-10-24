@@ -12,11 +12,11 @@ import ComposableArchitecture
 struct Counseling {
     @ObservableState
     struct State: Equatable {
-        var character: Character
+        var character: CharacterDTO
     }
     
     enum Action {
-        case initialize(Character)
+        case initialize(CharacterDTO)
     }
     
     var body: some Reducer<State, Action> {

@@ -13,7 +13,7 @@ struct Choosing {
     @ObservableState
     struct State: Equatable {
         let isFirstProcess: Bool = false
-        var chosenCharacter: Character? = nil
+        var chosenCharacter: CharacterDTO? = nil
     }
     
     enum Action {
@@ -24,7 +24,7 @@ struct Choosing {
         Reduce { state, action in
             switch action {
             case .characterTapped(let identifier):
-                guard let character = Character(identifier: identifier) else { return .none }
+                guard let character = CharacterDTO(identifier: identifier) else { return .none }
                 state.chosenCharacter = character
                 return .none
             }

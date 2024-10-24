@@ -37,7 +37,7 @@ extension ResultViewController {
 
 private extension ResultViewController {
     func bind() {
-        contentView.counselLetterView.copyButton.rx.tap
+        contentView.resultLetterView.copyButton.rx.tap
             .subscribe(onNext: { [weak self] _ in
                 guard let self else { return }
                 copyToClipboard()
@@ -67,7 +67,7 @@ private extension ResultViewController {
 
 private extension ResultViewController {
     func copyToClipboard() {
-        let textToCopy = contentView.counselLetterView.letterTextView.text
+        let textToCopy = contentView.resultLetterView.letterTextView.text
         UIPasteboard.general.string = textToCopy
         Toast.show(text: "클립보드에 복사되었습니다.")
     }

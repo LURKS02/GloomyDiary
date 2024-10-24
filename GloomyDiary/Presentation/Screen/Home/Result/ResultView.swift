@@ -13,7 +13,7 @@ final class ResultView: BaseView {
         $0.setSize(87)
     }
     
-    let counselLetterView: CounselLetterView = CounselLetterView(state: .completed)
+    let resultLetterView = ResultLetterView()
     
     let writingDiaryButton: HorizontalButton = HorizontalButton().then {
         $0.setTitle("다이어리 작성하기", for: .normal)
@@ -25,14 +25,14 @@ final class ResultView: BaseView {
     
     override func setup() {
         backgroundColor = .background(.mainPurple)
-        counselLetterView.alpha = 0
+        resultLetterView.alpha = 0
         writingDiaryButton.alpha = 0
         homeButton.alpha = 0
     }
     
     override func addSubviews() {
         addSubview(characterImageView)
-        addSubview(counselLetterView)
+        addSubview(resultLetterView)
         addSubview(writingDiaryButton)
         addSubview(homeButton)
     }
@@ -43,7 +43,7 @@ final class ResultView: BaseView {
             make.centerX.equalToSuperview()
         }
         
-        counselLetterView.snp.makeConstraints { make in
+        resultLetterView.snp.makeConstraints { make in
             make.top.equalTo(characterImageView.snp.bottom).offset(14)
             make.leading.equalToSuperview().offset(17)
             make.trailing.equalToSuperview().offset(-17)
@@ -51,7 +51,7 @@ final class ResultView: BaseView {
         }
         
         writingDiaryButton.snp.makeConstraints { make in
-            make.top.equalTo(counselLetterView.snp.bottom).offset(25)
+            make.top.equalTo(resultLetterView.snp.bottom).offset(25)
             make.centerX.equalToSuperview()
         }
         
@@ -63,9 +63,8 @@ final class ResultView: BaseView {
 }
 
 extension ResultView {
-    func configure(with character: Character) {
+    func configure(with character: CharacterDTO) {
         characterImageView.setImage(character.imageName)
-        counselLetterView.state = .completed
     }
 }
 
@@ -76,7 +75,7 @@ extension ResultView {
     @MainActor
     func playAllComponentsFadeIn() async {
         await withCheckedContinuation { continuation in
-            AnimationGroup(animations: [.init(view: counselLetterView,
+            AnimationGroup(animations: [.init(view: resultLetterView,
                                               animationCase: .fadeIn,
                                               duration: 1.0),
                                         .init(view: writingDiaryButton,
@@ -94,7 +93,7 @@ extension ResultView {
     @MainActor
     func playAllComponentsFadeOut() async {
         await withCheckedContinuation { continuation in
-            AnimationGroup(animations: [.init(view: counselLetterView,
+            AnimationGroup(animations: [.init(view: resultLetterView,
                                               animationCase: .fadeOut,
                                               duration: 1.0),
                                         .init(view: writingDiaryButton,

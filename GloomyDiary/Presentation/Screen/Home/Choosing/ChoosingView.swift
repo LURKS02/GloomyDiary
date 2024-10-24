@@ -82,7 +82,7 @@ final class ChoosingView: BaseView {
         
         super.init(frame: .zero)
         
-        Character.allCases.forEach { character in
+        CharacterDTO.allCases.forEach { character in
             let button = CharacterButton(character: character)
             characterButtonStackView.addArrangedSubview(button)
         }
@@ -216,7 +216,7 @@ extension ChoosingView {
 }
 
 extension ChoosingView {
-    func spotlight(to character: Character?) {
+    func spotlight(to character: CharacterDTO?) {
         guard let character else { return }
         
         deselectAllCharacterButtons()

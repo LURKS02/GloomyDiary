@@ -56,7 +56,7 @@ final class CounselingViewController: BaseViewController<CounselingView> {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesBegan(touches, with: event)
         
-        self.contentView.counselLetterView.endEditing(true)
+        self.contentView.sendingLetterView.endEditing(true)
     }
 }
 
@@ -122,7 +122,7 @@ private extension CounselingViewController {
 // MARK: - Naivation
 
 extension CounselingViewController {
-    func navigateToResult(with character: Character) {
+    func navigateToResult(with character: CharacterDTO) {
         let store: StoreOf<CounselResult> = Store(initialState: .init(character: character), reducer: { CounselResult() })
         let resultViewController = ResultViewController(store: store)
         navigationController?.delegate = self
