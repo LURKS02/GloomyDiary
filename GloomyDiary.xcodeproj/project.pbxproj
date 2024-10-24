@@ -64,6 +64,9 @@
 		D9BF60862CC932CE001C9D2B /* Extension+Reactive.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9BF60852CC932CE001C9D2B /* Extension+Reactive.swift */; };
 		D9BF60882CC99669001C9D2B /* BaseNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9BF60872CC99669001C9D2B /* BaseNavigationController.swift */; };
 		D9BF608A2CC997DC001C9D2B /* NavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9BF60892CC997DC001C9D2B /* NavigationController.swift */; };
+		D9BF60932CCA79EF001C9D2B /* CircularTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9BF60922CCA79EF001C9D2B /* CircularTabBarController.swift */; };
+		D9BF60972CCAA217001C9D2B /* CircularTabBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9BF60962CCAA217001C9D2B /* CircularTabBarItem.swift */; };
+		D9BF60992CCAB436001C9D2B /* CircularTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9BF60982CCAB436001C9D2B /* CircularTabBar.swift */; };
 		D9D9E00E2C5C1C2E0095792A /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D9E00B2C5C1C2E0095792A /* Color.swift */; };
 		D9D9E00F2C5C1C2E0095792A /* Font.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D9E00C2C5C1C2E0095792A /* Font.swift */; };
 		D9D9E0122C5C1C340095792A /* Extension+UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D9E0102C5C1C340095792A /* Extension+UIColor.swift */; };
@@ -176,6 +179,9 @@
 		D9BF60852CC932CE001C9D2B /* Extension+Reactive.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+Reactive.swift"; sourceTree = "<group>"; };
 		D9BF60872CC99669001C9D2B /* BaseNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseNavigationController.swift; sourceTree = "<group>"; };
 		D9BF60892CC997DC001C9D2B /* NavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationController.swift; sourceTree = "<group>"; };
+		D9BF60922CCA79EF001C9D2B /* CircularTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularTabBarController.swift; sourceTree = "<group>"; };
+		D9BF60962CCAA217001C9D2B /* CircularTabBarItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularTabBarItem.swift; sourceTree = "<group>"; };
+		D9BF60982CCAB436001C9D2B /* CircularTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularTabBar.swift; sourceTree = "<group>"; };
 		D9D9E00B2C5C1C2E0095792A /* Color.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		D9D9E00C2C5C1C2E0095792A /* Font.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Font.swift; sourceTree = "<group>"; };
 		D9D9E0102C5C1C340095792A /* Extension+UIColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Extension+UIColor.swift"; sourceTree = "<group>"; };
@@ -433,6 +439,16 @@
 			path = DTO;
 			sourceTree = "<group>";
 		};
+		D9BF60942CCAA201001C9D2B /* CircularTabBar */ = {
+			isa = PBXGroup;
+			children = (
+				D9BF60922CCA79EF001C9D2B /* CircularTabBarController.swift */,
+				D9BF60962CCAA217001C9D2B /* CircularTabBarItem.swift */,
+				D9BF60982CCAB436001C9D2B /* CircularTabBar.swift */,
+			);
+			path = CircularTabBar;
+			sourceTree = "<group>";
+		};
 		D9D9E00D2C5C1C2E0095792A /* Color+Font */ = {
 			isa = PBXGroup;
 			children = (
@@ -542,6 +558,7 @@
 		D9D9E02E2C5FF5290095792A /* Base */ = {
 			isa = PBXGroup;
 			children = (
+				D9BF60942CCAA201001C9D2B /* CircularTabBar */,
 				D9BF605F2CC6C574001C9D2B /* Environment */,
 				D9DAD8BF2CC0DCE0006E3DD8 /* Cell */,
 				D9FCFFC42CBC243400A53A14 /* Toast */,
@@ -777,6 +794,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D9BF60992CCAB436001C9D2B /* CircularTabBar.swift in Sources */,
 				D9D9E0302C5FF53E0095792A /* BaseViewController.swift in Sources */,
 				D966D2792C9C0DF90024CA7F /* ResultViewController.swift in Sources */,
 				D9BF607F2CC8E4EC001C9D2B /* QueryHistoryLetterView.swift in Sources */,
@@ -789,6 +807,7 @@
 				D966D27D2C9C10E50024CA7F /* CounselResult.swift in Sources */,
 				D9609F512CC0426B005E8F0C /* Extension+Date.swift in Sources */,
 				D9D9E0C12C6B9E400095792A /* GradientView.swift in Sources */,
+				D9BF60932CCA79EF001C9D2B /* CircularTabBarController.swift in Sources */,
 				D9D9E0942C651FF00095792A /* BaseTabBarController.swift in Sources */,
 				D99BF17C2CBEC14E00465718 /* CounselSession.swift in Sources */,
 				D9BF60692CC73B4C001C9D2B /* CounselSessionDTO.swift in Sources */,
@@ -800,6 +819,7 @@
 				D9609F442CC02D18005E8F0C /* SpacerTableViewCell.swift in Sources */,
 				D9BF60862CC932CE001C9D2B /* Extension+Reactive.swift in Sources */,
 				D9D9E03A2C5FFFE80095792A /* BaseView.swift in Sources */,
+				D9BF60972CCAA217001C9D2B /* CircularTabBarItem.swift in Sources */,
 				D9609F4B2CC036E6005E8F0C /* CounselingSessionTableViewCellConfiguration.swift in Sources */,
 				D99BF1802CBED3CE00465718 /* History.swift in Sources */,
 				D9BF604C2CC1815F001C9D2B /* CounselingSessionRepository.swift in Sources */,
