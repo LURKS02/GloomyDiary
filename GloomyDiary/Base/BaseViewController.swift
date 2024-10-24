@@ -11,8 +11,6 @@ import RxSwift
 class BaseViewController<T: UIView>: UIViewController {
     var contentView: T
     
-    let disposeBag = DisposeBag()
-    
     init(_ contentView: T = T()) {
         self.contentView = contentView
         super.init(nibName: nil, bundle: nil)

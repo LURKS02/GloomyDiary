@@ -13,13 +13,14 @@ final class CounselingViewController: BaseViewController<CounselingView> {
     let store: StoreOf<Counseling>
     private let counselRepository: CounselRepositoryProtocol
     
-    // MARK: - Properties
+    @Dependency(\.counselRepository) var repo
     
-    private let maxTextCount = 300
+    
+    // MARK: - Properties
     
     private lazy var animationClosure: () async throws -> String = { [weak self] in
         guard let self else { return "" }
-        return try await self.counselRepository.counsel(to: self.store.character, with: self.contentView.counselLetterView.letterTextView.text)
+        return try await self.repo.counsel(to: self.store.character, with: self.contentView.sendingLetterView.letterTextView.text)
     }
     
     
