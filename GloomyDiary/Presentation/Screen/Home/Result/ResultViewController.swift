@@ -42,21 +42,21 @@ private extension ResultViewController {
                 guard let self else { return }
                 copyToClipboard()
             })
-            .disposed(by: disposeBag)
+            .disposed(by: rx.disposeBag)
         
         contentView.writingDiaryButton.rx.tap
             .subscribe(onNext: { [weak self] _ in
                 guard let self else { return }
                 didTapWritingDiaryButton()
             })
-            .disposed(by: disposeBag)
+            .disposed(by: rx.disposeBag)
         
         contentView.homeButton.rx.tap
             .subscribe(onNext: { [weak self] _ in
                 guard let self else { return }
                 didTapHomeButton()
             })
-            .disposed(by: disposeBag)
+            .disposed(by: rx.disposeBag)
         
         observe { [weak self] in
             guard let self else { return }

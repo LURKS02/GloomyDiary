@@ -74,14 +74,14 @@ private extension CounselingViewController {
             .subscribe(onNext: { [weak self] validation in
                 self?.contentView.letterSendingButton.isEnabled = validation
             })
-            .disposed(by: disposeBag)
+            .disposed(by: rx.disposeBag)
         
         contentView.letterSendingButton.rx.tap
             .subscribe(onNext: { [weak self] _ in
                 guard let self else { return }
                 navigateToResult(with: store.character)
             })
-            .disposed(by: disposeBag)
+            .disposed(by: rx.disposeBag)
         
         observe { [weak self] in
             guard let self else { return }
