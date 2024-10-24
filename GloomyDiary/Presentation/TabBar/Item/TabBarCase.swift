@@ -24,7 +24,8 @@ extension TabBarCase {
             return HomeViewController(store: store)
             
         case .history:
-            return HistoryViewController()
+            let store = Store(initialState: History.State()) { History() }
+            return NavigationController(rootViewController: HistoryViewController(store: store))
             
         case .diary:
             return DiaryViewController()
