@@ -17,7 +17,7 @@ final class CounselingView: BaseView {
         $0.textAlignment = .left
     }
     
-    let counselLetterView: CounselLetterView = CounselLetterView(state: .notStarted)
+    let sendingLetterView: SendingLetterView = SendingLetterView()
     
     let letterSendingButton: HorizontalButton = HorizontalButton().then {
         $0.setTitle("편지 보내기", for: .normal)
@@ -27,14 +27,14 @@ final class CounselingView: BaseView {
     override func setup() {
         backgroundColor = .background(.mainPurple)
         characterGreetingLabel.alpha = 0
-        counselLetterView.alpha = 0
+        sendingLetterView.alpha = 0
         letterSendingButton.alpha = 0
     }
     
     override func addSubviews() {
         addSubview(characterImageView)
         addSubview(characterGreetingLabel)
-        addSubview(counselLetterView)
+        addSubview(sendingLetterView)
         addSubview(letterSendingButton)
     }
     
@@ -50,7 +50,7 @@ final class CounselingView: BaseView {
             make.trailing.equalToSuperview().offset(-25)
         }
         
-        counselLetterView.snp.makeConstraints { make in
+        sendingLetterView.snp.makeConstraints { make in
             make.top.equalTo(characterGreetingLabel.snp.bottom).offset(70)
             make.leading.equalToSuperview().offset(17)
             make.trailing.equalToSuperview().offset(-17)
@@ -58,20 +58,16 @@ final class CounselingView: BaseView {
         }
         
         letterSendingButton.snp.makeConstraints { make in
-            make.top.equalTo(counselLetterView.snp.bottom).offset(50)
+            make.top.equalTo(sendingLetterView.snp.bottom).offset(50)
             make.centerX.equalToSuperview()
         }
     }
 }
 
 extension CounselingView {
-    func configure(with character: Character) {
+    func configure(with character: CharacterDTO) {
         characterImageView.setImage(character.imageName)
         characterGreetingLabel.text = character.greetingMessage
-    }
-    
-    func activateEditing() {
-        counselLetterView.state = .inProgress
     }
 }
 
@@ -85,7 +81,7 @@ extension CounselingView {
             AnimationGroup(animations: [.init(view: characterGreetingLabel,
                                               animationCase: .fadeIn,
                                               duration: 1.5),
-                                        .init(view: counselLetterView,
+                                        .init(view: sendingLetterView,
                                               animationCase: .fadeIn,
                                               duration: 1.0),
                                         .init(view: letterSendingButton,
@@ -100,13 +96,10 @@ extension CounselingView {
     @MainActor
     func removeAllComponents() async {
         await withCheckedContinuation { continuation in
-            AnimationGroup(animations: [.init(view: characterImageView,
+            AnimationGroup(animations: [.init(view: characterGreetingLabel,
                                               animationCase: .fadeOut,
                                               duration: 1.0),
-                                        .init(view: characterGreetingLabel,
-                                              animationCase: .fadeOut,
-                                              duration: 1.0),
-                                        .init(view: counselLetterView,
+                                        .init(view: sendingLetterView,
                                               animationCase: .fadeOut,
                                               duration: 1.0),
                                         .init(view: letterSendingButton,

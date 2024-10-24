@@ -12,7 +12,7 @@ import ComposableArchitecture
 struct CounselResult {
     @ObservableState
     struct State: Equatable {
-        var character: Character
+        var character: CharacterDTO
         var response: String = ""
     }
 }

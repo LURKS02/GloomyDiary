@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum Character: String, CaseIterable {
+enum CharacterDTO: String, CaseIterable, Equatable {
     case chan = "chan"
     case gomi = "gomi"
     case beomji = "beomji"

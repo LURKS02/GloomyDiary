@@ -56,7 +56,7 @@ private extension ChoosingViewController {
                     guard let self else { return }
                     store.send(.characterTapped(identifier: characterButton.identifier))
                 })
-                .disposed(by: disposeBag)
+                .disposed(by: rx.disposeBag)
         }
         
         contentView.counselButton.rx.tap
@@ -65,7 +65,7 @@ private extension ChoosingViewController {
                       let chosenCharacter = store.chosenCharacter else { return }
                 navigateToCounseling(with: chosenCharacter)
             })
-            .disposed(by: disposeBag)
+            .disposed(by: rx.disposeBag)
         
         observe { [weak self] in
             guard let self else { return }
@@ -78,10 +78,9 @@ private extension ChoosingViewController {
 // MARK: - Navigation
 
 extension ChoosingViewController {
-    func navigateToCounseling(with character: Character) {
+    func navigateToCounseling(with character: CharacterDTO) {
         let store: StoreOf<Counseling> = Store(initialState: .init(character: character), reducer: { Counseling() })
-        let aiService: AIServicable = ChatGPTService.shared
-        let counselRepository: CounselRepositoryProtocol = CounselRepository(aiService: aiService)
+        let counselRepository: CounselRepositoryProtocol = CounselRepository()
         let counselingViewController = CounselingViewController(store: store, counselRepository: counselRepository)
         navigationController?.delegate = self
         navigationController?.pushViewController(counselingViewController,

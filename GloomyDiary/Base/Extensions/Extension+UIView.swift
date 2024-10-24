@@ -10,6 +10,7 @@ import UIKit
 extension UIView {
     func applyCornerRadius(_ radius: CGFloat) {
         self.layer.cornerRadius = radius
+        self.clipsToBounds = true
     }
     
     func applyCircularShape() {

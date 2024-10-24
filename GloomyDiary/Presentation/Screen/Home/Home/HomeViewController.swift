@@ -62,7 +62,7 @@ extension HomeViewController {
             .subscribe(onNext: { [weak self] _ in
                 self?.store.send(.ghostTapped)
             })
-            .disposed(by: disposeBag)
+            .disposed(by: rx.disposeBag)
         
         contentView.startButton.rx.tap
             .subscribe(onNext: { [weak self] _ in
@@ -77,7 +77,7 @@ extension HomeViewController {
                     self.navigateToCharacterSelection()
                 }
             })
-            .disposed(by: disposeBag)
+            .disposed(by: rx.disposeBag)
         
         observe { [weak self] in
             guard let self else { return }

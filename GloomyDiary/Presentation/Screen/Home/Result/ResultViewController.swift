@@ -37,26 +37,26 @@ extension ResultViewController {
 
 private extension ResultViewController {
     func bind() {
-        contentView.counselLetterView.copyButton.rx.tap
+        contentView.resultLetterView.copyButton.rx.tap
             .subscribe(onNext: { [weak self] _ in
                 guard let self else { return }
                 copyToClipboard()
             })
-            .disposed(by: disposeBag)
+            .disposed(by: rx.disposeBag)
         
         contentView.writingDiaryButton.rx.tap
             .subscribe(onNext: { [weak self] _ in
                 guard let self else { return }
                 didTapWritingDiaryButton()
             })
-            .disposed(by: disposeBag)
+            .disposed(by: rx.disposeBag)
         
         contentView.homeButton.rx.tap
             .subscribe(onNext: { [weak self] _ in
                 guard let self else { return }
                 didTapHomeButton()
             })
-            .disposed(by: disposeBag)
+            .disposed(by: rx.disposeBag)
         
         observe { [weak self] in
             guard let self else { return }
@@ -67,7 +67,7 @@ private extension ResultViewController {
 
 private extension ResultViewController {
     func copyToClipboard() {
-        let textToCopy = contentView.counselLetterView.letterTextView.text
+        let textToCopy = contentView.resultLetterView.letterTextView.text
         UIPasteboard.general.string = textToCopy
         Toast.show(text: "클립보드에 복사되었습니다.")
     }

@@ -6,16 +6,20 @@
 //
 
 import Foundation
+import Dependencies
 
 final class CounselRepository: CounselRepositoryProtocol {
-    let aiService: AIServicable
+    @Dependency(\.counselingSessionRepository) var counselingSessionRepository
+    @Dependency(\.aiServicable) var aiService
     
-    init(aiService: AIServicable) {
-        self.aiService = aiService
-    }
-    
-    func counsel(to character: Character, with userInput: String) async throws -> String {
+    func counsel(to character: CharacterDTO, with userInput: String) async throws -> String {
         let response = try await aiService.generateResponse(for: userInput, setting: character.systemSetting)
+        let sessionDTO = CounselingSessionDTO(id: UUID(),
+                                              counselor: character,
+                                              query: userInput,
+                                              response: response,
+                                              createdAt: .now)
+        try await counselingSessionRepository.create(sessionDTO)
         return response
     }
 }

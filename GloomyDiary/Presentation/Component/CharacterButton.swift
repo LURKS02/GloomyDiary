@@ -36,7 +36,7 @@ final class CharacterButton: UIButton {
     
     // MARK: - Initialize
     
-    init(character: Character) {
+    init(character: CharacterDTO) {
         self.identifier = character.identifier
         
         super.init(frame: .zero)
@@ -66,7 +66,7 @@ final class CharacterButton: UIButton {
         }
     }
     
-    private func setupConfiguration(with character: Character) {
+    private func setupConfiguration(with character: CharacterDTO) {
         var configuration = UIButton.Configuration.plain()
         
         configuration.imagePlacement = .top

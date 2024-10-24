@@ -13,13 +13,14 @@ final class CounselingViewController: BaseViewController<CounselingView> {
     let store: StoreOf<Counseling>
     private let counselRepository: CounselRepositoryProtocol
     
-    // MARK: - Properties
+    @Dependency(\.counselRepository) var repo
     
-    private let maxTextCount = 300
+    
+    // MARK: - Properties
     
     private lazy var animationClosure: () async throws -> String = { [weak self] in
         guard let self else { return "" }
-        return try await self.counselRepository.counsel(to: self.store.character, with: self.contentView.counselLetterView.letterTextView.text)
+        return try await self.repo.counsel(to: self.store.character, with: self.contentView.sendingLetterView.letterTextView.text)
     }
     
     
@@ -48,7 +49,6 @@ final class CounselingViewController: BaseViewController<CounselingView> {
         self.navigationItem.hidesBackButton = true
         
         bind()
-        contentView.counselLetterView.letterCharacterCountLabel.text = "0/\(maxTextCount)"
     }
     
     
@@ -57,7 +57,7 @@ final class CounselingViewController: BaseViewController<CounselingView> {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesBegan(touches, with: event)
         
-        self.contentView.counselLetterView.endEditing(true)
+        self.contentView.sendingLetterView.endEditing(true)
     }
 }
 
@@ -66,58 +66,28 @@ final class CounselingViewController: BaseViewController<CounselingView> {
 
 private extension CounselingViewController {
     private func bind() {
-        contentView.counselLetterView.letterTextView.delegate = self
         
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
         
-        contentView.counselLetterView.rx.tapGesture()
-            .when(.recognized)
-            .subscribe(onNext: { [weak self] _ in
-                self?.store.send(.startCounseling)
+        contentView.sendingLetterView.validationSubject
+            .subscribe(onNext: { [weak self] validation in
+                self?.contentView.letterSendingButton.isEnabled = validation
             })
-            .disposed(by: disposeBag)
+            .disposed(by: rx.disposeBag)
         
         contentView.letterSendingButton.rx.tap
             .subscribe(onNext: { [weak self] _ in
                 guard let self else { return }
                 navigateToResult(with: store.character)
             })
-            .disposed(by: disposeBag)
+            .disposed(by: rx.disposeBag)
         
         observe { [weak self] in
             guard let self else { return }
             
             self.contentView.configure(with: store.character)
-            self.contentView.counselLetterView.state = store.counselState
-        }
-    }
-}
-
-
-// MARK: - textView
-
-extension CounselingViewController: UITextViewDelegate {
-    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-        let currentText = (textView.text ?? "") as NSString
-        let updatedText = currentText.replacingCharacters(in: range, with: text)
-        
-        if updatedText.count <= maxTextCount {
-            contentView.counselLetterView.letterCharacterCountLabel.text = "\(updatedText.count)/\(maxTextCount)"
-            if updatedText.count == 0 {
-                contentView.counselLetterView.configureForEmptyText()
-                contentView.letterSendingButton.isEnabled = false
-            } else if updatedText.count == maxTextCount {
-                contentView.counselLetterView.configureForMaxText()
-                contentView.letterSendingButton.isEnabled = true
-            } else {
-                contentView.counselLetterView.configureForSendableText()
-                contentView.letterSendingButton.isEnabled = true
-            }
-            return true
-        } else {
-            return false
         }
     }
 }
@@ -153,7 +123,7 @@ private extension CounselingViewController {
 // MARK: - Naivation
 
 extension CounselingViewController {
-    func navigateToResult(with character: Character) {
+    func navigateToResult(with character: CharacterDTO) {
         let store: StoreOf<CounselResult> = Store(initialState: .init(character: character), reducer: { CounselResult() })
         let resultViewController = ResultViewController(store: store)
         navigationController?.delegate = self

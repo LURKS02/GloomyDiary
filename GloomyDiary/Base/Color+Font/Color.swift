@@ -13,6 +13,7 @@ extension UIColor {
         case dark = "66626B"
         case warning = "CC4E74"
         case buttonDisabled = "6D6677"
+        case subHighlight = "C1BFC5"
     }
     
     static func text(_ text: Text) -> UIColor {
@@ -33,8 +34,10 @@ extension UIColor {
 
 extension UIColor {
     enum Component: String {
+        case white = "FFFFFF"
         case blackPurple = "231D2B"
         case darkPurple = "282236"
+        case fogPurple = "392F46"
         case buttonPurple = "322A3D"
         case buttonDisabledPurple = "3A3047"
         case lightGray = "C7B9B9"
