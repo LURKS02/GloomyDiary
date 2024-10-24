@@ -16,7 +16,12 @@ class BaseTabBarController: UITabBarController {
     
     var backgroundColor: UIColor = .white {
         didSet {
-            self.tabBar.backgroundColor = backgroundColor
+            let appearance = self.tabBar.standardAppearance
+            appearance.configureWithOpaqueBackground()
+            appearance.backgroundColor = backgroundColor
+            
+            self.tabBar.standardAppearance = appearance
+            self.tabBar.scrollEdgeAppearance = appearance
         }
     }
     
@@ -32,6 +37,7 @@ class BaseTabBarController: UITabBarController {
             appearance.stackedLayoutAppearance.selected.titleTextAttributes = selectedAttributes
             appearance.stackedLayoutAppearance.normal.titleTextAttributes = normalAttributes
             self.tabBar.standardAppearance = appearance
+            self.tabBar.scrollEdgeAppearance = appearance
         }
     }
     
@@ -44,6 +50,7 @@ class BaseTabBarController: UITabBarController {
             
             appearance.stackedLayoutAppearance.selected.titleTextAttributes = selectedAttributes
             self.tabBar.standardAppearance = appearance
+            self.tabBar.scrollEdgeAppearance = appearance
         }
     }
     
@@ -56,6 +63,7 @@ class BaseTabBarController: UITabBarController {
             
             appearance.stackedLayoutAppearance.normal.titleTextAttributes = normalAttributes
             self.tabBar.standardAppearance = appearance
+            self.tabBar.scrollEdgeAppearance = appearance
         }
     }
     
@@ -73,6 +81,8 @@ class BaseTabBarController: UITabBarController {
         super.init(nibName: nil, bundle: nil)
         
         setup()
+        
+        self.delegate = self
     }
     
     required init?(coder: NSCoder) {
@@ -87,5 +97,16 @@ class BaseTabBarController: UITabBarController {
                 $0.tabBarItem.selectedImage = tabBarCase.selectedImage.withRenderingMode(.alwaysOriginal)
             }
         }
+    }
+}
+
+extension BaseTabBarController: UITabBarControllerDelegate {
+    func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
+        if let targetIndex = tabBarController.viewControllers?.firstIndex(where: { $0 == viewController }) {
+            UIView.performWithoutAnimation {
+                tabBarController.selectedIndex = targetIndex
+            }
+        }
+        return false
     }
 }
