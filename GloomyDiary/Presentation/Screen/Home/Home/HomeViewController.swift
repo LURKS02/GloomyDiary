@@ -108,3 +108,18 @@ extension HomeViewController: UIViewControllerTransitioningDelegate {
         ResultDismissTransition()
     }
 }
+
+
+// MARK: - Transition Animation
+
+extension HomeViewController: ToTabSwitchable {
+    func playTabAppearingAnimation() async {
+        await contentView.playAppearingFromLeft()
+    }
+}
+
+extension HomeViewController: FromTabSwitchable {
+    func playTabDisappearingAnimation() async {
+        await contentView.playDisappearingToRight()
+    }
+}

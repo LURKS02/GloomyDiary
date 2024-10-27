@@ -42,6 +42,42 @@ final class HistoryView: BaseView {
             make.leading.equalToSuperview().offset(17)
             make.trailing.equalToSuperview().inset(17)
             make.bottom.equalTo(self.safeAreaLayoutGuide).inset(15)
+
+extension HistoryView {
+    func hideAllComponents() {
+        tableView.alpha = 0.0
+    }
+    
+    @MainActor
+    func playAppearingFromLeft() async {
+        hideAllComponents()
+        self.tableView.transform = .identity.translatedBy(x: -10, y: 0)
+        
+        await withCheckedContinuation { continuation in
+            AnimationGroup(animations: [.init(view: self.tableView,
+                                              animationCase: .fadeIn,
+                                              duration: 0.2),
+                                        .init(view: self.tableView,
+                                              animationCase: .transform(transform: .identity),
+                                              duration: 0.2)],
+                           mode: .parallel,
+                           loop: .once(completion: { continuation.resume() }))
+            .run()
+        }
+    }
+    
+    @MainActor
+    func playDisappearingToRight() async {
+        await withCheckedContinuation { continuation in
+            AnimationGroup(animations: [.init(view: self.tableView,
+                                              animationCase: .fadeOut,
+                                              duration: 0.2),
+                                        .init(view: self.tableView,
+                                              animationCase: .transform(transform: .identity.translatedBy(x: 10, y: 0)),
+                                              duration: 0.2)],
+                           mode: .parallel,
+                           loop: .once(completion: { continuation.resume() }))
+            .run()
         }
     }
 }
