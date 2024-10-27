@@ -64,12 +64,19 @@
 		D9BF60862CC932CE001C9D2B /* Extension+Reactive.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9BF60852CC932CE001C9D2B /* Extension+Reactive.swift */; };
 		D9BF60882CC99669001C9D2B /* BaseNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9BF60872CC99669001C9D2B /* BaseNavigationController.swift */; };
 		D9BF608A2CC997DC001C9D2B /* NavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9BF60892CC997DC001C9D2B /* NavigationController.swift */; };
+		D9BF60932CCA79EF001C9D2B /* CircularTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9BF60922CCA79EF001C9D2B /* CircularTabBarController.swift */; };
+		D9BF60972CCAA217001C9D2B /* CircularTabBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9BF60962CCAA217001C9D2B /* CircularTabBarItem.swift */; };
+		D9BF60992CCAB436001C9D2B /* CircularTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9BF60982CCAB436001C9D2B /* CircularTabBar.swift */; };
+		D9BF60A22CCCF7F0001C9D2B /* TabSwitchingTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9BF60A12CCCF7F0001C9D2B /* TabSwitchingTransition.swift */; };
+		D9BF60A52CCCFA3C001C9D2B /* FromTabSwitchable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9BF60A42CCCFA3C001C9D2B /* FromTabSwitchable.swift */; };
+		D9BF60A72CCD391C001C9D2B /* ToTabSwitchable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9BF60A62CCD391C001C9D2B /* ToTabSwitchable.swift */; };
+		D9BF60A92CCD7D1B001C9D2B /* CircularTabBarControllable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9BF60A82CCD7D1B001C9D2B /* CircularTabBarControllable.swift */; };
+		D9BF60AF2CCE3195001C9D2B /* Dismissable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9BF60AE2CCE3195001C9D2B /* Dismissable.swift */; };
+		D9BF60B12CCE31C8001C9D2B /* DismissedAppearable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9BF60B02CCE31C8001C9D2B /* DismissedAppearable.swift */; };
 		D9D9E00E2C5C1C2E0095792A /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D9E00B2C5C1C2E0095792A /* Color.swift */; };
 		D9D9E00F2C5C1C2E0095792A /* Font.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D9E00C2C5C1C2E0095792A /* Font.swift */; };
 		D9D9E0122C5C1C340095792A /* Extension+UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D9E0102C5C1C340095792A /* Extension+UIColor.swift */; };
 		D9D9E0162C5C1C3E0095792A /* 나눔손글씨 무궁화.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D9D9E0132C5C1C3E0095792A /* 나눔손글씨 무궁화.ttf */; };
-		D9D9E0222C5FE5DE0095792A /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D9E0212C5FE5DE0095792A /* TabBarController.swift */; };
-		D9D9E0272C5FEBA70095792A /* TabBarCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D9E0262C5FEBA70095792A /* TabBarCase.swift */; };
 		D9D9E0292C5FF41C0095792A /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D9E0282C5FF41C0095792A /* HomeViewController.swift */; };
 		D9D9E02B2C5FF4570095792A /* HistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D9E02A2C5FF4570095792A /* HistoryViewController.swift */; };
 		D9D9E02D2C5FF4710095792A /* DiaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D9E02C2C5FF4710095792A /* DiaryViewController.swift */; };
@@ -79,7 +86,6 @@
 		D9D9E0362C5FF72F0095792A /* DiaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D9E0352C5FF72F0095792A /* DiaryView.swift */; };
 		D9D9E03A2C5FFFE80095792A /* BaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D9E0392C5FFFE80095792A /* BaseView.swift */; };
 		D9D9E0692C6279E80095792A /* then.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D9E0682C6279E80095792A /* then.swift */; };
-		D9D9E0942C651FF00095792A /* BaseTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D9E0932C651FF00095792A /* BaseTabBarController.swift */; };
 		D9D9E0BB2C6B93F20095792A /* TalkingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D9E0BA2C6B93F20095792A /* TalkingView.swift */; };
 		D9D9E0BD2C6B96F30095792A /* HorizontalButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D9E0BC2C6B96F30095792A /* HorizontalButton.swift */; };
 		D9D9E0BF2C6B996C0095792A /* ImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D9E0BE2C6B996C0095792A /* ImageView.swift */; };
@@ -176,12 +182,19 @@
 		D9BF60852CC932CE001C9D2B /* Extension+Reactive.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+Reactive.swift"; sourceTree = "<group>"; };
 		D9BF60872CC99669001C9D2B /* BaseNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseNavigationController.swift; sourceTree = "<group>"; };
 		D9BF60892CC997DC001C9D2B /* NavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationController.swift; sourceTree = "<group>"; };
+		D9BF60922CCA79EF001C9D2B /* CircularTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularTabBarController.swift; sourceTree = "<group>"; };
+		D9BF60962CCAA217001C9D2B /* CircularTabBarItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularTabBarItem.swift; sourceTree = "<group>"; };
+		D9BF60982CCAB436001C9D2B /* CircularTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularTabBar.swift; sourceTree = "<group>"; };
+		D9BF60A12CCCF7F0001C9D2B /* TabSwitchingTransition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabSwitchingTransition.swift; sourceTree = "<group>"; };
+		D9BF60A42CCCFA3C001C9D2B /* FromTabSwitchable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FromTabSwitchable.swift; sourceTree = "<group>"; };
+		D9BF60A62CCD391C001C9D2B /* ToTabSwitchable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToTabSwitchable.swift; sourceTree = "<group>"; };
+		D9BF60A82CCD7D1B001C9D2B /* CircularTabBarControllable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularTabBarControllable.swift; sourceTree = "<group>"; };
+		D9BF60AE2CCE3195001C9D2B /* Dismissable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dismissable.swift; sourceTree = "<group>"; };
+		D9BF60B02CCE31C8001C9D2B /* DismissedAppearable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DismissedAppearable.swift; sourceTree = "<group>"; };
 		D9D9E00B2C5C1C2E0095792A /* Color.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		D9D9E00C2C5C1C2E0095792A /* Font.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Font.swift; sourceTree = "<group>"; };
 		D9D9E0102C5C1C340095792A /* Extension+UIColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Extension+UIColor.swift"; sourceTree = "<group>"; };
 		D9D9E0132C5C1C3E0095792A /* 나눔손글씨 무궁화.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "나눔손글씨 무궁화.ttf"; sourceTree = "<group>"; };
-		D9D9E0212C5FE5DE0095792A /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
-		D9D9E0262C5FEBA70095792A /* TabBarCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarCase.swift; sourceTree = "<group>"; };
 		D9D9E0282C5FF41C0095792A /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		D9D9E02A2C5FF4570095792A /* HistoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryViewController.swift; sourceTree = "<group>"; };
 		D9D9E02C2C5FF4710095792A /* DiaryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryViewController.swift; sourceTree = "<group>"; };
@@ -191,7 +204,6 @@
 		D9D9E0352C5FF72F0095792A /* DiaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryView.swift; sourceTree = "<group>"; };
 		D9D9E0392C5FFFE80095792A /* BaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseView.swift; sourceTree = "<group>"; };
 		D9D9E0682C6279E80095792A /* then.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = then.swift; sourceTree = "<group>"; };
-		D9D9E0932C651FF00095792A /* BaseTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTabBarController.swift; sourceTree = "<group>"; };
 		D9D9E0BA2C6B93F20095792A /* TalkingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TalkingView.swift; sourceTree = "<group>"; };
 		D9D9E0BC2C6B96F30095792A /* HorizontalButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalButton.swift; sourceTree = "<group>"; };
 		D9D9E0BE2C6B996C0095792A /* ImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageView.swift; sourceTree = "<group>"; };
@@ -253,6 +265,7 @@
 				D9D9E0C62C6BD8260095792A /* Home.swift */,
 				D9D9E0282C5FF41C0095792A /* HomeViewController.swift */,
 				D9D9E0312C5FF6BA0095792A /* HomeView.swift */,
+				D9BF60A12CCCF7F0001C9D2B /* TabSwitchingTransition.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -433,6 +446,28 @@
 			path = DTO;
 			sourceTree = "<group>";
 		};
+		D9BF60942CCAA201001C9D2B /* CircularTabBar */ = {
+			isa = PBXGroup;
+			children = (
+				D9BF60922CCA79EF001C9D2B /* CircularTabBarController.swift */,
+				D9BF60962CCAA217001C9D2B /* CircularTabBarItem.swift */,
+				D9BF60982CCAB436001C9D2B /* CircularTabBar.swift */,
+			);
+			path = CircularTabBar;
+			sourceTree = "<group>";
+		};
+		D9BF60A32CCCF9B4001C9D2B /* Protocol */ = {
+			isa = PBXGroup;
+			children = (
+				D9BF60A42CCCFA3C001C9D2B /* FromTabSwitchable.swift */,
+				D9BF60A62CCD391C001C9D2B /* ToTabSwitchable.swift */,
+				D9BF60A82CCD7D1B001C9D2B /* CircularTabBarControllable.swift */,
+				D9BF60AE2CCE3195001C9D2B /* Dismissable.swift */,
+				D9BF60B02CCE31C8001C9D2B /* DismissedAppearable.swift */,
+			);
+			path = Protocol;
+			sourceTree = "<group>";
+		};
 		D9D9E00D2C5C1C2E0095792A /* Color+Font */ = {
 			isa = PBXGroup;
 			children = (
@@ -477,19 +512,18 @@
 			children = (
 				D9D9E0B92C6B93E80095792A /* Component */,
 				D9D9E01D2C5FE5830095792A /* Screen */,
-				D9D9E01C2C5FE57C0095792A /* TabBar */,
+				D9BF60942CCAA201001C9D2B /* CircularTabBar */,
+				D9D9E01C2C5FE57C0095792A /* Navigation */,
 			);
 			path = Presentation;
 			sourceTree = "<group>";
 		};
-		D9D9E01C2C5FE57C0095792A /* TabBar */ = {
+		D9D9E01C2C5FE57C0095792A /* Navigation */ = {
 			isa = PBXGroup;
 			children = (
-				D9D9E0232C5FEB060095792A /* Item */,
-				D9D9E0212C5FE5DE0095792A /* TabBarController.swift */,
 				D9BF60892CC997DC001C9D2B /* NavigationController.swift */,
 			);
-			path = TabBar;
+			path = Navigation;
 			sourceTree = "<group>";
 		};
 		D9D9E01D2C5FE5830095792A /* Screen */ = {
@@ -531,17 +565,10 @@
 			path = Diary;
 			sourceTree = "<group>";
 		};
-		D9D9E0232C5FEB060095792A /* Item */ = {
-			isa = PBXGroup;
-			children = (
-				D9D9E0262C5FEBA70095792A /* TabBarCase.swift */,
-			);
-			path = Item;
-			sourceTree = "<group>";
-		};
 		D9D9E02E2C5FF5290095792A /* Base */ = {
 			isa = PBXGroup;
 			children = (
+				D9BF60A32CCCF9B4001C9D2B /* Protocol */,
 				D9BF605F2CC6C574001C9D2B /* Environment */,
 				D9DAD8BF2CC0DCE0006E3DD8 /* Cell */,
 				D9FCFFC42CBC243400A53A14 /* Toast */,
@@ -553,7 +580,6 @@
 				D9D9E0BE2C6B996C0095792A /* ImageView.swift */,
 				D9D9E0C02C6B9E400095792A /* GradientView.swift */,
 				D9D9E0682C6279E80095792A /* then.swift */,
-				D9D9E0932C651FF00095792A /* BaseTabBarController.swift */,
 				D9BF60872CC99669001C9D2B /* BaseNavigationController.swift */,
 			);
 			path = Base;
@@ -777,6 +803,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D9BF60992CCAB436001C9D2B /* CircularTabBar.swift in Sources */,
 				D9D9E0302C5FF53E0095792A /* BaseViewController.swift in Sources */,
 				D966D2792C9C0DF90024CA7F /* ResultViewController.swift in Sources */,
 				D9BF607F2CC8E4EC001C9D2B /* QueryHistoryLetterView.swift in Sources */,
@@ -789,17 +816,18 @@
 				D966D27D2C9C10E50024CA7F /* CounselResult.swift in Sources */,
 				D9609F512CC0426B005E8F0C /* Extension+Date.swift in Sources */,
 				D9D9E0C12C6B9E400095792A /* GradientView.swift in Sources */,
-				D9D9E0942C651FF00095792A /* BaseTabBarController.swift in Sources */,
+				D9BF60932CCA79EF001C9D2B /* CircularTabBarController.swift in Sources */,
 				D99BF17C2CBEC14E00465718 /* CounselSession.swift in Sources */,
 				D9BF60692CC73B4C001C9D2B /* CounselSessionDTO.swift in Sources */,
 				D9FCFFC32CBC1A9400A53A14 /* CounselRepositoryProtocol.swift in Sources */,
-				D9D9E0272C5FEBA70095792A /* TabBarCase.swift in Sources */,
+				D9BF60A22CCCF7F0001C9D2B /* TabSwitchingTransition.swift in Sources */,
 				D9BF607D2CC8D900001C9D2B /* ResultLetterView.swift in Sources */,
 				D9DAD8C02CC0DCE0006E3DD8 /* TableViewCellConfigurable.swift in Sources */,
 				D9DDE7442C8A269C004AE15C /* RoundedIconButton.swift in Sources */,
 				D9609F442CC02D18005E8F0C /* SpacerTableViewCell.swift in Sources */,
 				D9BF60862CC932CE001C9D2B /* Extension+Reactive.swift in Sources */,
 				D9D9E03A2C5FFFE80095792A /* BaseView.swift in Sources */,
+				D9BF60972CCAA217001C9D2B /* CircularTabBarItem.swift in Sources */,
 				D9609F4B2CC036E6005E8F0C /* CounselingSessionTableViewCellConfiguration.swift in Sources */,
 				D99BF1802CBED3CE00465718 /* History.swift in Sources */,
 				D9BF604C2CC1815F001C9D2B /* CounselingSessionRepository.swift in Sources */,
@@ -821,6 +849,7 @@
 				D937405A2C7E4075003E02FD /* CounselingViewController.swift in Sources */,
 				D9BF60882CC99669001C9D2B /* BaseNavigationController.swift in Sources */,
 				D9609F4F2CC03B2C005E8F0C /* TableViewConfigurationBindable.swift in Sources */,
+				D9BF60AF2CCE3195001C9D2B /* Dismissable.swift in Sources */,
 				D9BF60792CC8BF9D001C9D2B /* HistoryDetailView.swift in Sources */,
 				D966D27F2C9C1E5B0024CA7F /* CounselTransition.swift in Sources */,
 				D9D9E0C92C6BD82C0095792A /* Talking.swift in Sources */,
@@ -833,6 +862,8 @@
 				D92F49832C79F58300CD7D2A /* GhostView.swift in Sources */,
 				D9D9E0342C5FF6EF0095792A /* HistoryView.swift in Sources */,
 				D9D9E0122C5C1C340095792A /* Extension+UIColor.swift in Sources */,
+				D9BF60A52CCCFA3C001C9D2B /* FromTabSwitchable.swift in Sources */,
+				D9BF60A72CCD391C001C9D2B /* ToTabSwitchable.swift in Sources */,
 				D92F49892C7A022000CD7D2A /* ChoosingView.swift in Sources */,
 				D9B07F3E2C8B5F430048B2D9 /* Extension+UIImage.swift in Sources */,
 				D9D9E0C72C6BD8260095792A /* Home.swift in Sources */,
@@ -843,13 +874,14 @@
 				D9D9E0292C5FF41C0095792A /* HomeViewController.swift in Sources */,
 				D9D9E0BD2C6B96F30095792A /* HorizontalButton.swift in Sources */,
 				D9BF607B2CC8C16C001C9D2B /* LetterView.swift in Sources */,
-				D9D9E0222C5FE5DE0095792A /* TabBarController.swift in Sources */,
+				D9BF60B12CCE31C8001C9D2B /* DismissedAppearable.swift in Sources */,
 				D9FCFFC82CBCB15A00A53A14 /* ResultDismissTransition.swift in Sources */,
 				D9BF60672CC6DC37001C9D2B /* CounselRepositoryKey.swift in Sources */,
 				D9BF60612CC6C580001C9D2B /* AppEnvironment.swift in Sources */,
 				D97421B22C5ABE12002E47F9 /* AppDelegate.swift in Sources */,
 				D9D9E0362C5FF72F0095792A /* DiaryView.swift in Sources */,
 				D97421B42C5ABE12002E47F9 /* SceneDelegate.swift in Sources */,
+				D9BF60A92CCD7D1B001C9D2B /* CircularTabBarControllable.swift in Sources */,
 				D9B07F902C995F300048B2D9 /* ChoosingTransition.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
