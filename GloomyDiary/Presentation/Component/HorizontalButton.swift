@@ -56,3 +56,39 @@ extension HorizontalButton {
         }
     }
 }
+
+extension HorizontalButton {
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
+        
+        AnimationGroup.init(animations: [.init(view: self,
+                                               animationCase: .transform(transform: CGAffineTransform(scaleX: 0.95, y: 0.95)),
+                                               duration: 0.1)],
+                            mode: .parallel,
+                            loop: .once(completion: {}))
+        .run()
+    }
+    
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesEnded(touches, with: event)
+    
+        AnimationGroup.init(animations: [.init(view: self,
+                                               animationCase: .transform(transform: .identity),
+                                               duration: 0.1)],
+                            mode: .parallel,
+                            loop: .once(completion: {} ))
+        .run()
+            
+    }
+    
+    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesCancelled(touches, with: event)
+        
+        AnimationGroup.init(animations: [.init(view: self,
+                                               animationCase: .transform(transform: .identity),
+                                               duration: 0.1)],
+                            mode: .parallel,
+                            loop: .once(completion: {} ))
+        .run()
+    }
+}
