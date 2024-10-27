@@ -75,7 +75,7 @@ final class HomeView: BaseView {
     // MARK: - View Life Cycle
     
     override func setup() {
-        
+        self.backgroundColor = .background(.mainPurple)
     }
     
     override func addSubviews() {
@@ -130,33 +130,16 @@ final class HomeView: BaseView {
 
 extension HomeView {
     func hideAllComponents() {
-        ghostTalkingView.alpha = 0.0
-        sparklingLottieView.alpha = 0.0
-        startButton.alpha = 0.0
-        ghostImageView.alpha = 0.0
-        pulsingCircleLottieView.alpha = 0.0
-        moonImageView.alpha = 0.0
-        gradientView.alpha = 0.0
+        subviews.forEach { $0.alpha = 0.0 }
     }
     
     @MainActor
     func playFadeOutAllComponents() async {
         await withCheckedContinuation { continuation in
-            AnimationGroup(animations: [.init(view: self.ghostTalkingView,
-                                              animationCase: .fadeOut,
-                                              duration: 1.0),
-                                        .init(view: self.sparklingLottieView,
-                                              animationCase: .fadeOut,
-                                              duration: 1.0),
-                                        .init(view: self.startButton,
-                                              animationCase: .fadeOut,
-                                              duration: 1.0),
-                                        .init(view: self.ghostImageView,
-                                              animationCase: .fadeOut,
-                                              duration: 1.0),
-                                        .init(view: self.pulsingCircleLottieView,
-                                              animationCase: .fadeOut,
-                                              duration: 1.0)],
+            AnimationGroup(animations: subviews.filter { $0 != moonImageView && $0 != gradientView }
+                .map { .init(view: $0,
+                             animationCase: .fadeOut,
+                             duration: 1.0) },
                            mode: .parallel,
                            loop: .once(completion: { continuation.resume() }))
             .run()
@@ -166,27 +149,60 @@ extension HomeView {
     @MainActor
     func playAllComponentsFadeIn() async {
         await withCheckedContinuation { continuation in
-            AnimationGroup(animations: [.init(view: self.ghostTalkingView,
-                                              animationCase: .fadeIn,
-                                              duration: 1.0),
-                                        .init(view: self.sparklingLottieView,
-                                              animationCase: .fade(value: Metric.sparklingAlpha),
-                                              duration: 1.0),
-                                        .init(view: self.startButton,
-                                              animationCase: .fadeIn,
-                                              duration: 1.0),
-                                        .init(view: self.ghostImageView,
-                                              animationCase: .fadeIn,
-                                              duration: 1.0),
-                                        .init(view: self.pulsingCircleLottieView,
+            AnimationGroup(animations: subviews.filter { $0 != pulsingCircleLottieView && $0 != sparklingLottieView }
+                .map { .init(view: $0,
+                             animationCase: .fadeIn,
+                             duration: 1.0) } +
+                           [.init(view: pulsingCircleLottieView,
+                                  animationCase: .fade(value: Metric.pulsingCircleAlpha),
+                                  duration: 1.0),
+                            .init(view: sparklingLottieView,
+                                  animationCase: .fade(value: Metric.sparklingAlpha),
+                                  duration: 1.0)],
+                           mode: .parallel,
+                           loop: .once(completion: { continuation.resume() }))
+            .run()
+        }
+    }
+    
+    @MainActor
+    func playAppearingFromLeft() async {
+        hideAllComponents()
+        
+        self.subviews.filter { $0 != gradientView }
+            .forEach { $0.transform = .identity.translatedBy(x: -10, y: 0) }
+        
+        await withCheckedContinuation { continuation in
+            AnimationGroup(animations: subviews.filter { $0 != gradientView }
+                                               .map { .init(view: $0,
+                                                            animationCase: .transform(transform: .identity),
+                                                            duration: 0.2) } +
+                                       subviews.filter { $0 != pulsingCircleLottieView && $0 != sparklingLottieView }
+                                               .map { .init(view: $0,
+                                                            animationCase: .fadeIn,
+                                                            duration: 0.2) } +
+                                       [.init(view: pulsingCircleLottieView,
                                               animationCase: .fade(value: Metric.pulsingCircleAlpha),
-                                              duration: 1.0),
-                                        .init(view: self.moonImageView,
-                                              animationCase: .fadeIn,
-                                              duration: 1.0),
-                                        .init(view: gradientView,
-                                              animationCase: .fadeIn,
-                                              duration: 1.0)],
+                                              duration: 0.2),
+                                        .init(view: sparklingLottieView,
+                                              animationCase: .fade(value: Metric.sparklingAlpha),
+                                              duration: 0.2)],
+                           mode: .parallel,
+                           loop: .once(completion: { continuation.resume() }))
+            .run()
+        }
+    }
+    
+    @MainActor
+    func playDisappearingToRight() async {
+        await withCheckedContinuation { continuation in
+            AnimationGroup(animations: subviews.filter { $0 != gradientView }
+                .map { .init(view: $0,
+                             animationCase: .transform(transform: .init(translationX: 10, y: 0)),
+                             duration: 0.2) } +
+                           subviews.map { .init(view: $0,
+                                                animationCase: .fadeOut,
+                                                duration: 0.2) },
                            mode: .parallel,
                            loop: .once(completion: { continuation.resume() }))
             .run()

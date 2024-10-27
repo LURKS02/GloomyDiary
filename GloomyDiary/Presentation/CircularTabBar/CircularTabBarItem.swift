@@ -1,20 +1,20 @@
 //
-//  TabBarImageSet.swift
+//  CircularTabBarItem.swift
 //  GloomyDiary
 //
-//  Created by 디해 on 8/5/24.
+//  Created by 디해 on 10/25/24.
 //
 
 import UIKit
 import ComposableArchitecture
 
-enum TabBarCase: String {
+enum CircularTabBarItem: String {
     case home
     case history
     case diary
 }
 
-extension TabBarCase {
+extension CircularTabBarItem {
     var viewController: UIViewController {
         switch self {
         case .home:
@@ -33,7 +33,7 @@ extension TabBarCase {
     }
 }
 
-extension TabBarCase {
+extension CircularTabBarItem {
     var title: String {
         switch self {
         case .home:

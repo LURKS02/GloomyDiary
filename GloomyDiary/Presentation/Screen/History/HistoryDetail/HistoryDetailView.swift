@@ -26,6 +26,8 @@ final class HistoryDetailView: BaseView {
     
     private let responseLetterView = ResponseHistoryLetterView()
     
+    private lazy var gradientBackgroundView = GradientView(colors: [.background(.mainPurple).withAlphaComponent(0.0), .background(.mainPurple)], locations: [0.0, 0.5, 1.0])
+    
     
     // MARK: - Initialize
     
@@ -49,6 +51,7 @@ final class HistoryDetailView: BaseView {
     
     override func addSubviews() {
         addSubview(scrollView)
+        addSubview(gradientBackgroundView)
         scrollView.addSubview(contentView)
         contentView.addSubview(letterImageView)
         contentView.addSubview(queryLetterView)
@@ -58,6 +61,13 @@ final class HistoryDetailView: BaseView {
     override func setupConstraints() {
         scrollView.snp.makeConstraints { make in
             make.edges.equalTo(self.safeAreaLayoutGuide)
+        }
+        
+        gradientBackgroundView.snp.makeConstraints { make in
+            make.leading.equalToSuperview()
+            make.trailing.equalToSuperview()
+            make.bottom.equalToSuperview()
+            make.height.equalTo(70)
         }
         
         contentView.snp.makeConstraints { make in
@@ -80,7 +90,7 @@ final class HistoryDetailView: BaseView {
             make.leading.equalToSuperview().offset(17)
             make.trailing.equalToSuperview().offset(-17)
             make.top.equalTo(queryLetterView.snp.bottom).offset(17)
-            make.bottom.equalToSuperview().offset(-17)
+            make.bottom.equalToSuperview().inset(50)
         }
     }
 }

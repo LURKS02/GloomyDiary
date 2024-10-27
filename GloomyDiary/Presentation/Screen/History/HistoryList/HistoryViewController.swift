@@ -45,7 +45,12 @@ final class HistoryViewController: BaseViewController<HistoryView> {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.navigationController?.setNavigationBarHidden(true, animated: true)
+        
+        Task { @MainActor in
+            self.navigationController?.setNavigationBarHidden(true, animated: true)
+            guard let tabBarController = tabBarController as? CircularTabBarControllable else { return }
+            await tabBarController.showCircularTabBar(duration: 0.3)
+        }
         
         store.send(.refresh)
     }
@@ -84,6 +89,9 @@ private extension HistoryViewController {
             if index < store.counselingSessionDTOs.count - 1 {
                 let spacerConfiguration: TableViewCellConfigurable = SpacerTableViewCellConfiguration(spacing: spacing)
                 configurables.append(spacerConfiguration)
+            } else {
+                let spacerConfiguration: TableViewCellConfigurable = SpacerTableViewCellConfiguration(spacing: 50)
+                configurables.append(spacerConfiguration)
             }
         }
         
@@ -114,5 +122,20 @@ extension HistoryViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let selectedConfiguration = configurables[indexPath.row] as? CounselingSessionTableViewCellConfiguration else { return }
         self.navigationController?.pushViewController(HistoryDetailViewController(session: selectedConfiguration.counselingSessionDTO), animated: true)
+    }
+}
+
+
+// MARK: - Transition Animation
+
+extension HistoryViewController: ToTabSwitchable {
+    func playTabAppearingAnimation() async {
+        await contentView.playAppearingFromLeft()
+    }
+}
+
+extension HistoryViewController: FromTabSwitchable {
+    func playTabDisappearingAnimation() async {
+        await contentView.playDisappearingToRight()
     }
 }
