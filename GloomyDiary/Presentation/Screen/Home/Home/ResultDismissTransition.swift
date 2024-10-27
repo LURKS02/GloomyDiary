@@ -18,31 +18,45 @@ extension ResultDismissTransition: UIViewControllerAnimatedTransitioning {
     
     func animateTransition(using transitionContext: any UIViewControllerContextTransitioning) {
         let containerView = transitionContext.containerView
-        guard let fromNavigationController = transitionContext.viewController(forKey: .from) as? UINavigationController,
-              let fromViewController = fromNavigationController.topViewController as? ResultViewController else { return }
-        guard let toViewController = transitionContext.viewController(forKey: .to) as? HomeViewController,
-              let tabBarController = toViewController.tabBarController as? TabBarController else { return }
-
-        guard let fromView = fromViewController.view as? ResultView else { return }
-        guard let toView = toViewController.view as? HomeView else {
-            return }
+        let fromViewController = transitionContext.viewController(forKey: .from)
+        let toViewController = transitionContext.viewController(forKey: .to)
         
-        containerView.addSubview(fromView)
-        let originSuperview = toView.superview
-        containerView.addSubview(toView)
+        let toView = toViewController?.view
+        let originSuperview = toView?.superview
+        
+        let dismissable = fromViewController?.dismissable
+        let dismissedAppearable = toViewController?.dismissedAppearable
+        
+        guard let toView, let dismissable, let dismissedAppearable else { return }
+        
         toView.alpha = 0.0
-        toView.hideAllComponents()
+        containerView.addSubview(toView)
         
         Task { @MainActor in
-            await fromView.playAllComponentsFadeOut()
+            await dismissable.playDismissingAnimation()
             toView.alpha = 1.0
-            async let playAllComponentsFadeIn: () = toView.playAllComponentsFadeIn()
-            async let playTabBarFadeIn: () = tabBarController.playFadeInTabBar()
-            let _ = await (playAllComponentsFadeIn, playTabBarFadeIn)
-            fromView.removeFromSuperview()
+            await dismissedAppearable.playAppearingAnimation()
+            originSuperview?.addSubview(toView)
             
             transitionContext.completeTransition(true)
-            originSuperview?.addSubview(toView)
+        }
+    }
+}
+
+private extension UIViewController {
+    var dismissable: Dismissable? {
+        if let navigationController = self as? UINavigationController {
+            return navigationController.topViewController as? Dismissable
+        } else {
+            return self as? Dismissable
+        }
+    }
+    
+    var dismissedAppearable: DismissedAppearable? {
+        if let navigationController = self as? UINavigationController {
+            return navigationController.topViewController as? DismissedAppearable
+        } else {
+            return self as? DismissedAppearable
         }
     }
 }

@@ -67,11 +67,11 @@ extension HomeViewController {
         contentView.startButton.rx.tap
             .subscribe(onNext: { [weak self] _ in
                 guard let self,
-                      let tabBarController = self.tabBarController as? TabBarController else { return }
+                      let tabBarController = self.tabBarController as? CircularTabBarControllable else { return }
                 
                 Task {
                     async let contentViewAnimation: Void = self.contentView.playFadeOutAllComponents()
-                    async let tabBarAnimation: Void = tabBarController.playFadeOutTabBar()
+                    async let tabBarAnimation: Void = tabBarController.hideCircularTabBar(duration: 1.0)
                     _ = await (contentViewAnimation, tabBarAnimation)
                     
                     self.navigateToCharacterSelection()
@@ -121,5 +121,20 @@ extension HomeViewController: ToTabSwitchable {
 extension HomeViewController: FromTabSwitchable {
     func playTabDisappearingAnimation() async {
         await contentView.playDisappearingToRight()
+    }
+}
+
+extension HomeViewController: DismissedAppearable {
+    func playAppearingAnimation() async {
+        
+        contentView.hideAllComponents()
+        
+        if let circularTabBarControllable = self.tabBarController as? CircularTabBarControllable {
+            async let playAllComponentsFadeIn: () = contentView.playAllComponentsFadeIn()
+            async let playTabBarFadeIn: () = circularTabBarControllable.showCircularTabBar(duration: 1.0)
+            let _ = await (playAllComponentsFadeIn, playTabBarFadeIn)
+        } else {
+            await contentView.playAllComponentsFadeIn()
+        }
     }
 }

@@ -81,3 +81,12 @@ private extension ResultViewController {
         self.dismiss(animated: true)
     }
 }
+
+
+// MARK: - Transition Animation
+
+extension ResultViewController: Dismissable {
+    func playDismissingAnimation() async {
+        await contentView.playAllComponentsFadeOut()
+    }
+}
