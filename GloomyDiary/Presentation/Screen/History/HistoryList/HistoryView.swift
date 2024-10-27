@@ -23,6 +23,8 @@ final class HistoryView: BaseView {
         $0.register(SpacerTableViewCellConfiguration.cellType, forCellReuseIdentifier: SpacerTableViewCellConfiguration.identifier)
     }
     
+    private lazy var gradientBackgroundView = GradientView(colors: [.background(.mainPurple).withAlphaComponent(0.0), .background(.mainPurple)], locations: [0.0, 0.5, 1.0])
+    
     
     // MARK: - View Life Cycle
     
@@ -34,6 +36,7 @@ final class HistoryView: BaseView {
     
     override func addSubviews() {
         addSubview(tableView)
+        addSubview(gradientBackgroundView)
     }
     
     override func setupConstraints() {
@@ -41,7 +44,17 @@ final class HistoryView: BaseView {
             make.top.equalTo(self.safeAreaLayoutGuide)
             make.leading.equalToSuperview().offset(17)
             make.trailing.equalToSuperview().inset(17)
-            make.bottom.equalTo(self.safeAreaLayoutGuide).inset(15)
+            make.bottom.equalToSuperview()
+        }
+        
+        gradientBackgroundView.snp.makeConstraints { make in
+            make.leading.equalToSuperview()
+            make.trailing.equalToSuperview()
+            make.bottom.equalToSuperview()
+            make.height.equalTo(70)
+        }
+    }
+}
 
 extension HistoryView {
     func hideAllComponents() {

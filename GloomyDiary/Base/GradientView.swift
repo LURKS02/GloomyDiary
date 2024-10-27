@@ -13,10 +13,12 @@ final class GradientView: BaseView {
         $0.endPoint = CGPoint(x: 0.5, y: 1)
     }
     
-    init(colors: [UIColor]) {
+    init(colors: [UIColor], locations: [NSNumber]? = nil) {
         super.init(frame: .zero)
         
         gradientLayer.colors = colors.map { $0.cgColor }
+        
+        if let locations { gradientLayer.locations = locations }
         
         self.layer.insertSublayer(gradientLayer, at: 0)
     }
