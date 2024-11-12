@@ -12,14 +12,12 @@ final class HistoryViewController: BaseViewController<HistoryView> {
     
     let store: StoreOf<History>
     
-    private var initialized: Bool = false
-    
     
     // MARK: - Properties
 
     private var configurables: [TableViewCellConfigurable] = [] {
         didSet {
-            self.contentView.tableView.reloadData()
+            contentView.showContent = !configurables.isEmpty
         }
     }
     
@@ -54,10 +52,7 @@ final class HistoryViewController: BaseViewController<HistoryView> {
             await tabBarController.showCircularTabBar(duration: 0.2)
         }
         
-        if !initialized {
-            store.send(.refresh)
-            initialized = true
-        }
+        store.send(.refresh)
     }
 }
 
@@ -66,8 +61,8 @@ final class HistoryViewController: BaseViewController<HistoryView> {
 
 private extension HistoryViewController {
     func bind() {
-        contentView.tableView.dataSource = self
-        contentView.tableView.delegate = self
+        contentView.listView.tableView.dataSource = self
+        contentView.listView.tableView.delegate = self
         
         observe { [weak self] in
             guard let self else { return }
@@ -81,6 +76,11 @@ private extension HistoryViewController {
 
 private extension HistoryViewController {
     func updateDataSource() {
+        if store.counselingSessionDTOs.isEmpty {
+            configurables = []
+            return
+        }
+        
         var configurables: [TableViewCellConfigurable] = []
         
         let spacing: CGFloat = 10.0
@@ -142,12 +142,20 @@ extension HistoryViewController: UINavigationControllerDelegate {
 
 extension HistoryViewController: ToTabSwitchable {
     func playTabAppearingAnimation() async {
-        await contentView.playAppearingFromLeft()
+        if contentView.showContent {
+            await contentView.listView.playAppearingFromLeft()
+        } else {
+            await contentView.emptyView.playAppearingFromLeft()
+        }
     }
 }
 
 extension HistoryViewController: FromTabSwitchable {
     func playTabDisappearingAnimation() async {
-        await contentView.playDisappearingToRight()
+        if contentView.showContent {
+            await contentView.listView.playDisappearingToRight()
+        } else {
+            await contentView.emptyView.playDisappearingToRight()
+        }
     }
 }
