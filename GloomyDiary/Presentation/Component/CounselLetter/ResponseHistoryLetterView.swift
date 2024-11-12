@@ -21,12 +21,6 @@ final class ResponseHistoryLetterView: LetterView {
     private let characterImageView = ImageView().then {
         $0.setSize(50)
     }
-    
-    private let characterInformationLabel = UILabel().then {
-        $0.font = .무궁화.body
-        $0.textAlignment = .center
-        $0.textColor = .text(.subHighlight)
-    }
 
     
     // MARK: - View Life Cycle
@@ -36,31 +30,25 @@ final class ResponseHistoryLetterView: LetterView {
         
         letterTextView.isEditable = false
         letterTextView.isScrollEnabled = false
-        backgroundColor = .component(.buttonPurple)
+        backgroundColor = .background(.mainPurple)
     }
     
     override func addSubviews() {
         super.addSubviews()
         
         addSubview(characterImageView)
-        addSubview(characterInformationLabel)
     }
     
     override func setupConstraints() {
         super.setupConstraints()
         
         characterImageView.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(30)
-            make.leading.equalToSuperview().offset(30)
-        }
-        
-        characterInformationLabel.snp.makeConstraints { make in
-            make.centerY.equalTo(characterImageView)
-            make.leading.equalTo(characterImageView.snp.trailing).offset(10)
+            make.top.equalToSuperview().offset(20)
+            make.centerX.equalToSuperview()
         }
         
         letterTextView.snp.remakeConstraints { make in
-            make.top.equalTo(characterImageView.snp.bottom).offset(15)
+            make.top.equalTo(characterImageView.snp.bottom).offset(10)
             make.leading.equalToSuperview().inset(Metric.letterTextViewPadding)
             make.trailing.equalToSuperview().inset(Metric.letterTextViewPadding)
             make.bottom.equalToSuperview().inset(Metric.letterTextViewPadding)
@@ -71,7 +59,6 @@ final class ResponseHistoryLetterView: LetterView {
 extension ResponseHistoryLetterView {
     func configure(with character: CharacterDTO, response: String) {
         characterImageView.setImage(character.imageName)
-        characterInformationLabel.text = "상담사: \(character.name)"
         letterTextView.text = response
     }
 }

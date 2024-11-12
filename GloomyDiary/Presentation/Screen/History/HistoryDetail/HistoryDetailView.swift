@@ -9,6 +9,14 @@ import UIKit
 
 final class HistoryDetailView: BaseView {
     
+    // MARK: - Metric
+
+    private struct Metric {
+        static let textPadding: CGFloat = 25
+        static let viewPadding: CGFloat = 17
+    }
+    
+    
     // MARK: - Views
 
     private let scrollView = UIScrollView().then {
@@ -17,16 +25,38 @@ final class HistoryDetailView: BaseView {
     
     private let contentView = UIView()
     
+    private let titleLabel = IntroduceLabel().then {
+        $0.font = .무궁화.heading
+        $0.textAlignment = .left
+    }
+    
+    private let dateLabel = IntroduceLabel().then {
+        $0.font = .무궁화.body
+        $0.textAlignment = .left
+    }
+    
+    private let stateLabel = IntroduceLabel().then {
+        $0.font = .무궁화.body
+        $0.textColor = .text(.fogHighlight)
+        $0.textAlignment = .left
+    }
+    
+    private let contentLabel = IntroduceLabel().then {
+        $0.textColor = .text(.subHighlight)
+        $0.textAlignment = .left
+    }
+    
     private let letterImageView = ImageView().then {
         $0.setImage("letter")
         $0.setSize(45)
     }
     
-    private let queryLetterView = QueryHistoryLetterView()
-    
     private let responseLetterView = ResponseHistoryLetterView()
     
-    private lazy var gradientBackgroundView = GradientView(colors: [.background(.mainPurple).withAlphaComponent(0.0), .background(.mainPurple)], locations: [0.0, 0.5, 1.0])
+    private lazy var gradientBackgroundView = GradientView(colors: [.component(.buttonPurple).withAlphaComponent(0.0), .component(.buttonPurple)],
+                                                           locations: [0.0, 0.5, 1.0])
+    
+    var isAnimated: Bool = false
     
     
     // MARK: - Initialize
@@ -34,8 +64,12 @@ final class HistoryDetailView: BaseView {
     init(session: CounselingSessionDTO) {
         super.init(frame: .zero)
         
-        queryLetterView.configure(with: session.query)
+        titleLabel.text = session.title
+        dateLabel.text = session.createdAt.normalDescription
+        stateLabel.text = "날씨 \(session.weather.name), \(session.emoji.description)"
+        contentLabel.text = session.query
         responseLetterView.configure(with: session.counselor, response: session.response)
+        gradientBackgroundView.alpha = 0.0
     }
     
     @MainActor required init?(coder: NSCoder) {
@@ -46,21 +80,30 @@ final class HistoryDetailView: BaseView {
     // MARK: - View Life Cycle
 
     override func setup() {
-        backgroundColor = .background(.mainPurple)
+        backgroundColor = .component(.buttonPurple)
     }
     
     override func addSubviews() {
         addSubview(scrollView)
         addSubview(gradientBackgroundView)
         scrollView.addSubview(contentView)
-        contentView.addSubview(letterImageView)
-        contentView.addSubview(queryLetterView)
+        
+        contentView.addSubview(titleLabel)
+        contentView.addSubview(dateLabel)
+        contentView.addSubview(stateLabel)
+        contentView.addSubview(contentLabel)
         contentView.addSubview(responseLetterView)
     }
     
     override func setupConstraints() {
         scrollView.snp.makeConstraints { make in
-            make.edges.equalTo(self.safeAreaLayoutGuide)
+            make.horizontalEdges.equalTo(self.safeAreaLayoutGuide)
+            make.bottom.equalTo(self.safeAreaLayoutGuide)
+        }
+        
+        contentView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+            make.width.equalToSuperview()
         }
         
         gradientBackgroundView.snp.makeConstraints { make in
@@ -70,28 +113,109 @@ final class HistoryDetailView: BaseView {
             make.height.equalTo(70)
         }
         
-        contentView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
-            make.width.equalToSuperview()
-        }
-        
-        letterImageView.snp.makeConstraints { make in
-            make.centerX.equalToSuperview()
+        titleLabel.snp.makeConstraints { make in
             make.top.equalToSuperview()
+            make.horizontalEdges.equalToSuperview().inset(Metric.viewPadding)
         }
         
-        queryLetterView.snp.makeConstraints { make in
-            make.leading.equalToSuperview().offset(17)
-            make.trailing.equalToSuperview().offset(-17)
-            make.top.equalTo(letterImageView.snp.bottom).offset(10)
+        dateLabel.snp.makeConstraints { make in
+            make.top.equalTo(titleLabel.snp.bottom).offset(10)
+            make.horizontalEdges.equalToSuperview().inset(Metric.viewPadding)
+        }
+        
+        stateLabel.snp.makeConstraints { make in
+            make.top.equalTo(dateLabel.snp.bottom)
+            make.horizontalEdges.equalToSuperview().inset(Metric.viewPadding)
+        }
+        
+        contentLabel.snp.makeConstraints { make in
+            make.top.equalTo(stateLabel.snp.bottom).offset(40)
+            make.horizontalEdges.equalToSuperview().inset(Metric.viewPadding)
         }
         
         responseLetterView.snp.makeConstraints { make in
-            make.leading.equalToSuperview().offset(17)
-            make.trailing.equalToSuperview().offset(-17)
-            make.top.equalTo(queryLetterView.snp.bottom).offset(17)
-            make.bottom.equalToSuperview().inset(50)
+            make.top.equalTo(contentLabel.snp.bottom).offset(40)
+            make.horizontalEdges.equalToSuperview().inset(Metric.viewPadding)
+            make.bottom.equalToSuperview().offset(-30)
         }
     }
 }
 
+extension HistoryDetailView {
+    func makeScrollViewOffsetConstraints(offset: CGFloat) {
+        scrollView.snp.makeConstraints { make in
+            make.top.equalToSuperview().offset(offset)
+        }
+        layoutIfNeeded()
+    }
+}
+
+extension HistoryDetailView {
+    func hideAllComponents() {
+        scrollView.alpha = 0.0
+    }
+    
+    @MainActor
+    func playFadeInAllComponents() async {
+        contentView.subviews.forEach { $0.alpha = 0.0 }
+        contentView.subviews.forEach { $0.transform = .identity.translatedBy(x: 0, y: 40) }
+        
+        async let subviewsAnimation: () = await playFadeInSubviews()
+        async let gradientViewAnimation: () = await playFadeInGradientView()
+        
+        let _ = await (subviewsAnimation, gradientViewAnimation)
+    }
+    
+    @MainActor
+    func playFadeInGradientView() async {
+        await withCheckedContinuation { continuation in
+            AnimationGroup(animations: [.init(view: gradientBackgroundView,
+                                              animationCase: .fadeIn,
+                                              duration: 0.4)],
+                           mode: .parallel,
+                           loop: .once(completion: { continuation.resume() }))
+            .run()
+        }
+    }
+    
+    @MainActor
+    func playFadeInSubviews() async {
+        await withCheckedContinuation { continuation in
+            contentView.subviews.enumerated().forEach { index, _ in
+                let isLast = (index == contentView.subviews.count - 1)
+                animateSubview(at: index) {
+                    if isLast { continuation.resume() }
+                }
+            }
+        }
+    }
+    
+    private func animateSubview(at index: Int, completion: @escaping () -> Void = {}) {
+        guard index < contentView.subviews.count else { return completion() }
+        
+        let view = contentView.subviews[index]
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1 * Double(index)) {
+            AnimationGroup(animations: [.init(view: view,
+                                              animationCase: .fadeIn,
+                                              duration: 1.0),
+                                        .init(view: view,
+                                              animationCase: .transform(transform: .identity),
+                                              duration: 1.0)],
+                           mode: .parallel,
+                           loop: .once(completion: completion))
+            .run()
+        }
+    }
+    
+    @MainActor
+    func playFadeOutAllComponents() async {
+        await withCheckedContinuation { continuation in
+            AnimationGroup(animations: [.init(view: scrollView,
+                                              animationCase: .fadeOut,
+                                              duration: 0.2)],
+                           mode: .parallel,
+                           loop: .once(completion: { continuation.resume() }))
+            .run()
+        }
+    }
+}
