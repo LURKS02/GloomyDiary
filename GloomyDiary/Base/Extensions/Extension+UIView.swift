@@ -8,6 +8,10 @@
 import UIKit
 
 extension UIView {
+    var flattenSubviews: [UIView] {
+        [self] + self.subviews.flatMap { $0.flattenSubviews }
+    }
+    
     func applyCornerRadius(_ radius: CGFloat) {
         self.layer.cornerRadius = radius
         self.clipsToBounds = true
