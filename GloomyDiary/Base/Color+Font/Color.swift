@@ -14,6 +14,7 @@ extension UIColor {
         case warning = "CC4E74"
         case buttonDisabled = "6D6677"
         case subHighlight = "C1BFC5"
+        case fogHighlight = "91899A"
     }
     
     static func text(_ text: Text) -> UIColor {
@@ -42,6 +43,8 @@ extension UIColor {
         case buttonDisabledPurple = "3A3047"
         case lightGray = "C7B9B9"
         case fogGray = "5F5562"
+        case textFieldGray = "584A69"
+        case buttonSelectedBlue = "534D71"
     }
     
     static func component(_ component: Component) -> UIColor {

@@ -11,6 +11,8 @@ extension UIFont {
     final class 무궁화 {
         static private let fontName: String = "나눔손글씨 무궁화"
         
+        static let heading: UIFont = UIFont(name: fontName, size: 30)!
+        static let subHeading: UIFont = UIFont(name: fontName, size: 27)!
         static let title: UIFont = UIFont(name: fontName, size: 25)!
         static let body: UIFont = UIFont(name: fontName, size: 20)!
         static let tabBar: UIFont = UIFont(name: fontName, size: 15)!
