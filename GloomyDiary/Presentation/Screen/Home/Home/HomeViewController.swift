@@ -66,16 +66,8 @@ extension HomeViewController {
         
         contentView.startButton.rx.tap
             .subscribe(onNext: { [weak self] _ in
-                guard let self,
-                      let tabBarController = self.tabBarController as? CircularTabBarControllable else { return }
-                
-                Task {
-                    async let contentViewAnimation: Void = self.contentView.playFadeOutAllComponents()
-                    async let tabBarAnimation: Void = tabBarController.hideCircularTabBar(duration: 1.0)
-                    _ = await (contentViewAnimation, tabBarAnimation)
-                    
-                    self.navigateToCharacterSelection()
-                }
+                guard let self else { return }
+                self.navigateToCounseling()
             })
             .disposed(by: rx.disposeBag)
         
@@ -90,27 +82,30 @@ extension HomeViewController {
 // MARK: - Navigation
 
 extension HomeViewController {
-    func navigateToCharacterSelection() {
-        let store: StoreOf<Choosing> = Store(initialState: .init(), reducer: { Choosing() })
-        let choosingViewController = ChoosingViewController(store: store)
-        let navigationViewController = UINavigationController(rootViewController: choosingViewController)
+    func navigateToCounseling() {
+        let store: StoreOf<StartCounseling> = Store(initialState: .init(), reducer: { StartCounseling() })
+        let startCounselingViewController = StartCounselingViewController(store: store)
+        let navigationViewController = UINavigationController(rootViewController: startCounselingViewController)
         
-        self.definesPresentationContext = true
-        navigationViewController.modalPresentationStyle = .overCurrentContext
+        navigationViewController.modalPresentationStyle = .custom
         navigationViewController.transitioningDelegate = self
         
-        self.present(navigationViewController, animated: false)
-    }
-}
-
-extension HomeViewController: UIViewControllerTransitioningDelegate {
-    func animationController(forDismissed dismissed: UIViewController) -> (any UIViewControllerAnimatedTransitioning)? {
-        ResultDismissTransition()
+        self.present(navigationViewController, animated: true)
     }
 }
 
 
 // MARK: - Transition Animation
+
+extension HomeViewController: UIViewControllerTransitioningDelegate {
+    func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> (any UIViewControllerAnimatedTransitioning)? {
+        PresentingTransition()
+    }
+    
+    func animationController(forDismissed dismissed: UIViewController) -> (any UIViewControllerAnimatedTransitioning)? {
+        ResultDismissTransition()
+    }
+}
 
 extension HomeViewController: ToTabSwitchable {
     func playTabAppearingAnimation() async {
@@ -135,6 +130,18 @@ extension HomeViewController: DismissedAppearable {
             let _ = await (playAllComponentsFadeIn, playTabBarFadeIn)
         } else {
             await contentView.playAllComponentsFadeIn()
+        }
+    }
+}
+
+extension HomeViewController: PresentingDisappearable {
+    func playDisappearingAnimation() async {
+        if let circularTabBarControllable = self.tabBarController as? CircularTabBarControllable {
+            async let playAllComponentsFadeOut: () = contentView.playFadeOutAllComponents()
+            async let playTabBarFadeOut: () = circularTabBarControllable.hideCircularTabBar(duration: 1.0)
+            let _ = await (playAllComponentsFadeOut, playTabBarFadeOut)
+        } else {
+            await contentView.playFadeOutAllComponents()
         }
     }
 }
