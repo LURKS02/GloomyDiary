@@ -24,7 +24,10 @@ final class CounselingView: BaseView {
         $0.isEnabled = false
     }
     
+    let tapGesture = UITapGestureRecognizer()
+    
     override func setup() {
+        addGestureRecognizer(tapGesture)
         backgroundColor = .background(.mainPurple)
         characterGreetingLabel.alpha = 0
         sendingLetterView.alpha = 0

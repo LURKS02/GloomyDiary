@@ -12,20 +12,19 @@ import ComposableArchitecture
 struct Counseling {
     @ObservableState
     struct State: Equatable {
-        var character: CharacterDTO
+        let title: String
+        let weatherIdentifier: String
+        let emojiIdentifier: String
+        let character: CharacterDTO
+        var text: String = ""
     }
     
     enum Action {
-        case initialize(CharacterDTO)
     }
     
     var body: some Reducer<State, Action> {
         Reduce { state, action in
-            switch action {
-            case .initialize(let character):
-                state.character = character
-                return .none
-            }
+            return .none
         }
     }
 }
