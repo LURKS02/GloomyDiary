@@ -10,16 +10,22 @@ import Foundation
 final class CounselingSessionDTO: Sendable, Identifiable {
     let id: UUID
     let counselor: CharacterDTO
+    let title: String
     let query: String
     let response: String
     let createdAt: Date
+    let weather: WeatherDTO
+    let emoji: EmojiDTO
     
-    init(id: UUID, counselor: CharacterDTO, query: String, response: String, createdAt: Date) {
+    init(id: UUID, counselor: CharacterDTO, title: String, query: String, response: String, createdAt: Date, weather: WeatherDTO, emoji: EmojiDTO) {
         self.id = id
         self.counselor = counselor
+        self.title = title
         self.query = query
         self.response = response
         self.createdAt = createdAt
+        self.weather = weather
+        self.emoji = emoji
     }
 }
 
@@ -27,8 +33,11 @@ extension CounselingSessionDTO: Equatable {
     static func == (lhs: CounselingSessionDTO, rhs: CounselingSessionDTO) -> Bool {
         return lhs.id == rhs.id &&
         lhs.counselor == rhs.counselor &&
+        lhs.title == rhs.title &&
         lhs.query == rhs.query &&
         lhs.response == rhs.response &&
-        lhs.createdAt == rhs.createdAt
+        lhs.createdAt == rhs.createdAt &&
+        lhs.weather == rhs.weather &&
+        lhs.emoji == rhs.emoji
     }
 }
