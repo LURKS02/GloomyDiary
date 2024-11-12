@@ -46,7 +46,9 @@ extension ResultDismissTransition: UIViewControllerAnimatedTransitioning {
 private extension UIViewController {
     var dismissable: Dismissable? {
         if let navigationController = self as? UINavigationController {
-            return navigationController.topViewController as? Dismissable
+            return navigationController.topViewController?.dismissable
+        } else if let tabBarController = self as? UITabBarController {
+            return tabBarController.selectedViewController?.dismissable
         } else {
             return self as? Dismissable
         }
@@ -54,7 +56,9 @@ private extension UIViewController {
     
     var dismissedAppearable: DismissedAppearable? {
         if let navigationController = self as? UINavigationController {
-            return navigationController.topViewController as? DismissedAppearable
+            return navigationController.topViewController?.dismissedAppearable
+        } else if let tabBarController = self as? UITabBarController {
+            return tabBarController.selectedViewController?.dismissedAppearable
         } else {
             return self as? DismissedAppearable
         }
