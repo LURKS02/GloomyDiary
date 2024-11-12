@@ -68,7 +68,7 @@ final class HomeView: BaseView {
     }
     
     let startButton = HorizontalButton().then {
-        $0.setTitle("상담하기", for: .normal)
+        $0.setTitle("편지 쓰기", for: .normal)
     }
     
     

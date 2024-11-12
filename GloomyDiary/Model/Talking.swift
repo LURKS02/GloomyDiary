@@ -15,7 +15,7 @@ enum Talking: CaseIterable {
     var description: String {
         switch self {
         case .hello:
-            "안녕!\n오늘은 어떤 고민이 있니?"
+            "안녕!\n오늘은 어떤 일이 있었니?"
         case .cloud:
             "하늘에 있는 구름은\n가끔 보면\n몽실몽실한 소금빵 같아!"
         case .walking:

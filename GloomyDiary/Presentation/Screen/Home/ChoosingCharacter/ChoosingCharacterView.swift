@@ -29,7 +29,7 @@ final class ChoosingCharacterView: BaseView {
     private let introduceLabel = IntroduceLabel().then {
         $0.text = "\"울다\"에는\n" +
         "여러분들의 이야기를 들어줄\n" +
-        "세 마리의 상담사가 있어요."
+        "세 마리의 친구들이 있어요."
     }
     
     private lazy var scrollView = UIScrollView().then {
