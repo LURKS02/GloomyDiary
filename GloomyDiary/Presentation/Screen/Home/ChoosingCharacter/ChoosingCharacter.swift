@@ -1,31 +1,33 @@
 //
-//  Choosing.swift
+//  ChoosingCharacter.swift
 //  GloomyDiary
 //
-//  Created by 디해 on 8/24/24.
+//  Created by 디해 on 10/28/24.
 //
 
 import Foundation
 import ComposableArchitecture
 
 @Reducer
-struct Choosing {
+struct ChoosingCharacter {
     @ObservableState
     struct State: Equatable {
-        let isFirstProcess: Bool = false
-        var chosenCharacter: CharacterDTO? = nil
+        let title: String
+        let weatherIdentifier: String
+        let emojiIdentifier: String
+        var character: CharacterDTO = .chan
     }
     
     enum Action {
-        case characterTapped(identifier: String)
+        case characterSelected(identifier: String)
     }
     
     var body: some Reducer<State, Action> {
         Reduce { state, action in
             switch action {
-            case .characterTapped(let identifier):
+            case .characterSelected(let identifier):
                 guard let character = CharacterDTO(identifier: identifier) else { return .none }
-                state.chosenCharacter = character
+                state.character = character
                 return .none
             }
         }

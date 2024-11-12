@@ -11,6 +11,8 @@ final class HistoryView: BaseView {
     
     // MARK: - Views
     
+    var touchedPoint: CGPoint?
+    
     let layout = UICollectionViewFlowLayout().then {
         $0.scrollDirection = .vertical
         $0.minimumLineSpacing = 14
@@ -19,6 +21,7 @@ final class HistoryView: BaseView {
     lazy var tableView = UITableView().then {
         $0.showsVerticalScrollIndicator = false
         $0.backgroundColor = .clear
+        $0.clipsToBounds = false
         $0.register(CounselingSessionTableViewCellConfiguration.cellType, forCellReuseIdentifier: CounselingSessionTableViewCellConfiguration.identifier)
         $0.register(SpacerTableViewCellConfiguration.cellType, forCellReuseIdentifier: SpacerTableViewCellConfiguration.identifier)
     }
@@ -59,6 +62,34 @@ final class HistoryView: BaseView {
 extension HistoryView {
     func hideAllComponents() {
         tableView.alpha = 0.0
+    }
+    
+    @MainActor
+    func playFadeInAllComponents(excpet cell: UITableViewCell) async {
+        await withCheckedContinuation { continuation in
+            let cellAnimations: [Animation] = tableView.visibleCells.filter { $0 !== cell }.map {
+                Animation(view: $0, animationCase: .fadeIn, duration: 0.2)
+            }
+            
+            AnimationGroup(animations: cellAnimations,
+                           mode: .parallel,
+                           loop: .once(completion: { continuation.resume() })).run()
+        }
+    }
+    
+    @MainActor
+    func playFadeOutAllComponents(except cell: UITableViewCell) async {
+        await withCheckedContinuation { continuation in
+            let cellAnimations: [Animation] = tableView.visibleCells.filter { $0 !== cell }.map {
+                Animation(view: $0, animationCase: .fadeOut, duration: 0.3)
+            }
+            
+            AnimationGroup(animations: cellAnimations + [Animation(view: gradientBackgroundView,
+                                                                   animationCase: .fadeOut,
+                                                                   duration: 0.3)],
+                           mode: .parallel,
+                           loop: .once(completion: { continuation.resume() })).run()
+        }
     }
     
     @MainActor

@@ -11,7 +11,6 @@ import ComposableArchitecture
 final class CounselingViewController: BaseViewController<CounselingView> {
     
     let store: StoreOf<Counseling>
-    private let counselRepository: CounselRepositoryProtocol
     
     @Dependency(\.counselRepository) var repo
     
@@ -19,17 +18,26 @@ final class CounselingViewController: BaseViewController<CounselingView> {
     // MARK: - Properties
     
     private lazy var animationClosure: () async throws -> String = { [weak self] in
-        guard let self else { return "" }
-        return try await self.repo.counsel(to: self.store.character, with: self.contentView.sendingLetterView.letterTextView.text)
+        guard let self,
+              let weatherDTO = WeatherDTO(identifier: self.store.weatherIdentifier),
+              let emojiDTO = EmojiDTO(identifier: self.store.emojiIdentifier) else { return "" }
+        
+        return try await self.repo.counsel(to: self.store.character,
+                                           title: self.store.title,
+                                           userInput: self.contentView.sendingLetterView.letterTextView.text,
+                                           weather: weatherDTO,
+                                           emoji: emojiDTO)
     }
     
     
     // MARK: - Initialize
 
-    init(store: StoreOf<Counseling>, counselRepository: CounselRepositoryProtocol) {
+    init(store: StoreOf<Counseling>) {
         self.store = store
-        self.counselRepository = counselRepository
         super.init()
+        
+        self.navigationItem.hidesBackButton = true
+        contentView.tapGesture.addTarget(self, action: #selector(viewTouched))
     }
     
     required init?(coder: NSCoder) {
@@ -46,17 +54,13 @@ final class CounselingViewController: BaseViewController<CounselingView> {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.navigationItem.hidesBackButton = true
-        
         bind()
     }
     
     
     // MARK: - Touch Cycle
-
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        super.touchesBegan(touches, with: event)
-        
+    
+    @objc func viewTouched() {
         self.contentView.sendingLetterView.endEditing(true)
     }
 }
@@ -97,22 +101,22 @@ private extension CounselingViewController {
 
 private extension CounselingViewController {
     @objc func keyboardWillShow(notification: NSNotification) {
-        guard let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else { return }
-        let keyboardHeight = keyboardFrame.cgRectValue.height
-        let animations = self.contentView.subviews.map { Animation(view: $0,
-                                                                   animationCase: .transform(transform: .identity.translatedBy(x: 0, y: -self.contentView.characterGreetingLabel.frame.height - 90)),
-                                                                   duration: 0.3) }
-        AnimationGroup(animations: animations,
+        let animation = Animation(view: self.contentView,
+                                   animationCase: .transform(transform: .identity.translatedBy(x: 0, y: -self.contentView.characterGreetingLabel.frame.height - 90)),
+                                   duration: 0.3)
+        
+        AnimationGroup(animations: [animation],
                        mode: .parallel,
                        loop: .once(completion: nil))
         .run()
     }
     
     @objc func keyboardWillHide(notification: NSNotification) {
-        let animations = self.contentView.subviews.map { Animation(view: $0,
-                                                                   animationCase: .transform(transform: .identity),
-                                                                   duration: 0.3) }
-        AnimationGroup(animations: animations,
+        let animation = Animation(view: self.contentView,
+                                  animationCase: .transform(transform: .identity),
+                                  duration: 0.3)
+        
+        AnimationGroup(animations: [animation],
                        mode: .parallel,
                        loop: .once(completion: nil))
         .run()

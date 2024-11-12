@@ -12,6 +12,8 @@ final class HistoryViewController: BaseViewController<HistoryView> {
     
     let store: StoreOf<History>
     
+    private var initialized: Bool = false
+    
     
     // MARK: - Properties
 
@@ -20,7 +22,6 @@ final class HistoryViewController: BaseViewController<HistoryView> {
             self.contentView.tableView.reloadData()
         }
     }
-    
     
     // MARK: - Initialize
     
@@ -41,18 +42,22 @@ final class HistoryViewController: BaseViewController<HistoryView> {
         bind()
         
         store.send(.refresh)
+        
+        navigationController?.setNavigationBarHidden(true, animated: false)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         Task { @MainActor in
-            self.navigationController?.setNavigationBarHidden(true, animated: true)
             guard let tabBarController = tabBarController as? CircularTabBarControllable else { return }
-            await tabBarController.showCircularTabBar(duration: 0.3)
+            await tabBarController.showCircularTabBar(duration: 0.2)
         }
         
-        store.send(.refresh)
+        if !initialized {
+            store.send(.refresh)
+            initialized = true
+        }
     }
 }
 
@@ -64,12 +69,10 @@ private extension HistoryViewController {
         contentView.tableView.dataSource = self
         contentView.tableView.delegate = self
         
-        
         observe { [weak self] in
             guard let self else { return }
             updateDataSource()
         }
-        
     }
 }
 
@@ -81,6 +84,8 @@ private extension HistoryViewController {
         var configurables: [TableViewCellConfigurable] = []
         
         let spacing: CGFloat = 10.0
+        
+        configurables.append(SpacerTableViewCellConfiguration(spacing: spacing))
         
         for (index, sessionDTO) in store.counselingSessionDTOs.enumerated() {
             let counselingSessionConfiguration: TableViewCellConfigurable = CounselingSessionTableViewCellConfiguration(counselingSessionDTO: sessionDTO)
@@ -121,12 +126,19 @@ extension HistoryViewController: UITableViewDataSource {
 extension HistoryViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let selectedConfiguration = configurables[indexPath.row] as? CounselingSessionTableViewCellConfiguration else { return }
+        self.navigationController?.delegate = self
         self.navigationController?.pushViewController(HistoryDetailViewController(session: selectedConfiguration.counselingSessionDTO), animated: true)
     }
 }
 
 
 // MARK: - Transition Animation
+
+extension HistoryViewController: UINavigationControllerDelegate {
+    func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationController.Operation, from fromVC: UIViewController, to toVC: UIViewController) -> (any UIViewControllerAnimatedTransitioning)? {
+        HistoryDetailTransition()
+    }
+}
 
 extension HistoryViewController: ToTabSwitchable {
     func playTabAppearingAnimation() async {

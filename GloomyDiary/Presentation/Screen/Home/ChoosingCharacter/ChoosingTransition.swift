@@ -16,10 +16,13 @@ final class ChoosingTransition: NSObject {
         $0.animationSpeed = 2.0
         $0.loopMode = .loop
         $0.contentMode = .scaleToFill
+        $0.alpha = 0.0
         $0.play()
     }
     
-    private let readyLabel = IntroduceLabel()
+    private let readyLabel = IntroduceLabel().then {
+        $0.alpha = 0.0
+    }
 }
 
 extension ChoosingTransition: UIViewControllerAnimatedTransitioning {
@@ -29,61 +32,42 @@ extension ChoosingTransition: UIViewControllerAnimatedTransitioning {
     
     func animateTransition(using transitionContext: any UIViewControllerContextTransitioning) {
         let containerView = transitionContext.containerView
-        guard let fromView = transitionContext.view(forKey: .from) as? ChoosingView,
+        guard let fromView = transitionContext.view(forKey: .from) as? ChoosingCharacterView,
               let toView = transitionContext.view(forKey: .to) as? CounselingView,
-              let fromViewController = transitionContext.viewController(forKey: .from) as? ChoosingViewController,
-              let chosenCharacter = fromViewController.store.chosenCharacter else { return }
+              let fromViewController = transitionContext.viewController(forKey: .from) as? ChoosingCharacterViewController else { return }
         
-        containerView.addSubview(fromView)
-        fromView.addSubview(dummyView)
+        let chosenCharacter = fromViewController.store.character
+        guard let selectedButton = fromViewController.contentView.allCharacterButtons.first(where: { $0.isSelected }),
+              let selectedButtonImageView = selectedButton.imageView else { return }
+        let selectedButtonImageFrame = selectedButtonImageView.convert(selectedButtonImageView.bounds, to: containerView)
+        
+        dummyView.image = UIImage(named: chosenCharacter.imageName)
+        dummyView.frame = selectedButtonImageFrame
+        readyLabel.text = chosenCharacter.counselReadyMessage
+        readyLabel.sizeToFit()
+        
+        containerView.addSubview(dummyView)
+        containerView.addSubview(starLottieView)
+        containerView.addSubview(readyLabel)
         
         Task { @MainActor in
-            guard let selectedButton = fromView.allCharacterButtons.first(where: { $0.isSelected }),
-                  let selectedButtonImageView = selectedButton.imageView else { return }
-            let selectedButtonImageFrame = selectedButtonImageView.convert(selectedButtonImageView.bounds, to: fromView)
-            dummyView.image = UIImage(named: chosenCharacter.imageName)
-            dummyView.frame = selectedButtonImageFrame
-            readyLabel.text = chosenCharacter.counselReadyMessage
-            readyLabel.sizeToFit()
-            
             await fromView.playFadeOutAllComponents()
             
-            let dummyViewImageFrame = dummyView.convert(dummyView.bounds, to: containerView)
-            dummyView.frame = dummyViewImageFrame
-            
-            containerView.addSubview(dummyView)
-            containerView.addSubview(starLottieView)
-            containerView.addSubview(readyLabel)
-            
             let containerViewWidth = containerView.bounds.width
-            starLottieView.center = CGPoint(x: containerViewWidth / 2,
-                                            y: 300)
-            readyLabel.center = CGPoint(x: containerViewWidth / 2,
-                                        y: 430)
-            starLottieView.alpha = 0.0
-            readyLabel.alpha = 0.0
+            starLottieView.center = dummyView.center
+            readyLabel.center = CGPoint(x: dummyView.center.x,
+                                        y: dummyView.center.y + dummyView.frame.height / 2 + 50)
             
             toView.alpha = 0.0
             containerView.addSubview(toView)
             toView.layoutIfNeeded()
             let resultFrame = toView.characterImageView.frame
             
-            let dummyViewScaledWidth = 110.0
-            let dummyViewScaledHeight = (dummyView.bounds.height * dummyViewScaledWidth) / dummyView.bounds.width
-            let dummyViewMiddleFrame = CGRect(x: (containerViewWidth - dummyViewScaledWidth) / 2,
-                                              y: 250,
-                                              width: dummyViewScaledWidth,
-                                              height: dummyViewScaledHeight)
-            
-            await playDummyViewTo(frame: dummyViewMiddleFrame)
             await playWaitingViewsFadeIn()
             sleep(1)
             await playWaitingViewsFadeOut()
             await playDummyViewTo(frame: resultFrame)
             
-            dummyView.removeFromSuperview()
-            starLottieView.removeFromSuperview()
-            readyLabel.removeFromSuperview()
             toView.alpha = 1.0
             await toView.showAllComponents()
             transitionContext.completeTransition(true)

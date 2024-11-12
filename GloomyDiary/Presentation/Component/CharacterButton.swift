@@ -1,48 +1,24 @@
 //
-//  CharacterChooseView.swift
+//  CharacterButton.swift
 //  GloomyDiary
 //
-//  Created by 디해 on 8/24/24.
+//  Created by 디해 on 10/29/24.
 //
 
 import UIKit
 
 final class CharacterButton: UIButton {
     
-    // MARK: - Metric
-    
     private struct Metric {
-        static let imageSize: CGFloat = 58
-        static let imageTopPadding: CGFloat = 18
-        static let imageHorizontalPadding: CGFloat = 25
-        static let imageBottomPadding: CGFloat = 60
-        static let buttonBorderWidth = 2.0
-        static let cornerRadius: CGFloat = 20
-        static let imageNamePadding: CGFloat = 9
-        static let nameBottomPadding: CGFloat = 28
-        static let buttonWidth: CGFloat = 108
-        static let buttonHeight: CGFloat = 136
+        static let imagePadding: CGFloat = 20
     }
     
-    
-    // MARK: - Properties
-
     let identifier: String
-    
-    var characterFrame: CGRect? {
-        self.imageView?.frame
-    }
-    
-    
-    // MARK: - Initialize
     
     init(character: CharacterDTO) {
         self.identifier = character.identifier
-        
         super.init(frame: .zero)
         
-        setup()
-        setupConstraints()
         setupConfiguration(with: character)
     }
     
@@ -50,52 +26,79 @@ final class CharacterButton: UIButton {
         fatalError("init(coder:) has not been implemented")
     }
     
-    
-    // MARK: - View Life Cycle
-    
-    private func setup() {
-        self.layer.borderWidth = Metric.buttonBorderWidth
-        self.layer.cornerRadius = Metric.cornerRadius
-        self.layer.masksToBounds = true
-    }
-    
-    private func setupConstraints() {
-        self.snp.makeConstraints { make in
-            make.width.equalTo(Metric.buttonWidth)
-            make.height.equalTo(Metric.buttonHeight)
-        }
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        self.applyCornerRadius(20)
     }
     
     private func setupConfiguration(with character: CharacterDTO) {
+        self.setImage(UIImage(named: character.imageName)?.resized(width: 120, height: 120), for: .normal)
+        
         var configuration = UIButton.Configuration.plain()
         
         configuration.imagePlacement = .top
-        configuration.imagePadding = Metric.imageNamePadding
-        configuration.background.backgroundColor = .component(.buttonPurple)
+        configuration.imagePadding = Metric.imagePadding
         
-        self.configurationUpdateHandler = { button in
-            if button.isSelected {
-                self.layer.borderColor = UIColor.component(.lightGray).cgColor
-            } else {
-                self.layer.borderColor = UIColor.component(.fogGray).cgColor
+        var title = AttributedString(character.name)
+        title.font = .무궁화.title
+        title.foregroundColor = .text(.highlight)
+        configuration.attributedTitle = title
+        configuration.titleAlignment = .center
+        configuration.contentInsets = NSDirectionalEdgeInsets(top: 50, leading: 50, bottom: 37, trailing: 50)
+        
+        self.configuration = configuration
+        
+        let buttonStateHandler: UIButton.ConfigurationUpdateHandler = { button in
+            guard var configuration = button.configuration else { return }
+            switch button.state {
+            case .normal:
+                configuration.background.backgroundColor = .component(.buttonPurple)
+            case .selected:
+                configuration.background.backgroundColor = .component(.buttonSelectedBlue)
+            default:
+                return
+            }
+            
+            UIView.transition(with: self, duration: 0.3, options: .transitionCrossDissolve) {
+                self.configuration? = configuration
             }
         }
         
-        self.configuration = configuration
-        updateConfiguration(title: character.name)
-        updateConfiguration(imageName: character.imageName)
+        self.configurationUpdateHandler = buttonStateHandler
+    }
+}
+
+extension CharacterButton {
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
+        
+        AnimationGroup.init(animations: [.init(view: self,
+                                               animationCase: .transform(transform: CGAffineTransform(scaleX: 0.95, y: 0.95)),
+                                               duration: 0.1)],
+                            mode: .parallel,
+                            loop: .once(completion: { }))
+        .run()
     }
     
-    private func updateConfiguration(title: String) {
-        var title = AttributedString(title)
-        title.font = .무궁화.title
-        title.foregroundColor = .text(.highlight)
-        self.configuration?.attributedTitle = title
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesEnded(touches, with: event)
+        
+        AnimationGroup.init(animations: [.init(view: self,
+                                               animationCase: .transform(transform: .identity),
+                                               duration: 0.1)],
+                            mode: .parallel,
+                            loop: .once(completion: {} ))
+        .run()
     }
     
-    private func updateConfiguration(imageName: String) {
-        guard let image = UIImage(named: imageName) else { return }
-        let resizedImage = image.resized(width: Metric.imageSize, height: Metric.imageSize)
-        self.configuration?.image = resizedImage
+    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesCancelled(touches, with: event)
+        
+        AnimationGroup.init(animations: [.init(view: self,
+                                               animationCase: .transform(transform: .identity),
+                                               duration: 0.1)],
+                            mode: .parallel,
+                            loop: .once(completion: {}))
+        .run()
     }
 }

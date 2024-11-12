@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import ComposableArchitecture
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
@@ -50,3 +51,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
 }
 
+extension UIApplication {
+    var safeAreaTopInset: CGFloat? {
+        guard let keyWindow = connectedScenes
+            .filter({ $0.activationState == .foregroundActive })
+            .first(where: { $0 is UIWindowScene })
+            .flatMap({ $0 as? UIWindowScene })?.windows
+            .first(where: \.isKeyWindow) else { return nil }
+        
+        return keyWindow.safeAreaInsets.top
+    }
+}
