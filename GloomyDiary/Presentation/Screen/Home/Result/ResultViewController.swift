@@ -44,13 +44,6 @@ private extension ResultViewController {
             })
             .disposed(by: rx.disposeBag)
         
-        contentView.writingDiaryButton.rx.tap
-            .subscribe(onNext: { [weak self] _ in
-                guard let self else { return }
-                didTapWritingDiaryButton()
-            })
-            .disposed(by: rx.disposeBag)
-        
         contentView.homeButton.rx.tap
             .subscribe(onNext: { [weak self] _ in
                 guard let self else { return }
@@ -70,11 +63,6 @@ private extension ResultViewController {
         let textToCopy = contentView.resultLetterView.letterTextView.text
         UIPasteboard.general.string = textToCopy
         Toast.show(text: "클립보드에 복사되었습니다.")
-    }
-    
-    func didTapWritingDiaryButton() {
-        // TODO: - 다이어리 작성 기능
-        Toast.show(text: "곧 추가될 기능이에요.")
     }
     
     func didTapHomeButton() {

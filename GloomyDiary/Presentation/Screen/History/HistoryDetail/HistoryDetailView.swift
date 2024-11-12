@@ -114,23 +114,23 @@ final class HistoryDetailView: BaseView {
         }
         
         titleLabel.snp.makeConstraints { make in
-            make.top.equalToSuperview()
-            make.horizontalEdges.equalToSuperview().inset(Metric.viewPadding)
+            make.top.equalToSuperview().offset(20)
+            make.horizontalEdges.equalToSuperview().inset(Metric.textPadding)
         }
         
         dateLabel.snp.makeConstraints { make in
             make.top.equalTo(titleLabel.snp.bottom).offset(10)
-            make.horizontalEdges.equalToSuperview().inset(Metric.viewPadding)
+            make.horizontalEdges.equalToSuperview().inset(Metric.textPadding)
         }
         
         stateLabel.snp.makeConstraints { make in
             make.top.equalTo(dateLabel.snp.bottom)
-            make.horizontalEdges.equalToSuperview().inset(Metric.viewPadding)
+            make.horizontalEdges.equalToSuperview().inset(Metric.textPadding)
         }
         
         contentLabel.snp.makeConstraints { make in
             make.top.equalTo(stateLabel.snp.bottom).offset(40)
-            make.horizontalEdges.equalToSuperview().inset(Metric.viewPadding)
+            make.horizontalEdges.equalToSuperview().inset(Metric.textPadding)
         }
         
         responseLetterView.snp.makeConstraints { make in

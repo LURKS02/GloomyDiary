@@ -15,10 +15,6 @@ final class ResultView: BaseView {
     
     let resultLetterView = ResultLetterView()
     
-    let writingDiaryButton: HorizontalButton = HorizontalButton().then {
-        $0.setTitle("다이어리 작성하기", for: .normal)
-    }
-    
     let homeButton: HorizontalButton = HorizontalButton().then {
         $0.setTitle("홈으로", for: .normal)
     }
@@ -26,14 +22,12 @@ final class ResultView: BaseView {
     override func setup() {
         backgroundColor = .background(.mainPurple)
         resultLetterView.alpha = 0
-        writingDiaryButton.alpha = 0
         homeButton.alpha = 0
     }
     
     override func addSubviews() {
         addSubview(characterImageView)
         addSubview(resultLetterView)
-        addSubview(writingDiaryButton)
         addSubview(homeButton)
     }
     
@@ -50,13 +44,8 @@ final class ResultView: BaseView {
             make.bottom.equalToSuperview().offset(-218)
         }
         
-        writingDiaryButton.snp.makeConstraints { make in
-            make.top.equalTo(resultLetterView.snp.bottom).offset(25)
-            make.centerX.equalToSuperview()
-        }
-        
         homeButton.snp.makeConstraints { make in
-            make.top.equalTo(writingDiaryButton.snp.bottom).offset(10)
+            make.top.equalTo(resultLetterView.snp.bottom).offset(25)
             make.centerX.equalToSuperview()
         }
     }
@@ -78,9 +67,6 @@ extension ResultView {
             AnimationGroup(animations: [.init(view: resultLetterView,
                                               animationCase: .fadeIn,
                                               duration: 1.0),
-                                        .init(view: writingDiaryButton,
-                                              animationCase: .fadeIn,
-                                              duration: 1.0),
                                         .init(view: homeButton,
                                               animationCase: .fadeIn,
                                               duration: 1.0)],
@@ -94,9 +80,6 @@ extension ResultView {
     func playAllComponentsFadeOut() async {
         await withCheckedContinuation { continuation in
             AnimationGroup(animations: [.init(view: resultLetterView,
-                                              animationCase: .fadeOut,
-                                              duration: 1.0),
-                                        .init(view: writingDiaryButton,
                                               animationCase: .fadeOut,
                                               duration: 1.0),
                                         .init(view: homeButton,

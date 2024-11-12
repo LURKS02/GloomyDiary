@@ -13,7 +13,7 @@ final class StartCounselingView: BaseView {
     
     private struct Metric {
         static let moonTopPadding: CGFloat = 132
-        static let firstIntroduceLabelTopPadding: CGFloat = 53
+        static let firstIntroduceLabelTopPadding: CGFloat = 30
         static let secondIntroduceLabelTopPadding: CGFloat = 31
         static let thirdIntroduceLabelTopPadding: CGFloat = 22
         static let titleTextFieldTopPadding: CGFloat = 32
@@ -32,7 +32,7 @@ final class StartCounselingView: BaseView {
     private let gradientView = GradientView(colors: [.background(.darkPurple), .background(.mainPurple)], locations: [0.0, 0.5, 1.0])
     
     private lazy var firstIntroduceLabel = IntroduceLabel().then {
-        $0.text = isFirstProcess ? "첫 번째 상담을 진행해볼까요?" : "반가워요!"
+        $0.text = isFirstProcess ? "첫 번째 편지를 보내볼까요?" : "반가워요!"
     }
     
     private let secondIntroduceLabel = IntroduceLabel().then {
@@ -60,6 +60,7 @@ final class StartCounselingView: BaseView {
     let isFirstProcess: Bool
     
     let moonMovingY: CGFloat = 35
+    
     
     // MARK: - Initialize
 

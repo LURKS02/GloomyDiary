@@ -115,6 +115,9 @@
 		D9FCFFC62CBC244900A53A14 /* Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9FCFFC52CBC244900A53A14 /* Toast.swift */; };
 		D9FCFFC82CBCB15A00A53A14 /* ResultDismissTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9FCFFC72CBCB15A00A53A14 /* ResultDismissTransition.swift */; };
 		D9FFF8812CE33216006DE533 /* ChoosingTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9FFF87F2CE33216006DE533 /* ChoosingTransition.swift */; };
+		D9FFF89C2CE3AA26006DE533 /* HistoryDetailTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9FFF8982CE3AA26006DE533 /* HistoryDetailTransition.swift */; };
+		D9FFF89F2CE3B898006DE533 /* EmptyListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9FFF89E2CE3B898006DE533 /* EmptyListView.swift */; };
+		D9FFF8A12CE3BA7F006DE533 /* HistoryListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9FFF8A02CE3BA7F006DE533 /* HistoryListView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -239,6 +242,9 @@
 		D9FCFFC52CBC244900A53A14 /* Toast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Toast.swift; sourceTree = "<group>"; };
 		D9FCFFC72CBCB15A00A53A14 /* ResultDismissTransition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultDismissTransition.swift; sourceTree = "<group>"; };
 		D9FFF87F2CE33216006DE533 /* ChoosingTransition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChoosingTransition.swift; sourceTree = "<group>"; };
+		D9FFF8982CE3AA26006DE533 /* HistoryDetailTransition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryDetailTransition.swift; sourceTree = "<group>"; };
+		D9FFF89E2CE3B898006DE533 /* EmptyListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyListView.swift; sourceTree = "<group>"; };
+		D9FFF8A02CE3BA7F006DE533 /* HistoryListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryListView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -449,10 +455,13 @@
 		D9BF60712CC8AF38001C9D2B /* HistoryList */ = {
 			isa = PBXGroup;
 			children = (
+				D9FFF8982CE3AA26006DE533 /* HistoryDetailTransition.swift */,
 				D9FFF8842CE391AE006DE533 /* TableView */,
 				D9D9E02A2C5FF4570095792A /* HistoryViewController.swift */,
 				D9D9E0332C5FF6EF0095792A /* HistoryView.swift */,
 				D99BF17F2CBED3CE00465718 /* History.swift */,
+				D9FFF89E2CE3B898006DE533 /* EmptyListView.swift */,
+				D9FFF8A02CE3BA7F006DE533 /* HistoryListView.swift */,
 			);
 			path = HistoryList;
 			sourceTree = "<group>";
@@ -899,6 +908,7 @@
 				D95C18462CCFDC5700055C7C /* ChoosingCharacterViewController.swift in Sources */,
 				D9B07F402C8B66320048B2D9 /* Extension+UIStackView.swift in Sources */,
 				D97421B62C5ABE12002E47F9 /* ViewController.swift in Sources */,
+				D9FFF8A12CE3BA7F006DE533 /* HistoryListView.swift in Sources */,
 				D9BF605E2CC6C1CD001C9D2B /* CounselingSessionRepositoryKey.swift in Sources */,
 				D9D9E00E2C5C1C2E0095792A /* Color.swift in Sources */,
 				D9BF608A2CC997DC001C9D2B /* NavigationController.swift in Sources */,
@@ -924,6 +934,7 @@
 				D937405E2C7E40BF003E02FD /* Counseling.swift in Sources */,
 				D935483D2C725BDA00E5EBF9 /* Animation.swift in Sources */,
 				D92F49832C79F58300CD7D2A /* GhostView.swift in Sources */,
+				D9FFF89F2CE3B898006DE533 /* EmptyListView.swift in Sources */,
 				D9D9E0342C5FF6EF0095792A /* HistoryView.swift in Sources */,
 				D9D9E0122C5C1C340095792A /* Extension+UIColor.swift in Sources */,
 				D9BF60A52CCCFA3C001C9D2B /* FromTabSwitchable.swift in Sources */,
@@ -935,6 +946,7 @@
 				D9D9E0692C6279E80095792A /* then.swift in Sources */,
 				D9D9E02B2C5FF4570095792A /* HistoryViewController.swift in Sources */,
 				D95C181B2CCE7A4200055C7C /* StartCounseling.swift in Sources */,
+				D9FFF89C2CE3AA26006DE533 /* HistoryDetailTransition.swift in Sources */,
 				D95C18252CCE98E000055C7C /* Extension+String.swift in Sources */,
 				D9D9E0292C5FF41C0095792A /* HomeViewController.swift in Sources */,
 				D9D9E0BD2C6B96F30095792A /* HorizontalButton.swift in Sources */,
