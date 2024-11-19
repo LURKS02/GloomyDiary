@@ -43,22 +43,19 @@ extension TalkingView {
     func update(text: String) {
         Task {
             await playTalkingLabelFadeOut()
-            
-            let oldBounds = self.bounds
-            self.talkingLabel.text = text
-            self.layoutIfNeeded()
-            let newBounds = self.bounds
-            
-            let deltaX = oldBounds.width - newBounds.width
-            let deltaY = oldBounds.height - newBounds.height
-            
-            self.frame = oldBounds
-            
-            await playFrameAnimation(CGRect(x: deltaX,
-                                            y: deltaY,
-                                            width: newBounds.width,
-                                            height: newBounds.height))
+            await updateFrame(text: text)
             await playTalkingLabelFadeIn()
+        }
+    }
+    
+    private func updateFrame(text: String) async {
+        return await withCheckedContinuation { continuation in
+            UIView.animate(withDuration: 0.25) {
+                self.talkingLabel.text = text
+                self.superview?.layoutIfNeeded()
+            } completion: { _ in
+                continuation.resume()
+            }
         }
     }
 }
