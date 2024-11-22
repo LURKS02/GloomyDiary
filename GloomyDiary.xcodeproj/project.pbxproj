@@ -43,7 +43,6 @@
 		D9708BD42CADB9120081540E /* AnimationGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9708BD32CADB9120081540E /* AnimationGroup.swift */; };
 		D97421B22C5ABE12002E47F9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D97421B12C5ABE12002E47F9 /* AppDelegate.swift */; };
 		D97421B42C5ABE12002E47F9 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D97421B32C5ABE12002E47F9 /* SceneDelegate.swift */; };
-		D97421B62C5ABE12002E47F9 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D97421B52C5ABE12002E47F9 /* ViewController.swift */; };
 		D97421BB2C5ABE14002E47F9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D97421BA2C5ABE14002E47F9 /* Assets.xcassets */; };
 		D97421BE2C5ABE14002E47F9 /* Base in Resources */ = {isa = PBXBuildFile; fileRef = D97421BD2C5ABE14002E47F9 /* Base */; };
 		D97421C92C5ABE15002E47F9 /* GloomyDiaryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D97421C82C5ABE15002E47F9 /* GloomyDiaryTests.swift */; };
@@ -82,6 +81,17 @@
 		D9BF60B12CCE31C8001C9D2B /* DismissedAppearable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9BF60B02CCE31C8001C9D2B /* DismissedAppearable.swift */; };
 		D9BF60C32CCE7589001C9D2B /* StartCounselingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9BF60C22CCE7589001C9D2B /* StartCounselingViewController.swift */; };
 		D9BF60C72CCE75C8001C9D2B /* StartCounselingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9BF60C62CCE75C8001C9D2B /* StartCounselingView.swift */; };
+		D9CF315C2CEC806000B1A92D /* UserSettingRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9CF315B2CEC806000B1A92D /* UserSettingRepository.swift */; };
+		D9CF315E2CEC81F100B1A92D /* UserSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9CF315D2CEC81F100B1A92D /* UserSetting.swift */; };
+		D9CF31602CEC9FA700B1A92D /* UserDefaultsUserSettingRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9CF315F2CEC9FA700B1A92D /* UserDefaultsUserSettingRepository.swift */; };
+		D9CF31622CECA3DD00B1A92D /* UserSettingRepositoryKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9CF31612CECA3DD00B1A92D /* UserSettingRepositoryKey.swift */; };
+		D9CF31922CED096500B1A92D /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9CF31912CED096500B1A92D /* AppCoordinator.swift */; };
+		D9CF31952CED11F500B1A92D /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9CF31942CED11F500B1A92D /* WelcomeViewController.swift */; };
+		D9CF31972CED133A00B1A92D /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9CF31962CED133A00B1A92D /* WelcomeView.swift */; };
+		D9CF33012CEE65AB00B1A92D /* GuideViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9CF33002CEE65AB00B1A92D /* GuideViewController.swift */; };
+		D9CF33032CEE65C300B1A92D /* GuideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9CF33022CEE65C300B1A92D /* GuideView.swift */; };
+		D9CF33052CEE6DC000B1A92D /* WelcomeTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9CF33042CEE6DC000B1A92D /* WelcomeTransition.swift */; };
+		D9CF34A62CEFA7A100B1A92D /* GuideOverTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9CF34A52CEFA7A100B1A92D /* GuideOverTransition.swift */; };
 		D9D9E00E2C5C1C2E0095792A /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D9E00B2C5C1C2E0095792A /* Color.swift */; };
 		D9D9E00F2C5C1C2E0095792A /* Font.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D9E00C2C5C1C2E0095792A /* Font.swift */; };
 		D9D9E0122C5C1C340095792A /* Extension+UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D9E0102C5C1C340095792A /* Extension+UIColor.swift */; };
@@ -174,7 +184,6 @@
 		D97421AE2C5ABE12002E47F9 /* GloomyDiary.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GloomyDiary.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D97421B12C5ABE12002E47F9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D97421B32C5ABE12002E47F9 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		D97421B52C5ABE12002E47F9 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		D97421BA2C5ABE14002E47F9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D97421BD2C5ABE14002E47F9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D97421BF2C5ABE14002E47F9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -213,6 +222,17 @@
 		D9BF60B02CCE31C8001C9D2B /* DismissedAppearable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DismissedAppearable.swift; sourceTree = "<group>"; };
 		D9BF60C22CCE7589001C9D2B /* StartCounselingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartCounselingViewController.swift; sourceTree = "<group>"; };
 		D9BF60C62CCE75C8001C9D2B /* StartCounselingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartCounselingView.swift; sourceTree = "<group>"; };
+		D9CF315B2CEC806000B1A92D /* UserSettingRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSettingRepository.swift; sourceTree = "<group>"; };
+		D9CF315D2CEC81F100B1A92D /* UserSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSetting.swift; sourceTree = "<group>"; };
+		D9CF315F2CEC9FA700B1A92D /* UserDefaultsUserSettingRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsUserSettingRepository.swift; sourceTree = "<group>"; };
+		D9CF31612CECA3DD00B1A92D /* UserSettingRepositoryKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSettingRepositoryKey.swift; sourceTree = "<group>"; };
+		D9CF31912CED096500B1A92D /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
+		D9CF31942CED11F500B1A92D /* WelcomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeViewController.swift; sourceTree = "<group>"; };
+		D9CF31962CED133A00B1A92D /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
+		D9CF33002CEE65AB00B1A92D /* GuideViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuideViewController.swift; sourceTree = "<group>"; };
+		D9CF33022CEE65C300B1A92D /* GuideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuideView.swift; sourceTree = "<group>"; };
+		D9CF33042CEE6DC000B1A92D /* WelcomeTransition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeTransition.swift; sourceTree = "<group>"; };
+		D9CF34A52CEFA7A100B1A92D /* GuideOverTransition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuideOverTransition.swift; sourceTree = "<group>"; };
 		D9D9E00B2C5C1C2E0095792A /* Color.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		D9D9E00C2C5C1C2E0095792A /* Font.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Font.swift; sourceTree = "<group>"; };
 		D9D9E0102C5C1C340095792A /* Extension+UIColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Extension+UIColor.swift"; sourceTree = "<group>"; };
@@ -401,7 +421,7 @@
 				D9D9E0152C5C1C3E0095792A /* Resources */,
 				D97421B12C5ABE12002E47F9 /* AppDelegate.swift */,
 				D97421B32C5ABE12002E47F9 /* SceneDelegate.swift */,
-				D97421B52C5ABE12002E47F9 /* ViewController.swift */,
+				D9CF31912CED096500B1A92D /* AppCoordinator.swift */,
 				D97421BA2C5ABE14002E47F9 /* Assets.xcassets */,
 				D97421BC2C5ABE14002E47F9 /* LaunchScreen.storyboard */,
 				D97421BF2C5ABE14002E47F9 /* Info.plist */,
@@ -521,6 +541,37 @@
 			path = StartCounsel;
 			sourceTree = "<group>";
 		};
+		D9CF315A2CEC802800B1A92D /* UserSetting */ = {
+			isa = PBXGroup;
+			children = (
+				D9CF315B2CEC806000B1A92D /* UserSettingRepository.swift */,
+				D9CF315D2CEC81F100B1A92D /* UserSetting.swift */,
+				D9CF315F2CEC9FA700B1A92D /* UserDefaultsUserSettingRepository.swift */,
+				D9CF31612CECA3DD00B1A92D /* UserSettingRepositoryKey.swift */,
+			);
+			path = UserSetting;
+			sourceTree = "<group>";
+		};
+		D9CF31932CED117400B1A92D /* Welcome */ = {
+			isa = PBXGroup;
+			children = (
+				D9CF31942CED11F500B1A92D /* WelcomeViewController.swift */,
+				D9CF31962CED133A00B1A92D /* WelcomeView.swift */,
+				D9CF33042CEE6DC000B1A92D /* WelcomeTransition.swift */,
+			);
+			path = Welcome;
+			sourceTree = "<group>";
+		};
+		D9CF32FF2CEE656700B1A92D /* Guide */ = {
+			isa = PBXGroup;
+			children = (
+				D9CF33002CEE65AB00B1A92D /* GuideViewController.swift */,
+				D9CF33022CEE65C300B1A92D /* GuideView.swift */,
+				D9CF34A52CEFA7A100B1A92D /* GuideOverTransition.swift */,
+			);
+			path = Guide;
+			sourceTree = "<group>";
+		};
 		D9D9E00D2C5C1C2E0095792A /* Color+Font */ = {
 			isa = PBXGroup;
 			children = (
@@ -593,6 +644,8 @@
 		D9D9E01E2C5FE58B0095792A /* Home */ = {
 			isa = PBXGroup;
 			children = (
+				D9CF32FF2CEE656700B1A92D /* Guide */,
+				D9CF31932CED117400B1A92D /* Welcome */,
 				D966D2772C9C0DCB0024CA7F /* Result */,
 				D93740582C7E4066003E02FD /* Counsel */,
 				D95C18422CCFDB2200055C7C /* ChoosingCharacter */,
@@ -684,6 +737,7 @@
 		D9FCFFBE2CBAE4A900A53A14 /* Repository */ = {
 			isa = PBXGroup;
 			children = (
+				D9CF315A2CEC802800B1A92D /* UserSetting */,
 				D9BF604A2CC1814F001C9D2B /* Counseling */,
 				D9FCFFC12CBC1A7E00A53A14 /* Counsel */,
 			);
@@ -890,7 +944,9 @@
 				D9BF607D2CC8D900001C9D2B /* ResultLetterView.swift in Sources */,
 				D9DAD8C02CC0DCE0006E3DD8 /* TableViewCellConfigurable.swift in Sources */,
 				D95C182A2CCEAA8C00055C7C /* ChoosingWeatherView.swift in Sources */,
+				D9CF315E2CEC81F100B1A92D /* UserSetting.swift in Sources */,
 				D9DDE7442C8A269C004AE15C /* RoundedIconButton.swift in Sources */,
+				D9CF315C2CEC806000B1A92D /* UserSettingRepository.swift in Sources */,
 				D95C18482CCFDC7900055C7C /* ChoosingCharacterView.swift in Sources */,
 				D95C183B2CCF7A4400055C7C /* EmojiDTO.swift in Sources */,
 				D95C18282CCEAA7600055C7C /* ChoosingWeatherViewController.swift in Sources */,
@@ -907,7 +963,6 @@
 				D9BF604C2CC1815F001C9D2B /* CounselingSessionRepository.swift in Sources */,
 				D95C18462CCFDC5700055C7C /* ChoosingCharacterViewController.swift in Sources */,
 				D9B07F402C8B66320048B2D9 /* Extension+UIStackView.swift in Sources */,
-				D97421B62C5ABE12002E47F9 /* ViewController.swift in Sources */,
 				D9FFF8A12CE3BA7F006DE533 /* HistoryListView.swift in Sources */,
 				D9BF605E2CC6C1CD001C9D2B /* CounselingSessionRepositoryKey.swift in Sources */,
 				D9D9E00E2C5C1C2E0095792A /* Color.swift in Sources */,
@@ -918,11 +973,15 @@
 				D9FCFFC62CBC244900A53A14 /* Toast.swift in Sources */,
 				D937405C2C7E4099003E02FD /* CounselingView.swift in Sources */,
 				D9708BD42CADB9120081540E /* AnimationGroup.swift in Sources */,
+				D9CF31922CED096500B1A92D /* AppCoordinator.swift in Sources */,
+				D9CF31952CED11F500B1A92D /* WelcomeViewController.swift in Sources */,
 				D9D9E00F2C5C1C2E0095792A /* Font.swift in Sources */,
 				D9D9E02D2C5FF4710095792A /* DiaryViewController.swift in Sources */,
 				D937405A2C7E4075003E02FD /* CounselingViewController.swift in Sources */,
 				D9BF60882CC99669001C9D2B /* BaseNavigationController.swift in Sources */,
+				D9CF33052CEE6DC000B1A92D /* WelcomeTransition.swift in Sources */,
 				D95C18302CCEB08700055C7C /* ChoosingWeather.swift in Sources */,
+				D9CF33032CEE65C300B1A92D /* GuideView.swift in Sources */,
 				D9609F4F2CC03B2C005E8F0C /* TableViewConfigurationBindable.swift in Sources */,
 				D9BF60AF2CCE3195001C9D2B /* Dismissable.swift in Sources */,
 				D9BF60792CC8BF9D001C9D2B /* HistoryDetailView.swift in Sources */,
@@ -939,9 +998,11 @@
 				D9D9E0122C5C1C340095792A /* Extension+UIColor.swift in Sources */,
 				D9BF60A52CCCFA3C001C9D2B /* FromTabSwitchable.swift in Sources */,
 				D9BF60A72CCD391C001C9D2B /* ToTabSwitchable.swift in Sources */,
+				D9CF34A62CEFA7A100B1A92D /* GuideOverTransition.swift in Sources */,
 				D9B07F3E2C8B5F430048B2D9 /* Extension+UIImage.swift in Sources */,
 				D9D9E0C72C6BD8260095792A /* Home.swift in Sources */,
 				D9D9E0BF2C6B996C0095792A /* ImageView.swift in Sources */,
+				D9CF33012CEE65AB00B1A92D /* GuideViewController.swift in Sources */,
 				D92F49922C7A08EA00CD7D2A /* IntroduceLabel.swift in Sources */,
 				D9D9E0692C6279E80095792A /* then.swift in Sources */,
 				D9D9E02B2C5FF4570095792A /* HistoryViewController.swift in Sources */,
@@ -953,13 +1014,16 @@
 				D9BF607B2CC8C16C001C9D2B /* LetterView.swift in Sources */,
 				D9BF60B12CCE31C8001C9D2B /* DismissedAppearable.swift in Sources */,
 				D9FCFFC82CBCB15A00A53A14 /* ResultDismissTransition.swift in Sources */,
+				D9CF31602CEC9FA700B1A92D /* UserDefaultsUserSettingRepository.swift in Sources */,
 				D9BF60672CC6DC37001C9D2B /* CounselRepositoryKey.swift in Sources */,
 				D9BF60612CC6C580001C9D2B /* AppEnvironment.swift in Sources */,
 				D97421B22C5ABE12002E47F9 /* AppDelegate.swift in Sources */,
 				D9D9E0362C5FF72F0095792A /* DiaryView.swift in Sources */,
+				D9CF31972CED133A00B1A92D /* WelcomeView.swift in Sources */,
 				D97421B42C5ABE12002E47F9 /* SceneDelegate.swift in Sources */,
 				D9FFF8812CE33216006DE533 /* ChoosingTransition.swift in Sources */,
 				D9BF60A92CCD7D1B001C9D2B /* CircularTabBarControllable.swift in Sources */,
+				D9CF31622CECA3DD00B1A92D /* UserSettingRepositoryKey.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
