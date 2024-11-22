@@ -20,8 +20,6 @@ struct History {
         case counselingSessionDTOsResponse([CounselingSessionDTO])
     }
     
-    @Dependency(\.date.now) var now
-    @Dependency(\.uuid) var uuid
     @Dependency(\.counselingSessionRepository) var counselingSessionRepository
     
     var body: some Reducer<State, Action> {
