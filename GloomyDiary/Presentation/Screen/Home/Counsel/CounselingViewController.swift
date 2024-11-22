@@ -12,8 +12,8 @@ final class CounselingViewController: BaseViewController<CounselingView> {
     
     let store: StoreOf<Counseling>
     
-    @Dependency(\.counselRepository) var repo
-    
+    @Dependency(\.counselRepository) var counselRepository
+    @Dependency(\.userSettingRepository) var userSettingRepository
     
     // MARK: - Properties
     
@@ -22,11 +22,13 @@ final class CounselingViewController: BaseViewController<CounselingView> {
               let weatherDTO = WeatherDTO(identifier: self.store.weatherIdentifier),
               let emojiDTO = EmojiDTO(identifier: self.store.emojiIdentifier) else { return "" }
         
-        return try await self.repo.counsel(to: self.store.character,
+        guard let result = try? await self.counselRepository.counsel(to: self.store.character,
                                            title: self.store.title,
                                            userInput: self.contentView.sendingLetterView.letterTextView.text,
                                            weather: weatherDTO,
-                                           emoji: emojiDTO)
+                                                                     emoji: emojiDTO) else { return "" }
+        userSettingRepository.update(keyPath: \.isFirstProcess, value: false)
+        return result
     }
     
     
