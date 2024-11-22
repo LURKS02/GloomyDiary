@@ -16,7 +16,8 @@ final class StartCounselingViewController: BaseViewController<StartCounselingVie
     
     init(store: StoreOf<StartCounseling>) {
         self.store = store
-        let contentView = StartCounselingView(isFirstProcess: store.isFirstProcess)
+        let isFirstProcess = store.isFirstProcess
+        let contentView = StartCounselingView(isFirstProcess: isFirstProcess)
         super.init(contentView)
     }
     

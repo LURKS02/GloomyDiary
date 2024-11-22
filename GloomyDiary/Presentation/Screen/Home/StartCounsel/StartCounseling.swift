@@ -12,8 +12,13 @@ import ComposableArchitecture
 struct StartCounseling {
     @ObservableState
     struct State: Equatable {
-        let isFirstProcess: Bool = false
+        var isFirstProcess: Bool
         var isSendable: Bool = false
+        
+        init() {
+            @Dependency(\.userSettingRepository) var userSettingRepository
+            isFirstProcess = userSettingRepository.get(keyPath: \.isFirstProcess)
+        }
     }
     
     enum Action {
