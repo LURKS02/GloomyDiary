@@ -97,6 +97,10 @@ extension CircularTabBarController: UITabBarControllerDelegate {
 }
 
 extension CircularTabBarController: CircularTabBarControllable {
+    func hideCircularTabBar() {
+        circularTabBar.alpha = 0.0
+    }
+    
     func hideCircularTabBar(duration: TimeInterval) async {
         await withCheckedContinuation { continuation in
             AnimationGroup(animations: [.init(view: circularTabBar,

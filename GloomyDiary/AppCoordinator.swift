@@ -31,6 +31,7 @@ final class AppCoordinator {
 private extension AppCoordinator {
     func showCounselView() {
         let mainViewController = CircularTabBarController(tabBarItems: [.home, .history])
+        mainViewController.hideCircularTabBar()
         window.rootViewController = mainViewController
         window.makeKeyAndVisible()
         
