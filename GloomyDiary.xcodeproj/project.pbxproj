@@ -92,6 +92,9 @@
 		D9CF33032CEE65C300B1A92D /* GuideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9CF33022CEE65C300B1A92D /* GuideView.swift */; };
 		D9CF33052CEE6DC000B1A92D /* WelcomeTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9CF33042CEE6DC000B1A92D /* WelcomeTransition.swift */; };
 		D9CF34A62CEFA7A100B1A92D /* GuideOverTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9CF34A52CEFA7A100B1A92D /* GuideOverTransition.swift */; };
+		D9CF37932CF39BAC00B1A92D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D9CF37922CF39BAC00B1A92D /* GoogleService-Info.plist */; };
+		D9CF37962CF39C5500B1A92D /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = D9CF37952CF39C5500B1A92D /* FirebaseAnalytics */; };
+		D9CF37982CF39C5500B1A92D /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = D9CF37972CF39C5500B1A92D /* FirebaseCrashlytics */; };
 		D9D9E00E2C5C1C2E0095792A /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D9E00B2C5C1C2E0095792A /* Color.swift */; };
 		D9D9E00F2C5C1C2E0095792A /* Font.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D9E00C2C5C1C2E0095792A /* Font.swift */; };
 		D9D9E0122C5C1C340095792A /* Extension+UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D9E0102C5C1C340095792A /* Extension+UIColor.swift */; };
@@ -233,6 +236,7 @@
 		D9CF33022CEE65C300B1A92D /* GuideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuideView.swift; sourceTree = "<group>"; };
 		D9CF33042CEE6DC000B1A92D /* WelcomeTransition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeTransition.swift; sourceTree = "<group>"; };
 		D9CF34A52CEFA7A100B1A92D /* GuideOverTransition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuideOverTransition.swift; sourceTree = "<group>"; };
+		D9CF37922CF39BAC00B1A92D /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		D9D9E00B2C5C1C2E0095792A /* Color.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		D9D9E00C2C5C1C2E0095792A /* Font.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Font.swift; sourceTree = "<group>"; };
 		D9D9E0102C5C1C340095792A /* Extension+UIColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Extension+UIColor.swift"; sourceTree = "<group>"; };
@@ -286,7 +290,9 @@
 				D97421E72C5BF90A002E47F9 /* Lottie in Frameworks */,
 				D9D9E0CC2C6BE58B0095792A /* RxCocoa in Frameworks */,
 				D97421EA2C5C0073002E47F9 /* ComposableArchitecture in Frameworks */,
+				D9CF37982CF39C5500B1A92D /* FirebaseCrashlytics in Frameworks */,
 				D966D2822C9D0B420024CA7F /* RxGesture in Frameworks */,
+				D9CF37962CF39C5500B1A92D /* FirebaseAnalytics in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -426,6 +432,7 @@
 				D97421BC2C5ABE14002E47F9 /* LaunchScreen.storyboard */,
 				D97421BF2C5ABE14002E47F9 /* Info.plist */,
 				D9FCFFA22CB9A99600A53A14 /* Keys.plist */,
+				D9CF37922CF39BAC00B1A92D /* GoogleService-Info.plist */,
 			);
 			path = GloomyDiary;
 			sourceTree = "<group>";
@@ -772,6 +779,7 @@
 				D97421AA2C5ABE12002E47F9 /* Sources */,
 				D97421AB2C5ABE12002E47F9 /* Frameworks */,
 				D97421AC2C5ABE12002E47F9 /* Resources */,
+				D9CF37992CF39D5600B1A92D /* Google Crashlytics */,
 			);
 			buildRules = (
 			);
@@ -793,6 +801,8 @@
 				D9D9E0CF2C6BE58B0095792A /* RxSwift */,
 				D966D2812C9D0B420024CA7F /* RxGesture */,
 				D9FCFFA02CB9A86600A53A14 /* OpenAI */,
+				D9CF37952CF39C5500B1A92D /* FirebaseAnalytics */,
+				D9CF37972CF39C5500B1A92D /* FirebaseCrashlytics */,
 			);
 			productName = GloomyDiary;
 			productReference = D97421AE2C5ABE12002E47F9 /* GloomyDiary.app */;
@@ -873,6 +883,7 @@
 				D9D9E0CA2C6BE58B0095792A /* XCRemoteSwiftPackageReference "RxSwift" */,
 				D966D2802C9D0B360024CA7F /* XCRemoteSwiftPackageReference "RxGesture" */,
 				D9FCFF9F2CB9A86600A53A14 /* XCRemoteSwiftPackageReference "OpenAI" */,
+				D9CF37942CF39C5500B1A92D /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 			);
 			productRefGroup = D97421AF2C5ABE12002E47F9 /* Products */;
 			projectDirPath = "";
@@ -891,6 +902,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D935483A2C72533A00E5EBF9 /* pulsingCircle.json in Resources */,
+				D9CF37932CF39BAC00B1A92D /* GoogleService-Info.plist in Resources */,
 				D97421BB2C5ABE14002E47F9 /* Assets.xcassets in Resources */,
 				D9D9E0162C5C1C3E0095792A /* 나눔손글씨 무궁화.ttf in Resources */,
 				D9B07F922C99C8360048B2D9 /* stars.json in Resources */,
@@ -915,6 +927,32 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		D9CF37992CF39D5600B1A92D /* Google Crashlytics */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}",
+				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Resources/DWARF/${PRODUCT_NAME}",
+				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Info.plist",
+				"$(TARGET_BUILD_DIR)/$(UNLOCALIZED_RESOURCES_FOLDER_PATH)/GoogleService-Info.plist",
+				"$(TARGET_BUILD_DIR)/$(EXECUTABLE_PATH)",
+			);
+			name = "Google Crashlytics";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${BUILD_DIR%/Build/*}/SourcePackages/checkouts/firebase-ios-sdk/Crashlytics/run\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		D97421AA2C5ABE12002E47F9 /* Sources */ = {
@@ -1199,6 +1237,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = ZT2M7655AF;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = GloomyDiary/Info.plist;
@@ -1211,6 +1250,8 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = "-ObjC";
+				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.terranav.gloomydiary;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -1238,6 +1279,8 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = "-ObjC";
+				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.terranav.gloomydiary;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -1396,6 +1439,14 @@
 				minimumVersion = 1.12.1;
 			};
 		};
+		D9CF37942CF39C5500B1A92D /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 11.5.0;
+			};
+		};
 		D9D9E0CA2C6BE58B0095792A /* XCRemoteSwiftPackageReference "RxSwift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/ReactiveX/RxSwift";
@@ -1434,6 +1485,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = D97421E82C5C005F002E47F9 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */;
 			productName = ComposableArchitecture;
+		};
+		D9CF37952CF39C5500B1A92D /* FirebaseAnalytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D9CF37942CF39C5500B1A92D /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalytics;
+		};
+		D9CF37972CF39C5500B1A92D /* FirebaseCrashlytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D9CF37942CF39C5500B1A92D /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseCrashlytics;
 		};
 		D9D9E0CB2C6BE58B0095792A /* RxCocoa */ = {
 			isa = XCSwiftPackageProductDependency;
