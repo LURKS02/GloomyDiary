@@ -43,6 +43,7 @@ extension Logger {
         case app
         case api
         case data
+        case system
         
         var keyword: String {
             switch self {
@@ -56,6 +57,8 @@ extension Logger {
                 "Network"
             case .data:
                 "Data"
+            case .system:
+                "System"
             }
         }
         
@@ -70,6 +73,8 @@ extension Logger {
             case .api:
                 ""
             case .data:
+                ""
+            case .system:
                 ""
             }
         }
