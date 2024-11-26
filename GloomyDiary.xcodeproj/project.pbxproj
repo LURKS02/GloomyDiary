@@ -95,17 +95,17 @@
 		D9CF37932CF39BAC00B1A92D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D9CF37922CF39BAC00B1A92D /* GoogleService-Info.plist */; };
 		D9CF37962CF39C5500B1A92D /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = D9CF37952CF39C5500B1A92D /* FirebaseAnalytics */; };
 		D9CF37982CF39C5500B1A92D /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = D9CF37972CF39C5500B1A92D /* FirebaseCrashlytics */; };
+		D9CF38422CF4D1EA00B1A92D /* AmplitudeSwift in Frameworks */ = {isa = PBXBuildFile; productRef = D9CF38412CF4D1EA00B1A92D /* AmplitudeSwift */; };
+		D9CF38482CF4E7BD00B1A92D /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9CF38472CF4E7BD00B1A92D /* Logger.swift */; };
 		D9D9E00E2C5C1C2E0095792A /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D9E00B2C5C1C2E0095792A /* Color.swift */; };
 		D9D9E00F2C5C1C2E0095792A /* Font.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D9E00C2C5C1C2E0095792A /* Font.swift */; };
 		D9D9E0122C5C1C340095792A /* Extension+UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D9E0102C5C1C340095792A /* Extension+UIColor.swift */; };
 		D9D9E0162C5C1C3E0095792A /* 나눔손글씨 무궁화.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D9D9E0132C5C1C3E0095792A /* 나눔손글씨 무궁화.ttf */; };
 		D9D9E0292C5FF41C0095792A /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D9E0282C5FF41C0095792A /* HomeViewController.swift */; };
 		D9D9E02B2C5FF4570095792A /* HistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D9E02A2C5FF4570095792A /* HistoryViewController.swift */; };
-		D9D9E02D2C5FF4710095792A /* DiaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D9E02C2C5FF4710095792A /* DiaryViewController.swift */; };
 		D9D9E0302C5FF53E0095792A /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D9E02F2C5FF53E0095792A /* BaseViewController.swift */; };
 		D9D9E0322C5FF6BA0095792A /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D9E0312C5FF6BA0095792A /* HomeView.swift */; };
 		D9D9E0342C5FF6EF0095792A /* HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D9E0332C5FF6EF0095792A /* HistoryView.swift */; };
-		D9D9E0362C5FF72F0095792A /* DiaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D9E0352C5FF72F0095792A /* DiaryView.swift */; };
 		D9D9E03A2C5FFFE80095792A /* BaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D9E0392C5FFFE80095792A /* BaseView.swift */; };
 		D9D9E0692C6279E80095792A /* then.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D9E0682C6279E80095792A /* then.swift */; };
 		D9D9E0BB2C6B93F20095792A /* TalkingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D9E0BA2C6B93F20095792A /* TalkingView.swift */; };
@@ -237,17 +237,16 @@
 		D9CF33042CEE6DC000B1A92D /* WelcomeTransition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeTransition.swift; sourceTree = "<group>"; };
 		D9CF34A52CEFA7A100B1A92D /* GuideOverTransition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuideOverTransition.swift; sourceTree = "<group>"; };
 		D9CF37922CF39BAC00B1A92D /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		D9CF38472CF4E7BD00B1A92D /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		D9D9E00B2C5C1C2E0095792A /* Color.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		D9D9E00C2C5C1C2E0095792A /* Font.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Font.swift; sourceTree = "<group>"; };
 		D9D9E0102C5C1C340095792A /* Extension+UIColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Extension+UIColor.swift"; sourceTree = "<group>"; };
 		D9D9E0132C5C1C3E0095792A /* 나눔손글씨 무궁화.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "나눔손글씨 무궁화.ttf"; sourceTree = "<group>"; };
 		D9D9E0282C5FF41C0095792A /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		D9D9E02A2C5FF4570095792A /* HistoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryViewController.swift; sourceTree = "<group>"; };
-		D9D9E02C2C5FF4710095792A /* DiaryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryViewController.swift; sourceTree = "<group>"; };
 		D9D9E02F2C5FF53E0095792A /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		D9D9E0312C5FF6BA0095792A /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		D9D9E0332C5FF6EF0095792A /* HistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryView.swift; sourceTree = "<group>"; };
-		D9D9E0352C5FF72F0095792A /* DiaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryView.swift; sourceTree = "<group>"; };
 		D9D9E0392C5FFFE80095792A /* BaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseView.swift; sourceTree = "<group>"; };
 		D9D9E0682C6279E80095792A /* then.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = then.swift; sourceTree = "<group>"; };
 		D9D9E0BA2C6B93F20095792A /* TalkingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TalkingView.swift; sourceTree = "<group>"; };
@@ -285,6 +284,7 @@
 			files = (
 				D9D9E0D02C6BE58B0095792A /* RxSwift in Frameworks */,
 				D9D9E0CE2C6BE58B0095792A /* RxRelay in Frameworks */,
+				D9CF38422CF4D1EA00B1A92D /* AmplitudeSwift in Frameworks */,
 				D9FCFFA12CB9A86600A53A14 /* OpenAI in Frameworks */,
 				D97421E42C5BF879002E47F9 /* SnapKit in Frameworks */,
 				D97421E72C5BF90A002E47F9 /* Lottie in Frameworks */,
@@ -579,6 +579,14 @@
 			path = Guide;
 			sourceTree = "<group>";
 		};
+		D9CF38442CF4E79100B1A92D /* Logger */ = {
+			isa = PBXGroup;
+			children = (
+				D9CF38472CF4E7BD00B1A92D /* Logger.swift */,
+			);
+			path = Logger;
+			sourceTree = "<group>";
+		};
 		D9D9E00D2C5C1C2E0095792A /* Color+Font */ = {
 			isa = PBXGroup;
 			children = (
@@ -643,7 +651,6 @@
 			children = (
 				D9D9E01E2C5FE58B0095792A /* Home */,
 				D9D9E01F2C5FE59A0095792A /* History */,
-				D9D9E0202C5FE5A00095792A /* Diary */,
 			);
 			path = Screen;
 			sourceTree = "<group>";
@@ -673,18 +680,10 @@
 			path = History;
 			sourceTree = "<group>";
 		};
-		D9D9E0202C5FE5A00095792A /* Diary */ = {
-			isa = PBXGroup;
-			children = (
-				D9D9E02C2C5FF4710095792A /* DiaryViewController.swift */,
-				D9D9E0352C5FF72F0095792A /* DiaryView.swift */,
-			);
-			path = Diary;
-			sourceTree = "<group>";
-		};
 		D9D9E02E2C5FF5290095792A /* Base */ = {
 			isa = PBXGroup;
 			children = (
+				D9CF38442CF4E79100B1A92D /* Logger */,
 				D9FFF8832CE39176006DE533 /* Transition */,
 				D9BF60A32CCCF9B4001C9D2B /* Protocol */,
 				D9BF605F2CC6C574001C9D2B /* Environment */,
@@ -803,6 +802,7 @@
 				D9FCFFA02CB9A86600A53A14 /* OpenAI */,
 				D9CF37952CF39C5500B1A92D /* FirebaseAnalytics */,
 				D9CF37972CF39C5500B1A92D /* FirebaseCrashlytics */,
+				D9CF38412CF4D1EA00B1A92D /* AmplitudeSwift */,
 			);
 			productName = GloomyDiary;
 			productReference = D97421AE2C5ABE12002E47F9 /* GloomyDiary.app */;
@@ -884,6 +884,7 @@
 				D966D2802C9D0B360024CA7F /* XCRemoteSwiftPackageReference "RxGesture" */,
 				D9FCFF9F2CB9A86600A53A14 /* XCRemoteSwiftPackageReference "OpenAI" */,
 				D9CF37942CF39C5500B1A92D /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				D9CF38402CF4D1EA00B1A92D /* XCRemoteSwiftPackageReference "Amplitude-Swift" */,
 			);
 			productRefGroup = D97421AF2C5ABE12002E47F9 /* Products */;
 			projectDirPath = "";
@@ -1006,6 +1007,7 @@
 				D9D9E00E2C5C1C2E0095792A /* Color.swift in Sources */,
 				D9BF608A2CC997DC001C9D2B /* NavigationController.swift in Sources */,
 				D966D27B2C9C0E150024CA7F /* ResultView.swift in Sources */,
+				D9CF38482CF4E7BD00B1A92D /* Logger.swift in Sources */,
 				D9BF605C2CC5F9A9001C9D2B /* SwiftDataCounselingSessionRepository.swift in Sources */,
 				D9DDE73F2C8A10E7004AE15C /* SendingLetterView.swift in Sources */,
 				D9FCFFC62CBC244900A53A14 /* Toast.swift in Sources */,
@@ -1014,7 +1016,6 @@
 				D9CF31922CED096500B1A92D /* AppCoordinator.swift in Sources */,
 				D9CF31952CED11F500B1A92D /* WelcomeViewController.swift in Sources */,
 				D9D9E00F2C5C1C2E0095792A /* Font.swift in Sources */,
-				D9D9E02D2C5FF4710095792A /* DiaryViewController.swift in Sources */,
 				D937405A2C7E4075003E02FD /* CounselingViewController.swift in Sources */,
 				D9BF60882CC99669001C9D2B /* BaseNavigationController.swift in Sources */,
 				D9CF33052CEE6DC000B1A92D /* WelcomeTransition.swift in Sources */,
@@ -1056,7 +1057,6 @@
 				D9BF60672CC6DC37001C9D2B /* CounselRepositoryKey.swift in Sources */,
 				D9BF60612CC6C580001C9D2B /* AppEnvironment.swift in Sources */,
 				D97421B22C5ABE12002E47F9 /* AppDelegate.swift in Sources */,
-				D9D9E0362C5FF72F0095792A /* DiaryView.swift in Sources */,
 				D9CF31972CED133A00B1A92D /* WelcomeView.swift in Sources */,
 				D97421B42C5ABE12002E47F9 /* SceneDelegate.swift in Sources */,
 				D9FFF8812CE33216006DE533 /* ChoosingTransition.swift in Sources */,
@@ -1447,6 +1447,14 @@
 				minimumVersion = 11.5.0;
 			};
 		};
+		D9CF38402CF4D1EA00B1A92D /* XCRemoteSwiftPackageReference "Amplitude-Swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/amplitude/Amplitude-Swift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
 		D9D9E0CA2C6BE58B0095792A /* XCRemoteSwiftPackageReference "RxSwift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/ReactiveX/RxSwift";
@@ -1495,6 +1503,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = D9CF37942CF39C5500B1A92D /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseCrashlytics;
+		};
+		D9CF38412CF4D1EA00B1A92D /* AmplitudeSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D9CF38402CF4D1EA00B1A92D /* XCRemoteSwiftPackageReference "Amplitude-Swift" */;
+			productName = AmplitudeSwift;
 		};
 		D9D9E0CB2C6BE58B0095792A /* RxCocoa */ = {
 			isa = XCSwiftPackageProductDependency;
