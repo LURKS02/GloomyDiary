@@ -25,7 +25,7 @@ final class HistoryViewController: BaseViewController<HistoryView> {
     
     init(store: StoreOf<History>) {
         self.store = store
-        super.init()
+        super.init(logID: "History")
     }
     
     required init?(coder: NSCoder) {
@@ -128,6 +128,7 @@ extension HistoryViewController: UITableViewDelegate {
         guard let selectedConfiguration = configurables[indexPath.row] as? CounselingSessionTableViewCellConfiguration else { return }
         self.navigationController?.delegate = self
         self.navigationController?.pushViewController(HistoryDetailViewController(session: selectedConfiguration.counselingSessionDTO), animated: true)
+        Logger.send(type: .tapped, "히스토리 선택", parameters: ["인덱스": indexPath.row])
     }
 }
 

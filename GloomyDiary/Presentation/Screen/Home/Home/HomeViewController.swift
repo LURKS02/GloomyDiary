@@ -26,7 +26,7 @@ final class HomeViewController: BaseViewController<HomeView> {
     
     init(store: StoreOf<Home>) {
         self.store = store
-        super.init()
+        super.init(logID: "Home")
     }
     
     required init?(coder: NSCoder) {
@@ -59,12 +59,19 @@ extension HomeViewController {
     private func bind() {
         contentView.gradientView.rx.tapGesture()
             .when(.recognized)
+            .do(onNext: { _ in
+                Logger.send(type: .tapped, "GradientView")
+            })
             .subscribe(onNext: { [weak self] _ in
                 self?.store.send(.ghostTapped)
             })
             .disposed(by: rx.disposeBag)
         
         contentView.startButton.rx.tap
+            .do(onNext: { [weak self] _ in
+                guard let title = self?.contentView.startButton.title(for: .normal) else { return }
+                Logger.send(type: .tapped, title)
+            })
             .subscribe(onNext: { [weak self] _ in
                 guard let self else { return }
                 self.navigateToCounseling()

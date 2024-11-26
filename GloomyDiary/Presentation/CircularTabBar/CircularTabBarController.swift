@@ -72,6 +72,7 @@ final class CircularTabBarController: UITabBarController {
         currentIndex = (currentIndex + 1) % circularTabBar.numberOfTabs
         rotateTabBar(index: currentIndex)
         highlightCurrentTab()
+        Logger.send(type: .tapped, "탭 바", parameters: ["현재 탭": currentIndex])
     }
     
     private func rotateTabBar(index: Int) {

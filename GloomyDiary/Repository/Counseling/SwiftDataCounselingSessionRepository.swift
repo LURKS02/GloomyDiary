@@ -26,6 +26,7 @@ import SwiftData
                                         createdAt: $0.createdAt,
                                         weather: weather,
                                         emoji: emoji)}
+        Logger.send(type: .data, "상담 내역 불러오기")
         return sessionDTOs
     }
     
@@ -40,6 +41,7 @@ import SwiftData
                                         emojiIdentifier: sessionDTO.emoji.identifier)
         modelContext.insert(session)
         try modelContext.save()
+        Logger.send(type: .data, "상담 내역 저장")
     }
     
     func delete(id: UUID) async throws {
@@ -54,6 +56,7 @@ import SwiftData
                                         emojiIdentifier: sessionDTO.emoji.identifier)
         modelContext.delete(session)
         try modelContext.save()
+        Logger.send(type : .data, "상담 내역 삭제")
     }
     
     func find(id: UUID) async throws -> CounselingSessionDTO? {
@@ -63,6 +66,7 @@ import SwiftData
               let weather = WeatherDTO(identifier: session.weatherIdentifier),
               let emoji = EmojiDTO(identifier: session.emojiIdentifier) else { return nil }
         
+        Logger.send(type: .data, "상담 내역 조회")
         return CounselingSessionDTO(id: session.id,
                                     counselor: counselor,
                                     title: session.title,

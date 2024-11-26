@@ -11,7 +11,6 @@ import ComposableArchitecture
 enum CircularTabBarItem: String {
     case home
     case history
-    case diary
 }
 
 extension CircularTabBarItem {
@@ -26,9 +25,6 @@ extension CircularTabBarItem {
         case .history:
             let store = Store(initialState: History.State()) { History() }
             return NavigationController(rootViewController: HistoryViewController(store: store))
-            
-        case .diary:
-            return DiaryViewController()
         }
     }
 }
@@ -40,8 +36,6 @@ extension CircularTabBarItem {
             "홈"
         case .history:
             "히스토리"
-        case .diary:
-            "다이어리"
         }
     }
     

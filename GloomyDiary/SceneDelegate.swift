@@ -31,9 +31,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 
     func sceneWillEnterForeground(_ scene: UIScene) {
+        Logger.send(type: .app, "포그라운드 진입")
     }
 
     func sceneDidEnterBackground(_ scene: UIScene) {
+        Logger.send(type: .app, "백그라운드 진입")
     }
 
 

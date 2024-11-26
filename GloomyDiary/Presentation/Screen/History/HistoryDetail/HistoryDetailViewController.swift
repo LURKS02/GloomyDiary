@@ -12,7 +12,7 @@ final class HistoryDetailViewController: BaseViewController<HistoryDetailView> {
     
     init(session: CounselingSessionDTO) {
         let contentView = HistoryDetailView(session: session)
-        super.init(contentView)
+        super.init(contentView, logID: "HistoryDetail")
     }
     
     @MainActor required init?(coder: NSCoder) {

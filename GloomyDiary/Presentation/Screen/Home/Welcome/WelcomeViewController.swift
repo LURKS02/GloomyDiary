@@ -9,7 +9,13 @@ import UIKit
 import ComposableArchitecture
 
 final class WelcomeViewController: BaseViewController<WelcomeView> {
+    init() {
+        super.init(logID: "Welcome")
+    }
     
+    @MainActor required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 }
 
 extension WelcomeViewController {
@@ -36,6 +42,9 @@ private extension WelcomeViewController {
     func bind() {
         contentView.ghostImageView.rx.tapGesture()
             .when(.recognized)
+            .do(onNext: { _ in
+                Logger.send(type: .tapped, "유령 버튼")
+            })
             .subscribe(onNext: { [weak self] _ in
                 guard let self else { return }
                 navigateToGuide()

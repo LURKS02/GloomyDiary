@@ -36,7 +36,7 @@ final class CounselingViewController: BaseViewController<CounselingView> {
 
     init(store: StoreOf<Counseling>) {
         self.store = store
-        super.init()
+        super.init(logID: "Counseling")
         
         self.navigationItem.hidesBackButton = true
         contentView.tapGesture.addTarget(self, action: #selector(viewTouched))
@@ -84,6 +84,10 @@ private extension CounselingViewController {
             .disposed(by: rx.disposeBag)
         
         contentView.letterSendingButton.rx.tap
+            .do(onNext: { [weak self] _ in
+                guard let title = self?.contentView.letterSendingButton.title(for: .normal) else { return }
+                Logger.send(type: .tapped, title)
+            })
             .subscribe(onNext: { [weak self] _ in
                 guard let self else { return }
                 navigateToResult(with: store.character)

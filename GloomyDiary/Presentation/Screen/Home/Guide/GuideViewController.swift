@@ -12,6 +12,14 @@ final class GuideViewController: BaseViewController<GuideView> {
     
     private var animationCount: Int = 1
     
+    init() {
+        super.init(logID: "Guide")
+    }
+    
+    @MainActor required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -28,6 +36,10 @@ private extension GuideViewController {
     func bind() {
         contentView.rx.tapGesture()
             .when(.recognized)
+            .do(onNext: { [weak self] _ in
+                guard let self else { return }
+                Logger.send(type: .tapped, "튜토리얼 클릭", parameters: ["횟수": animationCount])
+            })
             .subscribe(onNext: { [weak self] _ in
                 guard let self else { return }
                 guard animationCount < contentView.labels.count else { return navigateToStartCounsel() }

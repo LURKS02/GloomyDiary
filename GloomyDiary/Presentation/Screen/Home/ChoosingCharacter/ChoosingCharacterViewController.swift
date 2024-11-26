@@ -17,7 +17,7 @@ final class ChoosingCharacterViewController: BaseViewController<ChoosingCharacte
 
     init(store: StoreOf<ChoosingCharacter>) {
         self.store = store
-        super.init()
+        super.init(logID: "ChoosingCharacter")
         
         self.navigationItem.hidesBackButton = true
     }
@@ -45,9 +45,9 @@ extension ChoosingCharacterViewController {
             button.rx.tap
                 .subscribe(onNext: { [weak self] _ in
                     guard let self else { return }
-                    guard let page = contentView.allCharacterButtons.enumerated().compactMap { (index, characterButton) in
+                    guard let page = contentView.allCharacterButtons.enumerated().compactMap({ (index, characterButton) in
                         characterButton.identifier == button.identifier ? index : nil
-                    }.first else { return }
+                    }).first else { return }
                     
                     contentView.switchToPage(page)
                 })
@@ -55,6 +55,11 @@ extension ChoosingCharacterViewController {
         }
         
         contentView.nextButton.rx.tap
+            .do(onNext: { [weak self] _ in
+                guard let title = self?.contentView.nextButton.title(for: .normal),
+                      let selectedCharacter = self?.store.character.name else { return }
+                Logger.send(type: .tapped, title, parameters: ["선택한 캐릭터": selectedCharacter])
+            })
             .subscribe(onNext: { [weak self] _ in
                 guard let self else { return }
                 navigateToLetter(with: store.character)
@@ -62,6 +67,9 @@ extension ChoosingCharacterViewController {
             .disposed(by: rx.disposeBag)
         
         contentView.characterIdentifierRelay
+            .do(onNext: { identifier in
+                Logger.send(type: .tapped, "캐릭터 선택", parameters: ["캐릭터": identifier])
+            })
             .subscribe(onNext: { [weak self] identifier in
                 guard let self else { return }
                 store.send(.characterSelected(identifier: identifier))
