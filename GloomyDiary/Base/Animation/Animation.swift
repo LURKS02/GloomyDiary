@@ -45,6 +45,10 @@ extension Animation {
             { [weak view] in
                 view?.transform = transform
             }
+        case .custom(let closure):
+            { [weak view] in
+                closure(view)
+            }
         }
     }
 }
@@ -57,4 +61,5 @@ enum AnimationCase {
     case fade(value: Double)
     case redraw(frame: CGRect)
     case transform(transform: CGAffineTransform)
+    case custom(closure: (UIView?) -> Void)
 }
