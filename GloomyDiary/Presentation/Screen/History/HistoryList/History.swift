@@ -10,6 +10,8 @@ import ComposableArchitecture
 
 @Reducer
 struct History {
+    @Dependency(\.counselingSessionRepository) var counselingSessionRepository
+    
     @ObservableState
     struct State: Equatable {
         var counselingSessionDTOs: [CounselingSessionDTO] = []
@@ -19,8 +21,6 @@ struct History {
         case refresh
         case counselingSessionDTOsResponse([CounselingSessionDTO])
     }
-    
-    @Dependency(\.counselingSessionRepository) var counselingSessionRepository
     
     var body: some Reducer<State, Action> {
         Reduce { state, action in
