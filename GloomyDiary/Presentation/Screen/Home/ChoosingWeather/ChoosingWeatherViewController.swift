@@ -17,7 +17,7 @@ final class ChoosingWeatherViewController: BaseViewController<ChoosingWeatherVie
     
     init(store: StoreOf<ChoosingWeather>) {
         self.store = store
-        super.init()
+        super.init(logID: "ChoosingWeather")
         
         self.navigationItem.hidesBackButton = true
     }
@@ -43,6 +43,10 @@ extension ChoosingWeatherViewController {
     private func bind() {
         contentView.allWeatherButtons.forEach { button in
             button.rx.tap
+                .do(onNext: { _ in
+                    let identifier = button.identifier
+                    Logger.send(type: .tapped, "날씨 버튼", parameters: ["날씨": identifier])
+                })
                 .subscribe(onNext: { [weak self] _ in
                     guard let self else { return }
                     store.send(.weatherTapped(identifier: button.identifier))
@@ -51,6 +55,11 @@ extension ChoosingWeatherViewController {
         }
         
         contentView.nextButton.rx.tap
+            .do(onNext: { [weak self] _ in
+                guard let title = self?.contentView.nextButton.title(for: .normal),
+                      let selectedWeather = self?.store.weatherIdentifier else { return }
+                Logger.send(type: .tapped, title, parameters: ["선택한 날씨": selectedWeather])
+            })
             .subscribe(onNext: { [weak self] _ in
                 guard let self,
                       let weatherIdentifier = store.weatherIdentifier else { return }

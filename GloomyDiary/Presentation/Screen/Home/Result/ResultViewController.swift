@@ -13,7 +13,7 @@ final class ResultViewController: BaseViewController<ResultView> {
     
     init(store: StoreOf<CounselResult>) {
         self.store = store
-        super.init()
+        super.init(logID: "Result")
     }
     
     required init?(coder: NSCoder) {
@@ -38,6 +38,9 @@ extension ResultViewController {
 private extension ResultViewController {
     func bind() {
         contentView.resultLetterView.copyButton.rx.tap
+            .do(onNext: { _ in
+                Logger.send(type: .tapped, "클립보드 복사 버튼")
+            })
             .subscribe(onNext: { [weak self] _ in
                 guard let self else { return }
                 copyToClipboard()
@@ -45,6 +48,10 @@ private extension ResultViewController {
             .disposed(by: rx.disposeBag)
         
         contentView.homeButton.rx.tap
+            .do(onNext: { [weak self] _ in
+                guard let title = self?.contentView.homeButton.title(for: .normal) else { return }
+                Logger.send(type: .tapped, title)
+            })
             .subscribe(onNext: { [weak self] _ in
                 guard let self else { return }
                 didTapHomeButton()

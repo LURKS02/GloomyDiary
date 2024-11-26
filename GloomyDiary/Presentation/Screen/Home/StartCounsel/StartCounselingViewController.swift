@@ -18,7 +18,7 @@ final class StartCounselingViewController: BaseViewController<StartCounselingVie
         self.store = store
         let isFirstProcess = store.isFirstProcess
         let contentView = StartCounselingView(isFirstProcess: isFirstProcess)
-        super.init(contentView)
+        super.init(contentView, logID: "StartCounseling")
     }
     
     @MainActor required init?(coder: NSCoder) {
@@ -52,6 +52,10 @@ private extension StartCounselingViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
         
         contentView.nextButton.rx.tap
+            .do(onNext: { [weak self] _ in
+                guard let title = self?.contentView.nextButton.title(for: .normal) else { return }
+                Logger.send(type: .tapped, title)
+            })
             .subscribe(onNext: { [weak self] _ in
                 guard let self,
                       let value = try? contentView.titleTextField.textSubject.value() else { return }
