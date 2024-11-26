@@ -173,4 +173,30 @@ enum CharacterDTO: String, CaseIterable, Equatable {
             "답장을 기다리고 있어요..."
         }
     }
+    
+    var reviewRequiringMessage: String {
+        switch self {
+        case .chan:
+            "즐겁게 울다를 이용하고 있니?\n\n" +
+            "울다가 더 발전할 수 있도록\n" +
+            "소중한 별점을 남겨주지 않을래?\n" +
+            "울다의 소중한 리뷰어가 되어줘!"
+        case .gomi:
+            "울다는 잘 사용하고 있어?\n\n" +
+            "울다가 더 발전할 수 있도록\n" +
+            "소중한 별점을 남겨주지 않을래?\n" +
+            "개발자에게 많은 도움이 될거야!"
+        case .beomji:
+            "편지를 보내 본 소감은 어때~?\n\n" +
+            "울다가 앞으로 더 발전할 수 있도록\n" +
+            "별점을 남겨주지 않을래~?\n" +
+            "모두의 생각이 듣고 싶어~"
+        }
+    }
+}
+
+extension CharacterDTO {
+    static func getRandomElement() -> CharacterDTO {
+        CharacterDTO.allCases.randomElement()!
+    }
 }

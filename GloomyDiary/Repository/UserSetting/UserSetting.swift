@@ -9,4 +9,6 @@ import Foundation
 
 struct UserSetting: Codable {
     var isFirstProcess: Bool
+    var hasReviewed: Bool
+    var lastReviewDeclinedDate: Date?
 }

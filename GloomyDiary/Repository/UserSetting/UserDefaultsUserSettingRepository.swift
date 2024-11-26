@@ -23,7 +23,7 @@ final class UserDefaultsUserSettingRepository: UserSettingRepository {
            let savedSetting = try? decoder.decode(UserSetting.self, from: savedData) {
             self.userSetting = savedSetting
         } else {
-            let initialSetting = UserSetting(isFirstProcess: true)
+            let initialSetting = UserSetting(isFirstProcess: true, hasReviewed: false, lastReviewDeclinedDate: nil)
             guard let encodedData = try? encoder.encode(initialSetting) else { fatalError("can not encode initial setting.") }
             self.userSetting = initialSetting
             userDefaults.set(encodedData, forKey: userSettingKey)

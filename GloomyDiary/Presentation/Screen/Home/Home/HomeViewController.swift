@@ -21,6 +21,8 @@ final class HomeViewController: BaseViewController<HomeView> {
     
     private var loopAnimated: Bool = false
     
+    private var isFirstAppearance: Bool = true
+    
     
     // MARK: - Initialize
     
@@ -48,6 +50,16 @@ final class HomeViewController: BaseViewController<HomeView> {
         if !loopAnimated {
             defer { loopAnimated = true }
             contentView.ghostImageView.playBounce()
+        }
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        if isFirstAppearance {
+            isFirstAppearance = false
+        } else {
+            store.send(.viewDidAppear)
         }
     }
 }
@@ -81,6 +93,10 @@ extension HomeViewController {
         observe { [weak self] in
             guard let self else { return }
             self.contentView.ghostTalkingView.update(text: store.talkingType.description)
+            
+            if store.showReviewSuggestion {
+                showSuggestion()
+            }
         }
     }
 }
@@ -89,6 +105,13 @@ extension HomeViewController {
 // MARK: - Navigation
 
 extension HomeViewController {
+    func showSuggestion() {
+        let store: StoreOf<Review> = Store(initialState: .init(), reducer: { Review() })
+        let reviewViewController = ReviewViewController(store: store)
+        reviewViewController.modalPresentationStyle = .overFullScreen
+        present(reviewViewController, animated: false)
+    }
+    
     func navigateToCounseling() {
         let store: StoreOf<StartCounseling> = Store(initialState: .init(), reducer: { StartCounseling() })
         let startCounselingViewController = StartCounselingViewController(store: store)
@@ -128,7 +151,6 @@ extension HomeViewController: FromTabSwitchable {
 
 extension HomeViewController: DismissedAppearable {
     func playAppearingAnimation() async {
-        
         contentView.hideAllComponents()
         
         if let circularTabBarControllable = self.tabBarController as? CircularTabBarControllable {
@@ -138,6 +160,8 @@ extension HomeViewController: DismissedAppearable {
         } else {
             await contentView.playAllComponentsFadeIn()
         }
+        
+        store.send(.viewDidAppear)
     }
 }
 

@@ -13,6 +13,7 @@ extension UIColor {
         case dark = "66626B"
         case warning = "CC4E74"
         case buttonDisabled = "6D6677"
+        case buttonSubHighlight = "9C97A3"
         case subHighlight = "C1BFC5"
         case fogHighlight = "91899A"
     }
