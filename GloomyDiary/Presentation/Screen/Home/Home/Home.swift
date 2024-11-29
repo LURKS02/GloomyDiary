@@ -18,11 +18,14 @@ struct Home {
     struct State: Equatable {
         var talkingType: Talking = .hello
         var showReviewSuggestion: Bool = false
+        var showNotificationSuggestion: Bool = false
     }
     
     enum Action {
         case viewDidAppear
+        case showNotificationSuggestion
         case showReviewSuggestion
+        case hideSuggestions
         case ghostTapped
     }
     
@@ -43,6 +46,14 @@ struct Home {
                             await send(.showReviewSuggestion)
                         }
                     }
+                    
+                    let isFirstProcess = userSettingRepository.get(keyPath: \.isFirstProcess)
+                    let hasSuggestedNotification = userSettingRepository.get(keyPath: \.hasSuggestedNotification)
+                    if isFirstProcess == false && hasSuggestedNotification == false {
+                        userSettingRepository.update(keyPath: \.hasSuggestedNotification, value: true)
+                        Logger.send(type: .system, "유저에게 알림을 제안합니다.")
+                        await send(.showNotificationSuggestion)
+                    }
                 }
                 
             case .ghostTapped:
@@ -51,6 +62,15 @@ struct Home {
                 
             case .showReviewSuggestion:
                 state.showReviewSuggestion = true
+                return .none
+                
+            case .showNotificationSuggestion:
+                state.showNotificationSuggestion = true
+                return .none
+                
+            case .hideSuggestions:
+                state.showReviewSuggestion = false
+                state.showNotificationSuggestion = false
                 return .none
             }
         }
