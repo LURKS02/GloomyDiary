@@ -19,16 +19,22 @@ final class ResultView: BaseView {
         $0.setTitle("홈으로", for: .normal)
     }
     
+    let shareButton: HorizontalButton = HorizontalButton().then {
+        $0.setTitle("공유하기", for: .normal)
+    }
+    
     override func setup() {
         backgroundColor = .background(.mainPurple)
         resultLetterView.alpha = 0
         homeButton.alpha = 0
+        shareButton.alpha = 0
     }
     
     override func addSubviews() {
         addSubview(characterImageView)
         addSubview(resultLetterView)
         addSubview(homeButton)
+        addSubview(shareButton)
     }
     
     override func setupConstraints() {
@@ -46,6 +52,11 @@ final class ResultView: BaseView {
         
         homeButton.snp.makeConstraints { make in
             make.top.equalTo(resultLetterView.snp.bottom).offset(25)
+            make.centerX.equalToSuperview()
+        }
+        
+        shareButton.snp.makeConstraints { make in
+            make.top.equalTo(homeButton.snp.bottom).offset(15)
             make.centerX.equalToSuperview()
         }
     }
@@ -69,6 +80,9 @@ extension ResultView {
                                               duration: 1.0),
                                         .init(view: homeButton,
                                               animationCase: .fadeIn,
+                                              duration: 1.0),
+                                        .init(view: shareButton,
+                                              animationCase: .fadeIn,
                                               duration: 1.0)],
                            mode: .parallel,
                            loop: .once(completion: { continuation.resume() }))
@@ -86,6 +100,9 @@ extension ResultView {
                                               animationCase: .fadeOut,
                                               duration: 1.0),
                                         .init(view: characterImageView,
+                                              animationCase: .fadeOut,
+                                              duration: 1.0),
+                                        .init(view: shareButton,
                                               animationCase: .fadeOut,
                                               duration: 1.0)],
                            mode: .parallel,

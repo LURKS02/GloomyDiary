@@ -58,9 +58,22 @@ private extension ResultViewController {
             })
             .disposed(by: rx.disposeBag)
         
+        contentView.shareButton.rx.tap
+            .do(onNext: { [weak self] _ in
+                guard let title = self?.contentView.shareButton.title(for: .normal) else { return }
+                Logger.send(type: .tapped, title)
+            })
+            .subscribe(onNext: { [weak self] _ in
+                guard let self else { return }
+                didTapShareButton()
+            })
+            .disposed(by: rx.disposeBag)
+        
         observe { [weak self] in
             guard let self else { return }
             self.contentView.configure(with: store.character)
+            
+            self.contentView.resultLetterView.letterTextView.text = store.response
         }
     }
 }
@@ -75,6 +88,16 @@ private extension ResultViewController {
     func didTapHomeButton() {
         self.dismiss(animated: true)
     }
+    
+    func didTapShareButton() {
+        let textToShare = "✉️ \(store.character.name)로부터 편지가 도착했어요!\n\n[\(store.response.truncated)]\n\n\(store.character.name)와 더 많은 이야기를 나누고 싶다면 아래 링크를 방문해보세요! 🥳\n\nhttps://www.apple.com"
+        
+        let itemsToShare: [Any] = [textToShare]
+        
+        let activityViewController = UIActivityViewController(activityItems: itemsToShare, applicationActivities: nil)
+        
+        present(activityViewController, animated: true)
+    }
 }
 
 
@@ -83,5 +106,13 @@ private extension ResultViewController {
 extension ResultViewController: Dismissable {
     func playDismissingAnimation() async {
         await contentView.playAllComponentsFadeOut()
+    }
+}
+
+private extension String {
+    var truncated: String {
+        guard self.count > 150 else { return self }
+        let truncated = self.prefix(150)
+        return "\(truncated)..."
     }
 }

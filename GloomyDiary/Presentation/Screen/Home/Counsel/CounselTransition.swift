@@ -35,7 +35,9 @@ extension CounselTransition: UIViewControllerAnimatedTransitioning {
         let containerView = transitionContext.containerView
         guard let fromView = transitionContext.view(forKey: .from) as? CounselingView,
               let toView = transitionContext.view(forKey: .to) as? ResultView,
-              let fromViewController = transitionContext.viewController(forKey: .from) as? CounselingViewController else { return }
+              let fromViewController = transitionContext.viewController(forKey: .from) as? CounselingViewController,
+              let toViewController = transitionContext.viewController(forKey: .to) as? ResultViewController
+        else { return }
         
         let character = fromViewController.store.character
         let characterImageView = fromView.characterImageView
@@ -81,7 +83,7 @@ extension CounselTransition: UIViewControllerAnimatedTransitioning {
             
             starLottieView.removeFromSuperview()
             readyLabel.removeFromSuperview()
-            toView.resultLetterView.letterTextView.text = response
+            toViewController.store.send(.updateResponse(response))
             toView.alpha = 1.0
             await toView.playAllComponentsFadeIn()
             
