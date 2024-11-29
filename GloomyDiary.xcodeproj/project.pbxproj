@@ -277,6 +277,8 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		D95A25812CF797520007A71A /* LocalNotification */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = LocalNotification; sourceTree = "<group>"; };
+		D95A25842CF7A6C10007A71A /* LocalNotification */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = LocalNotification; sourceTree = "<group>"; };
 		D95C18332CCF6C8700055C7C /* ChoosingEmoji */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = ChoosingEmoji; sourceTree = "<group>"; };
 		D9FCFFA42CBACBD800A53A14 /* Network */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Network; sourceTree = "<group>"; };
 		D9FFF8832CE39176006DE533 /* Transition */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Transition; sourceTree = "<group>"; };
@@ -665,6 +667,7 @@
 		D9D9E01D2C5FE5830095792A /* Screen */ = {
 			isa = PBXGroup;
 			children = (
+				D95A25842CF7A6C10007A71A /* LocalNotification */,
 				D9CF39742CF61D4900B1A92D /* Review */,
 				D9D9E01E2C5FE58B0095792A /* Home */,
 				D9D9E01F2C5FE59A0095792A /* History */,
@@ -700,6 +703,7 @@
 		D9D9E02E2C5FF5290095792A /* Base */ = {
 			isa = PBXGroup;
 			children = (
+				D95A25812CF797520007A71A /* LocalNotification */,
 				D9CF38442CF4E79100B1A92D /* Logger */,
 				D9FFF8832CE39176006DE533 /* Transition */,
 				D9BF60A32CCCF9B4001C9D2B /* Protocol */,
@@ -802,6 +806,8 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
+				D95A25812CF797520007A71A /* LocalNotification */,
+				D95A25842CF7A6C10007A71A /* LocalNotification */,
 				D95C18332CCF6C8700055C7C /* ChoosingEmoji */,
 				D9FCFFA42CBACBD800A53A14 /* Network */,
 				D9FFF8832CE39176006DE533 /* Transition */,
