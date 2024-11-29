@@ -95,7 +95,13 @@ extension HomeViewController {
             self.contentView.ghostTalkingView.update(text: store.talkingType.description)
             
             if store.showReviewSuggestion {
-                showSuggestion()
+                presentReviewSuggestion()
+                store.send(.hideSuggestions)
+            }
+            
+            if store.showNotificationSuggestion {
+                presentNotificationSuggestion()
+                store.send(.hideSuggestions)
             }
         }
     }
@@ -105,11 +111,17 @@ extension HomeViewController {
 // MARK: - Navigation
 
 extension HomeViewController {
-    func showSuggestion() {
+    func presentReviewSuggestion() {
         let store: StoreOf<Review> = Store(initialState: .init(), reducer: { Review() })
         let reviewViewController = ReviewViewController(store: store)
         reviewViewController.modalPresentationStyle = .overFullScreen
         present(reviewViewController, animated: false)
+    }
+    
+    func presentNotificationSuggestion() {
+        let localNotificationViewController = LocalNotificationViewController(logID: "LocalNotification")
+        localNotificationViewController.modalPresentationStyle = .overFullScreen
+        present(localNotificationViewController, animated: false)
     }
     
     func navigateToCounseling() {
