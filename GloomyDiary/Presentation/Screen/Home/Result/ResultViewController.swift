@@ -61,6 +61,8 @@ private extension ResultViewController {
         observe { [weak self] in
             guard let self else { return }
             self.contentView.configure(with: store.character)
+            
+            self.contentView.resultLetterView.letterTextView.text = store.response
         }
     }
 }

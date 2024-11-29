@@ -15,4 +15,18 @@ struct CounselResult {
         var character: CharacterDTO
         var response: String = ""
     }
+    
+    enum Action {
+        case updateResponse(String)
+    }
+    
+    var body: some Reducer<State, Action> {
+        Reduce { state, action in
+            switch action {
+            case .updateResponse(let response):
+                state.response = response
+                return .none
+            }
+        }
+    }
 }
