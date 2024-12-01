@@ -78,10 +78,17 @@ extension CounselingView {
 // MARK: - Animations
 
 extension CounselingView {
+    func hideAllComponents() {
+        subviews.forEach { $0.alpha = 0.0 }
+    }
+    
     @MainActor
     func showAllComponents() async {
         await withCheckedContinuation { continuation in
-            AnimationGroup(animations: [.init(view: characterGreetingLabel,
+            AnimationGroup(animations: [.init(view: characterImageView,
+                                              animationCase: .fadeIn,
+                                              duration: 1.0),
+                                        .init(view: characterGreetingLabel,
                                               animationCase: .fadeIn,
                                               duration: 1.5),
                                         .init(view: sendingLetterView,

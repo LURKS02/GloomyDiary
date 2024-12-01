@@ -65,8 +65,6 @@ extension CounselTransition: UIViewControllerAnimatedTransitioning {
             
             toView.alpha = 0.0
             containerView.addSubview(toView)
-            toView.layoutIfNeeded()
-            let resultFrame = toView.characterImageView.frame
             
             let dummyViewScaledWidth = 110.0
             let dummyViewScaledHeight = (characterImageView.bounds.height * dummyViewScaledWidth) / characterImageView.bounds.width
@@ -77,15 +75,43 @@ extension CounselTransition: UIViewControllerAnimatedTransitioning {
             
             await playDummyViewResize(characterImageView, frame: dummyViewMiddleFrame)
             await playWaitingViewsFadeIn()
-            let response = try await animationClosure()
+            
+            let response: String? = await {
+                do {
+                    return try await animationClosure()
+                } catch {
+                    Logger.send(type: .system, error.localizedDescription)
+                    return nil
+                }
+            }()
+            
+            let isValidResponse = !(response?.isEmpty ?? true)
+            var resultFrame = CGRect.zero
+            
+            if let response,
+               isValidResponse {
+                toViewController.hasValidResult = true
+                toView.layoutIfNeeded()
+                resultFrame = toView.validResultView.characterImageView.frame
+                
+                toViewController.store.send(.updateResponse(response))
+            } else {
+                toViewController.hasValidResult = false
+                toView.layoutIfNeeded()
+                resultFrame = toView.errorResultView.characterImageView.frame
+            }
+            
             await playWaitingViewsFadeOut()
             await playDummyViewResize(characterImageView, frame: resultFrame)
             
             starLottieView.removeFromSuperview()
             readyLabel.removeFromSuperview()
-            toViewController.store.send(.updateResponse(response))
             toView.alpha = 1.0
-            await toView.playAllComponentsFadeIn()
+            if isValidResponse {
+                await toView.animateValidResult()
+            } else {
+                await toView.animateErrorResult()
+            }
             
             characterImageView.frame = originalFrame
             characterImageView.translatesAutoresizingMaskIntoConstraints = false
