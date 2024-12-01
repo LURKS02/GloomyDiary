@@ -42,6 +42,17 @@ enum CharacterDTO: String, CaseIterable, Equatable {
         }
     }
     
+    var cryingImageName: String {
+        switch self {
+        case .chan:
+            "cryingChan"
+        case .gomi:
+            "cryingGomi"
+        case .beomji:
+            "cryingBeomji"
+        }
+    }
+    
     var systemSetting: String {
         switch self {
         case .chan:
