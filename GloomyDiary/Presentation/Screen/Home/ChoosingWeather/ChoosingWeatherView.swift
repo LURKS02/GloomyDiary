@@ -12,7 +12,7 @@ final class ChoosingWeatherView: BaseView {
     // MARK: - Metric
     
     private struct Metric {
-        static let nextButtonBottomPadding: CGFloat = 60
+        static let nextButtonBottomPadding: CGFloat = 100
     }
 
     
