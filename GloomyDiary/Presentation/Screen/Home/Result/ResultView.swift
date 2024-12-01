@@ -15,12 +15,13 @@ final class ResultView: BaseView {
     
     let resultLetterView = ResultLetterView()
     
-    let homeButton: HorizontalButton = HorizontalButton().then {
-        $0.setTitle("홈으로", for: .normal)
-    }
-    
     let shareButton: HorizontalButton = HorizontalButton().then {
         $0.setTitle("공유하기", for: .normal)
+        $0.backgroundColor = .component(.blackPurple)
+    }
+    
+    let homeButton: HorizontalButton = HorizontalButton().then {
+        $0.setTitle("홈으로", for: .normal)
     }
     
     override func setup() {
@@ -33,8 +34,8 @@ final class ResultView: BaseView {
     override func addSubviews() {
         addSubview(characterImageView)
         addSubview(resultLetterView)
-        addSubview(homeButton)
         addSubview(shareButton)
+        addSubview(homeButton)
     }
     
     override func setupConstraints() {
@@ -50,13 +51,13 @@ final class ResultView: BaseView {
             make.bottom.equalToSuperview().offset(-218)
         }
         
-        homeButton.snp.makeConstraints { make in
+        shareButton.snp.makeConstraints { make in
             make.top.equalTo(resultLetterView.snp.bottom).offset(25)
             make.centerX.equalToSuperview()
         }
         
-        shareButton.snp.makeConstraints { make in
-            make.top.equalTo(homeButton.snp.bottom).offset(15)
+        homeButton.snp.makeConstraints { make in
+            make.top.equalTo(shareButton.snp.bottom).offset(15)
             make.centerX.equalToSuperview()
         }
     }

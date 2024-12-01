@@ -73,7 +73,7 @@ private extension ResultViewController {
             guard let self else { return }
             self.contentView.configure(with: store.character)
             
-            self.contentView.resultLetterView.letterTextView.text = store.response
+            self.contentView.resultLetterView.letterTextView.text = store.response + "\n\n"
         }
     }
 }
@@ -90,7 +90,7 @@ private extension ResultViewController {
     }
     
     func didTapShareButton() {
-        let textToShare = "✉️ \(store.character.name)로부터 편지가 도착했어요!\n\n[\(store.response.truncated)]\n\n\(store.character.name)와 더 많은 이야기를 나누고 싶다면 아래 링크를 방문해보세요! 🥳\n\nhttps://www.apple.com"
+        let textToShare = "✉️ \(store.character.name)로부터 답장이 도착했어요!\n\n보낸 내용: \(store.request)\n\n답장: [\(store.response)]\n\n\(store.character.name)와 더 많은 이야기를 나누고 싶다면 아래 링크를 방문해보세요! 🥳\n\nhttps://www.apple.com"
         
         let itemsToShare: [Any] = [textToShare]
         
@@ -106,13 +106,5 @@ private extension ResultViewController {
 extension ResultViewController: Dismissable {
     func playDismissingAnimation() async {
         await contentView.playAllComponentsFadeOut()
-    }
-}
-
-private extension String {
-    var truncated: String {
-        guard self.count > 150 else { return self }
-        let truncated = self.prefix(150)
-        return "\(truncated)..."
     }
 }

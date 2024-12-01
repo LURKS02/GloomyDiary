@@ -134,7 +134,10 @@ private extension CounselingViewController {
 
 extension CounselingViewController {
     func navigateToResult(with character: CharacterDTO) {
-        let store: StoreOf<CounselResult> = Store(initialState: .init(character: character), reducer: { CounselResult() })
+        let store: StoreOf<CounselResult> = Store(initialState: .init(
+            character: character,
+            request: self.contentView.sendingLetterView.letterTextView.text
+        ), reducer: { CounselResult() })
         let resultViewController = ResultViewController(store: store)
         navigationController?.delegate = self
         navigationController?.pushViewController(resultViewController,
