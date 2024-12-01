@@ -17,8 +17,8 @@ final class StartCounselingView: BaseView {
         static let secondIntroduceLabelTopPadding: CGFloat = 31
         static let thirdIntroduceLabelTopPadding: CGFloat = 22
         static let titleTextFieldTopPadding: CGFloat = 32
-        static let finalIntroduceLabelTopPadding: CGFloat = 27
-        static let nextButtonBottomPadding: CGFloat = 60
+        static let finalIntroduceLabelTopPadding: CGFloat = 35
+        static let nextButtonTopPadding: CGFloat = 30
     }
 
     
@@ -45,6 +45,13 @@ final class StartCounselingView: BaseView {
     }
     
     let titleTextField = TextField()
+    
+    let warningLabel = UILabel().then {
+        $0.text = "15자 이하로 작성해주세요."
+        $0.textColor = .text(.warning)
+        $0.font = .무궁화.body
+        $0.textAlignment = .center
+    }
     
     private let finalIntroduceLabel = IntroduceLabel().then {
         $0.text = "편지의 제목을 지어주세요."
@@ -88,6 +95,7 @@ final class StartCounselingView: BaseView {
         addSubview(secondIntroduceLabel)
         addSubview(thirdIntroduceLabel)
         addSubview(titleTextField)
+        addSubview(warningLabel)
         addSubview(finalIntroduceLabel)
         addSubview(nextButton)
     }
@@ -124,6 +132,11 @@ final class StartCounselingView: BaseView {
             make.width.equalTo(312)
         }
         
+        warningLabel.snp.makeConstraints { make in
+            make.top.equalTo(titleTextField.snp.bottom).offset(5)
+            make.leading.equalTo(titleTextField.snp.leading).offset(5)
+        }
+        
         finalIntroduceLabel.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
             make.top.equalTo(titleTextField.snp.bottom).offset(Metric.finalIntroduceLabelTopPadding)
@@ -131,7 +144,7 @@ final class StartCounselingView: BaseView {
         
         nextButton.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.bottom.equalToSuperview().offset(-Metric.nextButtonBottomPadding)
+            make.top.equalTo(finalIntroduceLabel.snp.bottom).offset(Metric.nextButtonTopPadding)
         }
     }
 }
@@ -141,7 +154,7 @@ final class StartCounselingView: BaseView {
 
 extension StartCounselingView {
     func hideAllComponents() {
-        subviews.filter { $0 != gradientView && $0 != moonImageView }
+        subviews.filter { $0 != gradientView && $0 != moonImageView && $0 != warningLabel }
             .forEach { $0.alpha = 0.0 }
     }
     

@@ -10,15 +10,18 @@ import RxCocoa
 import RxSwift
 
 final class TextField: UIView {
-    private lazy var textField = UITextField().then {
+    private let textField = UITextField().then {
         $0.font = .무궁화.title
         $0.textColor = .text(.highlight)
-        $0.delegate = self
     }
     
-    let textSubject = BehaviorSubject<String>(value: "")
+    var text: String? {
+        textField.text
+    }
     
-    private let maxCount: Int = 25
+    var textControlProperty: ControlProperty<String?> {
+        textField.rx.text
+    }
     
     init() {
         super.init(frame: .zero)
@@ -43,21 +46,10 @@ final class TextField: UIView {
     
     private func setupConstraints() {
         textField.snp.makeConstraints { make in
-            make.centerY.equalToSuperview()
             make.leading.equalToSuperview().offset(25)
             make.trailing.equalToSuperview().offset(-25)
+            make.top.equalToSuperview().inset(5)
+            make.bottom.equalToSuperview().inset(5)
         }
-    }
-}
-
-extension TextField: UITextFieldDelegate {
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        guard let currentText = textField.text else { return true }
-        let newText = (currentText as NSString).replacingCharacters(in: range, with: string)
-        
-        guard newText.count <= maxCount else { return false }
-        
-        textSubject.onNext(newText)
-        return true
     }
 }
