@@ -20,13 +20,15 @@ final class CounselingViewController: BaseViewController<CounselingView> {
     private lazy var animationClosure: () async throws -> String = { [weak self] in
         guard let self,
               let weatherDTO = WeatherDTO(identifier: self.store.weatherIdentifier),
-              let emojiDTO = EmojiDTO(identifier: self.store.emojiIdentifier) else { return "" }
+              let emojiDTO = EmojiDTO(identifier: self.store.emojiIdentifier) else {
+            throw LocalError(message: "DTO Error")
+        }
         
-        guard let result = try? await self.counselRepository.counsel(to: self.store.character,
+        let result = try await self.counselRepository.counsel(to: self.store.character,
                                            title: self.store.title,
                                            userInput: self.contentView.sendingLetterView.letterTextView.text,
                                            weather: weatherDTO,
-                                                                     emoji: emojiDTO) else { return "" }
+                                                                     emoji: emojiDTO)
         userSettingRepository.update(keyPath: \.isFirstProcess, value: false)
         return result
     }

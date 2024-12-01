@@ -11,6 +11,12 @@ import ComposableArchitecture
 final class ResultViewController: BaseViewController<ResultView> {
     let store: StoreOf<CounselResult>
     
+    var hasValidResult: Bool = false {
+        didSet {
+            configure(hasValidResult: hasValidResult)
+        }
+    }
+    
     init(store: StoreOf<CounselResult>) {
         self.store = store
         super.init(logID: "Result")
@@ -26,9 +32,14 @@ extension ResultViewController {
         super.viewDidLoad()
         
         self.navigationItem.hidesBackButton = true
-        
-        bind()
-        
+    }
+    
+    func configure(hasValidResult: Bool) {
+        if hasValidResult {
+            configureValidResult()
+        } else {
+            configureErrorResult()
+        }
     }
 }
 
@@ -36,8 +47,10 @@ extension ResultViewController {
 // MARK: - bind
 
 private extension ResultViewController {
-    func bind() {
-        contentView.resultLetterView.copyButton.rx.tap
+    func configureValidResult() {
+        contentView.showValidResult()
+        
+        contentView.validResultView.resultLetterView.copyButton.rx.tap
             .do(onNext: { _ in
                 Logger.send(type: .tapped, "클립보드 복사 버튼")
             })
@@ -47,9 +60,9 @@ private extension ResultViewController {
             })
             .disposed(by: rx.disposeBag)
         
-        contentView.homeButton.rx.tap
+        contentView.validResultView.homeButton.rx.tap
             .do(onNext: { [weak self] _ in
-                guard let title = self?.contentView.homeButton.title(for: .normal) else { return }
+                guard let title = self?.contentView.validResultView.homeButton.title(for: .normal) else { return }
                 Logger.send(type: .tapped, title)
             })
             .subscribe(onNext: { [weak self] _ in
@@ -58,9 +71,9 @@ private extension ResultViewController {
             })
             .disposed(by: rx.disposeBag)
         
-        contentView.shareButton.rx.tap
+        contentView.validResultView.shareButton.rx.tap
             .do(onNext: { [weak self] _ in
-                guard let title = self?.contentView.shareButton.title(for: .normal) else { return }
+                guard let title = self?.contentView.validResultView.shareButton.title(for: .normal) else { return }
                 Logger.send(type: .tapped, title)
             })
             .subscribe(onNext: { [weak self] _ in
@@ -71,16 +84,49 @@ private extension ResultViewController {
         
         observe { [weak self] in
             guard let self else { return }
-            self.contentView.configure(with: store.character)
+            self.contentView.validResultView.configure(with: store.character)
             
-            self.contentView.resultLetterView.letterTextView.text = store.response + "\n\n"
+            self.contentView.validResultView.resultLetterView.letterTextView.text = store.response + "\n\n"
+        }
+    }
+    
+    func configureErrorResult() {
+        contentView.showErrorResult()
+        
+        contentView.errorResultView.backButton.rx.tap
+            .do(onNext: { [weak self] _ in
+                guard let title = self?.contentView.errorResultView.backButton.title(for: .normal) else { return }
+                Logger.send(type: .tapped, title)
+            })
+            .subscribe(onNext: { [weak self] _ in
+                guard let self else { return }
+                navigationController?.delegate = self
+                navigationController?.popViewController(animated: true)
+            })
+            .disposed(by: rx.disposeBag)
+        
+        contentView.errorResultView.homeButton.rx.tap
+            .do(onNext: { [weak self] _ in
+                guard let title = self?.contentView.errorResultView.homeButton.title(for: .normal) else { return }
+                Logger.send(type: .tapped, title)
+            })
+            .subscribe(onNext: { [weak self] _ in
+                guard let self else { return }
+                didTapHomeButton()
+            })
+            .disposed(by: rx.disposeBag)
+        
+        
+        observe { [weak self] in
+            guard let self else { return }
+            self.contentView.errorResultView.configure(with: store.character)
         }
     }
 }
 
 private extension ResultViewController {
     func copyToClipboard() {
-        let textToCopy = contentView.resultLetterView.letterTextView.text
+        let textToCopy = contentView.validResultView.resultLetterView.letterTextView.text
         UIPasteboard.general.string = textToCopy
         Toast.show(text: "클립보드에 복사되었습니다.")
     }
@@ -105,6 +151,16 @@ private extension ResultViewController {
 
 extension ResultViewController: Dismissable {
     func playDismissingAnimation() async {
-        await contentView.playAllComponentsFadeOut()
+        if hasValidResult {
+            await contentView.validResultView.playAllComponentsFadeOut()
+        } else {
+            await contentView.errorResultView.playAllComponentsFadeOut()
+        }
+    }
+}
+
+extension ResultViewController: UINavigationControllerDelegate {
+    func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationController.Operation, from fromVC: UIViewController, to toVC: UIViewController) -> (any UIViewControllerAnimatedTransitioning)? {
+        ResultBackTransition()
     }
 }
