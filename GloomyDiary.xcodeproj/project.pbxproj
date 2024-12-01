@@ -1283,6 +1283,7 @@
 				DEVELOPMENT_TEAM = ZT2M7655AF;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = GloomyDiary/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "울다";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -1312,6 +1313,7 @@
 				DEVELOPMENT_TEAM = ZT2M7655AF;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = GloomyDiary/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "울다";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
