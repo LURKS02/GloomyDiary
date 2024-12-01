@@ -60,10 +60,10 @@ final class CounselingSessionTableViewCell: UITableViewCell {
     }
     
     private func addSubviews() {
-        self.addSubview(titleLabel)
-        self.addSubview(stateLabel)
-        self.addSubview(characterImageView)
-        self.addSubview(contentLabel)
+        contentView.addSubview(titleLabel)
+        contentView.addSubview(stateLabel)
+        contentView.addSubview(characterImageView)
+        contentView.addSubview(contentLabel)
     }
     
     private func setupConstraints() {

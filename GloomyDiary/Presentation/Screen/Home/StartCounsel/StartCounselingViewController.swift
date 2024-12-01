@@ -51,6 +51,14 @@ private extension StartCounselingViewController {
         
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
         
+        contentView.titleTextField.textControlProperty
+            .subscribe(onNext: { [weak self] text in
+                guard let self,
+                      let text else { return }
+                self.store.send(.input(title: text))
+            })
+            .disposed(by: rx.disposeBag)
+        
         contentView.nextButton.rx.tap
             .do(onNext: { [weak self] _ in
                 guard let title = self?.contentView.nextButton.title(for: .normal) else { return }
@@ -58,20 +66,15 @@ private extension StartCounselingViewController {
             })
             .subscribe(onNext: { [weak self] _ in
                 guard let self,
-                      let value = try? contentView.titleTextField.textSubject.value() else { return }
+                      let value = contentView.titleTextField.text else { return }
                 navigateToWeatherSelection(with: value)
-            })
-            .disposed(by: rx.disposeBag)
-        
-        contentView.titleTextField.textSubject
-            .subscribe(onNext: { [weak self] title in
-                self?.store.send(.input(title: title))
             })
             .disposed(by: rx.disposeBag)
         
         observe { [weak self] in
             guard let self else { return }
             self.contentView.nextButton.isEnabled = store.isSendable
+            self.contentView.warningLabel.text = store.warning
         }
     }
 }
