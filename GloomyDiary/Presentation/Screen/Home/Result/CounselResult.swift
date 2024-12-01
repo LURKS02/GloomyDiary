@@ -13,6 +13,7 @@ struct CounselResult {
     @ObservableState
     struct State: Equatable {
         var character: CharacterDTO
+        var request: String
         var response: String = ""
     }
     

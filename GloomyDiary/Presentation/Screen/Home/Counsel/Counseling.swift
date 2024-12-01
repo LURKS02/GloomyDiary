@@ -16,7 +16,6 @@ struct Counseling {
         let weatherIdentifier: String
         let emojiIdentifier: String
         let character: CharacterDTO
-        var text: String = ""
     }
     
     enum Action {
