@@ -34,26 +34,15 @@ struct Home {
             switch action {
             case .viewDidAppear:
                 return .run { send in
-                    let sessions = try await counselingSessionRepository.fetch()
-                    let hasReviewed = userSettingRepository.get(keyPath: \.hasReviewed)
-                    let lastReviewDeclinedDate = userSettingRepository.get(keyPath: \.lastReviewDeclinedDate)
-                    let interval: TimeInterval = 7 * 24 * 60 * 60
-                    
-                    if sessions.count >= 2 && !hasReviewed {
-                        if isReviewSuggestionEligible(after: lastReviewDeclinedDate, within: interval) {
-                            let dateString = convertDateToString(date: lastReviewDeclinedDate)
-                            Logger.send(type: .system, "리뷰를 요청합니다.", parameters: ["마지막 요청 날짜": dateString])
-                            await send(.showReviewSuggestion)
+                    if isNotificationSuggestable() {
+                        await suggestNotification(send: send)
+                    } else {
+                        let lastReviewDeclinedDate = userSettingRepository.get(keyPath: \.lastReviewDeclinedDate)
+                        if try await isReviewSuggestionEligible(date: lastReviewDeclinedDate) {
+                            await suggestReview(send: send, lastReviewDeclinedDate: lastReviewDeclinedDate)
                         }
                     }
-                    
-                    let isFirstProcess = userSettingRepository.get(keyPath: \.isFirstProcess)
-                    let hasSuggestedNotification = userSettingRepository.get(keyPath: \.hasSuggestedNotification)
-                    if isFirstProcess == false && hasSuggestedNotification == false {
-                        userSettingRepository.update(keyPath: \.hasSuggestedNotification, value: true)
-                        Logger.send(type: .system, "유저에게 알림을 제안합니다.")
-                        await send(.showNotificationSuggestion)
-                    }
+                    await send(.ghostTapped)
                 }
                 
             case .ghostTapped:
@@ -78,13 +67,32 @@ struct Home {
 }
 
 private extension Home {
-    func isReviewSuggestionEligible(after date: Date?, within interval: TimeInterval) -> Bool {
+    func suggestNotification(send: Send<Action>) async {
+        userSettingRepository.update(keyPath: \.hasSuggestedNotification, value: true)
+        Logger.send(type: .system, "유저에게 알림을 제안합니다.")
+        await send(.showNotificationSuggestion)
+    }
+
+    func suggestReview(send: Send<Action>, lastReviewDeclinedDate: Date?) async {
+        let dateString = convertDateToString(date: lastReviewDeclinedDate)
+        Logger.send(type: .system, "리뷰를 요청합니다.", parameters: ["마지막 요청 날짜": dateString])
+        await send(.showReviewSuggestion)
+    }
+    
+    func isNotificationSuggestable() -> Bool {
+        let hasSuggestedNotification = userSettingRepository.get(keyPath: \.hasSuggestedNotification)
+        return !hasSuggestedNotification
+    }
+    
+    func isReviewSuggestionEligible(date: Date?) async throws -> Bool {
         guard let date = date else { return true }
-        
+        let sessions = try await counselingSessionRepository.fetch()
+        let hasReviewed = userSettingRepository.get(keyPath: \.hasReviewed)
+        let interval: TimeInterval = 7 * 24 * 60 * 60
         let currentDate = now
         let timeInterval = currentDate.timeIntervalSince(date)
         
-        return timeInterval >= interval
+        return sessions.count >= 2 && !hasReviewed && timeInterval >= interval
     }
     
     func convertDateToString(date: Date?) -> String {
