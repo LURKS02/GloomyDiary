@@ -105,18 +105,15 @@ final class ChoosingEmojiView: BaseView {
     }
     
     func spotlight(to identifier: String?) {
-        guard let identifier else { return }
-        deselectAllButtons()
         allEmojiButtons.forEach { button in
+            var configuration = button.configuration
             if button.identifier == identifier {
-                button.isSelected = true
+                configuration?.background.backgroundColor = .component(.buttonSelectedBlue)
+            } else {
+                configuration?.background.backgroundColor = .component(.buttonPurple)
             }
+            button.configuration = configuration
         }
-    }
-    
-    private func deselectAllButtons() {
-        self.allEmojiButtons
-            .forEach { $0.isSelected = false }
     }
 }
 

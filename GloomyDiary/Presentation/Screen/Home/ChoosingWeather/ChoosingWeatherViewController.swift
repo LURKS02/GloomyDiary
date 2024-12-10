@@ -54,6 +54,15 @@ extension ChoosingWeatherViewController {
                 .disposed(by: rx.disposeBag)
         }
         
+        contentView.allWeatherButtons.forEach { button in
+            button.rx.controlEvent(.touchUpOutside)
+                .subscribe(onNext: { [weak self] _ in
+                    guard let self else { return }
+                    contentView.spotlight(to: store.weatherIdentifier)
+                })
+                .disposed(by: rx.disposeBag)
+        }
+        
         contentView.nextButton.rx.tap
             .do(onNext: { [weak self] _ in
                 guard let title = self?.contentView.nextButton.title(for: .normal),
