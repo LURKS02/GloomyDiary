@@ -22,7 +22,7 @@ final class CircularTabBar: UIView {
 
     private var isTouchInside: Bool = false
     
-    private let feedbackGenerator = UIImpactFeedbackGenerator(style: .light)
+    private let feedbackGenerator = UIImpactFeedbackGenerator(style: .medium)
     
     let diameter: CGFloat = 200
     
@@ -102,7 +102,7 @@ extension CircularTabBar {
         feedbackGenerator.impactOccurred()
         
         UIView.animate(withDuration: 0.1) {
-            self.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
+            self.transform = CGAffineTransform(scaleX: 1.1, y: 1.1)
         }
     }
     

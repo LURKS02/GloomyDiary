@@ -6,8 +6,11 @@
 //
 
 import Foundation
+import UIKit
 
 final class GhostView: ImageView {
+    private let feedbackGenerator = UIImpactFeedbackGenerator(style: .soft)
+    
     @MainActor
     func playBounce() {
         AnimationGroup(animations: [.init(view: self,
@@ -31,5 +34,14 @@ final class GhostView: ImageView {
                            loop: .once(completion: { continuation.resume() }))
             .run()
         }
+    }
+}
+
+extension GhostView {
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
+        
+        feedbackGenerator.prepare()
+        feedbackGenerator.impactOccurred()
     }
 }
