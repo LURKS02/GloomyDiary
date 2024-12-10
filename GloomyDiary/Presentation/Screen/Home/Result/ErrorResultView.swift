@@ -27,7 +27,7 @@ final class ErrorResultView: BaseView {
     
     let backButton = HorizontalButton().then {
         $0.setTitle("뒤로가기", for: .normal)
-        $0.backgroundColor = .component(.blackPurple)
+        $0.setOriginBackgroundColor(with: .component(.blackPurple))
     }
     
     let homeButton = HorizontalButton().then {

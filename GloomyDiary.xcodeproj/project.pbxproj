@@ -21,6 +21,7 @@
 		D95A29C92CFCCCE50007A71A /* ErrorResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95A29C82CFCCCE50007A71A /* ErrorResultView.swift */; };
 		D95A29CB2CFCE93C0007A71A /* ResultBackTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95A29CA2CFCE93C0007A71A /* ResultBackTransition.swift */; };
 		D95A29CD2CFCF08C0007A71A /* LocalError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95A29CC2CFCF08C0007A71A /* LocalError.swift */; };
+		D95A32DC2D00DCF50007A71A /* 온글잎 의연체.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D95A32DB2D00DCF50007A71A /* 온글잎 의연체.ttf */; };
 		D95C181B2CCE7A4200055C7C /* StartCounseling.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95C181A2CCE7A4200055C7C /* StartCounseling.swift */; };
 		D95C181F2CCE7E1C00055C7C /* Presentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95C181E2CCE7E1C00055C7C /* Presentable.swift */; };
 		D95C18212CCE7E5A00055C7C /* PresentingDisappearable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95C18202CCE7E5A00055C7C /* PresentingDisappearable.swift */; };
@@ -107,7 +108,6 @@
 		D9D9E00E2C5C1C2E0095792A /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D9E00B2C5C1C2E0095792A /* Color.swift */; };
 		D9D9E00F2C5C1C2E0095792A /* Font.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D9E00C2C5C1C2E0095792A /* Font.swift */; };
 		D9D9E0122C5C1C340095792A /* Extension+UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D9E0102C5C1C340095792A /* Extension+UIColor.swift */; };
-		D9D9E0162C5C1C3E0095792A /* 나눔손글씨 무궁화.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D9D9E0132C5C1C3E0095792A /* 나눔손글씨 무궁화.ttf */; };
 		D9D9E0292C5FF41C0095792A /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D9E0282C5FF41C0095792A /* HomeViewController.swift */; };
 		D9D9E02B2C5FF4570095792A /* HistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D9E02A2C5FF4570095792A /* HistoryViewController.swift */; };
 		D9D9E0302C5FF53E0095792A /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D9E02F2C5FF53E0095792A /* BaseViewController.swift */; };
@@ -172,6 +172,7 @@
 		D95A29C82CFCCCE50007A71A /* ErrorResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorResultView.swift; sourceTree = "<group>"; };
 		D95A29CA2CFCE93C0007A71A /* ResultBackTransition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultBackTransition.swift; sourceTree = "<group>"; };
 		D95A29CC2CFCF08C0007A71A /* LocalError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalError.swift; sourceTree = "<group>"; };
+		D95A32DB2D00DCF50007A71A /* 온글잎 의연체.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "온글잎 의연체.ttf"; sourceTree = "<group>"; };
 		D95C181A2CCE7A4200055C7C /* StartCounseling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartCounseling.swift; sourceTree = "<group>"; };
 		D95C181E2CCE7E1C00055C7C /* Presentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Presentable.swift; sourceTree = "<group>"; };
 		D95C18202CCE7E5A00055C7C /* PresentingDisappearable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentingDisappearable.swift; sourceTree = "<group>"; };
@@ -255,7 +256,6 @@
 		D9D9E00B2C5C1C2E0095792A /* Color.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		D9D9E00C2C5C1C2E0095792A /* Font.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Font.swift; sourceTree = "<group>"; };
 		D9D9E0102C5C1C340095792A /* Extension+UIColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Extension+UIColor.swift"; sourceTree = "<group>"; };
-		D9D9E0132C5C1C3E0095792A /* 나눔손글씨 무궁화.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "나눔손글씨 무궁화.ttf"; sourceTree = "<group>"; };
 		D9D9E0282C5FF41C0095792A /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		D9D9E02A2C5FF4570095792A /* HistoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryViewController.swift; sourceTree = "<group>"; };
 		D9D9E02F2C5FF53E0095792A /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
@@ -642,7 +642,7 @@
 		D9D9E0142C5C1C3E0095792A /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
-				D9D9E0132C5C1C3E0095792A /* 나눔손글씨 무궁화.ttf */,
+				D95A32DB2D00DCF50007A71A /* 온글잎 의연체.ttf */,
 			);
 			path = Fonts;
 			sourceTree = "<group>";
@@ -940,7 +940,7 @@
 				D935483A2C72533A00E5EBF9 /* pulsingCircle.json in Resources */,
 				D9CF37932CF39BAC00B1A92D /* GoogleService-Info.plist in Resources */,
 				D97421BB2C5ABE14002E47F9 /* Assets.xcassets in Resources */,
-				D9D9E0162C5C1C3E0095792A /* 나눔손글씨 무궁화.ttf in Resources */,
+				D95A32DC2D00DCF50007A71A /* 온글잎 의연체.ttf in Resources */,
 				D9B07F922C99C8360048B2D9 /* stars.json in Resources */,
 				D97421BE2C5ABE14002E47F9 /* Base in Resources */,
 				D93548332C71E38F00E5EBF9 /* sparkles.json in Resources */,
@@ -1286,8 +1286,7 @@
 				INFOPLIST_KEY_CFBundleDisplayName = "울다";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1297,9 +1296,13 @@
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.terranav.gloomydiary;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -1316,8 +1319,7 @@
 				INFOPLIST_KEY_CFBundleDisplayName = "울다";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1327,9 +1329,13 @@
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.terranav.gloomydiary;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

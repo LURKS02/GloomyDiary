@@ -35,7 +35,7 @@ final class SendingLetterView: LetterView {
     }
     
     private lazy var letterCharacterCountLabel = UILabel().then {
-        $0.font = .무궁화.body
+        $0.font = .온글잎_의연체.body
         $0.textAlignment = .center
         $0.text = "0/\(maxTextCount)"
     }
@@ -101,6 +101,7 @@ private extension SendingLetterView {
         letterTextView.isHidden = false
         letterCharacterCountLabel.isHidden = false
         letterCharacterCountLabel.alpha = 0.3
+        letterCharacterCountLabel.textColor = .text(.highlight)
         letterTextView.becomeFirstResponder()
     }
 }
@@ -108,6 +109,7 @@ private extension SendingLetterView {
 extension SendingLetterView {
     func configureForEmptyText() {
         letterCharacterCountLabel.alpha = 0.3
+        letterCharacterCountLabel.textColor = .text(.highlight)
     }
     
     func configureForSendableText() {

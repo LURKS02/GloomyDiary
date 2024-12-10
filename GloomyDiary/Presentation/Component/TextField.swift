@@ -11,7 +11,7 @@ import RxSwift
 
 final class TextField: UIView {
     private let textField = UITextField().then {
-        $0.font = .무궁화.title
+        $0.font = .온글잎_의연체.title
         $0.textColor = .text(.highlight)
     }
     

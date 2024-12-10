@@ -19,14 +19,14 @@ final class CounselingSessionTableViewCell: UITableViewCell {
     
     let titleLabel = UILabel().then {
         $0.textColor = .text(.highlight)
-        $0.font = .무궁화.heading
+        $0.font = .온글잎_의연체.heading
         $0.textAlignment = .left
         $0.numberOfLines = 1
     }
     
     let stateLabel = UILabel().then {
         $0.textColor = .text(.fogHighlight)
-        $0.font = .무궁화.body
+        $0.font = .온글잎_의연체.body
         $0.textAlignment = .left
         $0.numberOfLines = 1
     }
@@ -35,11 +35,13 @@ final class CounselingSessionTableViewCell: UITableViewCell {
     
     let contentLabel = UILabel().then {
         $0.textColor = .text(.subHighlight)
-        $0.font = .무궁화.title
+        $0.font = .온글잎_의연체.title
         $0.textAlignment = .left
         $0.numberOfLines = 4
         $0.contentMode = .topLeft
     }
+    
+    private let feedbackGenerator = UIImpactFeedbackGenerator(style: .soft)
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -102,5 +104,56 @@ extension CounselingSessionTableViewCell: TableViewConfigurationBindable {
         stateLabel.text = "날씨 \(counselingSessionDTO.weather.name), \(counselingSessionDTO.emoji.description)"
         characterImageView.setImage(counselingSessionDTO.counselor.imageName)
         contentLabel.text = counselingSessionDTO.query
+    }
+}
+
+extension CounselingSessionTableViewCell {
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
+        
+        self.backgroundColor = .component(.buttonSelectedBlue).withAlphaComponent(0.3)
+        
+        feedbackGenerator.prepare()
+        feedbackGenerator.impactOccurred()
+        
+        AnimationGroup.init(animations: [.init(view: self,
+                                               animationCase: .transform(transform: .identity.scaledBy(x: 0.97, y: 0.97)),
+                                               duration: 0.1)],
+                            mode: .parallel,
+                            loop: .once(completion: nil))
+        .run()
+    }
+    
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesMoved(touches, with: event)
+        
+        self.backgroundColor = .component(.buttonSelectedBlue).withAlphaComponent(0.3)
+    }
+    
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesEnded(touches, with: event)
+        
+        self.backgroundColor = .component(.buttonPurple)
+        
+        AnimationGroup.init(animations: [.init(view: self,
+                                               animationCase: .transform(transform: .identity),
+                                               duration: 0.1)],
+                            mode: .parallel,
+                            loop: .once(completion: nil))
+        .run()
+    }
+    
+    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesCancelled(touches, with: event)
+        
+        self.backgroundColor = .component(.buttonPurple)
+        
+        AnimationGroup.init(animations: [.init(view: self,
+                                               animationCase: .transform(transform: .identity),
+                                               duration: 0.1)],
+                            mode: .parallel,
+                            loop: .once(completion: nil))
+        .run()
+        
     }
 }

@@ -12,6 +12,12 @@ final class CounselingViewController: BaseViewController<CounselingView> {
     
     let store: StoreOf<Counseling>
     
+    private var isKeyboardShowing: Bool = false {
+        didSet {
+            updateContentOffset()
+        }
+    }
+    
     @Dependency(\.counselRepository) var counselRepository
     @Dependency(\.userSettingRepository) var userSettingRepository
     
@@ -74,7 +80,6 @@ final class CounselingViewController: BaseViewController<CounselingView> {
 
 private extension CounselingViewController {
     private func bind() {
-        
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
@@ -109,25 +114,24 @@ private extension CounselingViewController {
 
 private extension CounselingViewController {
     @objc func keyboardWillShow(notification: NSNotification) {
-        let animation = Animation(view: self.contentView,
-                                   animationCase: .transform(transform: .identity.translatedBy(x: 0, y: -self.contentView.characterGreetingLabel.frame.height - 90)),
-                                   duration: 0.3)
-        
-        AnimationGroup(animations: [animation],
-                       mode: .parallel,
-                       loop: .once(completion: nil))
-        .run()
+        isKeyboardShowing = true
     }
     
     @objc func keyboardWillHide(notification: NSNotification) {
-        let animation = Animation(view: self.contentView,
-                                  animationCase: .transform(transform: .identity),
-                                  duration: 0.3)
-        
-        AnimationGroup(animations: [animation],
-                       mode: .parallel,
-                       loop: .once(completion: nil))
-        .run()
+        isKeyboardShowing = false
+    }
+    
+    private func updateContentOffset() {
+        if isKeyboardShowing {
+            let translateY = -self.contentView.characterGreetingLabel.frame.height - 90
+            UIView.animate(withDuration: 0.25) {
+                self.contentView.containerView.transform = .identity.translatedBy(x: 0, y: translateY)
+            }
+        } else {
+            UIView.animate(withDuration: 0.25) {
+                self.contentView.containerView.transform = .identity
+            }
+        }
     }
 }
 

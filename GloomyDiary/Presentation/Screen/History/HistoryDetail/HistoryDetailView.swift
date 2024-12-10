@@ -26,17 +26,17 @@ final class HistoryDetailView: BaseView {
     private let contentView = UIView()
     
     private let titleLabel = IntroduceLabel().then {
-        $0.font = .무궁화.heading
+        $0.font = .온글잎_의연체.heading
         $0.textAlignment = .left
     }
     
     private let dateLabel = IntroduceLabel().then {
-        $0.font = .무궁화.body
+        $0.font = .온글잎_의연체.body
         $0.textAlignment = .left
     }
     
     private let stateLabel = IntroduceLabel().then {
-        $0.font = .무궁화.body
+        $0.font = .온글잎_의연체.body
         $0.textColor = .text(.fogHighlight)
         $0.textAlignment = .left
     }

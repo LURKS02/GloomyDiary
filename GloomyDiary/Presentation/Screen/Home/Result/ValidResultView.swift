@@ -19,7 +19,7 @@ final class ValidResultView: BaseView {
     
     let shareButton: HorizontalButton = HorizontalButton().then {
         $0.setTitle("공유하기", for: .normal)
-        $0.backgroundColor = .component(.blackPurple)
+        $0.setOriginBackgroundColor(with: .component(.blackPurple))
     }
     
     let homeButton: HorizontalButton = HorizontalButton().then {

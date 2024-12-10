@@ -12,7 +12,7 @@ class NavigationController: BaseNavigationController {
         super.setup()
         
         self.backgroundColor = .background(.mainPurple)
-        self.font = .무궁화.body
+        self.font = .온글잎_의연체.body
         self.backButtonColor = .component(.white)
     }
 }

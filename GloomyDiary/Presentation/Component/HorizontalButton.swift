@@ -14,11 +14,25 @@ final class HorizontalButton: UIButton {
         static let buttonCornerRadius: CGFloat = 28
     }
     
+    private var originBackgroundColor: UIColor = .component(.buttonPurple)
+    
     override var isEnabled: Bool {
         didSet {
             updateAppearance()
         }
     }
+    
+    override var isHighlighted: Bool {
+        didSet {
+            if isHighlighted {
+                self.backgroundColor = .component(.buttonSelectedBlue)
+            } else {
+                self.backgroundColor = originBackgroundColor
+            }
+        }
+    }
+    
+    private let feedbackGenerator = UIImpactFeedbackGenerator(style: .soft)
     
     init() {
         super.init(frame: .zero)
@@ -36,7 +50,7 @@ final class HorizontalButton: UIButton {
         self.setTitleColor(.text(.buttonDisabled), for: .disabled)
         self.backgroundColor = .component(.buttonPurple)
         self.applyCornerRadius(Metric.buttonCornerRadius)
-        self.titleLabel?.font = .무궁화.title
+        self.titleLabel?.font = .온글잎_의연체.title
     }
     
     private func setupConstraints() {
@@ -44,6 +58,13 @@ final class HorizontalButton: UIButton {
             make.height.equalTo(Metric.buttonHeight)
             make.width.equalTo(Metric.buttonWidth)
         }
+    }
+}
+
+extension HorizontalButton {
+    func setOriginBackgroundColor(with color: UIColor) {
+        originBackgroundColor = color
+        self.backgroundColor = color
     }
 }
 
@@ -61,8 +82,11 @@ extension HorizontalButton {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesBegan(touches, with: event)
         
+        feedbackGenerator.prepare()
+        feedbackGenerator.impactOccurred()
+        
         AnimationGroup.init(animations: [.init(view: self,
-                                               animationCase: .transform(transform: CGAffineTransform(scaleX: 0.95, y: 0.95)),
+                                               animationCase: .transform(transform: CGAffineTransform(scaleX: 1.05, y: 1.05)),
                                                duration: 0.1)],
                             mode: .parallel,
                             loop: .once(completion: {}))

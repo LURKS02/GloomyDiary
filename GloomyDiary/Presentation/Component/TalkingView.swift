@@ -18,7 +18,7 @@ final class TalkingView: BaseView {
         $0.textColor = .text(.highlight)
         $0.numberOfLines = 0
         $0.textAlignment = .center
-        $0.font = .무궁화.title
+        $0.font = .온글잎_의연체.title
     }
     
     override func setup() {

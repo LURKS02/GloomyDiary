@@ -53,6 +53,8 @@ final class GuideView: BaseView {
         subviews.filter { $0 != ghostImageView && $0 != gradientView }
     }
     
+    private let feedbackGenerator = UIImpactFeedbackGenerator(style: .soft)
+    
     private var labelAnimations: [Animation] {
         labels.map { Animation(view: $0,
                                animationCase: .fadeIn,
@@ -137,5 +139,14 @@ extension GuideView {
                            loop: .once(completion: { continuation.resume() }))
             .run()
         }
+    }
+}
+
+extension GuideView {
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
+        
+        feedbackGenerator.prepare()
+        feedbackGenerator.impactOccurred()
     }
 }

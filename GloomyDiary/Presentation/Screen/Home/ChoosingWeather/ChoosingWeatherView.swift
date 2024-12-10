@@ -91,18 +91,15 @@ final class ChoosingWeatherView: BaseView {
     }
     
     func spotlight(to identifier: String?) {
-        guard let identifier else { return }
-        deselectAllButtons()
         allWeatherButtons.forEach { button in
+            var configuration = button.configuration
             if button.identifier == identifier {
-                button.isSelected = true
+                configuration?.background.backgroundColor = .component(.buttonSelectedBlue)
+            } else {
+                configuration?.background.backgroundColor = .component(.buttonPurple)
             }
+            button.configuration = configuration
         }
-    }
-    
-    private func deselectAllButtons() {
-        self.allWeatherButtons
-            .forEach { $0.isSelected = false }
     }
 }
 

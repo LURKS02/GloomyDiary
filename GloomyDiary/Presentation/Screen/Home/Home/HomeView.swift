@@ -61,10 +61,12 @@ final class HomeView: BaseView {
     let ghostImageView: GhostView = GhostView().then {
         $0.setImage("ghost")
         $0.setSize(Metric.ghostImageSize)
+        $0.isUserInteractionEnabled = false
     }
     
     let ghostTalkingView: TalkingView = TalkingView().then {
         $0.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+        $0.isUserInteractionEnabled = false
     }
     
     let startButton = HorizontalButton().then {

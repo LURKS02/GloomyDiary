@@ -37,7 +37,7 @@ final class WelcomeView: BaseView {
     
     let secondIntroduceLabel = IntroduceLabel().then {
         $0.text = "\"울다\""
-        $0.font = .무궁화.heading
+        $0.font = .온글잎_의연체.heading
     }
     
     var bounceTimer: Timer?
