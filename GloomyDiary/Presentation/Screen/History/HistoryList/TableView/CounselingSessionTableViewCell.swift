@@ -19,14 +19,14 @@ final class CounselingSessionTableViewCell: UITableViewCell {
     
     let titleLabel = UILabel().then {
         $0.textColor = .text(.highlight)
-        $0.font = .무궁화.heading
+        $0.font = .온글잎_의연체.heading
         $0.textAlignment = .left
         $0.numberOfLines = 1
     }
     
     let stateLabel = UILabel().then {
         $0.textColor = .text(.fogHighlight)
-        $0.font = .무궁화.body
+        $0.font = .온글잎_의연체.body
         $0.textAlignment = .left
         $0.numberOfLines = 1
     }
@@ -35,7 +35,7 @@ final class CounselingSessionTableViewCell: UITableViewCell {
     
     let contentLabel = UILabel().then {
         $0.textColor = .text(.subHighlight)
-        $0.font = .무궁화.title
+        $0.font = .온글잎_의연체.title
         $0.textAlignment = .left
         $0.numberOfLines = 4
         $0.contentMode = .topLeft

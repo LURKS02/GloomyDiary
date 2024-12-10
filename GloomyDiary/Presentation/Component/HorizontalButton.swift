@@ -36,7 +36,7 @@ final class HorizontalButton: UIButton {
         self.setTitleColor(.text(.buttonDisabled), for: .disabled)
         self.backgroundColor = .component(.buttonPurple)
         self.applyCornerRadius(Metric.buttonCornerRadius)
-        self.titleLabel?.font = .무궁화.title
+        self.titleLabel?.font = .온글잎_의연체.title
     }
     
     private func setupConstraints() {

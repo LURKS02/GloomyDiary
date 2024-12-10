@@ -40,7 +40,7 @@ final class CharacterButton: UIButton {
         configuration.imagePadding = Metric.imagePadding
         
         var title = AttributedString(character.name)
-        title.font = .무궁화.title
+        title.font = .온글잎_의연체.title
         title.foregroundColor = .text(.highlight)
         configuration.attributedTitle = title
         configuration.titleAlignment = .center

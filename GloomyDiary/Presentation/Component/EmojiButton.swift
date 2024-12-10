@@ -36,7 +36,7 @@ final class EmojiButton: UIButton {
         configuration.imagePadding = Metric.imagePadding
         
         var title = AttributedString(emoji.description)
-        title.font = .무궁화.body
+        title.font = .온글잎_의연체.body
         title.foregroundColor = .text(.highlight)
         configuration.attributedTitle = title
         configuration.titleAlignment = .center

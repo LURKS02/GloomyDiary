@@ -49,7 +49,7 @@ final class StartCounselingView: BaseView {
     let warningLabel = UILabel().then {
         $0.text = "15자 이하로 작성해주세요."
         $0.textColor = .text(.warning)
-        $0.font = .무궁화.body
+        $0.font = .온글잎_의연체.body
         $0.textAlignment = .center
     }
     

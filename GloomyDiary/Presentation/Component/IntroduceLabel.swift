@@ -12,7 +12,7 @@ final class IntroduceLabel: UILabel {
         super.init(frame: .zero)
         
         self.textColor = .text(.highlight)
-        self.font = .무궁화.title
+        self.font = .온글잎_의연체.title
         self.textAlignment = .center
         self.numberOfLines = 0
     }

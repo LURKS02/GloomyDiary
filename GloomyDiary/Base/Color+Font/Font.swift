@@ -8,8 +8,8 @@
 import UIKit.UIFont
 
 extension UIFont {
-    final class 무궁화 {
-        static private let fontName: String = "나눔손글씨 무궁화"
+    final class 온글잎_의연체 {
+        static private let fontName: String = "OwnglyphEuiyeonChae"
         
         static let heading: UIFont = UIFont(name: fontName, size: 30)!
         static let subHeading: UIFont = UIFont(name: fontName, size: 27)!
