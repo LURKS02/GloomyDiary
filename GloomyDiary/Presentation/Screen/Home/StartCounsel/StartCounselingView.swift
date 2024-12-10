@@ -11,22 +11,25 @@ final class StartCounselingView: BaseView {
     
     // MARK: - Metric
     
-    private struct Metric {
-        static let moonTopPadding: CGFloat = 132
-        static let firstIntroduceLabelTopPadding: CGFloat = 30
+    private enum Metric {
+        static let moonTopPadding: CGFloat = 97
+        static let firstIntroduceLabelTopPadding: CGFloat = 80
         static let secondIntroduceLabelTopPadding: CGFloat = 31
         static let thirdIntroduceLabelTopPadding: CGFloat = 22
         static let titleTextFieldTopPadding: CGFloat = 32
         static let finalIntroduceLabelTopPadding: CGFloat = 35
         static let nextButtonTopPadding: CGFloat = 30
+        static let moonImageSize: CGFloat = 43
     }
 
     
     // MARK: - Views
     
+    let containerView = UIView()
+    
     let moonImageView = ImageView().then {
         $0.setImage("moon")
-        $0.setSize(43)
+        $0.setSize(Metric.moonImageSize)
     }
     
     private let gradientView = GradientView(colors: [.background(.darkPurple), .background(.mainPurple)], locations: [0.0, 0.5, 1.0])
@@ -66,8 +69,6 @@ final class StartCounselingView: BaseView {
     
     let isFirstProcess: Bool
     
-    let moonMovingY: CGFloat = 35
-    
     
     // MARK: - Initialize
 
@@ -90,18 +91,24 @@ final class StartCounselingView: BaseView {
     
     override func addSubviews() {
         addSubview(gradientView)
-        addSubview(moonImageView)
-        addSubview(firstIntroduceLabel)
-        addSubview(secondIntroduceLabel)
-        addSubview(thirdIntroduceLabel)
-        addSubview(titleTextField)
-        addSubview(warningLabel)
-        addSubview(finalIntroduceLabel)
-        addSubview(nextButton)
+        addSubview(containerView)
+        
+        containerView.addSubview(moonImageView)
+        containerView.addSubview(firstIntroduceLabel)
+        containerView.addSubview(secondIntroduceLabel)
+        containerView.addSubview(thirdIntroduceLabel)
+        containerView.addSubview(titleTextField)
+        containerView.addSubview(warningLabel)
+        containerView.addSubview(finalIntroduceLabel)
+        containerView.addSubview(nextButton)
     }
     
     override func setupConstraints() {
         gradientView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+        
+        containerView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
         
@@ -154,15 +161,20 @@ final class StartCounselingView: BaseView {
 
 extension StartCounselingView {
     func hideAllComponents() {
-        subviews.filter { $0 != gradientView && $0 != moonImageView && $0 != warningLabel }
-            .forEach { $0.alpha = 0.0 }
+        firstIntroduceLabel.alpha = 0.0
+        secondIntroduceLabel.alpha = 0.0
+        thirdIntroduceLabel.alpha = 0.0
+        titleTextField.alpha = 0.0
+        finalIntroduceLabel.alpha = 0.0
+        nextButton.alpha = 0.0
     }
     
     @MainActor
     func playFadeInFirstPart() async {
+        moonImageView.transform = .identity.translatedBy(x: 0, y: 35)
         await withCheckedContinuation { continuation in
             AnimationGroup(animations: [.init(view: moonImageView,
-                                              animationCase: .moveUp(value: moonMovingY),
+                                              animationCase: .transform(transform: .identity),
                                               duration: 1.5),
                                         .init(view: firstIntroduceLabel,
                                               animationCase: .fadeIn,

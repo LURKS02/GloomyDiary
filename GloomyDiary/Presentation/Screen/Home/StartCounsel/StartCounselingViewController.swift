@@ -12,6 +12,12 @@ final class StartCounselingViewController: BaseViewController<StartCounselingVie
     
     let store: StoreOf<StartCounseling>
     
+    private var isKeyboardShowing: Bool = false {
+        didSet {
+            updateContentOffset()
+        }
+    }
+    
     // MARK: - Initialize
     
     init(store: StoreOf<StartCounseling>) {
@@ -23,6 +29,10 @@ final class StartCounselingViewController: BaseViewController<StartCounselingVie
     
     @MainActor required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
     
     
@@ -46,7 +56,6 @@ final class StartCounselingViewController: BaseViewController<StartCounselingVie
 
 private extension StartCounselingViewController {
     func bind() {
-        
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
@@ -84,26 +93,25 @@ private extension StartCounselingViewController {
 
 private extension StartCounselingViewController {
     @objc func keyboardWillShow(notification: NSNotification) {
-        let translateY = -self.contentView.moonImageView.frame.maxY
-        let animation = Animation(view: self.contentView,
-                                  animationCase: .transform(transform: .identity.translatedBy(x: 0, y: translateY)),
-                                  duration: 0.3)
-        
-        AnimationGroup(animations: [animation],
-                       mode: .parallel,
-                       loop: .once(completion: nil))
-        .run()
+        isKeyboardShowing = true
     }
     
     @objc func keyboardWillHide(notification: NSNotification) {
-        let animation = Animation(view: self.contentView,
-                                  animationCase: .transform(transform: .identity),
-                                  duration: 0.3)
-        
-        AnimationGroup(animations: [animation],
-                       mode: .parallel,
-                       loop: .once(completion: nil))
-        .run()
+        isKeyboardShowing = false
+    }
+    
+    private func updateContentOffset() {
+        if isKeyboardShowing {
+            let translateY = -self.contentView.moonImageView.frame.maxY
+             
+            UIView.animate(withDuration: 0.25) {
+                self.contentView.containerView.transform = .identity.translatedBy(x: 0, y: translateY)
+            }
+        } else {
+            UIView.animate(withDuration: 0.25) {
+                self.contentView.containerView.transform = .identity
+            }
+        }
     }
 }
 
@@ -130,6 +138,7 @@ extension StartCounselingViewController: UINavigationControllerDelegate {
 extension StartCounselingViewController: Presentable {
     func playAppearingAnimation() async {
         contentView.hideAllComponents()
+        contentView.moonImageView.transform = .identity.translatedBy(x: 0, y: 35)
         await contentView.playFadeInFirstPart()
         await contentView.playFadeInSecondPart()
     }

@@ -9,6 +9,10 @@ import UIKit
 
 final class CounselingView: BaseView {
     
+    // MARK: - Views
+
+    let containerView = UIView()
+    
     let characterImageView: ImageView = ImageView().then {
         $0.setSize(61)
     }
@@ -26,6 +30,9 @@ final class CounselingView: BaseView {
     
     let tapGesture = UITapGestureRecognizer()
     
+    
+    // MARK: - View Life Cycle
+    
     override func setup() {
         addGestureRecognizer(tapGesture)
         backgroundColor = .background(.mainPurple)
@@ -35,13 +42,19 @@ final class CounselingView: BaseView {
     }
     
     override func addSubviews() {
-        addSubview(characterImageView)
-        addSubview(characterGreetingLabel)
-        addSubview(sendingLetterView)
-        addSubview(letterSendingButton)
+        addSubview(containerView)
+        
+        containerView.addSubview(characterImageView)
+        containerView.addSubview(characterGreetingLabel)
+        containerView.addSubview(sendingLetterView)
+        containerView.addSubview(letterSendingButton)
     }
     
     override func setupConstraints() {
+        containerView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+        
         characterImageView.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(90)
             make.leading.equalToSuperview().offset(25)
@@ -79,7 +92,7 @@ extension CounselingView {
 
 extension CounselingView {
     func hideAllComponents() {
-        subviews.forEach { $0.alpha = 0.0 }
+        containerView.subviews.forEach { $0.alpha = 0.0 }
     }
     
     @MainActor
