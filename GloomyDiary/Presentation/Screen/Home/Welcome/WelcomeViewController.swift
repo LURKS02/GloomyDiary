@@ -23,13 +23,13 @@ extension WelcomeViewController {
         super.viewDidLoad()
     
         bind()
+        contentView.hideAllComponents()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         Task {
-            contentView.hideAllComponents()
             await contentView.playFadeInAllComponents()
         }
     }

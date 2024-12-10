@@ -43,6 +43,10 @@ final class HistoryListView: UIView {
     
     // MARK: - View Life Cycle
     
+    private func setup() {
+        tableView.delaysContentTouches = false
+    }
+    
     private func addSubviews() {
         addSubview(tableView)
         addSubview(gradientBackgroundView)

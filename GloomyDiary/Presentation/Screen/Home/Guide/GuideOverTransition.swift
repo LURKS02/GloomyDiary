@@ -29,6 +29,7 @@ extension GuideOverTransition: UIViewControllerAnimatedTransitioning {
             toView.moonImageView.alpha = 0.0
             toView.alpha = 1.0
             
+            toView.moonImageView.transform = .identity.translatedBy(x: 0, y: 35)
             await withCheckedContinuation { continuation in
                 AnimationGroup(animations: [.init(view: toView.moonImageView,
                                                   animationCase: .fadeIn,

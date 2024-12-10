@@ -32,7 +32,6 @@ private extension AppCoordinator {
     func showCounselView() {
         let mainViewController = CircularTabBarController(tabBarItems: [.home, .history])
         mainViewController.hideCircularTabBar()
-        mainViewController.view.alpha = 0.0
         window.rootViewController = mainViewController
         window.makeKeyAndVisible()
         
@@ -45,7 +44,6 @@ private extension AppCoordinator {
         
         navigationViewController.transitioningDelegate = animationDelegateViewController
         selectedViewController.present(navigationViewController, animated: false)
-        mainViewController.view.alpha = 1.0
     }
     
     func showMainView() {

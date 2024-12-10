@@ -95,7 +95,7 @@ private extension HistoryViewController {
                 let spacerConfiguration: TableViewCellConfigurable = SpacerTableViewCellConfiguration(spacing: spacing)
                 configurables.append(spacerConfiguration)
             } else {
-                let spacerConfiguration: TableViewCellConfigurable = SpacerTableViewCellConfiguration(spacing: 50)
+                let spacerConfiguration: TableViewCellConfigurable = SpacerTableViewCellConfiguration(spacing: 80)
                 configurables.append(spacerConfiguration)
             }
         }
