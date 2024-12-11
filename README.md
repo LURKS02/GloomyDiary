@@ -4,7 +4,7 @@
 
 <br>
 
-# 우울 다이어리, "울다"
+# 우리들의 다이어리, "울다"
 
 <br>
 
@@ -15,12 +15,12 @@
 
 ### Figma
 
-[우울 다이어리, 울다](dummyLink)
+[우리들의 다이어리, 울다](https://www.figma.com/design/4XnRA4iHJyDHKtFArvhVBG/ULDA?m=auto&t=wEoCwoRnoRfEIwtj-1)
 
 <br>
 
 ### 기술 스택
-UIKit, TCA, SnapKit
+Swift, UIKit
 
 <br>
 
