@@ -32,18 +32,28 @@ private extension AppCoordinator {
     func showCounselView() {
         let mainViewController = CircularTabBarController(tabBarItems: [.home, .history])
         mainViewController.hideCircularTabBar()
+        guard let originView = mainViewController.view else { return }
+        let coveringView = UIView().then {
+            $0.backgroundColor = .background(.mainPurple)
+            $0.frame = originView.bounds
+        }
+        
+        originView.addSubview(coveringView)
         window.rootViewController = mainViewController
         window.makeKeyAndVisible()
-        
+            
         let welcomeViewController = WelcomeViewController()
-        
+            
         let navigationViewController = UINavigationController(rootViewController: welcomeViewController)
         navigationViewController.modalPresentationStyle = .custom
+            
         guard let selectedViewController = mainViewController.selectedViewController,
-        let animationDelegateViewController =  selectedViewController as? UIViewControllerTransitioningDelegate else { return }
-        
+              let animationDelegateViewController =  selectedViewController as? UIViewControllerTransitioningDelegate else { return }
+            
         navigationViewController.transitioningDelegate = animationDelegateViewController
-        selectedViewController.present(navigationViewController, animated: false)
+        selectedViewController.present(navigationViewController, animated: false) {
+            coveringView.removeFromSuperview()
+        }
     }
     
     func showMainView() {
