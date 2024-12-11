@@ -9,10 +9,23 @@ import UIKit
 
 final class ValidResultView: BaseView {
     
+    // MARK: - Metric
+    
+    enum Metric {
+        static let characterImageSize: CGFloat = .verticalValue(87)
+        static let characterImageTopPadding: CGFloat = .verticalValue(71)
+        static let letterTopPadding: CGFloat = .verticalValue(14)
+        static let letterHorizontalPadding: CGFloat = .horizontalValue(17)
+        static let letterBottomPadding: CGFloat = .verticalValue(218)
+        static let shareButtonTopPadding: CGFloat = .verticalValue(25)
+        static let homeButtonTopPadding: CGFloat = .verticalValue(15)
+    }
+
+    
     // MARK: - Views
     
     let characterImageView: ImageView = ImageView().then {
-        $0.setSize(87)
+        $0.setSize(Metric.characterImageSize)
     }
     
     let resultLetterView = ResultLetterView()
@@ -42,24 +55,24 @@ final class ValidResultView: BaseView {
     
     override func setupConstraints() {
         characterImageView.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(71)
+            make.top.equalToSuperview().offset(Metric.characterImageTopPadding)
             make.centerX.equalToSuperview()
         }
         
         resultLetterView.snp.makeConstraints { make in
-            make.top.equalTo(characterImageView.snp.bottom).offset(14)
-            make.leading.equalToSuperview().offset(17)
-            make.trailing.equalToSuperview().offset(-17)
-            make.bottom.equalToSuperview().offset(-218)
+            make.top.equalTo(characterImageView.snp.bottom).offset(Metric.letterTopPadding)
+            make.leading.equalToSuperview().offset(Metric.letterHorizontalPadding)
+            make.trailing.equalToSuperview().offset(-Metric.letterHorizontalPadding)
+            make.bottom.equalToSuperview().offset(-Metric.letterBottomPadding)
         }
         
         shareButton.snp.makeConstraints { make in
-            make.top.equalTo(resultLetterView.snp.bottom).offset(25)
+            make.top.equalTo(resultLetterView.snp.bottom).offset(Metric.shareButtonTopPadding)
             make.centerX.equalToSuperview()
         }
         
         homeButton.snp.makeConstraints { make in
-            make.top.equalTo(shareButton.snp.bottom).offset(15)
+            make.top.equalTo(shareButton.snp.bottom).offset(Metric.homeButtonTopPadding)
             make.centerX.equalToSuperview()
         }
     }

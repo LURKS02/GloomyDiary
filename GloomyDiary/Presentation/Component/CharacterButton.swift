@@ -10,7 +10,11 @@ import UIKit
 final class CharacterButton: UIButton {
     
     private struct Metric {
-        static let imagePadding: CGFloat = 20
+        static let imagePadding: CGFloat = .verticalValue(20)
+        static let imageSize: CGFloat = .verticalValue(120)
+        static let topInset: CGFloat = 50
+        static let horizontalInset: CGFloat = 50
+        static let bottomInset: CGFloat = 37
     }
     
     let identifier: String
@@ -32,7 +36,7 @@ final class CharacterButton: UIButton {
     }
     
     private func setupConfiguration(with character: CharacterDTO) {
-        self.setImage(UIImage(named: character.imageName)?.resized(width: 120, height: 120), for: .normal)
+        self.setImage(UIImage(named: character.imageName)?.resized(width: Metric.imageSize, height: Metric.imageSize), for: .normal)
         
         var configuration = UIButton.Configuration.plain()
         
@@ -44,7 +48,7 @@ final class CharacterButton: UIButton {
         title.foregroundColor = .text(.highlight)
         configuration.attributedTitle = title
         configuration.titleAlignment = .center
-        configuration.contentInsets = NSDirectionalEdgeInsets(top: 50, leading: 50, bottom: 37, trailing: 50)
+        configuration.contentInsets = NSDirectionalEdgeInsets(top: Metric.topInset, leading: Metric.horizontalInset, bottom: Metric.bottomInset, trailing: Metric.horizontalInset)
         
         self.configuration = configuration
         

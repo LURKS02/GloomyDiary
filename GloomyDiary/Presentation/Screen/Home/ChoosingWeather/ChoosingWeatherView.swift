@@ -12,7 +12,10 @@ final class ChoosingWeatherView: BaseView {
     // MARK: - Metric
     
     private struct Metric {
-        static let nextButtonBottomPadding: CGFloat = 100
+        static let introduceLabelTopPadding: CGFloat = .verticalValue(153)
+        static let nextButtonTopPadding: CGFloat = .verticalValue(50)
+        static let stackViewTopPadding: CGFloat = .verticalValue(50)
+        static let stackViewHorizontalPadding: CGFloat = .horizontalValue(27)
     }
 
     
@@ -75,18 +78,18 @@ final class ChoosingWeatherView: BaseView {
         
         introduceLabel.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.top.equalToSuperview().offset(153)
+            make.top.equalToSuperview().offset(Metric.introduceLabelTopPadding)
         }
         
         weatherButtonStackView.snp.makeConstraints { make in
-            make.top.equalTo(introduceLabel.snp.bottom).offset(50)
-            make.leading.equalToSuperview().inset(27)
-            make.trailing.equalToSuperview().inset(27)
+            make.top.equalTo(introduceLabel.snp.bottom).offset(Metric.stackViewTopPadding)
+            make.leading.equalToSuperview().inset(Metric.stackViewHorizontalPadding)
+            make.trailing.equalToSuperview().inset(Metric.stackViewHorizontalPadding)
         }
         
         nextButton.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.bottom.equalToSuperview().offset(-Metric.nextButtonBottomPadding)
+            make.top.equalTo(weatherButtonStackView.snp.bottom).offset(Metric.nextButtonTopPadding)
         }
     }
     
@@ -140,7 +143,7 @@ extension ChoosingWeatherView {
         
         allWeatherButtons.forEach { button in
             button.alpha = 0.0
-            button.transform = .identity.translatedBy(x: 0, y: 20)
+            button.transform = .identity.translatedBy(x: 0, y: .verticalValue(20))
         }
         
         await withCheckedContinuation { continuation in

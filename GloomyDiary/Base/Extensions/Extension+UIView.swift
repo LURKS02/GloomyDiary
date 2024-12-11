@@ -8,6 +8,14 @@
 import UIKit
 
 extension UIView {
+    static var screenWidth: CGFloat {
+        UIScreen.main.bounds.width
+    }
+    
+    static var screenHeight: CGFloat {
+        UIScreen.main.bounds.height
+    }
+    
     var flattenSubviews: [UIView] {
         [self] + self.subviews.flatMap { $0.flattenSubviews }
     }

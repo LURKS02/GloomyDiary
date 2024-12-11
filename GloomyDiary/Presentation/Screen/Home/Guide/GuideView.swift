@@ -12,7 +12,12 @@ final class GuideView: BaseView {
     // MARK: - Metric
     
     private struct Metric {
-        static let ghostImageSize: CGFloat = 50
+        static let ghostImageSize: CGFloat = .horizontalValue(50)
+        static let ghostImageTopPadding: CGFloat = .verticalValue(40)
+        static let firstLabelTopPadding: CGFloat = .verticalValue(40)
+        static let secondLabelTopPadding: CGFloat = .verticalValue(40)
+        static let thirdLabelTopPadding: CGFloat = .verticalValue(40)
+        static let lastLabelTopPadding: CGFloat = .verticalValue(40)
     }
     
     let gradientView = GradientView(colors: [.background(.darkPurple), .background(.mainPurple), .background(.mainPurple)])
@@ -83,27 +88,27 @@ final class GuideView: BaseView {
         
         ghostImageView.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.top.equalTo(self.safeAreaLayoutGuide.snp.top).offset(40)
+            make.top.equalTo(self.safeAreaLayoutGuide.snp.top).offset(Metric.ghostImageTopPadding)
         }
         
         firstIntroduceLabel.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.top.equalTo(ghostImageView.snp.bottom).offset(40)
+            make.top.equalTo(ghostImageView.snp.bottom).offset(Metric.firstLabelTopPadding)
         }
         
         secondIntroduceLabel.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.top.equalTo(firstIntroduceLabel.snp.bottom).offset(40)
+            make.top.equalTo(firstIntroduceLabel.snp.bottom).offset(Metric.secondLabelTopPadding)
         }
         
         thirdIntroduceLabel.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.top.equalTo(secondIntroduceLabel.snp.bottom).offset(40)
+            make.top.equalTo(secondIntroduceLabel.snp.bottom).offset(Metric.thirdLabelTopPadding)
         }
         
         lastIntroduceLabel.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.top.equalTo(thirdIntroduceLabel.snp.bottom).offset(40)
+            make.top.equalTo(thirdIntroduceLabel.snp.bottom).offset(Metric.lastLabelTopPadding)
         }
     }
 }

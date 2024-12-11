@@ -11,6 +11,8 @@ final class EmojiButton: UIButton {
     
     private struct Metric {
         static let imagePadding: CGFloat = 5
+        static let imageSize: CGFloat = .verticalValue(40)
+        static let cornerRadius: CGFloat = .verticalValue(20)
     }
     
     let identifier: String
@@ -22,7 +24,7 @@ final class EmojiButton: UIButton {
         super.init(frame: .zero)
         
         setupConfiguration(with: emoji)
-        applyCornerRadius(20)
+        applyCornerRadius(Metric.cornerRadius)
     }
     
     required init?(coder: NSCoder) {
@@ -30,7 +32,7 @@ final class EmojiButton: UIButton {
     }
     
     private func setupConfiguration(with emoji: EmojiDTO) {
-        self.setImage(UIImage(named: emoji.imageName)?.resized(width: 40, height: 40), for: .normal)
+        self.setImage(UIImage(named: emoji.imageName)?.resized(width: Metric.imageSize, height: Metric.imageSize), for: .normal)
         
         var configuration = UIButton.Configuration.plain()
         

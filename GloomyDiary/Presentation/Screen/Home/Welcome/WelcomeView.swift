@@ -13,9 +13,12 @@ final class WelcomeView: BaseView {
     // MARK: - Metric
     
     private struct Metric {
-        static let moonTopPadding: CGFloat = 132
-        static let moonImageSize: CGFloat = 43
-        static let ghostImageSize: CGFloat = 78
+        static let moonTopPadding: CGFloat = .verticalValue(132)
+        static let moonImageSize: CGFloat = .horizontalValue(43)
+        static let ghostImageSize: CGFloat = .horizontalValue(78)
+        static let firstLabelTopPadding: CGFloat = .verticalValue(40)
+        static let secondLabelTopPadding: CGFloat = .verticalValue(15)
+        static let ghostImageViewBottomPadding: CGFloat = .verticalValue(300)
     }
 
     
@@ -68,17 +71,17 @@ final class WelcomeView: BaseView {
         
         firstIntroduceLabel.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.top.equalTo(moonImageView.snp.bottom).offset(40)
+            make.top.equalTo(moonImageView.snp.bottom).offset(Metric.firstLabelTopPadding)
         }
         
         secondIntroduceLabel.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.top.equalTo(firstIntroduceLabel.snp.bottom).offset(15)
+            make.top.equalTo(firstIntroduceLabel.snp.bottom).offset(Metric.secondLabelTopPadding)
         }
         
         ghostImageView.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.bottom.equalToSuperview().inset(300)
+            make.bottom.equalToSuperview().inset(Metric.ghostImageViewBottomPadding)
         }
     }
 }

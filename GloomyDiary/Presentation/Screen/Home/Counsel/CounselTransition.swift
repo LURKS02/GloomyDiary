@@ -10,6 +10,11 @@ import Lottie
 
 final class CounselTransition: NSObject {
     
+    enum Metric {
+        static let dummyViewMiddleY: CGFloat = .verticalValue(250)
+        static let readyLabelCenterY: CGFloat = .verticalValue(450)
+    }
+    
     private let animationClosure: () async throws -> String
     
     private let starLottieView = LottieAnimationView(name: "stars").then {
@@ -56,12 +61,6 @@ extension CounselTransition: UIViewControllerAnimatedTransitioning {
             containerView.addSubview(readyLabel)
             
             let containerViewWidth = containerView.bounds.width
-            starLottieView.center = CGPoint(x: containerViewWidth / 2,
-                                            y: 300)
-            readyLabel.center = CGPoint(x: containerViewWidth / 2,
-                                        y: 430)
-            starLottieView.alpha = 0.0
-            readyLabel.alpha = 0.0
             
             toView.alpha = 0.0
             containerView.addSubview(toView)
@@ -69,9 +68,16 @@ extension CounselTransition: UIViewControllerAnimatedTransitioning {
             let dummyViewScaledWidth = 110.0
             let dummyViewScaledHeight = (characterImageView.bounds.height * dummyViewScaledWidth) / characterImageView.bounds.width
             let dummyViewMiddleFrame = CGRect(x: (containerViewWidth - dummyViewScaledWidth) / 2,
-                                              y: 250,
+                                              y: Metric.dummyViewMiddleY,
                                               width: dummyViewScaledWidth,
                                               height: dummyViewScaledHeight)
+            starLottieView.center = CGPoint(x: containerViewWidth / 2,
+                                            y: dummyViewMiddleFrame.minY + dummyViewScaledHeight / 2)
+            readyLabel.center = CGPoint(x: containerViewWidth / 2,
+                                        y: dummyViewMiddleFrame.maxY + .verticalValue(50))
+            starLottieView.alpha = 0.0
+            readyLabel.alpha = 0.0
+            
             
             await playDummyViewResize(characterImageView, frame: dummyViewMiddleFrame)
             await playWaitingViewsFadeIn()

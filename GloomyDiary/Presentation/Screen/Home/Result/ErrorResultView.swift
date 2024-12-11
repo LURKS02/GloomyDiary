@@ -9,10 +9,22 @@ import UIKit
 
 final class ErrorResultView: BaseView {
     
+    // MARK: - Metric
+    
+    enum Metric {
+        static let characterImageSize: CGFloat = .verticalValue(87)
+        static let characterImageTopPadding: CGFloat = .verticalValue(100)
+        static let introduceLabelTopPadding: CGFloat = .verticalValue(20)
+        static let subIntroduceLabelTopPadding: CGFloat = .verticalValue(20)
+        static let backButtonTopPadding: CGFloat = .verticalValue(30)
+        static let homeButtonTopPadding: CGFloat = .verticalValue(10)
+    }
+
+    
     // MARK: - Views
     
     let characterImageView = ImageView().then {
-        $0.setSize(87)
+        $0.setSize(Metric.characterImageSize)
     }
     
     let introduceLabel = IntroduceLabel().then {
@@ -51,27 +63,27 @@ final class ErrorResultView: BaseView {
 
     override func setupConstraints() {
         characterImageView.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(100)
+            make.top.equalToSuperview().offset(Metric.characterImageTopPadding)
             make.centerX.equalToSuperview()
         }
         
         introduceLabel.snp.makeConstraints { make in
-            make.top.equalTo(characterImageView.snp.bottom).offset(20)
+            make.top.equalTo(characterImageView.snp.bottom).offset(Metric.introduceLabelTopPadding)
             make.centerX.equalToSuperview()
         }
         
         subIntroduceLabel.snp.makeConstraints { make in
-            make.top.equalTo(introduceLabel.snp.bottom).offset(20)
+            make.top.equalTo(introduceLabel.snp.bottom).offset(Metric.subIntroduceLabelTopPadding)
             make.centerX.equalToSuperview()
         }
         
         backButton.snp.makeConstraints { make in
-            make.top.equalTo(subIntroduceLabel.snp.bottom).offset(30)
+            make.top.equalTo(subIntroduceLabel.snp.bottom).offset(Metric.backButtonTopPadding)
             make.centerX.equalToSuperview()
         }
         
         homeButton.snp.makeConstraints { make in
-            make.top.equalTo(backButton.snp.bottom).offset(10)
+            make.top.equalTo(backButton.snp.bottom).offset(Metric.homeButtonTopPadding)
             make.centerX.equalToSuperview()
         }
     }

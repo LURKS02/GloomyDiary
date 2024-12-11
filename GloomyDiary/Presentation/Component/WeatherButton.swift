@@ -10,7 +10,8 @@ import UIKit
 final class WeatherButton: UIButton {
 
     private struct Metric {
-        static let imageLeadingPadding: CGFloat = 20
+        static let imageLeadingPadding: CGFloat = .horizontalValue(20)
+        static let imageSize: CGFloat = .verticalValue(63)
     }
     
     let identifier: String
@@ -34,7 +35,7 @@ final class WeatherButton: UIButton {
     }
     
     private func setupConfiguration(with weather: WeatherDTO) {
-        self.setImage(UIImage(named: weather.imageName)?.resized(width: 63, height: 63), for: .normal)
+        self.setImage(UIImage(named: weather.imageName)?.resized(width: Metric.imageSize, height: Metric.imageSize), for: .normal)
         
         var configuration = UIButton.Configuration.plain()
         

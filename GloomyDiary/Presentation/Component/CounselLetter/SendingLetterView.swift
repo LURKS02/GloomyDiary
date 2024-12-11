@@ -14,7 +14,8 @@ final class SendingLetterView: LetterView {
     // MARK: - Metric
     
     private struct Metric {
-        static let letterImageViewTopPadding: CGFloat = 55
+        static let letterImageViewTopPadding: CGFloat = .verticalValue(55)
+        static let letterImageSize: CGFloat = .verticalValue(56)
         static let letterWritingGuideLabelTopPadding: CGFloat = 14
         
         static let letterCharacterCountLabelTrailingPadding: CGFloat = 24
@@ -26,11 +27,11 @@ final class SendingLetterView: LetterView {
     
     private let letterImageView = ImageView().then {
         $0.setImage("letter")
-        $0.setSize(56)
+        $0.setSize(Metric.letterImageSize)
     }
     
     private let letterWritingGuideLabel = IntroduceLabel().then {
-        $0.text = "상담하고 싶은 내용을\n"
+        $0.text = "오늘 하루 있었던 일들을\n"
                 + "편지로 적어볼까요?"
     }
     
