@@ -15,10 +15,13 @@ final class ChoosingCharacterView: BaseView {
     // MARK: - Metric
     
     private struct Metric {
-        static let nextButtonBottomPadding: CGFloat = 60
-        static let buttonWidth: CGFloat = 240
-        static let buttonHeight: CGFloat = 240
-        static let scrollPadding: CGFloat = 20
+        static let introduceLabelTopPadding: CGFloat = .verticalValue(100)
+        static let scrollViewTopPadding: CGFloat = .verticalValue(53)
+        static let nextButtonTopPadding: CGFloat = .verticalValue(40)
+        static let buttonWidth: CGFloat = .verticalValue(240)
+        static let buttonHeight: CGFloat = .verticalValue(240)
+        static let scrollPadding: CGFloat = .verticalValue(20)
+        static let detailLabelTopPadding: CGFloat = .verticalValue(34)
     }
     
     
@@ -39,7 +42,9 @@ final class ChoosingCharacterView: BaseView {
     
     private var contentView = UIView()
     
-    let detailInformationLabel = IntroduceLabel()
+    let detailInformationLabel = IntroduceLabel().then {
+        $0.font = UIView.screenHeight <= 700 ? .온글잎_의연체.body : .온글잎_의연체.title
+    }
     
     let nextButton = HorizontalButton().then {
         $0.setTitle("다음", for: .normal)
@@ -117,11 +122,11 @@ final class ChoosingCharacterView: BaseView {
         
         introduceLabel.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.top.equalToSuperview().offset(100)
+            make.top.equalToSuperview().offset(Metric.introduceLabelTopPadding)
         }
         
         scrollView.snp.makeConstraints { make in
-            make.top.equalTo(introduceLabel.snp.bottom).offset(53)
+            make.top.equalTo(introduceLabel.snp.bottom).offset(Metric.scrollViewTopPadding)
             make.leading.equalToSuperview()
             make.trailing.equalToSuperview()
             make.height.equalTo(Metric.buttonHeight)
@@ -132,13 +137,13 @@ final class ChoosingCharacterView: BaseView {
         }
         
         detailInformationLabel.snp.makeConstraints { make in
-            make.top.equalTo(scrollView.snp.bottom).offset(34)
+            make.top.equalTo(scrollView.snp.bottom).offset(Metric.detailLabelTopPadding)
             make.centerX.equalToSuperview()
         }
         
         nextButton.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.bottom.equalToSuperview().offset(-Metric.nextButtonBottomPadding)
+            make.top.equalTo(detailInformationLabel.snp.bottom).offset(Metric.nextButtonTopPadding)
         }
     }
     

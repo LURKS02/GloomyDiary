@@ -9,10 +9,22 @@ import UIKit
 import Lottie
 
 final class ChoosingTransition: NSObject {
+    
+    // MARK: - Metric
+    
+    enum Metric {
+        static let starWidth: CGFloat = .verticalValue(300)
+        static let starHeight: CGFloat = .verticalValue(135)
+        static let readyLabelPadding: CGFloat = .verticalValue(50)
+    }
+    
+    
+    // MARK: - Views
+    
     private let dummyView = UIImageView()
     
     private let starLottieView = LottieAnimationView(name: "stars").then {
-        $0.frame = .init(x: 0, y: 0, width: 300, height: 135)
+        $0.frame = .init(x: 0, y: 0, width: Metric.starWidth, height: Metric.starHeight)
         $0.animationSpeed = 2.0
         $0.loopMode = .loop
         $0.contentMode = .scaleToFill
@@ -56,7 +68,7 @@ extension ChoosingTransition: UIViewControllerAnimatedTransitioning {
             let containerViewWidth = containerView.bounds.width
             starLottieView.center = dummyView.center
             readyLabel.center = CGPoint(x: dummyView.center.x,
-                                        y: dummyView.center.y + dummyView.frame.height / 2 + 50)
+                                        y: dummyView.center.y + dummyView.frame.height / 2 + Metric.readyLabelPadding)
             
             toView.alpha = 0.0
             containerView.addSubview(toView)

@@ -12,8 +12,11 @@ final class ChoosingEmojiView: BaseView {
     // MARK: - Metric
     
     private struct Metric {
-        static let nextButtonBottomPadding: CGFloat = 100
+        static let nextButtonTopPadding: CGFloat = .verticalValue(50)
         static let stackViewSpacing: CGFloat = 15
+        static let introduceLabelTopPadding: CGFloat = .verticalValue(153)
+        static let emojiStackViewTopPadding: CGFloat = .verticalValue(60)
+        static let emojiStackViewHorizontalPadding: CGFloat = .horizontalValue(30)
     }
     
     
@@ -89,18 +92,18 @@ final class ChoosingEmojiView: BaseView {
         
         introduceLabel.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.top.equalToSuperview().offset(153)
+            make.top.equalToSuperview().offset(Metric.introduceLabelTopPadding)
         }
         
         emojiStackView.snp.makeConstraints { make in
-            make.top.equalTo(introduceLabel.snp.bottom).offset(60)
-            make.leading.equalToSuperview().inset(30)
-            make.trailing.equalToSuperview().inset(30)
+            make.top.equalTo(introduceLabel.snp.bottom).offset(Metric.emojiStackViewTopPadding)
+            make.leading.equalToSuperview().inset(Metric.emojiStackViewHorizontalPadding)
+            make.trailing.equalToSuperview().inset(Metric.emojiStackViewHorizontalPadding)
         }
         
         nextButton.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.bottom.equalToSuperview().offset(-Metric.nextButtonBottomPadding)
+            make.top.equalTo(emojiStackView.snp.bottom).offset(Metric.nextButtonTopPadding)
         }
     }
     
@@ -155,7 +158,7 @@ extension ChoosingEmojiView {
         
         allEmojiButtons.forEach { button in
             button.alpha = 0.0
-            button.transform = .identity.translatedBy(x: 0, y: 20)
+            button.transform = .identity.translatedBy(x: 0, y: .verticalValue(20))
         }
         
         await withCheckedContinuation { continuation in

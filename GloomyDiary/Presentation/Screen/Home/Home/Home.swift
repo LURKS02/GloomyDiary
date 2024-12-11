@@ -85,14 +85,21 @@ private extension Home {
     }
     
     func isReviewSuggestionEligible(date: Date?) async throws -> Bool {
-        guard let date = date else { return true }
         let sessions = try await counselingSessionRepository.fetch()
-        let hasReviewed = userSettingRepository.get(keyPath: \.hasReviewed)
-        let interval: TimeInterval = 7 * 24 * 60 * 60
-        let currentDate = now
-        let timeInterval = currentDate.timeIntervalSince(date)
-        
-        return sessions.count >= 2 && !hasReviewed && timeInterval >= interval
+        if date == nil && sessions.count < 2 { return false }
+        else {
+            let hasReviewed = userSettingRepository.get(keyPath: \.hasReviewed)
+            if hasReviewed { return false }
+            
+            if let date = date {
+                let interval: TimeInterval = 7 * 24 * 60 * 60
+                let currentDate = now
+                let timeInterval = currentDate.timeIntervalSince(date)
+                return timeInterval >= interval
+            } else {
+                return true
+            }
+        }
     }
     
     func convertDateToString(date: Date?) -> String {

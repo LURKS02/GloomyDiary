@@ -110,7 +110,7 @@ final class HistoryDetailView: BaseView {
             make.leading.equalToSuperview()
             make.trailing.equalToSuperview()
             make.bottom.equalToSuperview()
-            make.height.equalTo(70)
+            make.height.equalTo(CGFloat.verticalValue(70))
         }
         
         titleLabel.snp.makeConstraints { make in
@@ -136,7 +136,7 @@ final class HistoryDetailView: BaseView {
         responseLetterView.snp.makeConstraints { make in
             make.top.equalTo(contentLabel.snp.bottom).offset(40)
             make.horizontalEdges.equalToSuperview().inset(Metric.viewPadding)
-            make.bottom.equalToSuperview().offset(-30)
+            make.bottom.equalToSuperview().offset(-50)
         }
     }
 }

@@ -9,12 +9,27 @@ import UIKit
 
 final class CounselingView: BaseView {
     
+    // MARK: - Metric
+    
+    enum Metric {
+        static let characterSize: CGFloat = .verticalValue(61)
+        static let characterImageTopPadding: CGFloat = .verticalValue(90)
+        static let characterImageLeadingPadding: CGFloat = .horizontalValue(25)
+        static let characterImageTrailingPadding: CGFloat = .horizontalValue(20)
+        static let greetingLabelTrailingPadding: CGFloat = .horizontalValue(25)
+        static let sendingLetterTopPadding: CGFloat = .verticalValue(70)
+        static let sendingLetterHorizontalPadding: CGFloat = .horizontalValue(17)
+        static let sendingLetterBottomPadding: CGFloat = .verticalValue(250)
+        static let sendingButtonTopPadding: CGFloat = .verticalValue(50)
+    }
+
+    
     // MARK: - Views
 
     let containerView = UIView()
     
     let characterImageView: ImageView = ImageView().then {
-        $0.setSize(61)
+        $0.setSize(Metric.characterSize)
     }
     
     let characterGreetingLabel: IntroduceLabel = IntroduceLabel().then {
@@ -56,25 +71,25 @@ final class CounselingView: BaseView {
         }
         
         characterImageView.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(90)
-            make.leading.equalToSuperview().offset(25)
+            make.top.equalToSuperview().offset(Metric.characterImageTopPadding)
+            make.leading.equalToSuperview().offset(Metric.characterImageLeadingPadding)
         }
         
         characterGreetingLabel.snp.makeConstraints { make in
             make.top.equalTo(characterImageView.snp.top)
-            make.leading.equalTo(characterImageView.snp.trailing).offset(20)
-            make.trailing.equalToSuperview().offset(-25)
+            make.leading.equalTo(characterImageView.snp.trailing).offset(Metric.characterImageTrailingPadding)
+            make.trailing.equalToSuperview().offset(-Metric.greetingLabelTrailingPadding)
         }
         
         sendingLetterView.snp.makeConstraints { make in
-            make.top.equalTo(characterGreetingLabel.snp.bottom).offset(70)
-            make.leading.equalToSuperview().offset(17)
-            make.trailing.equalToSuperview().offset(-17)
-            make.bottom.equalToSuperview().offset(-250)
+            make.top.equalTo(characterGreetingLabel.snp.bottom).offset(Metric.sendingLetterTopPadding)
+            make.leading.equalToSuperview().offset(Metric.sendingLetterHorizontalPadding)
+            make.trailing.equalToSuperview().offset(-Metric.sendingLetterHorizontalPadding)
+            make.bottom.equalToSuperview().offset(-Metric.sendingLetterBottomPadding)
         }
         
         letterSendingButton.snp.makeConstraints { make in
-            make.top.equalTo(sendingLetterView.snp.bottom).offset(50)
+            make.top.equalTo(sendingLetterView.snp.bottom).offset(Metric.sendingButtonTopPadding)
             make.centerX.equalToSuperview()
         }
     }

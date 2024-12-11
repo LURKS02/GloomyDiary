@@ -12,10 +12,14 @@ final class LocalNotificationView: BaseView {
     // MARK: - Metric
     
     private struct Metric {
-        static let sheetHeight: CGFloat = 400
-        static let sheetWidth: CGFloat = 350
-        static let cornerRadius: CGFloat = 30
-        static let ghostSize: CGFloat = 70
+        static let sheetHeight: CGFloat = max(.verticalValue(380), 320)
+        static let sheetWidth: CGFloat = .horizontalValue(350)
+        static let cornerRadius: CGFloat = .verticalValue(30)
+        static let ghostSize: CGFloat = .verticalValue(70)
+        static let ghostImageTopPadding: CGFloat = .verticalValue(35)
+        static let notificationLabelTopPadding: CGFloat = .verticalValue(25)
+        static let buttonStackViewTopPadding: CGFloat = .verticalValue(35)
+        static let buttonStackViewHorizontalPadding: CGFloat = .horizontalValue(40)
     }
 
     
@@ -88,19 +92,19 @@ final class LocalNotificationView: BaseView {
             make.width.equalTo(Metric.ghostSize)
             make.height.equalTo(Metric.ghostSize)
             make.centerX.equalToSuperview()
-            make.top.equalToSuperview().offset(35)
+            make.top.equalToSuperview().offset(Metric.ghostImageTopPadding)
         }
         
         notificationLabel.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
             make.top.equalTo(ghostImageView.snp.bottom)
-                .offset(25)
+                .offset(Metric.notificationLabelTopPadding)
         }
         
         buttonStackView.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.top.equalTo(notificationLabel.snp.bottom).offset(35)
-            make.horizontalEdges.equalToSuperview().inset(40)
+            make.top.equalTo(notificationLabel.snp.bottom).offset(Metric.buttonStackViewTopPadding)
+            make.horizontalEdges.equalToSuperview().inset(Metric.buttonStackViewHorizontalPadding)
         }
     }
 }

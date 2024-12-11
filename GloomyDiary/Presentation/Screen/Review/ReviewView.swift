@@ -12,9 +12,13 @@ final class ReviewView: BaseView {
     // MARK: - Metric
     
     private struct Metric {
-        static let sheetHeight: CGFloat = 450
-        static let cornerRadius: CGFloat = 30
-        static let characterSize: CGFloat = 80
+        static let sheetHeight: CGFloat = .verticalValue(450)
+        static let cornerRadius: CGFloat = .verticalValue(30)
+        static let characterSize: CGFloat = .verticalValue(80)
+        static let characterImageTopPadding: CGFloat = .verticalValue(40)
+        static let reviewLabelTopPadding: CGFloat = .verticalValue(25)
+        static let buttonStackViewTopPadding: CGFloat = .verticalValue(45)
+        static let buttonStackViewHorizontalPadding: CGFloat = .horizontalValue(40)
     }
 
     
@@ -93,18 +97,18 @@ final class ReviewView: BaseView {
             make.width.equalTo(Metric.characterSize)
             make.height.equalTo(Metric.characterSize)
             make.centerX.equalToSuperview()
-            make.top.equalToSuperview().offset(40)
+            make.top.equalToSuperview().offset(Metric.characterImageTopPadding)
         }
         
         reviewLabel.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.top.equalTo(characterImageView.snp.bottom).offset(25)
+            make.top.equalTo(characterImageView.snp.bottom).offset(Metric.reviewLabelTopPadding)
         }
         
         buttonStackView.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.top.equalTo(reviewLabel.snp.bottom).offset(45)
-            make.horizontalEdges.equalToSuperview().inset(40)
+            make.top.equalTo(reviewLabel.snp.bottom).offset(Metric.buttonStackViewTopPadding)
+            make.horizontalEdges.equalToSuperview().inset(Metric.buttonStackViewHorizontalPadding)
         }
     }
 }

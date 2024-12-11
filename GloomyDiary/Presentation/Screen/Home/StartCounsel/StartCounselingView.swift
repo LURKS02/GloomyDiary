@@ -12,14 +12,17 @@ final class StartCounselingView: BaseView {
     // MARK: - Metric
     
     private enum Metric {
-        static let moonTopPadding: CGFloat = 97
-        static let firstIntroduceLabelTopPadding: CGFloat = 80
-        static let secondIntroduceLabelTopPadding: CGFloat = 31
-        static let thirdIntroduceLabelTopPadding: CGFloat = 22
-        static let titleTextFieldTopPadding: CGFloat = 32
-        static let finalIntroduceLabelTopPadding: CGFloat = 35
-        static let nextButtonTopPadding: CGFloat = 30
-        static let moonImageSize: CGFloat = 43
+        static let moonTopPadding: CGFloat = .verticalValue(97)
+        static let firstIntroduceLabelTopPadding: CGFloat = .verticalValue(80)
+        static let secondIntroduceLabelTopPadding: CGFloat = .verticalValue(31)
+        static let thirdIntroduceLabelTopPadding: CGFloat = .verticalValue(22)
+        static let titleTextFieldTopPadding: CGFloat = .verticalValue(32)
+        static let finalIntroduceLabelTopPadding: CGFloat = .verticalValue(35)
+        static let nextButtonTopPadding: CGFloat = .verticalValue(30)
+        static let titleTextFieldHeight: CGFloat = 60
+        static let titleTextFieldWidth: CGFloat = .horizontalValue(312)
+        static let moonImageSize: CGFloat = .verticalValue(43)
+        static let warningLabelPadding: CGFloat = .verticalValue(5)
     }
 
     
@@ -135,13 +138,13 @@ final class StartCounselingView: BaseView {
         titleTextField.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
             make.top.equalTo(thirdIntroduceLabel.snp.bottom).offset(Metric.titleTextFieldTopPadding)
-            make.height.equalTo(60)
-            make.width.equalTo(312)
+            make.height.equalTo(Metric.titleTextFieldHeight)
+            make.width.equalTo(Metric.titleTextFieldWidth)
         }
         
         warningLabel.snp.makeConstraints { make in
-            make.top.equalTo(titleTextField.snp.bottom).offset(5)
-            make.leading.equalTo(titleTextField.snp.leading).offset(5)
+            make.top.equalTo(titleTextField.snp.bottom).offset(Metric.warningLabelPadding)
+            make.leading.equalTo(titleTextField.snp.leading).offset(Metric.warningLabelPadding)
         }
         
         finalIntroduceLabel.snp.makeConstraints { make in
@@ -171,7 +174,7 @@ extension StartCounselingView {
     
     @MainActor
     func playFadeInFirstPart() async {
-        moonImageView.transform = .identity.translatedBy(x: 0, y: 35)
+        moonImageView.transform = .identity.translatedBy(x: 0, y: .verticalValue(35))
         await withCheckedContinuation { continuation in
             AnimationGroup(animations: [.init(view: moonImageView,
                                               animationCase: .transform(transform: .identity),

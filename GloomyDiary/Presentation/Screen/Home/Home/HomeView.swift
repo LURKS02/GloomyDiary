@@ -12,18 +12,18 @@ final class HomeView: BaseView {
     
     // MARK: - Metric
 
-    private struct Metric {
-        static let moonTopPadding: CGFloat = 132
-        static let ghostButtonPadding: CGFloat = 65
-        static let buttonBottomPadding: CGFloat = 266
+    private enum Metric {
+        static let moonTopPadding: CGFloat = .verticalValue(132)
+        static let ghostButtonPadding: CGFloat = .verticalValue(65)
+        static let buttonBottomPadding: CGFloat = .verticalValue(266)
         
-        static let ghostTalkingSpacing: CGFloat = 14
-        static let ghostTalkingRightPadding: CGFloat = 23
-        static let ghostImageRightPadding: CGFloat = 119
+        static let ghostTalkingSpacing: CGFloat = .verticalValue(14)
+        static let ghostTalkingRightPadding: CGFloat = .horizontalValue(23)
+        static let ghostImageRightPadding: CGFloat = .horizontalValue(119)
         
-        static let moonImageSize: CGFloat = 43
-        static let pulsingCircleSize: CGFloat = 380
-        static let ghostImageSize: CGFloat = 78
+        static let moonImageSize: CGFloat = .verticalValue(43)
+        static let pulsingCircleSize: CGFloat = .verticalValue(380)
+        static let ghostImageSize: CGFloat = .horizontalValue(78)
         
         static let pulsingCircleAlpha: CGFloat = 0.3
         static let pulsingCircleAnimationSpeed: CGFloat = 0.3

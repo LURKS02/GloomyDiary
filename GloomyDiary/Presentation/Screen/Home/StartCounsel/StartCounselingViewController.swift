@@ -138,7 +138,7 @@ extension StartCounselingViewController: UINavigationControllerDelegate {
 extension StartCounselingViewController: Presentable {
     func playAppearingAnimation() async {
         contentView.hideAllComponents()
-        contentView.moonImageView.transform = .identity.translatedBy(x: 0, y: 35)
+        contentView.moonImageView.transform = .identity.translatedBy(x: 0, y: .verticalValue(35))
         await contentView.playFadeInFirstPart()
         await contentView.playFadeInSecondPart()
     }
