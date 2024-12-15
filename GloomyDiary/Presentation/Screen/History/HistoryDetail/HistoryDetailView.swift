@@ -59,24 +59,6 @@ final class HistoryDetailView: BaseView {
     var isAnimated: Bool = false
     
     
-    // MARK: - Initialize
-    
-    init(session: CounselingSessionDTO) {
-        super.init(frame: .zero)
-        
-        titleLabel.text = session.title
-        dateLabel.text = session.createdAt.normalDescription
-        stateLabel.text = "날씨 \(session.weather.name), \(session.emoji.description)"
-        contentLabel.text = session.query
-        responseLetterView.configure(with: session.counselor, response: session.response)
-        gradientBackgroundView.alpha = 0.0
-    }
-    
-    @MainActor required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    
     // MARK: - View Life Cycle
 
     override func setup() {
@@ -142,6 +124,15 @@ final class HistoryDetailView: BaseView {
 }
 
 extension HistoryDetailView {
+    func configure(with session: CounselingSessionDTO) {
+        titleLabel.text = session.title
+        dateLabel.text = session.createdAt.normalDescription
+        stateLabel.text = "날씨 \(session.weather.name), \(session.emoji.description)"
+        contentLabel.text = session.query
+        responseLetterView.configure(with: session.counselor, response: session.response)
+        gradientBackgroundView.alpha = 0.0
+    }
+    
     func makeScrollViewOffsetConstraints(offset: CGFloat) {
         scrollView.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(offset)

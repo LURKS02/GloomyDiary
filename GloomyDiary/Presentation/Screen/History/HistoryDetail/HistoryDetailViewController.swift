@@ -6,13 +6,22 @@
 //
 
 import UIKit
+import ComposableArchitecture
 
 final class HistoryDetailViewController: BaseViewController<HistoryDetailView> {
+    
+    let store: StoreOf<HistoryDetail>
+    
     private weak var weakNavigationController: UINavigationController?
     
-    init(session: CounselingSessionDTO) {
-        let contentView = HistoryDetailView(session: session)
-        super.init(contentView, logID: "HistoryDetail")
+    private var menuViewController: HistoryMenuViewController?
+    
+    
+    // MARK: - Initialize
+    
+    init(store: StoreOf<HistoryDetail>) {
+        self.store = store
+        super.init(logID: "HistoryDetail")
     }
     
     @MainActor required init?(coder: NSCoder) {
@@ -43,6 +52,8 @@ final class HistoryDetailViewController: BaseViewController<HistoryDetailView> {
         let titleImage = UIImage(named: "letter")?.resized(width: 40, height: 40)
         let imageView = UIImageView(image: titleImage)
         self.navigationItem.titleView = imageView
+        bind()
+        
         
         navigationController?.delegate = self
         self.weakNavigationController = navigationController
@@ -80,6 +91,14 @@ final class HistoryDetailViewController: BaseViewController<HistoryDetailView> {
     }
 }
 
+private extension HistoryDetailViewController {
+    func bind() {
+        observe { [weak self] in
+            guard let self else { return }
+            contentView.configure(with: store.session)
+        }
+    }
+}
 extension HistoryDetailViewController: UINavigationControllerDelegate {
     func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationController.Operation, from fromVC: UIViewController, to toVC: UIViewController) -> (any UIViewControllerAnimatedTransitioning)? {
         HistoryDetailTransition()
