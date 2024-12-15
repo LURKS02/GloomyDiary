@@ -23,6 +23,13 @@
 		D95A29CD2CFCF08C0007A71A /* LocalError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95A29CC2CFCF08C0007A71A /* LocalError.swift */; };
 		D95A32DC2D00DCF50007A71A /* 온글잎 의연체.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D95A32DB2D00DCF50007A71A /* 온글잎 의연체.ttf */; };
 		D95A41B12D08AFFA0007A71A /* Extension+CGFloat.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95A41B02D08AFFA0007A71A /* Extension+CGFloat.swift */; };
+		D95A42522D0B8A020007A71A /* MenuItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95A42512D0B8A020007A71A /* MenuItem.swift */; };
+		D95A42562D0B8BBA0007A71A /* HistoryDetailMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95A42552D0B8BBA0007A71A /* HistoryDetailMenuView.swift */; };
+		D95A42582D0B9DD20007A71A /* MenuButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95A42572D0B9DD20007A71A /* MenuButton.swift */; };
+		D95A425A2D0CDC850007A71A /* HistoryDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95A42592D0CDC850007A71A /* HistoryDetail.swift */; };
+		D95A42612D0E09B60007A71A /* HistoryMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95A42602D0E09B60007A71A /* HistoryMenuViewController.swift */; };
+		D95A42642D0E22360007A71A /* DeleteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95A42632D0E22360007A71A /* DeleteView.swift */; };
+		D95A437D2D0F2A0A0007A71A /* DeleteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95A437C2D0F2A0A0007A71A /* DeleteViewController.swift */; };
 		D95C181B2CCE7A4200055C7C /* StartCounseling.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95C181A2CCE7A4200055C7C /* StartCounseling.swift */; };
 		D95C181F2CCE7E1C00055C7C /* Presentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95C181E2CCE7E1C00055C7C /* Presentable.swift */; };
 		D95C18212CCE7E5A00055C7C /* PresentingDisappearable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95C18202CCE7E5A00055C7C /* PresentingDisappearable.swift */; };
@@ -176,6 +183,13 @@
 		D95A32DB2D00DCF50007A71A /* 온글잎 의연체.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "온글잎 의연체.ttf"; sourceTree = "<group>"; };
 		D95A41B02D08AFFA0007A71A /* Extension+CGFloat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+CGFloat.swift"; sourceTree = "<group>"; };
 		D95A41D12D09CED80007A71A /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
+		D95A42512D0B8A020007A71A /* MenuItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuItem.swift; sourceTree = "<group>"; };
+		D95A42552D0B8BBA0007A71A /* HistoryDetailMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryDetailMenuView.swift; sourceTree = "<group>"; };
+		D95A42572D0B9DD20007A71A /* MenuButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuButton.swift; sourceTree = "<group>"; };
+		D95A42592D0CDC850007A71A /* HistoryDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryDetail.swift; sourceTree = "<group>"; };
+		D95A42602D0E09B60007A71A /* HistoryMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryMenuViewController.swift; sourceTree = "<group>"; };
+		D95A42632D0E22360007A71A /* DeleteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteView.swift; sourceTree = "<group>"; };
+		D95A437C2D0F2A0A0007A71A /* DeleteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteViewController.swift; sourceTree = "<group>"; };
 		D95C181A2CCE7A4200055C7C /* StartCounseling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartCounseling.swift; sourceTree = "<group>"; };
 		D95C181E2CCE7E1C00055C7C /* Presentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Presentable.swift; sourceTree = "<group>"; };
 		D95C18202CCE7E5A00055C7C /* PresentingDisappearable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentingDisappearable.swift; sourceTree = "<group>"; };
@@ -290,8 +304,8 @@
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		D95A25812CF797520007A71A /* LocalNotification */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = LocalNotification; sourceTree = "<group>"; };
 		D95A25842CF7A6C10007A71A /* LocalNotification */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = LocalNotification; sourceTree = "<group>"; };
+		D95A43882D0F3F900007A71A /* Service */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Service; sourceTree = "<group>"; };
 		D95C18332CCF6C8700055C7C /* ChoosingEmoji */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = ChoosingEmoji; sourceTree = "<group>"; };
-		D9FCFFA42CBACBD800A53A14 /* Network */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Network; sourceTree = "<group>"; };
 		D9FFF8832CE39176006DE533 /* Transition */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Transition; sourceTree = "<group>"; };
 		D9FFF8842CE391AE006DE533 /* TableView */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = TableView; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -383,6 +397,26 @@
 			path = Counsel;
 			sourceTree = "<group>";
 		};
+		D95A42502D0B89360007A71A /* Menu */ = {
+			isa = PBXGroup;
+			children = (
+				D95A42512D0B8A020007A71A /* MenuItem.swift */,
+				D95A42552D0B8BBA0007A71A /* HistoryDetailMenuView.swift */,
+				D95A42572D0B9DD20007A71A /* MenuButton.swift */,
+				D95A42602D0E09B60007A71A /* HistoryMenuViewController.swift */,
+			);
+			path = Menu;
+			sourceTree = "<group>";
+		};
+		D95A42622D0E22250007A71A /* Delete */ = {
+			isa = PBXGroup;
+			children = (
+				D95A42632D0E22360007A71A /* DeleteView.swift */,
+				D95A437C2D0F2A0A0007A71A /* DeleteViewController.swift */,
+			);
+			path = Delete;
+			sourceTree = "<group>";
+		};
 		D95C18262CCEAA5700055C7C /* ChoosingWeather */ = {
 			isa = PBXGroup;
 			children = (
@@ -442,7 +476,7 @@
 			isa = PBXGroup;
 			children = (
 				D9FCFFBE2CBAE4A900A53A14 /* Repository */,
-				D9FCFFA42CBACBD800A53A14 /* Network */,
+				D95A43882D0F3F900007A71A /* Service */,
 				D92F498E2C7A029A00CD7D2A /* Model */,
 				D9D9E02E2C5FF5290095792A /* Base */,
 				D9D9E01B2C5FE56A0095792A /* Presentation */,
@@ -518,8 +552,11 @@
 		D9BF60722CC8AF58001C9D2B /* HistoryDetail */ = {
 			isa = PBXGroup;
 			children = (
+				D95A42622D0E22250007A71A /* Delete */,
+				D95A42502D0B89360007A71A /* Menu */,
 				D9BF60762CC8BF73001C9D2B /* HistoryDetailViewController.swift */,
 				D9BF60782CC8BF9D001C9D2B /* HistoryDetailView.swift */,
+				D95A42592D0CDC850007A71A /* HistoryDetail.swift */,
 			);
 			path = HistoryDetail;
 			sourceTree = "<group>";
@@ -824,8 +861,8 @@
 			fileSystemSynchronizedGroups = (
 				D95A25812CF797520007A71A /* LocalNotification */,
 				D95A25842CF7A6C10007A71A /* LocalNotification */,
+				D95A43882D0F3F900007A71A /* Service */,
 				D95C18332CCF6C8700055C7C /* ChoosingEmoji */,
-				D9FCFFA42CBACBD800A53A14 /* Network */,
 				D9FFF8832CE39176006DE533 /* Transition */,
 				D9FFF8842CE391AE006DE533 /* TableView */,
 			);
@@ -1029,6 +1066,7 @@
 				D9CF315C2CEC806000B1A92D /* UserSettingRepository.swift in Sources */,
 				D95C18482CCFDC7900055C7C /* ChoosingCharacterView.swift in Sources */,
 				D95C183B2CCF7A4400055C7C /* EmojiDTO.swift in Sources */,
+				D95A42612D0E09B60007A71A /* HistoryMenuViewController.swift in Sources */,
 				D95C18282CCEAA7600055C7C /* ChoosingWeatherViewController.swift in Sources */,
 				D95C182C2CCEAAB700055C7C /* WeatherButton.swift in Sources */,
 				D9609F442CC02D18005E8F0C /* SpacerTableViewCell.swift in Sources */,
@@ -1067,10 +1105,13 @@
 				D9609F4F2CC03B2C005E8F0C /* TableViewConfigurationBindable.swift in Sources */,
 				D9BF60AF2CCE3195001C9D2B /* Dismissable.swift in Sources */,
 				D9BF60792CC8BF9D001C9D2B /* HistoryDetailView.swift in Sources */,
+				D95A42582D0B9DD20007A71A /* MenuButton.swift in Sources */,
+				D95A437D2D0F2A0A0007A71A /* DeleteViewController.swift in Sources */,
 				D966D27F2C9C1E5B0024CA7F /* CounselTransition.swift in Sources */,
 				D9D9E0C92C6BD82C0095792A /* Talking.swift in Sources */,
 				D9D9E0BB2C6B93F20095792A /* TalkingView.swift in Sources */,
 				D95C183D2CCF824E00055C7C /* EmojiButton.swift in Sources */,
+				D95A42522D0B8A020007A71A /* MenuItem.swift in Sources */,
 				D9BF60812CC8E719001C9D2B /* ResponseHistoryLetterView.swift in Sources */,
 				D937405E2C7E40BF003E02FD /* Counseling.swift in Sources */,
 				D935483D2C725BDA00E5EBF9 /* Animation.swift in Sources */,
@@ -1093,6 +1134,8 @@
 				D9D9E0692C6279E80095792A /* then.swift in Sources */,
 				D9D9E02B2C5FF4570095792A /* HistoryViewController.swift in Sources */,
 				D95C181B2CCE7A4200055C7C /* StartCounseling.swift in Sources */,
+				D95A42562D0B8BBA0007A71A /* HistoryDetailMenuView.swift in Sources */,
+				D95A425A2D0CDC850007A71A /* HistoryDetail.swift in Sources */,
 				D9FFF89C2CE3AA26006DE533 /* HistoryDetailTransition.swift in Sources */,
 				D95C18252CCE98E000055C7C /* Extension+String.swift in Sources */,
 				D9D9E0292C5FF41C0095792A /* HomeViewController.swift in Sources */,
@@ -1107,6 +1150,7 @@
 				D9CF31972CED133A00B1A92D /* WelcomeView.swift in Sources */,
 				D97421B42C5ABE12002E47F9 /* SceneDelegate.swift in Sources */,
 				D9FFF8812CE33216006DE533 /* ChoosingTransition.swift in Sources */,
+				D95A42642D0E22360007A71A /* DeleteView.swift in Sources */,
 				D9BF60A92CCD7D1B001C9D2B /* CircularTabBarControllable.swift in Sources */,
 				D9CF31622CECA3DD00B1A92D /* UserSettingRepositoryKey.swift in Sources */,
 			);
