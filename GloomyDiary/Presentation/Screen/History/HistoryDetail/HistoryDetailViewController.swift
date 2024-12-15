@@ -97,6 +97,8 @@ private extension HistoryDetailViewController {
         }
     }
 }
+
+private extension HistoryDetailViewController {
     func setupNavigationBar() {
         guard let image = UIImage(named: "letter") else { return }
         let size: CGFloat = 40
@@ -111,6 +113,56 @@ private extension HistoryDetailViewController {
         moreButton.tintColor = .white
         navigationItem.rightBarButtonItem = moreButton
     }
+    
+    @objc func showMenu() {
+        guard let navigationControllerHeight else { return }
+        let menuViewController = HistoryMenuViewController(navigationControllerHeight: navigationControllerHeight)
+        menuViewController.modalPresentationStyle = .overFullScreen
+        menuViewController.buttonTappedRelay
+            .subscribe(onNext: { [weak self] identifier in
+                guard let self,
+                      let menuItem = MenuItem(identifier: identifier) else { return }
+                switch menuItem {
+                case .delete:
+                    didTapdeleteMenu()
+                case .share:
+                    didTapShareMenu()
+                }
+            })
+            .disposed(by: rx.disposeBag)
+        self.menuViewController = menuViewController
+        
+        present(menuViewController, animated: false)
+    }
+    
+    func didTapdeleteMenu() {
+        Logger.send(type: .tapped, "상세 - 삭제하기")
+        Task {
+            guard let menuViewController else { return }
+            await menuViewController.close()
+            let deleteViewController = DeleteViewController(session: store.session)
+            deleteViewController.modalPresentationStyle = .overFullScreen
+            deleteViewController.deletionRelay
+                .subscribe(onNext: { [weak self] in
+                    guard let self else { return }
+                    navigationController?.popViewController(animated: true)
+                })
+                .disposed(by: rx.disposeBag)
+            present(deleteViewController, animated: false)
+        }
+    }
+    
+    func didTapShareMenu() {
+        Logger.send(type: .tapped, "상세 - 공유하기")
+        guard let menuViewController else { return }
+        ShareService.share(character: store.session.counselor,
+                           request: store.session.query,
+                           response: store.session.response,
+                           in: menuViewController,
+                           completion: { Task { await menuViewController.close() }})
+    }
+}
+
 extension HistoryDetailViewController: UINavigationControllerDelegate {
     func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationController.Operation, from fromVC: UIViewController, to toVC: UIViewController) -> (any UIViewControllerAnimatedTransitioning)? {
         HistoryDetailTransition()
