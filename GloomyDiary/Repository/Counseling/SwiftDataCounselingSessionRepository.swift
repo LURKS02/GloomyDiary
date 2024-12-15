@@ -45,15 +45,8 @@ import SwiftData
     }
     
     func delete(id: UUID) async throws {
-        guard let sessionDTO = try await find(id: id) else { return }
-        let session = CounselingSession(id: sessionDTO.id,
-                                        counselorIdentifier: sessionDTO.counselor.identifier,
-                                        title: sessionDTO.title,
-                                        query: sessionDTO.query,
-                                        response: sessionDTO.response,
-                                        createdAt: sessionDTO.createdAt,
-                                        weatherIdentifier: sessionDTO.weather.identifier,
-                                        emojiIdentifier: sessionDTO.emoji.identifier)
+        let descriptor = FetchDescriptor<CounselingSession>(predicate: #Predicate { $0.id == id })
+        guard let session = try? modelContext.fetch(descriptor).first else { return }
         modelContext.delete(session)
         try modelContext.save()
         Logger.send(type : .data, "상담 내역 삭제")
