@@ -49,11 +49,9 @@ final class HistoryDetailViewController: BaseViewController<HistoryDetailView> {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let titleImage = UIImage(named: "letter")?.resized(width: 40, height: 40)
-        let imageView = UIImageView(image: titleImage)
-        self.navigationItem.titleView = imageView
         bind()
         
+        setupNavigationBar()
         
         navigationController?.delegate = self
         self.weakNavigationController = navigationController
@@ -99,6 +97,20 @@ private extension HistoryDetailViewController {
         }
     }
 }
+    func setupNavigationBar() {
+        guard let image = UIImage(named: "letter") else { return }
+        let size: CGFloat = 40
+        let titleImage = image.resized(width: size, height: size)
+        let imageView = UIImageView(image: titleImage)
+        self.navigationItem.titleView = imageView
+        
+        let moreButton = UIBarButtonItem(image: UIImage(systemName: "ellipsis"),
+                                         style: .plain,
+                                         target: self,
+                                         action: #selector(showMenu))
+        moreButton.tintColor = .white
+        navigationItem.rightBarButtonItem = moreButton
+    }
 extension HistoryDetailViewController: UINavigationControllerDelegate {
     func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationController.Operation, from fromVC: UIViewController, to toVC: UIViewController) -> (any UIViewControllerAnimatedTransitioning)? {
         HistoryDetailTransition()
