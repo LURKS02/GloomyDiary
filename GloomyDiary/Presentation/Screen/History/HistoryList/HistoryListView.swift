@@ -19,7 +19,7 @@ final class HistoryListView: UIView {
     lazy var tableView = UITableView().then {
         $0.showsVerticalScrollIndicator = false
         $0.backgroundColor = .clear
-        $0.clipsToBounds = false
+        $0.clipsToBounds = true
         $0.register(CounselingSessionTableViewCellConfiguration.cellType, forCellReuseIdentifier: CounselingSessionTableViewCellConfiguration.identifier)
         $0.register(SpacerTableViewCellConfiguration.cellType, forCellReuseIdentifier: SpacerTableViewCellConfiguration.identifier)
     }
