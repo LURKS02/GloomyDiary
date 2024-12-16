@@ -127,7 +127,10 @@ extension HistoryViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let selectedConfiguration = configurables[indexPath.row] as? CounselingSessionTableViewCellConfiguration else { return }
         self.navigationController?.delegate = self
-        self.navigationController?.pushViewController(HistoryDetailViewController(session: selectedConfiguration.counselingSessionDTO), animated: true)
+        let store: StoreOf<HistoryDetail> = Store(initialState: .init(session: selectedConfiguration.counselingSessionDTO),
+                                                  reducer: { HistoryDetail() })
+        let historyDetailViewController = HistoryDetailViewController(store: store)
+        self.navigationController?.pushViewController(historyDetailViewController, animated: true)
         Logger.send(type: .tapped, "히스토리 선택", parameters: ["인덱스": indexPath.row])
     }
 }

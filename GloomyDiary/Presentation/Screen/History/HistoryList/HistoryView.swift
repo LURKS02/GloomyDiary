@@ -46,7 +46,7 @@ final class HistoryView: BaseView {
     
     override func setupConstraints() {
         listView.snp.makeConstraints { make in
-            make.top.equalTo(self.safeAreaLayoutGuide)
+            make.top.equalTo(self.safeAreaLayoutGuide.snp.top)
             make.horizontalEdges.equalToSuperview()
             make.bottom.equalToSuperview()
         }

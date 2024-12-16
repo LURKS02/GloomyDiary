@@ -6,13 +6,22 @@
 //
 
 import UIKit
+import ComposableArchitecture
 
 final class HistoryDetailViewController: BaseViewController<HistoryDetailView> {
+    
+    let store: StoreOf<HistoryDetail>
+    
     private weak var weakNavigationController: UINavigationController?
     
-    init(session: CounselingSessionDTO) {
-        let contentView = HistoryDetailView(session: session)
-        super.init(contentView, logID: "HistoryDetail")
+    private var menuViewController: HistoryMenuViewController?
+    
+    
+    // MARK: - Initialize
+    
+    init(store: StoreOf<HistoryDetail>) {
+        self.store = store
+        super.init(logID: "HistoryDetail")
     }
     
     @MainActor required init?(coder: NSCoder) {
@@ -40,9 +49,9 @@ final class HistoryDetailViewController: BaseViewController<HistoryDetailView> {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let titleImage = UIImage(named: "letter")?.resized(width: 40, height: 40)
-        let imageView = UIImageView(image: titleImage)
-        self.navigationItem.titleView = imageView
+        bind()
+        
+        setupNavigationBar()
         
         navigationController?.delegate = self
         self.weakNavigationController = navigationController
@@ -77,6 +86,80 @@ final class HistoryDetailViewController: BaseViewController<HistoryDetailView> {
         super.viewWillDisappear(animated)
         
         self.navigationController?.setNavigationBarHidden(true, animated: true)
+    }
+}
+
+private extension HistoryDetailViewController {
+    func bind() {
+        observe { [weak self] in
+            guard let self else { return }
+            contentView.configure(with: store.session)
+        }
+    }
+}
+
+private extension HistoryDetailViewController {
+    func setupNavigationBar() {
+        guard let image = UIImage(named: "letter") else { return }
+        let size: CGFloat = 40
+        let titleImage = image.resized(width: size, height: size)
+        let imageView = UIImageView(image: titleImage)
+        self.navigationItem.titleView = imageView
+        
+        let moreButton = UIBarButtonItem(image: UIImage(systemName: "ellipsis"),
+                                         style: .plain,
+                                         target: self,
+                                         action: #selector(showMenu))
+        moreButton.tintColor = .white
+        navigationItem.rightBarButtonItem = moreButton
+    }
+    
+    @objc func showMenu() {
+        guard let navigationControllerHeight else { return }
+        let menuViewController = HistoryMenuViewController(navigationControllerHeight: navigationControllerHeight)
+        menuViewController.modalPresentationStyle = .overFullScreen
+        menuViewController.buttonTappedRelay
+            .subscribe(onNext: { [weak self] identifier in
+                guard let self,
+                      let menuItem = MenuItem(identifier: identifier) else { return }
+                switch menuItem {
+                case .delete:
+                    didTapdeleteMenu()
+                case .share:
+                    didTapShareMenu()
+                }
+            })
+            .disposed(by: rx.disposeBag)
+        self.menuViewController = menuViewController
+        
+        present(menuViewController, animated: false)
+    }
+    
+    func didTapdeleteMenu() {
+        Logger.send(type: .tapped, "상세 - 삭제하기")
+        Task {
+            guard let menuViewController else { return }
+            await menuViewController.close()
+            let deleteViewController = DeleteViewController(session: store.session)
+            deleteViewController.modalPresentationStyle = .overFullScreen
+            deleteViewController.deletionRelay
+                .subscribe(onNext: { [weak self] in
+                    guard let self else { return }
+                    navigationController?.popViewController(animated: true)
+                })
+                .disposed(by: rx.disposeBag)
+            present(deleteViewController, animated: false)
+        }
+    }
+    
+    func didTapShareMenu() {
+        Logger.send(type: .tapped, "상세 - 공유하기")
+        guard let menuViewController else { return }
+        ShareService.share(character: store.session.counselor,
+                           request: store.session.query,
+                           response: store.session.response,
+                           in: menuViewController,
+                           completion: { Task { await menuViewController.close() }})
     }
 }
 
