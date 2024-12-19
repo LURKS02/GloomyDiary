@@ -17,10 +17,13 @@ final class CounselingView: BaseView {
         static let characterImageLeadingPadding: CGFloat = .horizontalValue(25)
         static let characterImageTrailingPadding: CGFloat = .horizontalValue(20)
         static let greetingLabelTrailingPadding: CGFloat = .horizontalValue(25)
-        static let sendingLetterTopPadding: CGFloat = .verticalValue(70)
+        static let photoCollectionViewTopPadding: CGFloat = .verticalValue(60)
+        static let photoCollectionViewHorizontalPadding: CGFloat = .horizontalValue(21)
+        static let photoCollectionViewHeight: CGFloat = .verticalValue(78)
+        static let sendingLetterTopPadding: CGFloat = .verticalValue(20)
         static let sendingLetterHorizontalPadding: CGFloat = .horizontalValue(17)
         static let sendingLetterBottomPadding: CGFloat = .verticalValue(250)
-        static let sendingButtonTopPadding: CGFloat = .verticalValue(50)
+        static let sendingButtonTopPadding: CGFloat = .verticalValue(25)
     }
 
     
@@ -36,6 +39,20 @@ final class CounselingView: BaseView {
         $0.textAlignment = .left
     }
     
+    let layout = UICollectionViewFlowLayout().then {
+        $0.scrollDirection = .horizontal
+        $0.minimumLineSpacing = 5
+        $0.itemSize = .init(width: Metric.photoCollectionViewHeight, height: Metric.photoCollectionViewHeight)
+    }
+    
+    lazy var photoCollectionView = UICollectionView(frame: .zero, collectionViewLayout: layout).then {
+        $0.backgroundColor = .clear
+        $0.showsHorizontalScrollIndicator = false
+        $0.clipsToBounds = false
+        $0.register(CounselingPhotoCollectionViewCell.self, forCellWithReuseIdentifier: CounselingPhotoCollectionViewCell.identifier)
+        $0.register(CounselingPhotoSelectionCollectionViewCell.self, forCellWithReuseIdentifier: CounselingPhotoSelectionCollectionViewCell.identifier)
+    }
+    
     let sendingLetterView: SendingLetterView = SendingLetterView()
     
     let letterSendingButton: HorizontalButton = HorizontalButton().then {
@@ -43,7 +60,9 @@ final class CounselingView: BaseView {
         $0.isEnabled = false
     }
     
-    let tapGesture = UITapGestureRecognizer()
+    let tapGesture = UITapGestureRecognizer().then {
+        $0.cancelsTouchesInView = false
+    }
     
     
     // MARK: - View Life Cycle
@@ -54,6 +73,7 @@ final class CounselingView: BaseView {
         characterGreetingLabel.alpha = 0
         sendingLetterView.alpha = 0
         letterSendingButton.alpha = 0
+        photoCollectionView.alpha = 0
     }
     
     override func addSubviews() {
@@ -61,6 +81,7 @@ final class CounselingView: BaseView {
         
         containerView.addSubview(characterImageView)
         containerView.addSubview(characterGreetingLabel)
+        containerView.addSubview(photoCollectionView)
         containerView.addSubview(sendingLetterView)
         containerView.addSubview(letterSendingButton)
     }
@@ -81,8 +102,14 @@ final class CounselingView: BaseView {
             make.trailing.equalToSuperview().offset(-Metric.greetingLabelTrailingPadding)
         }
         
+        photoCollectionView.snp.makeConstraints { make in
+            make.top.equalTo(characterGreetingLabel.snp.bottom).offset(Metric.photoCollectionViewTopPadding)
+            make.horizontalEdges.equalToSuperview().inset(Metric.photoCollectionViewHorizontalPadding)
+            make.height.equalTo(Metric.photoCollectionViewHeight)
+        }
+        
         sendingLetterView.snp.makeConstraints { make in
-            make.top.equalTo(characterGreetingLabel.snp.bottom).offset(Metric.sendingLetterTopPadding)
+            make.top.equalTo(photoCollectionView.snp.bottom).offset(Metric.sendingLetterTopPadding)
             make.leading.equalToSuperview().offset(Metric.sendingLetterHorizontalPadding)
             make.trailing.equalToSuperview().offset(-Metric.sendingLetterHorizontalPadding)
             make.bottom.equalToSuperview().offset(-Metric.sendingLetterBottomPadding)
@@ -118,6 +145,10 @@ extension CounselingView {
                                               duration: 0.5),
                                         .init(view: characterGreetingLabel,
                                               animationCase: .fadeIn,
+                                              duration: 1.0),
+                                        .init(view: photoCollectionView,
+                                              animationCase: .fadeIn,
+                                              duration: 1.0),
                                               duration: 0.5),
                                         .init(view: sendingLetterView,
                                               animationCase: .fadeIn,
@@ -142,6 +173,10 @@ extension CounselingView {
                                               duration: 0.5),
                                         .init(view: letterSendingButton,
                                               animationCase: .fadeOut,
+                                              duration: 1.0),
+                                        .init(view: photoCollectionView,
+                                              animationCase: .fadeOut,
+                                              duration: 1.0)],
                                               duration: 0.5)],
                            mode: .parallel,
                            loop: .once(completion: { continuation.resume() }))
