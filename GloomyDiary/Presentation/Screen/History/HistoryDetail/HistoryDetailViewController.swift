@@ -7,6 +7,7 @@
 
 import UIKit
 import ComposableArchitecture
+import RxSwift
 
 final class HistoryDetailViewController: BaseViewController<HistoryDetailView> {
     
@@ -91,6 +92,14 @@ final class HistoryDetailViewController: BaseViewController<HistoryDetailView> {
 
 private extension HistoryDetailViewController {
     func bind() {
+        contentView.imageScrollView.tapRelay
+            .subscribe(onNext: { [weak self] image in
+                guard let self,
+                      let image else { return }
+                openImageViewer(with: image)
+            })
+            .disposed(by: rx.disposeBag)
+        
         observe { [weak self] in
             guard let self else { return }
             contentView.configure(with: store.session)
@@ -99,6 +108,12 @@ private extension HistoryDetailViewController {
 }
 
 private extension HistoryDetailViewController {
+    func openImageViewer(with image: UIImage) {
+        let imageViewer = ImageDetailViewController(image: image)
+        imageViewer.modalPresentationStyle = .pageSheet
+        present(imageViewer, animated: true)
+    }
+    
     func setupNavigationBar() {
         guard let image = UIImage(named: "letter") else { return }
         let size: CGFloat = 40
