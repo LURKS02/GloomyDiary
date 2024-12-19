@@ -21,6 +21,8 @@ final class HistoryViewController: BaseViewController<HistoryView> {
         }
     }
     
+    private let feedbackGenerator = UIImpactFeedbackGenerator(style: .soft)
+    
     // MARK: - Initialize
     
     init(store: StoreOf<History>) {
@@ -119,6 +121,26 @@ extension HistoryViewController: UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: type(of: configuration).identifier) as? TableViewConfigurationBindable else { return UITableViewCell() }
         
         cell.bind(with: configuration)
+        
+        if let cell = cell as? CounselingSessionTableViewCell,
+           let configurable = configuration as? CounselingSessionTableViewCellConfiguration
+        {
+            cell.imageCollectionView.rx.tapGesture()
+                .when(.recognized)
+                .subscribe(onNext: { [weak self] _ in
+                    guard let self else { return }
+                    feedbackGenerator.impactOccurred()
+                    self.navigationController?.delegate = self
+                    let store: StoreOf<HistoryDetail> = Store(initialState: .init(session: configurable.counselingSessionDTO),
+                                                              reducer: { HistoryDetail() })
+                    let historyDetailViewController = HistoryDetailViewController(store: store)
+                    self.navigationController?.pushViewController(historyDetailViewController, animated: true)
+                    Logger.send(type: .tapped, "히스토리 선택", parameters: ["인덱스": indexPath.row])
+                    
+                })
+                .disposed(by: cell.disposeBag)
+            
+        }
         return cell
     }
 }
