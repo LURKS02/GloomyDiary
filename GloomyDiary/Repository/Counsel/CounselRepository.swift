@@ -14,7 +14,7 @@ final class CounselRepository: CounselRepositoryProtocol {
     @Dependency(\.date.now) var now
     @Dependency(\.uuid) var uuid
     
-    func counsel(to character: CharacterDTO, title: String, userInput: String, weather: WeatherDTO, emoji: EmojiDTO) async throws -> String {
+    func counsel(to character: CharacterDTO, title: String, userInput: String, weather: WeatherDTO, emoji: EmojiDTO, images: [Data]) async throws -> String {
         Logger.send(type: .api, "AI 서비스 요청")
         let response = try await aiService.generateResponse(for: userInput, setting: character.systemSetting)
         let sessionDTO = CounselingSessionDTO(id: uuid(),
@@ -24,7 +24,8 @@ final class CounselRepository: CounselRepositoryProtocol {
                                               response: response,
                                               createdAt: now,
                                               weather: weather,
-                                              emoji: emoji)
+                                              emoji: emoji,
+                                              images: images)
         try await counselingSessionRepository.create(sessionDTO)
         Logger.send(type: .api, "AI 서비스 응답 수신")
         return response

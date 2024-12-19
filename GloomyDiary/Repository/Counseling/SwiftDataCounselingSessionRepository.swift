@@ -25,7 +25,8 @@ import SwiftData
                                         response: $0.response,
                                         createdAt: $0.createdAt,
                                         weather: weather,
-                                        emoji: emoji)}
+                                        emoji: emoji,
+                                        images: $0.images)}
         Logger.send(type: .data, "상담 내역 불러오기")
         return sessionDTOs
     }
@@ -38,7 +39,8 @@ import SwiftData
                                         response: sessionDTO.response,
                                         createdAt: sessionDTO.createdAt,
                                         weatherIdentifier: sessionDTO.weather.identifier,
-                                        emojiIdentifier: sessionDTO.emoji.identifier)
+                                        emojiIdentifier: sessionDTO.emoji.identifier,
+                                        images: sessionDTO.images)
         modelContext.insert(session)
         try modelContext.save()
         Logger.send(type: .data, "상담 내역 저장")
@@ -67,7 +69,8 @@ import SwiftData
                                     response: session.response,
                                     createdAt: session.createdAt,
                                     weather: weather,
-                                    emoji: emoji)
+                                    emoji: emoji,
+                                    images: session.images)
         
     }
 }

@@ -18,8 +18,9 @@ final class CounselingSession {
     var createdAt: Date
     var weatherIdentifier: String
     var emojiIdentifier: String
+    var images: [Data] = []
     
-    init(id: UUID, counselorIdentifier: String, title: String, query: String, response: String, createdAt: Date, weatherIdentifier: String, emojiIdentifier: String) {
+    init(id: UUID, counselorIdentifier: String, title: String, query: String, response: String, createdAt: Date, weatherIdentifier: String, emojiIdentifier: String, images: [Data] = []) {
         self.id = id
         self.counselorIdentifier = counselorIdentifier
         self.title = title
@@ -28,5 +29,6 @@ final class CounselingSession {
         self.createdAt = createdAt
         self.weatherIdentifier = weatherIdentifier
         self.emojiIdentifier = emojiIdentifier
+        self.images = images
     }
 }
