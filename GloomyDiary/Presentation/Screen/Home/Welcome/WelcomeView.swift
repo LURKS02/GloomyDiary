@@ -19,6 +19,7 @@ final class WelcomeView: BaseView {
         static let firstLabelTopPadding: CGFloat = .verticalValue(40)
         static let secondLabelTopPadding: CGFloat = .verticalValue(15)
         static let ghostImageViewBottomPadding: CGFloat = .verticalValue(300)
+        static let talkingLabelBottomPadding: CGFloat = .verticalValue(250)
     }
 
     
@@ -43,6 +44,10 @@ final class WelcomeView: BaseView {
         $0.font = .온글잎_의연체.heading
     }
     
+    let talkingLabel = IntroduceLabel().then {
+        $0.text = "나를 눌러봐!"
+    }
+    
     var bounceTimer: Timer?
     
     // MARK: - View Life Cycle
@@ -57,6 +62,7 @@ final class WelcomeView: BaseView {
         addSubview(ghostImageView)
         addSubview(firstIntroduceLabel)
         addSubview(secondIntroduceLabel)
+        addSubview(talkingLabel)
     }
     
     override func setupConstraints() {
@@ -82,6 +88,11 @@ final class WelcomeView: BaseView {
         ghostImageView.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
             make.bottom.equalToSuperview().inset(Metric.ghostImageViewBottomPadding)
+        }
+        
+        talkingLabel.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.bottom.equalToSuperview().inset(Metric.talkingLabelBottomPadding)
         }
     }
 }
@@ -138,6 +149,9 @@ extension WelcomeView {
             AnimationGroup(animations: [.init(view: ghostImageView,
                                               animationCase: .fadeIn,
                                               duration: 1.0)],
+                                        .init(view: talkingLabel,
+                                              animationCase: .fadeIn,
+                                              duration: 0.5)],
                            mode: .parallel,
                            loop: .once(completion: { continuation.resume() }))
             .run()
@@ -157,6 +171,9 @@ extension WelcomeView {
                                         .init(view: secondIntroduceLabel,
                                               animationCase: .fadeOut,
                                               duration: 1.0)],
+                                        .init(view: talkingLabel,
+                                              animationCase: .fadeOut,
+                                              duration: 0.5)],
                            mode: .parallel,
                            loop: .once(completion: { continuation.resume() }))
             .run()

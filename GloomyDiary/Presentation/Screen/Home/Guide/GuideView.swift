@@ -29,7 +29,8 @@ final class GuideView: BaseView {
     
     let firstIntroduceLabel = IntroduceLabel().then {
         $0.text = "안녕?\n" +
-                  "만나서 반가워!"
+                  "만나서 반가워!\n" +
+                  "화면을 눌러봐."
     }
     
     let secondIntroduceLabel = IntroduceLabel().then {
