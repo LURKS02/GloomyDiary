@@ -77,14 +77,14 @@ final class CircularTabBarController: UITabBarController {
     
     private func rotateTabBar(index: Int) {
         let angle: CGFloat = (2 * .pi / CGFloat(circularTabBar.numberOfTabs)) * CGFloat(index)
-        UIView.animate(withDuration: 0.6, delay: 0, options: .curveEaseInOut, animations: {
+        UIView.animate(withDuration: 0.4, delay: 0, options: .curveEaseInOut, animations: {
             self.circularTabBar.contentView.transform = .identity.rotated(by: -angle)
         })
     }
     
     private func highlightCurrentTab() {
         for (index, icon) in circularTabBar.icons.enumerated() {
-            UIView.transition(with: icon, duration: 0.3, options: .transitionCrossDissolve, animations: {
+            UIView.transition(with: icon, duration: 0.4, options: .transitionCrossDissolve, animations: {
                 self.circularTabBar.highlightIcon(index: index, isHighlighted: (index == self.currentIndex))
             }, completion: nil)
         }

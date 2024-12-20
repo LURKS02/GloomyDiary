@@ -42,7 +42,6 @@ struct Home {
                             await suggestReview(send: send, lastReviewDeclinedDate: lastReviewDeclinedDate)
                         }
                     }
-                    await send(.ghostTapped)
                 }
                 
             case .ghostTapped:

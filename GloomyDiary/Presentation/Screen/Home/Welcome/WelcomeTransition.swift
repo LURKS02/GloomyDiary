@@ -52,7 +52,7 @@ private extension WelcomeTransition {
     func playFrame(_ view: UIView, to frame: CGRect) async {
         await withCheckedContinuation { continuation in
             AnimationGroup(animations: [.init(view: view, animationCase: .redraw(frame: frame),
-                                              duration: 2.0)],
+                                              duration: 1.0)],
                            mode: .serial,
                            loop: .once(completion: { continuation.resume() }))
             .run()

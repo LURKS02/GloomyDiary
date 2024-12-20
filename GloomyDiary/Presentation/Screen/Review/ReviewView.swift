@@ -125,7 +125,7 @@ extension ReviewView {
                                               duration: 0.3),
                                         .init(view: sheetBackgroundView,
                                               animationCase: .transform(transform: .identity.translatedBy(x: 0, y: -Metric.sheetHeight)),
-                                              duration: 0.3)],
+                                              duration: 0.2)],
                            mode: .parallel,
                            loop: .once(completion: { continuation.resume() }))
             .run()
@@ -142,7 +142,7 @@ extension ReviewView {
             }), duration: 0.3),
                                         .init(view: sheetBackgroundView,
                                               animationCase: .transform(transform: .identity),
-                                              duration: 0.3)],
+                                              duration: 0.2)],
                            mode: .parallel,
                            loop: .once(completion: { continuation.resume() }))
             .run()

@@ -178,13 +178,16 @@ extension StartCounselingView {
         await withCheckedContinuation { continuation in
             AnimationGroup(animations: [.init(view: moonImageView,
                                               animationCase: .transform(transform: .identity),
-                                              duration: 1.5),
+                                              duration: 1.0),
                                         .init(view: firstIntroduceLabel,
                                               animationCase: .fadeIn,
-                                              duration: 1.0),
+                                              duration: 0.5),
                                         .init(view: secondIntroduceLabel,
                                               animationCase: .fadeIn,
-                                              duration: 3.0)],
+                                              duration: 1.5),
+                                        .init(view: thirdIntroduceLabel,
+                                              animationCase: .fadeIn,
+                                              duration: 0.5)],
                            mode: .serial,
                            loop: .once(completion: { continuation.resume() }))
             .run()
@@ -194,19 +197,16 @@ extension StartCounselingView {
     @MainActor
     func playFadeInSecondPart() async {
         await withCheckedContinuation { continuation in
-            AnimationGroup(animations: [.init(view: thirdIntroduceLabel,
+            AnimationGroup(animations: [.init(view: titleTextField,
                                               animationCase: .fadeIn,
-                                              duration: 1.0),
-                                        .init(view: titleTextField,
-                                              animationCase: .fadeIn,
-                                              duration: 1.0),
+                                              duration: 0.5),
                                         .init(view: finalIntroduceLabel,
                                               animationCase: .fadeIn,
-                                              duration: 1.0),
+                                              duration: 0.5),
                                         .init(view: nextButton,
                                               animationCase: .fadeIn,
-                                              duration: 1.0)],
-                           mode: .serial,
+                                              duration: 0.5)],
+                           mode: .parallel,
                            loop: .once(completion: { continuation.resume() }))
             .run()
         }
@@ -218,7 +218,7 @@ extension StartCounselingView {
             AnimationGroup(animations: subviews.filter { $0 != gradientView }
                                                .map { Animation(view: $0,
                                                                 animationCase: .fadeOut,
-                                                                duration: 1.0)},
+                                                                duration: 0.5)},
                            mode: .parallel,
                            loop: .once(completion: { continuation.resume() }))
             .run()

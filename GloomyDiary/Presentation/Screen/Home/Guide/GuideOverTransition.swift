@@ -33,7 +33,7 @@ extension GuideOverTransition: UIViewControllerAnimatedTransitioning {
             await withCheckedContinuation { continuation in
                 AnimationGroup(animations: [.init(view: toView.moonImageView,
                                                   animationCase: .fadeIn,
-                                                  duration: 1.0)],
+                                                  duration: 0.5)],
                                mode: .parallel,
                                loop: .once(completion: { continuation.resume() }))
                 .run()

@@ -109,7 +109,7 @@ extension WelcomeView {
     func playFadeInAllComponents() async {
         await playFadeInBackground()
         await playFadeInIntroduceLabels()
-        try? await Task.sleep(nanoseconds: 2_000_000_000)
+        try? await Task.sleep(nanoseconds: 700_000_000)
         await playFadeInGhost()
     }
     
@@ -118,10 +118,10 @@ extension WelcomeView {
         await withCheckedContinuation { continuation in
             AnimationGroup(animations: [.init(view: gradientView,
                                               animationCase: .fadeIn,
-                                              duration: 2.0),
+                                              duration: 1.0),
                                         .init(view: moonImageView,
                                               animationCase: .fadeIn,
-                                              duration: 2.0)],
+                                              duration: 0.5)],
                            mode: .parallel,
                            loop: .once(completion: { continuation.resume() }))
             .run()
@@ -133,10 +133,10 @@ extension WelcomeView {
         await withCheckedContinuation { continuation in
             AnimationGroup(animations: [.init(view: firstIntroduceLabel,
                                               animationCase: .fadeIn,
-                                              duration: 1.5),
+                                              duration: 0.5),
                                         .init(view: secondIntroduceLabel,
                                               animationCase: .fadeIn,
-                                              duration: 1.5)],
+                                              duration: 0.5)],
                            mode: .serial,
                            loop: .once(completion: { continuation.resume() }))
             .run()
@@ -148,7 +148,7 @@ extension WelcomeView {
         await withCheckedContinuation { continuation in
             AnimationGroup(animations: [.init(view: ghostImageView,
                                               animationCase: .fadeIn,
-                                              duration: 1.0)],
+                                              duration: 0.5),
                                         .init(view: talkingLabel,
                                               animationCase: .fadeIn,
                                               duration: 0.5)],
@@ -164,13 +164,13 @@ extension WelcomeView {
         await withCheckedContinuation { continuation in
             AnimationGroup(animations: [.init(view: moonImageView,
                                               animationCase: .fadeOut,
-                                              duration: 1.0),
+                                              duration: 0.5),
                                         .init(view: firstIntroduceLabel,
                                               animationCase: .fadeOut,
-                                              duration: 1.0),
+                                              duration: 0.5),
                                         .init(view: secondIntroduceLabel,
                                               animationCase: .fadeOut,
-                                              duration: 1.0)],
+                                              duration: 0.5),
                                         .init(view: talkingLabel,
                                               animationCase: .fadeOut,
                                               duration: 0.5)],

@@ -188,10 +188,10 @@ extension HistoryDetailView {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1 * Double(index)) {
             AnimationGroup(animations: [.init(view: view,
                                               animationCase: .fadeIn,
-                                              duration: 1.0),
+                                              duration: 0.5),
                                         .init(view: view,
                                               animationCase: .transform(transform: .identity),
-                                              duration: 1.0)],
+                                              duration: 0.5)],
                            mode: .parallel,
                            loop: .once(completion: completion))
             .run()

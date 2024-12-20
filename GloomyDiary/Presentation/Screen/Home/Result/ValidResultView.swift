@@ -96,13 +96,13 @@ extension ValidResultView {
         await withCheckedContinuation { continuation in
             AnimationGroup(animations: [.init(view: resultLetterView,
                                               animationCase: .fadeIn,
-                                              duration: 1.0),
+                                              duration: 0.5),
                                         .init(view: homeButton,
                                               animationCase: .fadeIn,
-                                              duration: 1.0),
+                                              duration: 0.5),
                                         .init(view: shareButton,
                                               animationCase: .fadeIn,
-                                              duration: 1.0)],
+                                              duration: 0.5)],
                            mode: .parallel,
                            loop: .once(completion: { continuation.resume() }))
             .run()
@@ -114,16 +114,16 @@ extension ValidResultView {
         await withCheckedContinuation { continuation in
             AnimationGroup(animations: [.init(view: resultLetterView,
                                               animationCase: .fadeOut,
-                                              duration: 1.0),
+                                              duration: 0.5),
                                         .init(view: homeButton,
                                               animationCase: .fadeOut,
-                                              duration: 1.0),
+                                              duration: 0.5),
                                         .init(view: characterImageView,
                                               animationCase: .fadeOut,
-                                              duration: 1.0),
+                                              duration: 0.5),
                                         .init(view: shareButton,
                                               animationCase: .fadeOut,
-                                              duration: 1.0)],
+                                              duration: 0.5)],
                            mode: .parallel,
                            loop: .once(completion: { continuation.resume() }))
             .run()

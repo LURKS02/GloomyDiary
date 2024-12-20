@@ -64,7 +64,7 @@ final class GuideView: BaseView {
     private var labelAnimations: [Animation] {
         labels.map { Animation(view: $0,
                                animationCase: .fadeIn,
-                               duration: 2.5) }
+                               duration: 0.5) }
     }
     
     // MARK: - View Life Cycle
@@ -124,21 +124,19 @@ extension GuideView {
     
     @MainActor
     func runLabelAnimation(index: Int) async {
-        self.isUserInteractionEnabled = false
         await withCheckedContinuation { continuation in
             AnimationGroup(animations: [labelAnimations[index]],
                            mode: .parallel,
                            loop: .once(completion: { continuation.resume() }))
             .run()
         }
-        self.isUserInteractionEnabled = true
     }
     
     @MainActor
     func hideAllComponents() async {
         let animations = subviews.filter { $0 != gradientView }.map { Animation(view: $0,
                                                                                 animationCase: .fadeOut,
-                                                                                duration: 1.0) }
+                                                                                duration: 0.5) }
         await withCheckedContinuation { continuation in
             AnimationGroup(animations: animations,
                            mode: .parallel,
