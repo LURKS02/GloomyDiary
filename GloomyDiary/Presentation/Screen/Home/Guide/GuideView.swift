@@ -154,5 +154,6 @@ extension GuideView {
         
         feedbackGenerator.prepare()
         feedbackGenerator.impactOccurred()
+        self.isUserInteractionEnabled = false
     }
 }
