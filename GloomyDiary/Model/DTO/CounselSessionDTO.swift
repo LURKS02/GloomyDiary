@@ -7,7 +7,7 @@
 
 import Foundation
 
-final class CounselingSessionDTO: Sendable, Identifiable {
+struct CounselingSessionDTO: Identifiable {
     let id: UUID
     let counselor: CharacterDTO
     let title: String
