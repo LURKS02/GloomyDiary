@@ -12,6 +12,8 @@ final class GuideViewController: BaseViewController<GuideView> {
     
     private var animationCount: Int = 1
     
+    private var isRunningTask = false
+    
     init() {
         super.init(logID: "Guide")
     }
@@ -43,9 +45,15 @@ private extension GuideViewController {
             .subscribe(onNext: { [weak self] _ in
                 guard let self else { return }
                 guard animationCount < contentView.labels.count else { return navigateToStartCounsel() }
-                Task {
+                
+                if self.isRunningTask { return }
+                self.isRunningTask = true
+                
+                Task { @MainActor in
                     await self.contentView.runLabelAnimation(index: self.animationCount)
                     self.animationCount += 1
+                    self.isRunningTask = false
+                    self.contentView.isUserInteractionEnabled = true
                 }
                 
             })

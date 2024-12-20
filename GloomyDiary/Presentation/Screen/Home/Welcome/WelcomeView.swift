@@ -19,6 +19,7 @@ final class WelcomeView: BaseView {
         static let firstLabelTopPadding: CGFloat = .verticalValue(40)
         static let secondLabelTopPadding: CGFloat = .verticalValue(15)
         static let ghostImageViewBottomPadding: CGFloat = .verticalValue(300)
+        static let talkingLabelBottomPadding: CGFloat = .verticalValue(250)
     }
 
     
@@ -43,6 +44,10 @@ final class WelcomeView: BaseView {
         $0.font = .온글잎_의연체.heading
     }
     
+    let talkingLabel = IntroduceLabel().then {
+        $0.text = "나를 눌러봐!"
+    }
+    
     var bounceTimer: Timer?
     
     // MARK: - View Life Cycle
@@ -57,6 +62,7 @@ final class WelcomeView: BaseView {
         addSubview(ghostImageView)
         addSubview(firstIntroduceLabel)
         addSubview(secondIntroduceLabel)
+        addSubview(talkingLabel)
     }
     
     override func setupConstraints() {
@@ -83,6 +89,11 @@ final class WelcomeView: BaseView {
             make.centerX.equalToSuperview()
             make.bottom.equalToSuperview().inset(Metric.ghostImageViewBottomPadding)
         }
+        
+        talkingLabel.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.bottom.equalToSuperview().inset(Metric.talkingLabelBottomPadding)
+        }
     }
 }
 
@@ -98,7 +109,7 @@ extension WelcomeView {
     func playFadeInAllComponents() async {
         await playFadeInBackground()
         await playFadeInIntroduceLabels()
-        try? await Task.sleep(nanoseconds: 2_000_000_000)
+        try? await Task.sleep(nanoseconds: 700_000_000)
         await playFadeInGhost()
     }
     
@@ -107,10 +118,10 @@ extension WelcomeView {
         await withCheckedContinuation { continuation in
             AnimationGroup(animations: [.init(view: gradientView,
                                               animationCase: .fadeIn,
-                                              duration: 2.0),
+                                              duration: 1.0),
                                         .init(view: moonImageView,
                                               animationCase: .fadeIn,
-                                              duration: 2.0)],
+                                              duration: 0.5)],
                            mode: .parallel,
                            loop: .once(completion: { continuation.resume() }))
             .run()
@@ -122,10 +133,10 @@ extension WelcomeView {
         await withCheckedContinuation { continuation in
             AnimationGroup(animations: [.init(view: firstIntroduceLabel,
                                               animationCase: .fadeIn,
-                                              duration: 1.5),
+                                              duration: 0.5),
                                         .init(view: secondIntroduceLabel,
                                               animationCase: .fadeIn,
-                                              duration: 1.5)],
+                                              duration: 0.5)],
                            mode: .serial,
                            loop: .once(completion: { continuation.resume() }))
             .run()
@@ -137,7 +148,10 @@ extension WelcomeView {
         await withCheckedContinuation { continuation in
             AnimationGroup(animations: [.init(view: ghostImageView,
                                               animationCase: .fadeIn,
-                                              duration: 1.0)],
+                                              duration: 0.5),
+                                        .init(view: talkingLabel,
+                                              animationCase: .fadeIn,
+                                              duration: 0.5)],
                            mode: .parallel,
                            loop: .once(completion: { continuation.resume() }))
             .run()
@@ -150,13 +164,16 @@ extension WelcomeView {
         await withCheckedContinuation { continuation in
             AnimationGroup(animations: [.init(view: moonImageView,
                                               animationCase: .fadeOut,
-                                              duration: 1.0),
+                                              duration: 0.5),
                                         .init(view: firstIntroduceLabel,
                                               animationCase: .fadeOut,
-                                              duration: 1.0),
+                                              duration: 0.5),
                                         .init(view: secondIntroduceLabel,
                                               animationCase: .fadeOut,
-                                              duration: 1.0)],
+                                              duration: 0.5),
+                                        .init(view: talkingLabel,
+                                              animationCase: .fadeOut,
+                                              duration: 0.5)],
                            mode: .parallel,
                            loop: .once(completion: { continuation.resume() }))
             .run()

@@ -141,7 +141,7 @@ extension HomeView {
             AnimationGroup(animations: subviews.filter { $0 != moonImageView && $0 != gradientView }
                 .map { .init(view: $0,
                              animationCase: .fadeOut,
-                             duration: 1.0) },
+                             duration: 0.5) },
                            mode: .parallel,
                            loop: .once(completion: { continuation.resume() }))
             .run()
@@ -154,13 +154,13 @@ extension HomeView {
             AnimationGroup(animations: subviews.filter { $0 != pulsingCircleLottieView && $0 != sparklingLottieView }
                 .map { .init(view: $0,
                              animationCase: .fadeIn,
-                             duration: 1.0) } +
+                             duration: 0.5) } +
                            [.init(view: pulsingCircleLottieView,
                                   animationCase: .fade(value: Metric.pulsingCircleAlpha),
-                                  duration: 1.0),
+                                  duration: 0.5),
                             .init(view: sparklingLottieView,
                                   animationCase: .fade(value: Metric.sparklingAlpha),
-                                  duration: 1.0)],
+                                  duration: 0.5)],
                            mode: .parallel,
                            loop: .once(completion: { continuation.resume() }))
             .run()

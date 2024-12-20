@@ -50,7 +50,7 @@ extension TalkingView {
     
     private func updateFrame(text: String) async {
         return await withCheckedContinuation { continuation in
-            UIView.animate(withDuration: 0.25) {
+            UIView.animate(withDuration: 0.15) {
                 self.talkingLabel.text = text
                 self.superview?.layoutIfNeeded()
             } completion: { _ in
@@ -66,7 +66,7 @@ extension TalkingView {
         await withCheckedContinuation { continuation in
             AnimationGroup(animations: [.init(view: talkingLabel,
                                               animationCase: .fadeOut,
-                                              duration: 0.3)],
+                                              duration: 0.25)],
                            mode: .parallel,
                            loop: .once(completion: { continuation.resume() }))
             .run()
@@ -78,7 +78,7 @@ extension TalkingView {
         await withCheckedContinuation { continuation in
             AnimationGroup(animations: [.init(view: talkingLabel,
                                               animationCase: .fadeIn,
-                                              duration: 0.3)],
+                                              duration: 0.25)],
                            mode: .parallel,
                            loop: .once(completion: { continuation.resume() }))
             .run()
@@ -90,7 +90,7 @@ extension TalkingView {
         await withCheckedContinuation { continuation in
             AnimationGroup(animations: [.init(view: self,
                                               animationCase: .redraw(frame: frame),
-                                              duration: 0.3)],
+                                              duration: 0.2)],
                            mode: .parallel,
                            loop: .once(completion: { continuation.resume() }))
             .run()

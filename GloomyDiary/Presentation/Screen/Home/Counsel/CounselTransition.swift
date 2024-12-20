@@ -21,7 +21,6 @@ final class CounselTransition: NSObject {
         $0.animationSpeed = 2.0
         $0.loopMode = .loop
         $0.contentMode = .scaleToFill
-        $0.play()
     }
     
     private let readyLabel = IntroduceLabel()
@@ -80,6 +79,7 @@ extension CounselTransition: UIViewControllerAnimatedTransitioning {
             
             
             await playDummyViewResize(characterImageView, frame: dummyViewMiddleFrame)
+            starLottieView.play()
             await playWaitingViewsFadeIn()
             
             let response: String? = await {
@@ -132,7 +132,7 @@ private extension CounselTransition {
         await withCheckedContinuation { continuation in
             AnimationGroup(animations: [.init(view: view,
                                               animationCase: .redraw(frame: frame),
-                                              duration: 1.0)],
+                                              duration: 0.7)],
                            mode: .serial,
                            loop: .once(completion: { continuation.resume() }))
             .run()
@@ -144,10 +144,10 @@ private extension CounselTransition {
         await withCheckedContinuation { continuation in
             AnimationGroup(animations: [.init(view: starLottieView,
                                               animationCase: .fadeIn,
-                                              duration: 0.7),
+                                              duration: 0.5),
                                         .init(view: readyLabel,
                                               animationCase: .fadeIn,
-                                              duration: 0.7)],
+                                              duration: 0.5)],
                            mode: .parallel,
                            loop: .once(completion: { continuation.resume() }))
             .run()
@@ -159,10 +159,10 @@ private extension CounselTransition {
         await withCheckedContinuation { continuation in
             AnimationGroup(animations: [.init(view: starLottieView,
                                               animationCase: .fadeOut,
-                                              duration: 0.7),
+                                              duration: 0.5),
                                         .init(view: readyLabel,
                                               animationCase: .fadeOut,
-                                              duration: 0.7)],
+                                              duration: 0.5)],
                            mode: .parallel,
                            loop: .once(completion: { continuation.resume() }))
             .run()

@@ -120,7 +120,7 @@ extension ChoosingWeatherView {
         await withCheckedContinuation { continuation in
             AnimationGroup(animations: [.init(view: introduceLabel,
                                               animationCase: .fadeIn,
-                                              duration: 1.0)],
+                                              duration: 0.5)],
                            mode: .serial,
                            loop: .once(completion: { continuation.resume() }))
             .run()
@@ -130,7 +130,7 @@ extension ChoosingWeatherView {
         await withCheckedContinuation { continuation in
             AnimationGroup(animations: [.init(view: nextButton,
                                               animationCase: .fadeIn,
-                                              duration: 1.0)],
+                                              duration: 0.5)],
                            mode: .serial,
                            loop: .once(completion: { continuation.resume() }))
             .run()
@@ -164,7 +164,7 @@ extension ChoosingWeatherView {
     }
     
     private func playButton(button: WeatherButton, completion: @escaping () -> Void) {
-        UIView.animate(withDuration: 1.0, animations: {
+        UIView.animate(withDuration: 0.5, animations: {
             button.alpha = 1.0
             button.transform = .identity
         }) { _ in
@@ -178,7 +178,7 @@ extension ChoosingWeatherView {
             AnimationGroup(animations: subviews.filter { $0 != gradientView }
                                                .map { Animation(view: $0,
                                                                 animationCase: .fadeOut,
-                                                                duration: 1.0)},
+                                                                duration: 0.5)},
                            mode: .parallel,
                            loop: .once(completion: { continuation.resume() }))
             .run()

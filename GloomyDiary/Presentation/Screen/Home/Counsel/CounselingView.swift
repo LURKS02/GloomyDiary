@@ -115,16 +115,16 @@ extension CounselingView {
         await withCheckedContinuation { continuation in
             AnimationGroup(animations: [.init(view: characterImageView,
                                               animationCase: .fadeIn,
-                                              duration: 1.0),
+                                              duration: 0.5),
                                         .init(view: characterGreetingLabel,
                                               animationCase: .fadeIn,
-                                              duration: 1.5),
+                                              duration: 0.5),
                                         .init(view: sendingLetterView,
                                               animationCase: .fadeIn,
-                                              duration: 1.0),
+                                              duration: 0.5),
                                         .init(view: letterSendingButton,
                                               animationCase: .fadeIn,
-                                              duration: 1.0)],
+                                              duration: 0.5)],
                            mode: .parallel,
                            loop: .once(completion: { continuation.resume() }))
             .run()
@@ -136,13 +136,13 @@ extension CounselingView {
         await withCheckedContinuation { continuation in
             AnimationGroup(animations: [.init(view: characterGreetingLabel,
                                               animationCase: .fadeOut,
-                                              duration: 1.0),
+                                              duration: 0.5),
                                         .init(view: sendingLetterView,
                                               animationCase: .fadeOut,
-                                              duration: 1.0),
+                                              duration: 0.5),
                                         .init(view: letterSendingButton,
                                               animationCase: .fadeOut,
-                                              duration: 1.0)],
+                                              duration: 0.5)],
                            mode: .parallel,
                            loop: .once(completion: { continuation.resume() }))
             .run()

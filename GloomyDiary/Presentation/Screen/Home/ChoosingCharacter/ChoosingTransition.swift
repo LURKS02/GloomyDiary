@@ -29,7 +29,6 @@ final class ChoosingTransition: NSObject {
         $0.loopMode = .loop
         $0.contentMode = .scaleToFill
         $0.alpha = 0.0
-        $0.play()
     }
     
     private let readyLabel = IntroduceLabel().then {
@@ -75,8 +74,9 @@ extension ChoosingTransition: UIViewControllerAnimatedTransitioning {
             toView.layoutIfNeeded()
             let resultFrame = toView.characterImageView.frame
             
+            starLottieView.play()
             await playWaitingViewsFadeIn()
-            sleep(1)
+            try await Task.sleep(nanoseconds: 700_000_000)
             await playWaitingViewsFadeOut()
             await playDummyViewTo(frame: resultFrame)
             
@@ -93,7 +93,7 @@ private extension ChoosingTransition {
         await withCheckedContinuation { continuation in
             AnimationGroup(animations: [.init(view: dummyView,
                                               animationCase: .redraw(frame: frame),
-                                              duration: 1.0)],
+                                              duration: 0.7)],
                            mode: .serial,
                            loop: .once(completion: { continuation.resume() }))
             .run()
@@ -105,10 +105,10 @@ private extension ChoosingTransition {
         await withCheckedContinuation { continuation in
             AnimationGroup(animations: [.init(view: starLottieView,
                                               animationCase: .fadeIn,
-                                              duration: 0.7),
+                                              duration: 0.5),
                                         .init(view: readyLabel,
                                               animationCase: .fadeIn,
-                                              duration: 0.7)],
+                                              duration: 0.5)],
                            mode: .parallel,
                            loop: .once(completion: { continuation.resume() }))
             .run()
@@ -120,10 +120,10 @@ private extension ChoosingTransition {
         await withCheckedContinuation { continuation in
             AnimationGroup(animations: [.init(view: starLottieView,
                                               animationCase: .fadeOut,
-                                              duration: 0.7),
+                                              duration: 0.5),
                                         .init(view: readyLabel,
                                               animationCase: .fadeOut,
-                                              duration: 0.7)],
+                                              duration: 0.5)],
                            mode: .parallel,
                            loop: .once(completion: { continuation.resume() }))
             .run()

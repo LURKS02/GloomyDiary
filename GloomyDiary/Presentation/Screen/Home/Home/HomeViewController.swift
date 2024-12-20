@@ -51,6 +51,10 @@ final class HomeViewController: BaseViewController<HomeView> {
             defer { loopAnimated = true }
             contentView.ghostImageView.playBounce()
         }
+        
+        if !isFirstAppearance {
+            store.send(.ghostTapped)
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -167,12 +171,13 @@ extension HomeViewController: DismissedAppearable {
         
         if let circularTabBarControllable = self.tabBarController as? CircularTabBarControllable {
             async let playAllComponentsFadeIn: () = contentView.playAllComponentsFadeIn()
-            async let playTabBarFadeIn: () = circularTabBarControllable.showCircularTabBar(duration: 1.0)
+            async let playTabBarFadeIn: () = circularTabBarControllable.showCircularTabBar(duration: 0.5)
             let _ = await (playAllComponentsFadeIn, playTabBarFadeIn)
         } else {
             await contentView.playAllComponentsFadeIn()
         }
         
+        store.send(.ghostTapped)
         store.send(.viewDidAppear)
     }
 }
@@ -181,7 +186,7 @@ extension HomeViewController: PresentingDisappearable {
     func playDisappearingAnimation() async {
         if let circularTabBarControllable = self.tabBarController as? CircularTabBarControllable {
             async let playAllComponentsFadeOut: () = contentView.playFadeOutAllComponents()
-            async let playTabBarFadeOut: () = circularTabBarControllable.hideCircularTabBar(duration: 1.0)
+            async let playTabBarFadeOut: () = circularTabBarControllable.hideCircularTabBar(duration: 0.5)
             let _ = await (playAllComponentsFadeOut, playTabBarFadeOut)
         } else {
             await contentView.playFadeOutAllComponents()

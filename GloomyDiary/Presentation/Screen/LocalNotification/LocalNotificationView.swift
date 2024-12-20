@@ -120,10 +120,10 @@ extension LocalNotificationView {
                 view.effect = UIBlurEffect(style: .dark)
             }), duration: 0.3),
                                         .init(view: sheetBackgroundView,
-                                              animationCase: .transform(transform: .identity), duration: 0.3),
+                                              animationCase: .transform(transform: .identity), duration: 0.2),
                                         .init(view: sheetBackgroundView,
                                               animationCase: .fadeIn,
-                                              duration: 0.3)],
+                                              duration: 0.2)],
                            mode: .parallel,
                            loop: .once(completion: { continuation.resume() }))
             .run()
@@ -140,10 +140,10 @@ extension LocalNotificationView {
             }), duration: 0.3),
                                         .init(view: sheetBackgroundView,
                                               animationCase: .transform(transform: .identity.scaledBy(x: 0.75, y: 0.75)),
-                                              duration: 0.3),
+                                              duration: 0.2),
                                         .init(view: sheetBackgroundView,
                                               animationCase: .fadeOut,
-                                              duration: 0.3)],
+                                              duration: 0.2)],
                            mode: .parallel,
                            loop: .once(completion: { continuation.resume() }))
             .run()
@@ -155,10 +155,10 @@ extension LocalNotificationView {
         await withCheckedContinuation { continuation in
             AnimationGroup(animations: sheetBackgroundView.subviews.map { Animation(view: $0,
                                                                                     animationCase: .transform(transform: .identity.translatedBy(x: -20, y: 0)),
-                                                                                    duration: 0.3) }
+                                                                                    duration: 0.2) }
                            + sheetBackgroundView.subviews.map { Animation(view: $0,
                                                                           animationCase: .fadeOut,
-                                                                          duration: 0.3) },
+                                                                          duration: 0.2) },
                            mode: .parallel,
                            loop: .once(completion: { continuation.resume() }))
             .run()
@@ -180,9 +180,9 @@ extension LocalNotificationView {
         await withCheckedContinuation { continuation in
             AnimationGroup(animations: sheetBackgroundView.subviews.map { Animation(view: $0,
                                                                                     animationCase: .transform(transform: .identity),
-                                                                                    duration: 0.3) } + sheetBackgroundView.subviews.map { Animation(view: $0,
+                                                                                    duration: 0.2) } + sheetBackgroundView.subviews.map { Animation(view: $0,
                                                                                                                                                     animationCase: .fadeIn,
-                                                                                                                                                    duration: 0.3) },
+                                                                                                                                                    duration: 0.2) },
                            mode: .parallel,
                            loop: .once(completion: { continuation.resume() }))
             .run()
@@ -204,9 +204,9 @@ extension LocalNotificationView {
         await withCheckedContinuation { continuation in
             AnimationGroup(animations: sheetBackgroundView.subviews.map { Animation(view: $0,
                                                                                     animationCase: .transform(transform: .identity),
-                                                                                    duration: 0.3) } + sheetBackgroundView.subviews.map { Animation(view: $0,
+                                                                                    duration: 0.2) } + sheetBackgroundView.subviews.map { Animation(view: $0,
                                                                                                                                                     animationCase: .fadeIn,
-                                                                                                                                                    duration: 0.3) },
+                                                                                                                                                    duration: 0.2) },
                            mode: .parallel,
                            loop: .once(completion: { continuation.resume() }))
             .run()

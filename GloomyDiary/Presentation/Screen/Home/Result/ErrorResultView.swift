@@ -105,7 +105,7 @@ extension ErrorResultView {
         await withCheckedContinuation { continuation in
             AnimationGroup(animations: subviews.filter { $0 != characterImageView }.map { Animation(view: $0,
                                                                                                     animationCase: .fadeIn,
-                                                                                                    duration: 1.0) },
+                                                                                                    duration: 0.5) },
                            mode: .parallel,
                            loop: .once(completion: { continuation.resume() }))
             .run()
@@ -117,7 +117,7 @@ extension ErrorResultView {
         await withCheckedContinuation { continuation in
             AnimationGroup(animations: subviews.map { Animation(view: $0,
                                                                 animationCase: .fadeOut,
-                                                                duration: 1.0) },
+                                                                duration: 0.5) },
                            mode: .parallel,
                            loop: .once(completion: { continuation.resume() }))
             .run()

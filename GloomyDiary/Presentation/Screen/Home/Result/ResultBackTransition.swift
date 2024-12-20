@@ -11,7 +11,7 @@ final class ResultBackTransition: NSObject { }
 
 extension ResultBackTransition: UIViewControllerAnimatedTransitioning {
     func transitionDuration(using transitionContext: (any UIViewControllerContextTransitioning)?) -> TimeInterval {
-        1.0
+        1.4
     }
     
     func animateTransition(using transitionContext: any UIViewControllerContextTransitioning) {

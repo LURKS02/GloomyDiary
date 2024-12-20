@@ -172,7 +172,7 @@ extension ChoosingCharacterView {
     @MainActor
     func playFadeInAllComponents() async {
         await withCheckedContinuation { continuation in
-            AnimationGroup(animations: subviews.filter { $0 != gradientView }.map {Animation(view: $0, animationCase: .fadeIn, duration: 1.0)}, mode: .parallel, loop: .once(completion: { continuation.resume() }))
+            AnimationGroup(animations: subviews.filter { $0 != gradientView }.map {Animation(view: $0, animationCase: .fadeIn, duration: 0.5)}, mode: .parallel, loop: .once(completion: { continuation.resume() }))
                 .run()
         }
     }
@@ -180,7 +180,7 @@ extension ChoosingCharacterView {
     @MainActor
     func playFadeOutAllComponents() async {
         await withCheckedContinuation { continuation in
-            AnimationGroup(animations: subviews.map { Animation(view: $0, animationCase: .fadeOut, duration: 1.0)}, mode: .parallel, loop: .once(completion: { continuation.resume() }))
+            AnimationGroup(animations: subviews.map { Animation(view: $0, animationCase: .fadeOut, duration: 0.5)}, mode: .parallel, loop: .once(completion: { continuation.resume() }))
                 .run()
         }
     }
