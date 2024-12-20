@@ -8,5 +8,5 @@
 import Foundation
 
 protocol CounselRepositoryProtocol {
-    func counsel(to character: CharacterDTO, title: String, userInput: String, weather: WeatherDTO, emoji: EmojiDTO) async throws -> String
+    func counsel(to character: CharacterDTO, title: String, userInput: String, weather: WeatherDTO, emoji: EmojiDTO, images: [Data]) async throws -> String
 }

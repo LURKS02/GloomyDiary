@@ -41,6 +41,8 @@ final class HistoryDetailView: BaseView {
         $0.textAlignment = .left
     }
     
+    let imageScrollView = HistoryDetailImageView()
+    
     private let contentLabel = IntroduceLabel().then {
         $0.textColor = .text(.subHighlight)
         $0.textAlignment = .left
@@ -73,6 +75,7 @@ final class HistoryDetailView: BaseView {
         contentView.addSubview(titleLabel)
         contentView.addSubview(dateLabel)
         contentView.addSubview(stateLabel)
+        contentView.addSubview(imageScrollView)
         contentView.addSubview(contentLabel)
         contentView.addSubview(responseLetterView)
     }
@@ -110,8 +113,14 @@ final class HistoryDetailView: BaseView {
             make.horizontalEdges.equalToSuperview().inset(Metric.textPadding)
         }
         
+        imageScrollView.snp.makeConstraints { make in
+            make.top.equalTo(stateLabel.snp.bottom).offset(20)
+            make.horizontalEdges.equalToSuperview().inset(Metric.viewPadding)
+            make.height.equalTo(UIView.screenWidth - Metric.viewPadding * 2)
+        }
+        
         contentLabel.snp.makeConstraints { make in
-            make.top.equalTo(stateLabel.snp.bottom).offset(40)
+            make.top.equalTo(imageScrollView.snp.bottom).offset(30)
             make.horizontalEdges.equalToSuperview().inset(Metric.textPadding)
         }
         
@@ -131,6 +140,17 @@ extension HistoryDetailView {
         contentLabel.text = session.query
         responseLetterView.configure(with: session.counselor, response: session.response)
         gradientBackgroundView.alpha = 0.0
+        
+        if session.images.isEmpty {
+            contentLabel.snp.remakeConstraints { make in
+                make.top.equalTo(stateLabel.snp.bottom).offset(40)
+                make.horizontalEdges.equalToSuperview().inset(Metric.textPadding)
+            }
+            
+            imageScrollView.removeFromSuperview()
+        } else {
+            imageScrollView.configure(with: session.images.compactMap { UIImage(data: $0) })
+        }
     }
     
     func makeScrollViewOffsetConstraints(offset: CGFloat) {

@@ -32,7 +32,9 @@ struct History {
                 }
                 
             case let .counselingSessionDTOsResponse(sessions):
-                state.counselingSessionDTOs = sessions
+                if sessions != state.counselingSessionDTOs {
+                    state.counselingSessionDTOs = sessions
+                }
                 return .none
             }
         }

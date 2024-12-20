@@ -5,7 +5,7 @@
 //  Created by 디해 on 8/28/24.
 //
 
-import Foundation
+import UIKit
 import ComposableArchitecture
 
 @Reducer
@@ -16,14 +16,25 @@ struct Counseling {
         let weatherIdentifier: String
         let emojiIdentifier: String
         let character: CharacterDTO
+        var images: [UIImage] = []
     }
     
     enum Action {
+        case selectedImages([UIImage])
+        case updateImages([UIImage])
     }
     
     var body: some Reducer<State, Action> {
         Reduce { state, action in
-            return .none
+            switch action {
+            case .selectedImages(let images):
+                state.images += images
+                return .none
+                
+            case .updateImages(let images):
+                state.images = images
+                return .none
+            }
         }
     }
 }
