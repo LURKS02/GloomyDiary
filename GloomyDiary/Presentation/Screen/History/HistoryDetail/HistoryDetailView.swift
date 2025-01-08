@@ -41,7 +41,7 @@ final class HistoryDetailView: BaseView {
         $0.textAlignment = .left
     }
     
-    let imageScrollView = HistoryDetailImageView()
+    let imageScrollView = HistoryDetailImageView(imageSize: UIView.screenWidth - Metric.viewPadding * 2)
     
     private let contentLabel = IntroduceLabel().then {
         $0.textColor = .text(.subHighlight)

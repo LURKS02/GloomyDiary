@@ -98,7 +98,8 @@ final class HistoryDetailImageView: UIView {
     func configure(with urls: [URL]) {
         for index in urls.indices {
             let imageView = UIImageView()
-            imageView.image = images[index]
+            let downsampledImage = UIImage.downsample(imageAt: urls[index], to: .init(width: imageSize, height: imageSize))
+            imageView.image = downsampledImage
             imageView.contentMode = .scaleAspectFill
             imageView.clipsToBounds = true
             imageView.applyCornerRadius(10)
