@@ -16,6 +16,10 @@ final class AppEnvironment {
     private init() {
         let schema = Schema([CounselingSession.self])
         let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
-        self.modelContainer = try! ModelContainer(for: schema, configurations: [modelConfiguration])
+        self.modelContainer = try! ModelContainer(
+            for: schema,
+            migrationPlan: SessionMigrationPlan.self,
+            configurations: [modelConfiguration]
+        )
     }
 }

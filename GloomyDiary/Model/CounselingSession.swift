@@ -8,29 +8,104 @@
 import Foundation
 import SwiftData
 
-@Model
-final class CounselingSession {
-    @Attribute(.unique) var id: UUID
-    var counselorIdentifier: String
-    var title: String
-    var query: String
-    var response: String
-    var createdAt: Date
-    var weatherIdentifier: String
-    var emojiIdentifier: String
-    @Attribute(.transformable(by: ArrayTransformer.name.rawValue)) var images: [String]
+typealias CounselingSession = SessionSchemaV2.CounselingSession
 
-    init(id: UUID, counselorIdentifier: String, title: String, query: String, response: String, createdAt: Date, weatherIdentifier: String, emojiIdentifier: String, images: [String] = []) {
-        self.id = id
-        self.counselorIdentifier = counselorIdentifier
-        self.title = title
-        self.query = query
-        self.response = response
-        self.createdAt = createdAt
-        self.weatherIdentifier = weatherIdentifier
-        self.emojiIdentifier = emojiIdentifier
-        self.images = images
+enum SessionSchemaV1: VersionedSchema {
+    static var versionIdentifier = Schema.Version(1, 2, 0)
+    
+    static var models: [any PersistentModel.Type] {
+        [CounselingSession.self]
     }
+    
+    @Model
+    final class CounselingSession {
+        @Attribute(.unique) var id: UUID
+        var counselorIdentifier: String
+        var title: String
+        var query: String
+        var response: String
+        var createdAt: Date
+        var weatherIdentifier: String
+        var emojiIdentifier: String
+        
+        init(id: UUID, counselorIdentifier: String, title: String, query: String, response: String, createdAt: Date, weatherIdentifier: String, emojiIdentifier: String) {
+            self.id = id
+            self.counselorIdentifier = counselorIdentifier
+            self.title = title
+            self.query = query
+            self.response = response
+            self.createdAt = createdAt
+            self.weatherIdentifier = weatherIdentifier
+            self.emojiIdentifier = emojiIdentifier
+        }
+    }
+}
+ 
+enum SessionSchemaV2: VersionedSchema {
+    static var versionIdentifier = Schema.Version(1, 3, 0)
+    
+    static var models: [any PersistentModel.Type] {
+        [CounselingSession.self]
+    }
+    
+    @Model
+    final class CounselingSession {
+        @Attribute(.unique) var id: UUID
+        var counselorIdentifier: String
+        var title: String
+        var query: String
+        var response: String
+        var createdAt: Date
+        var weatherIdentifier: String
+        var emojiIdentifier: String
+        @Attribute(.transformable(by: ArrayTransformer.name.rawValue)) var images: [String] = []
+        
+        init(id: UUID, counselorIdentifier: String, title: String, query: String, response: String, createdAt: Date, weatherIdentifier: String, emojiIdentifier: String, images: [String] = []) {
+            self.id = id
+            self.counselorIdentifier = counselorIdentifier
+            self.title = title
+            self.query = query
+            self.response = response
+            self.createdAt = createdAt
+            self.weatherIdentifier = weatherIdentifier
+            self.emojiIdentifier = emojiIdentifier
+            self.images = images
+        }
+    }
+}
+
+enum SessionMigrationPlan: SchemaMigrationPlan {
+    static var schemas: [any VersionedSchema.Type] {
+        [SessionSchemaV1.self, SessionSchemaV2.self]
+    }
+    
+    static var stages: [MigrationStage] {
+        [migrateV1toV2]
+    }
+    
+    static let migrateV1toV2 = MigrationStage.custom(
+        fromVersion: SessionSchemaV1.self,
+        toVersion: SessionSchemaV2.self,
+        willMigrate: { context in
+            let sessions = try context.fetch(FetchDescriptor<SessionSchemaV1.CounselingSession>())
+            for session in sessions {
+                let newSession = SessionSchemaV2.CounselingSession(
+                    id: session.id,
+                    counselorIdentifier: session.counselorIdentifier,
+                    title: session.title,
+                    query: session.query,
+                    response: session.response,
+                    createdAt: session.createdAt,
+                    weatherIdentifier: session.weatherIdentifier,
+                    emojiIdentifier: session.emojiIdentifier,
+                    images: [])
+                context.insert(newSession)
+                context.delete(session)
+            }
+            
+            try context.save()
+        },
+        didMigrate: nil)
 }
 
 extension CounselingSession {
@@ -60,40 +135,5 @@ extension CounselingSession {
                                     weather: weather,
                                     emoji: emoji,
                                     urls: images.map { ImageFileManager.shared.getImageURL(fileName: $0) })
-    }
-}
-
-@objc(ArrayTransformer)
-class ArrayTransformer: ValueTransformer {
-    override class func transformedValueClass() -> AnyClass {
-        return NSArray.self
-    }
-    
-    override class func allowsReverseTransformation() -> Bool {
-        true
-    }
-
-    override func transformedValue(_ value: Any?) -> Any? {
-        guard let array = value as? [String] else {
-            return nil
-        }
-        let nsArray = array as NSArray
-        return try? NSKeyedArchiver.archivedData(withRootObject: nsArray, requiringSecureCoding: true)
-    }
-
-    override func reverseTransformedValue(_ value: Any?) -> Any? {
-        guard let data = value as? Data else { return nil }
-        guard let nsArrayAny = try? NSKeyedUnarchiver.unarchivedObject(ofClasses: [NSArray.self, NSString.self], from: data) else { return nil }
-        guard let strings = nsArrayAny as? [String] else { return nil }
-        return strings
-    }
-}
-
-extension ArrayTransformer {
-    static let name = NSValueTransformerName(rawValue: String(describing: ArrayTransformer.self))
-    
-    public static func register() {
-        let transformer = ArrayTransformer()
-        ValueTransformer.setValueTransformer(transformer, forName: name)
     }
 }
