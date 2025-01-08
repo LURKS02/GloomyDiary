@@ -60,5 +60,21 @@ private extension AppCoordinator {
         let mainViewController = CircularTabBarController(tabBarItems: [.home, .history])
         window.rootViewController = mainViewController
         window.makeKeyAndVisible()
+        
+        #if DEBUG
+        let debugReadyViewController = DebugReadyViewController()
+        debugReadyViewController.modalPresentationStyle = .overFullScreen
+        Task {
+            await MainActor.run {
+                mainViewController.present(debugReadyViewController, animated: false)
+            }
+            let testEnvironmentManager = TestEnvironmentManager()
+            await testEnvironmentManager.prepareEnvironment()
+            
+            await MainActor.run {
+                debugReadyViewController.dismiss(animated: false)
+            }
+        }
+        #endif
     }
 }
