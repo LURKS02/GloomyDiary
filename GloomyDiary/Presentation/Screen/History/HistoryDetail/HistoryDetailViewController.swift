@@ -8,6 +8,7 @@
 import UIKit
 import ComposableArchitecture
 import RxSwift
+import RxRelay
 
 final class HistoryDetailViewController: BaseViewController<HistoryDetailView> {
     
@@ -63,8 +64,7 @@ final class HistoryDetailViewController: BaseViewController<HistoryDetailView> {
             await tabBarController.hideCircularTabBar(duration: 0.3)
         }
         
-        navigationController?.setNavigationBarHidden(false, animated: false)
-        navigationController?.navigationBar.alpha = 0.0
+        navigationController?.setNavigationBarHidden(false, animated: true)
         
         guard let windowTopInset,
               let navigationControllerHeight else { return }
@@ -83,12 +83,25 @@ final class HistoryDetailViewController: BaseViewController<HistoryDetailView> {
                 contentView.isAnimated = true
             }
         }
+        
+        guard let navigationController = self.navigationController else { return }
+        
+        navigationController.navigationBar.isHidden = false
+        UIView.animate(withDuration: 0.2) {
+            navigationController.navigationBar.alpha = 1.0
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+
+        guard let navigationController = self.navigationController else { return }
         
-        self.navigationController?.setNavigationBarHidden(true, animated: true)
+        UIView.animate(withDuration: 0.2, animations: {
+            navigationController.navigationBar.alpha = 0.0
+        }) { _ in
+            navigationController.navigationBar.isHidden = true
+        }
     }
 }
 
@@ -196,36 +209,6 @@ extension HistoryDetailViewController: UINavigationControllerDelegate {
                     }
                 }
             }
-        }
-    }
-}
-
-
-extension HistoryDetailViewController {
-    @MainActor
-    func playFadeInNavigationBar() async {
-        guard let navigationBar = self.navigationController?.navigationBar else { return }
-        
-        await withCheckedContinuation { continuation in
-            AnimationGroup(animations: [.init(view: navigationBar,
-                                              animationCase: .fadeIn,
-                                              duration: 1.0)],
-                           mode: .parallel,
-                           loop: .once(completion: { continuation.resume() }))
-            .run()
-        }
-    }
-    
-    @MainActor
-    func playFadeOutNavigationBar() async {
-        await withCheckedContinuation { continuation in
-            guard let navigationBar = self.weakNavigationController?.navigationBar else { return continuation.resume() }
-            AnimationGroup(animations: [.init(view: navigationBar,
-                                              animationCase: .fadeOut,
-                                              duration: 0.2)],
-                           mode: .parallel,
-                           loop: .once(completion: { continuation.resume() }))
-            .run()
         }
     }
 }
