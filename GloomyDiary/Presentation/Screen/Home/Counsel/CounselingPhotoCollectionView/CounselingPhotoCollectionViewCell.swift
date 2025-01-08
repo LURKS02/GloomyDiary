@@ -22,6 +22,8 @@ final class CounselingPhotoCollectionViewCell: UICollectionViewCell {
     
     private let removeButton = CancelButton(frame: .zero)
     
+    private var workItem: DispatchWorkItem?
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -36,6 +38,8 @@ final class CounselingPhotoCollectionViewCell: UICollectionViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
+        
+        workItem?.cancel()
         disposeBag = DisposeBag()
     }
     
@@ -79,8 +83,18 @@ final class CounselingPhotoCollectionViewCell: UICollectionViewCell {
 }
 
 extension CounselingPhotoCollectionViewCell { 
-    func configure(with image: UIImage, viewController: UIViewController) {
-        imageView.image = image
+    func configure(with url: URL, viewController: UIViewController) {
+        workItem?.cancel()
+        
+        let networkItem = DispatchWorkItem { [weak self] in
+            guard let self else { return }
+            let downsampledImage = UIImage.downsample(imageAt: url, to: .init(width: 70, height: 70))
+            DispatchQueue.main.async {
+                self.imageView.image = downsampledImage
+            }
+        }
+        self.workItem = networkItem
+        DispatchQueue.global().async(execute: networkItem)
         
         tapRelay.subscribe(onNext: { _ in
             guard let viewController = viewController as? CounselingViewController else { return }
