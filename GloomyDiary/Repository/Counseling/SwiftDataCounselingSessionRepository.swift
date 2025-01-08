@@ -30,7 +30,7 @@ final class SwiftDataCounselingSessionRepository: CounselingSessionRepository {
         descriptor.includePendingChanges = false
         
         let sessions: [CounselingSession] = try await swiftDataService.fetch(descriptor: descriptor)
-        let sessionDTOs: [CounselingSessionDTO] = sessions.enumerated().compactMap { $1.toDTO(index: $0) }
+        let sessionDTOs: [CounselingSessionDTO] = sessions.compactMap { $0.toDTO() }
         
         Logger.send(type: .data, "상담 내역 불러오기, 페이지: \(pageNumber)")
         return sessionDTOs
