@@ -44,5 +44,9 @@ extension CounselingSessionDTO: Equatable {
         lhs.urls == rhs.urls
     }
 }
+
+extension CounselingSessionDTO: Hashable {
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
     }
 }

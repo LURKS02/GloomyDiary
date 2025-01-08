@@ -41,9 +41,9 @@ final class HistoryViewController: BaseViewController<HistoryView> {
         
         bind()
         
-        store.send(.refresh)
-        
         navigationController?.setNavigationBarHidden(true, animated: false)
+        
+        store.send(.refresh)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -53,8 +53,6 @@ final class HistoryViewController: BaseViewController<HistoryView> {
             guard let tabBarController = tabBarController as? CircularTabBarControllable else { return }
             await tabBarController.showCircularTabBar(duration: 0.2)
         }
-        
-        store.send(.refresh)
     }
 }
 
@@ -63,21 +61,39 @@ final class HistoryViewController: BaseViewController<HistoryView> {
 
 private extension HistoryViewController {
     func bind() {
-        contentView.listView.tableView.dataSource = self
-        contentView.listView.tableView.delegate = self
+        contentView.listView.collectionView.delegate = self
+        
+        redrawSnapshot(with: [], animated: false)
         
         observe { [weak self] in
             guard let self else { return }
-            updateDataSource()
+            
+            redrawSnapshot(with: store.counselingSessionDTOs.map { HistoryItem(session: $0) }, animated: false)
+            contentView.showContent = dataSource.snapshot().itemIdentifiers.isEmpty ? false : true
         }
+    }
+    
+    func redrawSnapshot(with items: [HistoryItem], animated: Bool) {
+        var snapshot = NSDiffableDataSourceSnapshot<HistorySection, HistoryItem>()
+        snapshot.appendSections([.main])
+        snapshot.appendItems(items)
+        dataSource.apply(snapshot, animatingDifferences: animated)
     }
 }
 
 
 // MARK: - CollectionView
 
+extension HistoryViewController: UICollectionViewDelegate {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let offsetY = scrollView.contentOffset.y
+        let contentHeight = scrollView.contentSize.height
+        let frameHeight = scrollView.frame.size.height
         
+        guard contentHeight > 0 else { return }
         
+        if offsetY > contentHeight - frameHeight - 100 {
+            store.send(.loadNextPage)
         }
     }
     
@@ -86,10 +102,26 @@ private extension HistoryViewController {
         let item = items[indexPath.row]
         
         self.navigationController?.delegate = self
+        let store: StoreOf<HistoryDetail> = Store(initialState: .init(session: item.session),
                                                   reducer: { HistoryDetail() })
         let historyDetailViewController = HistoryDetailViewController(store: store)
+        historyDetailViewController.deletionRelay.subscribe(onNext: { [weak self] id in
+            guard let self else { return }
+            var snapshot = dataSource.snapshot()
+            let items = snapshot.itemIdentifiers
+            let deleteItem = items[indexPath.row]
+            snapshot.deleteItems([deleteItem])
+            
+            dataSource.apply(snapshot, animatingDifferences: true)
+            })
+        
+        .disposed(by: rx.disposeBag)
+        
         self.navigationController?.pushViewController(historyDetailViewController, animated: true)
         Logger.send(type: .tapped, "히스토리 선택", parameters: ["인덱스": indexPath.row])
+        
+    }
+}
     }
 }
 

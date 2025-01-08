@@ -17,6 +17,8 @@ final class HistoryDetailViewController: BaseViewController<HistoryDetailView> {
     
     private var menuViewController: HistoryMenuViewController?
     
+    var deletionRelay = PublishRelay<Void>()
+    
     
     // MARK: - Initialize
     
@@ -160,6 +162,7 @@ private extension HistoryDetailViewController {
             deleteViewController.deletionRelay
                 .subscribe(onNext: { [weak self] in
                     guard let self else { return }
+                    deletionRelay.accept(())
                     navigationController?.popViewController(animated: true)
                 })
                 .disposed(by: rx.disposeBag)
