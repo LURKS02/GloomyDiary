@@ -9,7 +9,7 @@ import Foundation
 import Dependencies
 
 private enum CounselingSessionRepositoryKey: DependencyKey {
-    static var liveValue: any CounselingSessionRepository = SwiftDataCounselingSessionRepository(modelContainer: AppEnvironment.shared.modelContainer)
+    static var liveValue: any CounselingSessionRepository = SwiftDataCounselingSessionRepository()
 }
 
 extension DependencyValues {
