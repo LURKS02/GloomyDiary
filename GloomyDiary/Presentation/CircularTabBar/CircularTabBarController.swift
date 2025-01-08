@@ -13,7 +13,17 @@ final class CircularTabBarController: UITabBarController {
     
     private var currentIndex: Int {
         didSet {
+            guard let viewControllers else { return }
+            
+            if let newViewController = viewControllers[currentIndex].tabBarDelegate {
+                newViewController.tabWillAppear()
+            }
+            
             selectedIndex = currentIndex
+            
+            if let currentViewController = viewControllers[selectedIndex].tabBarDelegate {
+                currentViewController.tabDidDisappear()
+            }
         }
     }
     

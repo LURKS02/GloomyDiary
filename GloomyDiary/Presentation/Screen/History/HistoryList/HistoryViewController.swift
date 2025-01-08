@@ -15,10 +15,10 @@ final class HistoryViewController: BaseViewController<HistoryView> {
     
     // MARK: - Properties
 
-    private var configurables: [TableViewCellConfigurable] = [] {
-        didSet {
-            contentView.showContent = !configurables.isEmpty
-        }
+    private lazy var dataSource = UICollectionViewDiffableDataSource<HistorySection, HistoryItem>(collectionView: contentView.listView.collectionView) { (collectionView, indexPath, item) -> UICollectionViewCell? in
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CounselingSessionCollectionViewCell.identifier, for: indexPath) as? CounselingSessionCollectionViewCell else { return nil }
+        cell.configure(with: item.session)
+        return cell
     }
     
     private let feedbackGenerator = UIImpactFeedbackGenerator(style: .soft)
@@ -41,9 +41,9 @@ final class HistoryViewController: BaseViewController<HistoryView> {
         
         bind()
         
-        store.send(.refresh)
-        
         navigationController?.setNavigationBarHidden(true, animated: false)
+        
+        store.send(.refresh)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -53,8 +53,6 @@ final class HistoryViewController: BaseViewController<HistoryView> {
             guard let tabBarController = tabBarController as? CircularTabBarControllable else { return }
             await tabBarController.showCircularTabBar(duration: 0.2)
         }
-        
-        store.send(.refresh)
     }
 }
 
@@ -63,97 +61,75 @@ final class HistoryViewController: BaseViewController<HistoryView> {
 
 private extension HistoryViewController {
     func bind() {
-        contentView.listView.tableView.dataSource = self
-        contentView.listView.tableView.delegate = self
+        contentView.listView.collectionView.delegate = self
+        
+        redrawSnapshot(with: [], animated: false)
         
         observe { [weak self] in
             guard let self else { return }
-            updateDataSource()
-        }
-    }
-}
-
-
-// MARK: - DataSource
-
-private extension HistoryViewController {
-    func updateDataSource() {
-        if store.counselingSessionDTOs.isEmpty {
-            configurables = []
-            return
-        }
-        
-        var configurables: [TableViewCellConfigurable] = []
-        
-        let spacing: CGFloat = 10.0
-        
-        configurables.append(SpacerTableViewCellConfiguration(spacing: spacing))
-        
-        for (index, sessionDTO) in store.counselingSessionDTOs.enumerated() {
-            let counselingSessionConfiguration: TableViewCellConfigurable = CounselingSessionTableViewCellConfiguration(counselingSessionDTO: sessionDTO)
-            configurables.append(counselingSessionConfiguration)
             
-            if index < store.counselingSessionDTOs.count - 1 {
-                let spacerConfiguration: TableViewCellConfigurable = SpacerTableViewCellConfiguration(spacing: spacing)
-                configurables.append(spacerConfiguration)
-            } else {
-                let spacerConfiguration: TableViewCellConfigurable = SpacerTableViewCellConfiguration(spacing: 80)
-                configurables.append(spacerConfiguration)
-            }
+            redrawSnapshot(with: store.counselingSessionDTOs.map { HistoryItem(session: $0) }, animated: false)
+            contentView.showContent = dataSource.snapshot().itemIdentifiers.isEmpty ? false : true
         }
-        
-        self.configurables = configurables
-    }
-}
-
-
-// MARK: - TableView
-
-extension HistoryViewController: UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        configurables.count
     }
     
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let configuration = configurables[indexPath.row]
-        
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: type(of: configuration).identifier) as? TableViewConfigurationBindable else { return UITableViewCell() }
-        
-        cell.bind(with: configuration)
-        
-        if let cell = cell as? CounselingSessionTableViewCell,
-           let configurable = configuration as? CounselingSessionTableViewCellConfiguration
-        {
-            cell.imageCollectionView.rx.tapGesture()
-                .when(.recognized)
-                .subscribe(onNext: { [weak self] _ in
-                    guard let self else { return }
-                    feedbackGenerator.impactOccurred()
-                    self.navigationController?.delegate = self
-                    let store: StoreOf<HistoryDetail> = Store(initialState: .init(session: configurable.counselingSessionDTO),
-                                                              reducer: { HistoryDetail() })
-                    let historyDetailViewController = HistoryDetailViewController(store: store)
-                    self.navigationController?.pushViewController(historyDetailViewController, animated: true)
-                    Logger.send(type: .tapped, "히스토리 선택", parameters: ["인덱스": indexPath.row])
-                    
-                })
-                .disposed(by: cell.disposeBag)
-            
-        }
-        return cell
+    func redrawSnapshot(with items: [HistoryItem], animated: Bool) {
+        var snapshot = NSDiffableDataSourceSnapshot<HistorySection, HistoryItem>()
+        snapshot.appendSections([.main])
+        snapshot.appendItems(items)
+        dataSource.apply(snapshot, animatingDifferences: animated)
     }
 }
 
-extension HistoryViewController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let selectedConfiguration = configurables[indexPath.row] as? CounselingSessionTableViewCellConfiguration else { return }
+
+// MARK: - CollectionView
+
+extension HistoryViewController: UICollectionViewDelegate {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let offsetY = scrollView.contentOffset.y
+        let contentHeight = scrollView.contentSize.height
+        let frameHeight = scrollView.frame.size.height
+        
+        guard contentHeight > 0 else { return }
+        
+        if offsetY > contentHeight - frameHeight - 100 {
+            store.send(.loadNextPage)
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let items = dataSource.snapshot().itemIdentifiers
+        let item = items[indexPath.row]
+        
         self.navigationController?.delegate = self
-        let store: StoreOf<HistoryDetail> = Store(initialState: .init(session: selectedConfiguration.counselingSessionDTO),
+        let store: StoreOf<HistoryDetail> = Store(initialState: .init(session: item.session),
                                                   reducer: { HistoryDetail() })
         let historyDetailViewController = HistoryDetailViewController(store: store)
+        historyDetailViewController.deletionRelay.subscribe(onNext: { [weak self] id in
+            guard let self else { return }
+            var snapshot = dataSource.snapshot()
+            let items = snapshot.itemIdentifiers
+            let deleteItem = items[indexPath.row]
+            snapshot.deleteItems([deleteItem])
+            
+            dataSource.apply(snapshot, animatingDifferences: true)
+            })
+        
+        .disposed(by: rx.disposeBag)
+        
         self.navigationController?.pushViewController(historyDetailViewController, animated: true)
         Logger.send(type: .tapped, "히스토리 선택", parameters: ["인덱스": indexPath.row])
+        
+    }
+}
+
+extension HistoryViewController: CircularTabBarDelegate {
+    func tabDidDisappear() {
+        store.send(.unload)
+    }
+    
+    func tabWillAppear() {
+        store.send(.refresh)
     }
 }
 

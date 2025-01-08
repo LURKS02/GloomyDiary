@@ -18,9 +18,9 @@ final class CounselingSession {
     var createdAt: Date
     var weatherIdentifier: String
     var emojiIdentifier: String
-    var images: [Data] = []
-    
-    init(id: UUID, counselorIdentifier: String, title: String, query: String, response: String, createdAt: Date, weatherIdentifier: String, emojiIdentifier: String, images: [Data] = []) {
+    @Attribute(.transformable(by: ArrayTransformer.name.rawValue)) var images: [String]
+
+    init(id: UUID, counselorIdentifier: String, title: String, query: String, response: String, createdAt: Date, weatherIdentifier: String, emojiIdentifier: String, images: [String] = []) {
         self.id = id
         self.counselorIdentifier = counselorIdentifier
         self.title = title
@@ -43,7 +43,7 @@ extension CounselingSession {
                   createdAt: dto.createdAt,
                   weatherIdentifier: dto.weather.identifier,
                   emojiIdentifier: dto.emoji.identifier,
-                  images: dto.images)
+                  images: dto.urls.map { $0.lastPathComponent })
     }
     
     func toDTO() -> CounselingSessionDTO? {
@@ -59,6 +59,41 @@ extension CounselingSession {
                                     createdAt: self.createdAt,
                                     weather: weather,
                                     emoji: emoji,
-                                    images: self.images)
+                                    urls: images.map { ImageFileManager.shared.getImageURL(fileName: $0) })
+    }
+}
+
+@objc(ArrayTransformer)
+class ArrayTransformer: ValueTransformer {
+    override class func transformedValueClass() -> AnyClass {
+        return NSArray.self
+    }
+    
+    override class func allowsReverseTransformation() -> Bool {
+        true
+    }
+
+    override func transformedValue(_ value: Any?) -> Any? {
+        guard let array = value as? [String] else {
+            return nil
+        }
+        let nsArray = array as NSArray
+        return try? NSKeyedArchiver.archivedData(withRootObject: nsArray, requiringSecureCoding: true)
+    }
+
+    override func reverseTransformedValue(_ value: Any?) -> Any? {
+        guard let data = value as? Data else { return nil }
+        guard let nsArrayAny = try? NSKeyedUnarchiver.unarchivedObject(ofClasses: [NSArray.self, NSString.self], from: data) else { return nil }
+        guard let strings = nsArrayAny as? [String] else { return nil }
+        return strings
+    }
+}
+
+extension ArrayTransformer {
+    static let name = NSValueTransformerName(rawValue: String(describing: ArrayTransformer.self))
+    
+    public static func register() {
+        let transformer = ArrayTransformer()
+        ValueTransformer.setValueTransformer(transformer, forName: name)
     }
 }

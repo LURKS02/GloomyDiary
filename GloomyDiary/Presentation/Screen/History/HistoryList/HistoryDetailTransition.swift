@@ -11,7 +11,7 @@ final class HistoryDetailTransition: NSObject { }
 
 extension HistoryDetailTransition: UIViewControllerAnimatedTransitioning {
     func transitionDuration(using transitionContext: (any UIViewControllerContextTransitioning)?) -> TimeInterval {
-        0.4
+        1.0
     }
     
     func animateTransition(using transitionContext: any UIViewControllerContextTransitioning) {
@@ -49,8 +49,7 @@ extension HistoryDetailTransition {
         Task { @MainActor in
             toViewController.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
             async let viewSlideAnimation: () = await showNextView(toView, frame: fromView.frame)
-            async let navigationBarAnimation: () = await toViewController.playFadeInNavigationBar()
-            let _ = await (viewSlideAnimation, navigationBarAnimation)
+            await viewSlideAnimation
             toViewController.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
             
             transitionContext.completeTransition(true)

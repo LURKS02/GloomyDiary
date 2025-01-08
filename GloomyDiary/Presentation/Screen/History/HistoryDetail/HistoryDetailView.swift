@@ -41,7 +41,7 @@ final class HistoryDetailView: BaseView {
         $0.textAlignment = .left
     }
     
-    let imageScrollView = HistoryDetailImageView()
+    let imageScrollView = HistoryDetailImageView(imageSize: UIView.screenWidth - Metric.viewPadding * 2)
     
     private let contentLabel = IntroduceLabel().then {
         $0.textColor = .text(.subHighlight)
@@ -141,7 +141,7 @@ extension HistoryDetailView {
         responseLetterView.configure(with: session.counselor, response: session.response)
         gradientBackgroundView.alpha = 0.0
         
-        if session.images.isEmpty {
+        if session.urls.isEmpty {
             contentLabel.snp.remakeConstraints { make in
                 make.top.equalTo(stateLabel.snp.bottom).offset(40)
                 make.horizontalEdges.equalToSuperview().inset(Metric.textPadding)
@@ -149,7 +149,7 @@ extension HistoryDetailView {
             
             imageScrollView.removeFromSuperview()
         } else {
-            imageScrollView.configure(with: session.images.compactMap { UIImage(data: $0) })
+            imageScrollView.configure(with: session.urls)
         }
     }
     

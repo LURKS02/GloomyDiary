@@ -9,7 +9,7 @@ import UIKit
 
 enum CounselingViewItem: Hashable {
     case selectItem(count: Int, maxCount: Int)
-    case photoItem(UUID, image: UIImage)
+    case photoItem(UUID, url: URL)
     
     func hash(into hasher: inout Hasher) {
         switch self {

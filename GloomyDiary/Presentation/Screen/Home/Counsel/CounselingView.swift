@@ -19,7 +19,7 @@ final class CounselingView: BaseView {
         static let greetingLabelTrailingPadding: CGFloat = .horizontalValue(25)
         static let photoCollectionViewTopPadding: CGFloat = .verticalValue(60)
         static let photoCollectionViewHorizontalPadding: CGFloat = .horizontalValue(21)
-        static let photoCollectionViewHeight: CGFloat = .verticalValue(78)
+        static let photoCollectionViewHeight: CGFloat = 78
         static let sendingLetterTopPadding: CGFloat = .verticalValue(20)
         static let sendingLetterHorizontalPadding: CGFloat = .horizontalValue(17)
         static let sendingLetterBottomPadding: CGFloat = .verticalValue(250)

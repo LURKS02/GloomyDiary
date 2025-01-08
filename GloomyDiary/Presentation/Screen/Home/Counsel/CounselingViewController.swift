@@ -33,14 +33,12 @@ final class CounselingViewController: BaseViewController<CounselingView> {
             throw LocalError(message: "DTO Error")
         }
         
-        let imageDatas = self.store.images.compactMap({ $0.pngData() })
-        
         let result = try await self.counselRepository.counsel(to: self.store.character,
                                                               title: self.store.title,
                                                               userInput: self.contentView.sendingLetterView.letterTextView.text,
                                                               weather: weatherDTO,
                                                               emoji: emojiDTO,
-                                                              images: imageDatas)
+                                                              urls: self.store.urls)
         userSettingRepository.update(keyPath: \.isFirstProcess, value: false)
         return result
     }
@@ -53,9 +51,9 @@ final class CounselingViewController: BaseViewController<CounselingView> {
             cell.configure(count: count, maxCount: maxCount)
             return cell
             
-        case .photoItem(_, let image):
+        case .photoItem(_, let url):
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CounselingPhotoCollectionViewCell.identifier, for: indexPath) as? CounselingPhotoCollectionViewCell else { return UICollectionViewCell() }
-            cell.configure(with: image, viewController: self)
+            cell.configure(with: url, viewController: self)
             return cell
         }
     }
@@ -193,10 +191,10 @@ extension CounselingViewController {
                                                  animated: true)
     }
     
-    func removeImage(_ image: UIImage) {
+    func removeImage(_ url: URL) {
         let items = dataSource.snapshot().itemIdentifiers
         let filteredItems = items.compactMap { item -> CounselingViewItem? in
-            if case let .photoItem(_, photoImage) = item, photoImage == image {
+            if case let .photoItem(_, photoURL) = item, photoURL == url {
                 return nil
             } else if case .photoItem = item {
                 return item
@@ -206,16 +204,16 @@ extension CounselingViewController {
         
         applySnapshot(with: filteredItems)
             
-        store.send(.updateImages(filteredItems.compactMap { item -> UIImage? in
-            if case let .photoItem(_, image) = item {
-                return image
+        store.send(.updateImageURLs(filteredItems.compactMap { item -> URL? in
+            if case let .photoItem(_, url) = item {
+                return url
             }
             return nil
         }))
     }
     
-    func openImageViewer(with image: UIImage) {
-        let imageViewer = ImageDetailViewController(image: image)
+    func openImageViewer(with url: URL) {
+        let imageViewer = ImageDetailViewController(url: url)
         imageViewer.modalPresentationStyle = .pageSheet
         present(imageViewer, animated: true)
     }
@@ -256,35 +254,42 @@ extension CounselingViewController: PHPickerViewControllerDelegate {
         isPickerProcessing = true
         
         Task {
-            guard let images = try? await loadImages(from: results) else { return }
+            guard let urls = try? await loadImageURLs(from: results) else { return }
             let snapshot = dataSource.snapshot()
             var items = snapshot.itemIdentifiers
-            items.append(contentsOf: images.map { CounselingViewItem.photoItem(UUID(), image: $0) })
+            items.append(contentsOf: urls.map { CounselingViewItem.photoItem(UUID(), url: $0) })
             items.removeFirst()
             applySnapshot(with: items)
             picker.dismiss(animated: true)
             isPickerProcessing = false
             
-            store.send(.selectedImages(images))
+            store.send(.selectedImageURLs(urls))
         }
     }
     
-    func loadImages(from results: [PHPickerResult]) async throws -> [UIImage] {
-        var images: [UIImage] = []
+    func loadImageURLs(from results: [PHPickerResult]) async throws -> [URL] {
+        let imageFileManager = ImageFileManager.shared
+        var urls: [URL] = []
         
         for result in results {
-            let image = try await loadImage(from: result)
-            images.append(image)
+            let data = try await loadImageData(from: result)
+            let imageURL = try imageFileManager.write(data: data, fileName: "image_" + UUID().uuidString + ".jpg")
+            urls.append(imageURL)
         }
         
-        return images
+        return urls
     }
     
-    func loadImage(from result: PHPickerResult) async throws -> UIImage {
+    func loadImageData(from result: PHPickerResult) async throws -> Data {
         try await withCheckedThrowingContinuation { continuation in
-            result.itemProvider.loadObject(ofClass: UIImage.self) { object, error in
-                guard let image = object as? UIImage else { return continuation.resume(throwing: LocalError(message: "image load error")) }
-                continuation.resume(returning: image)
+            result.itemProvider.loadDataRepresentation(forTypeIdentifier: UTType.image.identifier) { data, error in
+                if let error = error {
+                    continuation.resume(throwing: error)
+                } else if let data = data {
+                    continuation.resume(returning: data)
+                } else {
+                    continuation.resume(throwing: LocalError(message: "Data load error"))
+                }
             }
         }
     }
@@ -295,7 +300,7 @@ extension CounselingViewController: UICollectionViewDragDelegate {
         guard indexPath.item != 0 else { return [] }
         
         let item = dataSource.itemIdentifier(for: indexPath)
-        if case let .photoItem(image) = item {
+        if case let .photoItem(_, image) = item {
             let itemProvider = NSItemProvider()
             let dragItem = UIDragItem(itemProvider: itemProvider)
             dragItem.localObject = image
@@ -357,9 +362,9 @@ extension CounselingViewController: UICollectionViewDropDelegate {
             coordinator.drop(item.dragItem, toItemAt: destinationIndexPath)
         }
         
-        store.send(.updateImages(updatedItems.compactMap { item -> UIImage? in
-            if case let .photoItem(_, image) = item {
-                return image
+        store.send(.updateImageURLs(updatedItems.compactMap { item -> URL? in
+            if case let .photoItem(_, url) = item {
+                return url
             }
             return nil
         }))

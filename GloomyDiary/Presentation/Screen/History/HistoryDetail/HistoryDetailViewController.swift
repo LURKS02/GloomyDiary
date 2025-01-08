@@ -8,6 +8,7 @@
 import UIKit
 import ComposableArchitecture
 import RxSwift
+import RxRelay
 
 final class HistoryDetailViewController: BaseViewController<HistoryDetailView> {
     
@@ -16,6 +17,8 @@ final class HistoryDetailViewController: BaseViewController<HistoryDetailView> {
     private weak var weakNavigationController: UINavigationController?
     
     private var menuViewController: HistoryMenuViewController?
+    
+    var deletionRelay = PublishRelay<Void>()
     
     
     // MARK: - Initialize
@@ -61,8 +64,7 @@ final class HistoryDetailViewController: BaseViewController<HistoryDetailView> {
             await tabBarController.hideCircularTabBar(duration: 0.3)
         }
         
-        navigationController?.setNavigationBarHidden(false, animated: false)
-        navigationController?.navigationBar.alpha = 0.0
+        navigationController?.setNavigationBarHidden(false, animated: true)
         
         guard let windowTopInset,
               let navigationControllerHeight else { return }
@@ -81,22 +83,35 @@ final class HistoryDetailViewController: BaseViewController<HistoryDetailView> {
                 contentView.isAnimated = true
             }
         }
+        
+        guard let navigationController = self.navigationController else { return }
+        
+        navigationController.navigationBar.isHidden = false
+        UIView.animate(withDuration: 0.2) {
+            navigationController.navigationBar.alpha = 1.0
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+
+        guard let navigationController = self.navigationController else { return }
         
-        self.navigationController?.setNavigationBarHidden(true, animated: true)
+        UIView.animate(withDuration: 0.2, animations: {
+            navigationController.navigationBar.alpha = 0.0
+        }) { _ in
+            navigationController.navigationBar.isHidden = true
+        }
     }
 }
 
 private extension HistoryDetailViewController {
     func bind() {
         contentView.imageScrollView.tapRelay
-            .subscribe(onNext: { [weak self] image in
+            .subscribe(onNext: { [weak self] url in
                 guard let self,
-                      let image else { return }
-                openImageViewer(with: image)
+                      let url else { return }
+                openImageViewer(with: url)
             })
             .disposed(by: rx.disposeBag)
         
@@ -108,8 +123,8 @@ private extension HistoryDetailViewController {
 }
 
 private extension HistoryDetailViewController {
-    func openImageViewer(with image: UIImage) {
-        let imageViewer = ImageDetailViewController(image: image)
+    func openImageViewer(with url: URL) {
+        let imageViewer = ImageDetailViewController(url: url)
         imageViewer.modalPresentationStyle = .pageSheet
         present(imageViewer, animated: true)
     }
@@ -160,6 +175,7 @@ private extension HistoryDetailViewController {
             deleteViewController.deletionRelay
                 .subscribe(onNext: { [weak self] in
                     guard let self else { return }
+                    deletionRelay.accept(())
                     navigationController?.popViewController(animated: true)
                 })
                 .disposed(by: rx.disposeBag)
@@ -193,36 +209,6 @@ extension HistoryDetailViewController: UINavigationControllerDelegate {
                     }
                 }
             }
-        }
-    }
-}
-
-
-extension HistoryDetailViewController {
-    @MainActor
-    func playFadeInNavigationBar() async {
-        guard let navigationBar = self.navigationController?.navigationBar else { return }
-        
-        await withCheckedContinuation { continuation in
-            AnimationGroup(animations: [.init(view: navigationBar,
-                                              animationCase: .fadeIn,
-                                              duration: 1.0)],
-                           mode: .parallel,
-                           loop: .once(completion: { continuation.resume() }))
-            .run()
-        }
-    }
-    
-    @MainActor
-    func playFadeOutNavigationBar() async {
-        await withCheckedContinuation { continuation in
-            guard let navigationBar = self.weakNavigationController?.navigationBar else { return continuation.resume() }
-            AnimationGroup(animations: [.init(view: navigationBar,
-                                              animationCase: .fadeOut,
-                                              duration: 0.2)],
-                           mode: .parallel,
-                           loop: .once(completion: { continuation.resume() }))
-            .run()
         }
     }
 }

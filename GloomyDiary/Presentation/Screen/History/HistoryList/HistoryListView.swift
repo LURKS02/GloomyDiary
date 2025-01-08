@@ -14,14 +14,13 @@ final class HistoryListView: UIView {
     let layout = UICollectionViewFlowLayout().then {
         $0.scrollDirection = .vertical
         $0.minimumLineSpacing = 14
+        $0.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
     }
     
-    lazy var tableView = UITableView().then {
+    lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout).then {
         $0.showsVerticalScrollIndicator = false
         $0.backgroundColor = .clear
-        $0.clipsToBounds = true
-        $0.register(CounselingSessionTableViewCellConfiguration.cellType, forCellReuseIdentifier: CounselingSessionTableViewCellConfiguration.identifier)
-        $0.register(SpacerTableViewCellConfiguration.cellType, forCellReuseIdentifier: SpacerTableViewCellConfiguration.identifier)
+        $0.register(CounselingSessionCollectionViewCell.self, forCellWithReuseIdentifier: CounselingSessionCollectionViewCell.identifier)
     }
     
     private let gradientBackgroundView = GradientView(colors: [.background(.mainPurple).withAlphaComponent(0.0), .background(.mainPurple)], locations: [0.0, 0.5, 1.0])
@@ -44,16 +43,16 @@ final class HistoryListView: UIView {
     // MARK: - View Life Cycle
     
     private func setup() {
-        tableView.delaysContentTouches = false
+        collectionView.delaysContentTouches = false
     }
     
     private func addSubviews() {
-        addSubview(tableView)
+        addSubview(collectionView)
         addSubview(gradientBackgroundView)
     }
     
     private func setupConstraints() {
-        tableView.snp.makeConstraints { make in
+        collectionView.snp.makeConstraints { make in
             make.top.equalToSuperview()
             make.leading.equalToSuperview().offset(17)
             make.trailing.equalToSuperview().inset(17)
@@ -71,19 +70,19 @@ final class HistoryListView: UIView {
 
 extension HistoryListView {
     func hideAllComponents() {
-        tableView.alpha = 0.0
+        collectionView.alpha = 0.0
     }
     
     @MainActor
     func playAppearingFromLeft() async {
         hideAllComponents()
-        self.tableView.transform = .identity.translatedBy(x: -10, y: 0)
+        self.collectionView.transform = .identity.translatedBy(x: -10, y: 0)
         
         await withCheckedContinuation { continuation in
-            AnimationGroup(animations: [.init(view: self.tableView,
+            AnimationGroup(animations: [.init(view: self.collectionView,
                                               animationCase: .fadeIn,
                                               duration: 0.2),
-                                        .init(view: self.tableView,
+                                        .init(view: self.collectionView,
                                               animationCase: .transform(transform: .identity),
                                               duration: 0.2)],
                            mode: .parallel,
@@ -95,10 +94,10 @@ extension HistoryListView {
     @MainActor
     func playDisappearingToRight() async {
         await withCheckedContinuation { continuation in
-            AnimationGroup(animations: [.init(view: self.tableView,
+            AnimationGroup(animations: [.init(view: self.collectionView,
                                               animationCase: .fadeOut,
                                               duration: 0.2),
-                                        .init(view: self.tableView,
+                                        .init(view: self.collectionView,
                                               animationCase: .transform(transform: .identity.translatedBy(x: 10, y: 0)),
                                               duration: 0.2)],
                            mode: .parallel,

@@ -22,7 +22,6 @@ final class HistoryView: BaseView {
     var showContent: Bool = false {
         didSet {
             if showContent {
-                listView.tableView.reloadData()
                 emptyView.alpha = 0.0
                 listView.alpha = 1.0
             } else {

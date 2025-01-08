@@ -53,3 +53,9 @@ enum EmojiDTO: String, CaseIterable {
         self.rawValue
     }
 }
+
+extension EmojiDTO {
+    static func getRandomElement() -> EmojiDTO {
+        EmojiDTO.allCases.randomElement()!
+    }
+}

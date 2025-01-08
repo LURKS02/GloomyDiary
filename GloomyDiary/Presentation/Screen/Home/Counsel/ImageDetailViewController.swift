@@ -17,9 +17,15 @@ final class ImageDetailViewController: UIViewController {
         $0.contentMode = .scaleAspectFit
     }
     
-    init(image: UIImage) {
+    init(url: URL) {
         super.init(nibName: nil, bundle: nil)
-        imageView.image = image
+        
+        let screenWidth = UIView.screenWidth
+        let screenHeight = UIView.screenHeight
+        let screenSize = CGSize(width: screenWidth, height: screenHeight)
+        
+        let downsampledImage = UIImage.downsample(imageAt: url, within: screenSize)
+        imageView.image = downsampledImage
     }
     
     required init?(coder: NSCoder) {
