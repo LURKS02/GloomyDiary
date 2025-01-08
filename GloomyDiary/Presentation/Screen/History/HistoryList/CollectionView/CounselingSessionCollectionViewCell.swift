@@ -8,7 +8,9 @@
 import UIKit
 import RxSwift
 
-final class CounselingSessionTableViewCell: UITableViewCell {
+final class CounselingSessionCollectionViewCell: UICollectionViewCell {
+    
+    static let identifier: String = "CounselingSessionCollectionViewCell"
     
     // MARK: - Metric
     
@@ -64,16 +66,22 @@ final class CounselingSessionTableViewCell: UITableViewCell {
     
     private let feedbackGenerator = UIImpactFeedbackGenerator(style: .soft)
     
-    private var images: [UIImage] = [] {
+    private var urls: [URL] = [] {
         didSet {
-            imageCollectionView.reloadData()
+            let now: CFTimeInterval = CACurrentMediaTime()
+            self.imageCollectionView.reloadData()
+            
+            DispatchQueue.main.async {
+                let elapsedTime = CACurrentMediaTime() - now
+                print(">>> elapsedTime", elapsedTime)
+            }
         }
     }
     
     var disposeBag = DisposeBag()
     
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
+    override init(frame: CGRect) {
+        super.init(frame: frame)
         
         setup()
         addSubviews()
@@ -87,13 +95,12 @@ final class CounselingSessionTableViewCell: UITableViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         
-        images = []
+        urls = []
         disposeBag = DisposeBag()
     }
     
     private func setup() {
         self.applyCornerRadius(20)
-        self.selectionStyle = .none
         self.backgroundColor = .component(.buttonPurple)
         self.imageCollectionView.dataSource = self
     }
@@ -107,6 +114,10 @@ final class CounselingSessionTableViewCell: UITableViewCell {
     }
     
     private func setupConstraints() {
+        self.contentView.snp.makeConstraints { make in
+            make.width.equalTo(UIView.screenWidth - 17 * 2)
+        }
+        
         titleLabel.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(Metric.cellVerticalPadding)
             make.leading.equalToSuperview().offset(Metric.cellHorizontalPadding)
@@ -134,22 +145,19 @@ final class CounselingSessionTableViewCell: UITableViewCell {
             make.top.equalTo(imageCollectionView.snp.bottom).offset(Metric.contentLabelTopPadding)
             make.leading.equalToSuperview().offset(Metric.cellHorizontalPadding)
             make.trailing.equalToSuperview().offset(-Metric.cellHorizontalPadding)
-            make.bottom.equalToSuperview().offset(-Metric.cellVerticalPadding)
+            make.bottom.equalToSuperview().offset(-Metric.cellHorizontalPadding)
         }
     }
 }
 
-extension CounselingSessionTableViewCell: TableViewConfigurationBindable {
-    func bind(with configuration: TableViewCellConfigurable) {
-        guard let configuration = configuration as? CounselingSessionTableViewCellConfiguration else { return }
-        let counselingSessionDTO = configuration.counselingSessionDTO
+extension CounselingSessionCollectionViewCell {
+    func configure(with session: CounselingSessionDTO) {
+        titleLabel.text = session.title
+        stateLabel.text = "날씨 \(session.weather.name), \(session.emoji.description)"
+        characterImageView.image = UIImage(named: session.counselor.imageName)
+        contentLabel.text = session.query
         
-        titleLabel.text = counselingSessionDTO.title
-        stateLabel.text = "날씨 \(counselingSessionDTO.weather.name), \(counselingSessionDTO.emoji.description)"
-        characterImageView.image = UIImage(named: counselingSessionDTO.counselor.imageName)
-        contentLabel.text = counselingSessionDTO.query
-        
-        if counselingSessionDTO.images.isEmpty {
+        if session.urls.isEmpty {
             contentLabel.snp.remakeConstraints { make in
                 make.top.equalTo(stateLabel.snp.bottom).offset(Metric.contentLabelTopPadding)
                 make.leading.equalToSuperview().offset(Metric.cellHorizontalPadding)
@@ -165,24 +173,24 @@ extension CounselingSessionTableViewCell: TableViewConfigurationBindable {
             }
         }
         
-        images = counselingSessionDTO.images.compactMap { UIImage(data: $0) }
+        self.urls = session.urls
     }
 }
 
-extension CounselingSessionTableViewCell: UICollectionViewDataSource {
+extension CounselingSessionCollectionViewCell: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        images.count
+        urls.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CounselingImageCollectionViewCell.identifier, for: indexPath) as? CounselingImageCollectionViewCell else { return UICollectionViewCell() }
-        cell.configure(with: images[indexPath.row])
+        cell.configure(with: urls[indexPath.row])
         
         return cell
     }
 }
 
-extension CounselingSessionTableViewCell {
+extension CounselingSessionCollectionViewCell {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesBegan(touches, with: event)
         
