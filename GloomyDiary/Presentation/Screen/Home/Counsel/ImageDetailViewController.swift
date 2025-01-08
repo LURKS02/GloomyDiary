@@ -17,7 +17,7 @@ final class ImageDetailViewController: UIViewController {
         $0.contentMode = .scaleAspectFit
     }
     
-    init(image: UIImage) {
+    init(url: URL) {
         super.init(nibName: nil, bundle: nil)
         imageView.image = image
     }

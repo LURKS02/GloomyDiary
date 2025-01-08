@@ -30,9 +30,15 @@ final class HistoryDetailImageView: UIView {
         $0.backgroundColor = .black.withAlphaComponent(0.5)
     }
     
-    var tapRelay = PublishRelay<UIImage?>()
+    private var urls: [URL] = []
     
-    init() {
+    private let imageSize: CGFloat
+    
+    var tapRelay = PublishRelay<URL?>()
+    
+    init(imageSize: CGFloat) {
+        self.imageSize = imageSize
+        
         super.init(frame: .zero)
         
         setup()
@@ -84,14 +90,13 @@ final class HistoryDetailImageView: UIView {
             .subscribe(onNext: { [weak self] _ in
                 guard let self else { return }
                 let page = pageControl.currentPage
-                let imageViews = scrollView.subviews.compactMap { $0 as? UIImageView }
-                tapRelay.accept(imageViews[page].image)
+                tapRelay.accept(urls[page])
             })
             .disposed(by: rx.disposeBag)
     }
     
-    func configure(with images: [UIImage]) {
-        for index in images.indices {
+    func configure(with urls: [URL]) {
+        for index in urls.indices {
             let imageView = UIImageView()
             imageView.image = images[index]
             imageView.contentMode = .scaleAspectFill
@@ -101,8 +106,9 @@ final class HistoryDetailImageView: UIView {
             scrollView.addSubview(imageView)
         }
         
-        pageControl.numberOfPages = images.count
-        numberLabel.text = "1/\(images.count)"
+        pageControl.numberOfPages = urls.count
+        numberLabel.text = "1/\(urls.count)"
+        self.urls = urls
     }
     
     override func layoutSubviews() {

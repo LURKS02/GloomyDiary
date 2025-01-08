@@ -16,9 +16,9 @@ struct CounselingSessionDTO: Identifiable {
     let createdAt: Date
     let weather: WeatherDTO
     let emoji: EmojiDTO
-    let images: [Data]
+    let urls: [URL]
     
-    init(id: UUID, counselor: CharacterDTO, title: String, query: String, response: String, createdAt: Date, weather: WeatherDTO, emoji: EmojiDTO, images: [Data]) {
+    init(id: UUID, counselor: CharacterDTO, title: String, query: String, response: String, createdAt: Date, weather: WeatherDTO, emoji: EmojiDTO, urls: [URL]) {
         self.id = id
         self.counselor = counselor
         self.title = title
@@ -27,7 +27,7 @@ struct CounselingSessionDTO: Identifiable {
         self.createdAt = createdAt
         self.weather = weather
         self.emoji = emoji
-        self.images = images
+        self.urls = urls
     }
 }
 
@@ -41,6 +41,8 @@ extension CounselingSessionDTO: Equatable {
         lhs.createdAt == rhs.createdAt &&
         lhs.weather == rhs.weather &&
         lhs.emoji == rhs.emoji &&
-        lhs.images == rhs.images
+        lhs.urls == rhs.urls
+    }
+}
     }
 }

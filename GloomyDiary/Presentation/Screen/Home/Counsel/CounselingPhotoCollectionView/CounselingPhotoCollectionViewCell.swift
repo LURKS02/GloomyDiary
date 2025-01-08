@@ -84,13 +84,13 @@ extension CounselingPhotoCollectionViewCell {
         
         tapRelay.subscribe(onNext: { _ in
             guard let viewController = viewController as? CounselingViewController else { return }
-            viewController.openImageViewer(with: image)
+            viewController.openImageViewer(with: url)
         })
         .disposed(by: disposeBag)
         
         removeRelay.subscribe(onNext: { _ in
             guard let viewController = viewController as? CounselingViewController else { return }
-            viewController.removeImage(image)
+            viewController.removeImage(url)
         })
         .disposed(by: disposeBag)
     }
