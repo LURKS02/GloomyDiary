@@ -41,3 +41,9 @@ enum WeatherDTO: String, CaseIterable {
         self.rawValue
     }
 }
+
+extension WeatherDTO {
+    static func getRandomElement() -> WeatherDTO {
+        WeatherDTO.allCases.randomElement()!
+    }
+}
