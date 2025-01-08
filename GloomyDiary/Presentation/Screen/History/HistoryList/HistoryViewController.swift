@@ -122,6 +122,14 @@ extension HistoryViewController: UICollectionViewDelegate {
         
     }
 }
+
+extension HistoryViewController: CircularTabBarDelegate {
+    func tabDidDisappear() {
+        store.send(.unload)
+    }
+    
+    func tabWillAppear() {
+        store.send(.refresh)
     }
 }
 
