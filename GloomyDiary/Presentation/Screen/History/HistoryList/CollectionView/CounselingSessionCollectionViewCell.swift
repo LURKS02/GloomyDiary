@@ -7,6 +7,7 @@
 
 import UIKit
 import RxSwift
+import RxRelay
 
 final class CounselingSessionCollectionViewCell: UICollectionViewCell {
     
@@ -26,6 +27,8 @@ final class CounselingSessionCollectionViewCell: UICollectionViewCell {
     }
     
     // MARK: - Component
+    
+    let containerView = UIView()
     
     let titleLabel = UILabel().then {
         $0.textColor = .text(.highlight)
@@ -78,6 +81,10 @@ final class CounselingSessionCollectionViewCell: UICollectionViewCell {
         }
     }
     
+    private var index: Int?
+    
+    let indexTappedRelay = PublishRelay<Int>()
+    
     var disposeBag = DisposeBag()
     
     override init(frame: CGRect) {
@@ -103,18 +110,22 @@ final class CounselingSessionCollectionViewCell: UICollectionViewCell {
         self.applyCornerRadius(20)
         self.backgroundColor = .component(.buttonPurple)
         self.imageCollectionView.dataSource = self
+        self.imageCollectionView.delegate = self
     }
     
     private func addSubviews() {
-        contentView.addSubview(titleLabel)
-        contentView.addSubview(stateLabel)
-        contentView.addSubview(imageCollectionView)
-        contentView.addSubview(characterImageView)
-        contentView.addSubview(contentLabel)
+        contentView.addSubview(containerView)
+        
+        containerView.addSubview(titleLabel)
+        containerView.addSubview(stateLabel)
+        containerView.addSubview(imageCollectionView)
+        containerView.addSubview(characterImageView)
+        containerView.addSubview(contentLabel)
     }
     
     private func setupConstraints() {
-        self.contentView.snp.makeConstraints { make in
+        containerView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
             make.width.equalTo(UIView.screenWidth - 17 * 2)
         }
         
@@ -127,12 +138,7 @@ final class CounselingSessionCollectionViewCell: UICollectionViewCell {
         stateLabel.snp.makeConstraints { make in
             make.top.equalTo(titleLabel.snp.bottom).offset(Metric.stateLabelTopPadding)
             make.leading.equalToSuperview().offset(Metric.cellHorizontalPadding)
-        }
-        
-        imageCollectionView.snp.makeConstraints { make in
-            make.top.equalTo(stateLabel.snp.bottom).offset(Metric.collectionViewTopPadding)
-            make.horizontalEdges.equalToSuperview().inset(Metric.collectionViewHorizontalPadding)
-            make.height.equalTo(Metric.itemSize)
+            make.trailing.equalToSuperview().offset(-Metric.cellHorizontalPadding)
         }
         
         characterImageView.snp.makeConstraints { make in
@@ -140,40 +146,57 @@ final class CounselingSessionCollectionViewCell: UICollectionViewCell {
             make.top.equalToSuperview().offset(Metric.cellVerticalPadding)
             make.size.equalTo(37)
         }
-        
-        contentLabel.snp.makeConstraints { make in
-            make.top.equalTo(imageCollectionView.snp.bottom).offset(Metric.contentLabelTopPadding)
-            make.leading.equalToSuperview().offset(Metric.cellHorizontalPadding)
-            make.trailing.equalToSuperview().offset(-Metric.cellHorizontalPadding)
-            make.bottom.equalToSuperview().offset(-Metric.cellHorizontalPadding)
-        }
     }
 }
 
 extension CounselingSessionCollectionViewCell {
+    func saveIndex(_ index: Int) {
+        self.index = index
+    }
+    
+    func configureWithDummy(with session: CounselingSessionDTO) {
+        titleLabel.text = session.title
+        stateLabel.text = "날씨 \(session.weather.name), \(session.emoji.description)"
+        contentLabel.text = session.query
+        resetConstraints(withImages: !session.urls.isEmpty)
+    }
+    
     func configure(with session: CounselingSessionDTO) {
         titleLabel.text = session.title
         stateLabel.text = "날씨 \(session.weather.name), \(session.emoji.description)"
         characterImageView.image = UIImage(named: session.counselor.imageName)
         contentLabel.text = session.query
         
-        if session.urls.isEmpty {
-            contentLabel.snp.remakeConstraints { make in
-                make.top.equalTo(stateLabel.snp.bottom).offset(Metric.contentLabelTopPadding)
-                make.leading.equalToSuperview().offset(Metric.cellHorizontalPadding)
-                make.trailing.equalToSuperview().offset(-Metric.cellHorizontalPadding)
-                make.bottom.equalToSuperview().offset(-Metric.cellVerticalPadding)
+        resetConstraints(withImages: !session.urls.isEmpty)
+        self.urls = session.urls
+    }
+    
+    func resetConstraints(withImages: Bool) {
+        if withImages {
+            imageCollectionView.isHidden = false
+            
+            imageCollectionView.snp.remakeConstraints { make in
+                make.top.equalTo(stateLabel.snp.bottom).offset(Metric.collectionViewTopPadding)
+                make.horizontalEdges.equalToSuperview().inset(Metric.collectionViewHorizontalPadding)
+                make.height.equalTo(Metric.itemSize)
             }
-        } else {
+            
             contentLabel.snp.remakeConstraints { make in
                 make.top.equalTo(imageCollectionView.snp.bottom).offset(Metric.contentLabelTopPadding)
                 make.leading.equalToSuperview().offset(Metric.cellHorizontalPadding)
                 make.trailing.equalToSuperview().offset(-Metric.cellHorizontalPadding)
                 make.bottom.equalToSuperview().offset(-Metric.cellVerticalPadding)
             }
+        } else {
+            imageCollectionView.isHidden = true
+            
+            contentLabel.snp.remakeConstraints { make in
+                make.top.equalTo(stateLabel.snp.bottom).offset(Metric.contentLabelTopPadding)
+                make.leading.equalToSuperview().offset(Metric.cellHorizontalPadding)
+                make.trailing.equalToSuperview().offset(-Metric.cellHorizontalPadding)
+                make.bottom.equalToSuperview().offset(-Metric.cellVerticalPadding)
+            }
         }
-        
-        self.urls = session.urls
     }
 }
 
@@ -187,6 +210,16 @@ extension CounselingSessionCollectionViewCell: UICollectionViewDataSource {
         cell.configure(with: urls[indexPath.row])
         
         return cell
+    }
+}
+
+extension CounselingSessionCollectionViewCell: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        feedbackGenerator.prepare()
+        feedbackGenerator.impactOccurred()
+        
+        guard let index else { return }
+        indexTappedRelay.accept(index)
     }
 }
 
