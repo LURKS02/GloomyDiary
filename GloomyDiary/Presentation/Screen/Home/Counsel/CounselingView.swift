@@ -53,6 +53,14 @@ final class CounselingView: BaseView {
         $0.register(CounselingPhotoSelectionCollectionViewCell.self, forCellWithReuseIdentifier: CounselingPhotoSelectionCollectionViewCell.identifier)
     }
     
+    private let rightEdgeView = UIView().then {
+        $0.backgroundColor = .background(.mainPurple)
+    }
+    
+    private let leftEdgeView = UIView().then {
+        $0.backgroundColor = .background(.mainPurple)
+    }
+    
     let sendingLetterView: SendingLetterView = SendingLetterView()
     
     let letterSendingButton: HorizontalButton = HorizontalButton().then {
@@ -84,6 +92,8 @@ final class CounselingView: BaseView {
         containerView.addSubview(photoCollectionView)
         containerView.addSubview(sendingLetterView)
         containerView.addSubview(letterSendingButton)
+        containerView.addSubview(rightEdgeView)
+        containerView.addSubview(leftEdgeView)
     }
     
     override func setupConstraints() {
@@ -106,6 +116,20 @@ final class CounselingView: BaseView {
             make.top.equalTo(characterGreetingLabel.snp.bottom).offset(Metric.photoCollectionViewTopPadding)
             make.horizontalEdges.equalToSuperview().inset(Metric.photoCollectionViewHorizontalPadding)
             make.height.equalTo(Metric.photoCollectionViewHeight)
+        }
+        
+        rightEdgeView.snp.makeConstraints { make in
+            make.top.equalTo(photoCollectionView)
+            make.trailing.equalToSuperview()
+            make.height.equalTo(Metric.photoCollectionViewHeight)
+            make.width.equalTo(Metric.photoCollectionViewHorizontalPadding)
+        }
+        
+        leftEdgeView.snp.makeConstraints { make in
+            make.top.equalTo(photoCollectionView)
+            make.leading.equalToSuperview()
+            make.height.equalTo(Metric.photoCollectionViewHeight)
+            make.width.equalTo(Metric.photoCollectionViewHorizontalPadding)
         }
         
         sendingLetterView.snp.makeConstraints { make in
