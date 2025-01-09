@@ -11,7 +11,7 @@ import SwiftData
 typealias CounselingSession = SessionSchemaV2.CounselingSession
 
 enum SessionSchemaV1: VersionedSchema {
-    static var versionIdentifier = Schema.Version(1, 2, 0)
+    static var versionIdentifier = Schema.Version(1, 0, 0)
     
     static var models: [any PersistentModel.Type] {
         [CounselingSession.self]
@@ -42,7 +42,7 @@ enum SessionSchemaV1: VersionedSchema {
 }
  
 enum SessionSchemaV2: VersionedSchema {
-    static var versionIdentifier = Schema.Version(1, 3, 0)
+    static var versionIdentifier = Schema.Version(1, 1, 0)
     
     static var models: [any PersistentModel.Type] {
         [CounselingSession.self]
