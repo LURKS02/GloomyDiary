@@ -153,6 +153,14 @@ extension CounselingSessionCollectionViewCell {
     func saveIndex(_ index: Int) {
         self.index = index
     }
+    
+    func configureWithDummy(with session: CounselingSessionDTO) {
+        titleLabel.text = session.title
+        stateLabel.text = "날씨 \(session.weather.name), \(session.emoji.description)"
+        contentLabel.text = session.query
+        resetConstraints(withImages: !session.urls.isEmpty)
+    }
+    
     func configure(with session: CounselingSessionDTO) {
         titleLabel.text = session.title
         stateLabel.text = "날씨 \(session.weather.name), \(session.emoji.description)"

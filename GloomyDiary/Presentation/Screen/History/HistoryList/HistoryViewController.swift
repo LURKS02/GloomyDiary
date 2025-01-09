@@ -112,9 +112,20 @@ extension HistoryViewController: UICollectionViewDelegate {
         navigateToDetail(index: indexPath.row)
     }
 }
+
+extension HistoryViewController: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let cell = CounselingSessionCollectionViewCell(frame: .zero)
         let items = dataSource.snapshot().itemIdentifiers
         let item = items[indexPath.row]
         
+        cell.configureWithDummy(with: item.session)
+        
+        let targetSize = CGSize(width: UIView.screenWidth - 17*2, height: UIView.layoutFittingCompressedSize.height)
+        let size = cell.systemLayoutSizeFitting(targetSize, withHorizontalFittingPriority: .required, verticalFittingPriority: .fittingSizeLevel)
+        return size
+    }
+}
 
 extension HistoryViewController {
     private func navigateToDetail(index: Int) {
