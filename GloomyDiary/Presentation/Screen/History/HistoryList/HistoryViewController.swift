@@ -15,9 +15,18 @@ final class HistoryViewController: BaseViewController<HistoryView> {
     
     // MARK: - Properties
 
-    private lazy var dataSource = UICollectionViewDiffableDataSource<HistorySection, HistoryItem>(collectionView: contentView.listView.collectionView) { (collectionView, indexPath, item) -> UICollectionViewCell? in
+    private lazy var dataSource = UICollectionViewDiffableDataSource<HistorySection, HistoryItem>(collectionView: contentView.listView.collectionView) { [weak self] (collectionView, indexPath, item) -> UICollectionViewCell? in
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CounselingSessionCollectionViewCell.identifier, for: indexPath) as? CounselingSessionCollectionViewCell else { return nil }
+        cell.saveIndex(indexPath.row)
         cell.configure(with: item.session)
+        
+        guard let self else { return nil }
+        cell.indexTappedRelay
+            .subscribe(onNext: { [weak self] index in
+                self?.navigateToDetail(index: index)
+            })
+            .disposed(by: cell.disposeBag)
+        
         return cell
     }
     
@@ -100,8 +109,17 @@ extension HistoryViewController: UICollectionViewDelegate {
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        navigateToDetail(index: indexPath.row)
+    }
+}
         let items = dataSource.snapshot().itemIdentifiers
         let item = items[indexPath.row]
+        
+
+extension HistoryViewController {
+    private func navigateToDetail(index: Int) {
+        let items = dataSource.snapshot().itemIdentifiers
+        let item = items[index]
         
         self.navigationController?.delegate = self
         let store: StoreOf<HistoryDetail> = Store(initialState: .init(session: item.session),
@@ -111,7 +129,7 @@ extension HistoryViewController: UICollectionViewDelegate {
             guard let self else { return }
             var snapshot = dataSource.snapshot()
             let items = snapshot.itemIdentifiers
-            let deleteItem = items[indexPath.row]
+            let deleteItem = items[index]
             snapshot.deleteItems([deleteItem])
             
             dataSource.apply(snapshot, animatingDifferences: true)
@@ -120,8 +138,7 @@ extension HistoryViewController: UICollectionViewDelegate {
         .disposed(by: rx.disposeBag)
         
         self.navigationController?.pushViewController(historyDetailViewController, animated: true)
-        Logger.send(type: .tapped, "히스토리 선택", parameters: ["인덱스": indexPath.row])
-        
+        Logger.send(type: .tapped, "히스토리 선택", parameters: ["인덱스": index])
     }
 }
 
