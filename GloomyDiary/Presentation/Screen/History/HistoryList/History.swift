@@ -18,6 +18,7 @@ struct History {
         var page: Int = 0
         var counselingSessionDTOs: [CounselingSessionDTO] = []
         var isLoading: Bool = false
+        var isEndOfPage: Bool = false
     }
     
     enum Action {
@@ -25,6 +26,7 @@ struct History {
         case loadNextPage
         case counselingSessionDTOsResponse([CounselingSessionDTO])
         case unload
+        case stopFetchingPages
     }
     
     var body: some Reducer<State, Action> {
@@ -39,11 +41,14 @@ struct History {
                 }
                 
             case .loadNextPage:
-                if state.isLoading { return .none }
                 state.isLoading = true
                 state.page += 1
                 return .run { [state] send in
                     let sessions = try await counselingSessionRepository.fetch(pageNumber: state.page, pageSize: state.pageSize)
+                    guard sessions.count > 0 else {
+                        return await send(.stopFetchingPages)
+                    }
+                        
                     await send(.counselingSessionDTOsResponse(state.counselingSessionDTOs + sessions))
                 }
                 
@@ -56,6 +61,10 @@ struct History {
             case .unload:
                 state.page = 0
                 state.counselingSessionDTOs = []
+                return .none
+                
+            case .stopFetchingPages:
+                state.isEndOfPage = true
                 return .none
             }
         }

@@ -86,6 +86,8 @@ private extension HistoryViewController {
 
 extension HistoryViewController: UICollectionViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if store.isEndOfPage || store.isLoading { return }
+        
         let offsetY = scrollView.contentOffset.y
         let contentHeight = scrollView.contentSize.height
         let frameHeight = scrollView.frame.size.height
