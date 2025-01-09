@@ -15,6 +15,7 @@ final class HistoryListView: UIView {
         $0.scrollDirection = .vertical
         $0.minimumLineSpacing = 14
         $0.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
+        $0.sectionInset = .init(top: 0, left: 0, bottom: .verticalValue(70), right: 0)
     }
     
     lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout).then {
