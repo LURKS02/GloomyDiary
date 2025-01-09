@@ -239,6 +239,7 @@ extension CounselingViewController: UICollectionViewDelegate {
 
 extension CounselingViewController: PHPickerViewControllerDelegate {
     func openPicker() {
+        guard store.urls.count < 10 else { return }
         var pickerConfiguration = PHPickerConfiguration()
         let numberOfItems = dataSource.snapshot().numberOfItems
         pickerConfiguration.selectionLimit = 10 - numberOfItems + 1
