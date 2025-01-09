@@ -59,6 +59,7 @@ final class HistoryDetailViewController: BaseViewController<HistoryDetailView> {
         
         navigationController?.delegate = self
         self.weakNavigationController = navigationController
+        
         Task { @MainActor in
             guard let tabBarController = tabBarController as? CircularTabBarControllable else { return }
             await tabBarController.hideCircularTabBar(duration: 0.3)
@@ -83,25 +84,13 @@ final class HistoryDetailViewController: BaseViewController<HistoryDetailView> {
                 contentView.isAnimated = true
             }
         }
-        
-        guard let navigationController = self.navigationController else { return }
-        
-        navigationController.navigationBar.isHidden = false
-        UIView.animate(withDuration: 0.2) {
-            navigationController.navigationBar.alpha = 1.0
-        }
+        navigationController?.setNavigationBarHidden(false, animated: true)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-
-        guard let navigationController = self.navigationController else { return }
         
-        UIView.animate(withDuration: 0.2, animations: {
-            navigationController.navigationBar.alpha = 0.0
-        }) { _ in
-            navigationController.navigationBar.isHidden = true
-        }
+        navigationController?.setNavigationBarHidden(true, animated: true)
     }
 }
 
@@ -134,6 +123,7 @@ private extension HistoryDetailViewController {
         let size: CGFloat = 40
         let titleImage = image.resized(width: size, height: size)
         let imageView = UIImageView(image: titleImage)
+        imageView.contentMode = .center
         self.navigationItem.titleView = imageView
         
         let moreButton = UIBarButtonItem(image: UIImage(systemName: "ellipsis"),

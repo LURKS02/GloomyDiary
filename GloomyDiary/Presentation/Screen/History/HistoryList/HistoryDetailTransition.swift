@@ -11,7 +11,7 @@ final class HistoryDetailTransition: NSObject { }
 
 extension HistoryDetailTransition: UIViewControllerAnimatedTransitioning {
     func transitionDuration(using transitionContext: (any UIViewControllerContextTransitioning)?) -> TimeInterval {
-        1.0
+        0.4
     }
     
     func animateTransition(using transitionContext: any UIViewControllerContextTransitioning) {
