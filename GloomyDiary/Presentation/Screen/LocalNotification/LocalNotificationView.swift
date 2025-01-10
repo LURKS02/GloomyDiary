@@ -12,7 +12,7 @@ final class LocalNotificationView: BaseView {
     // MARK: - Metric
     
     private struct Metric {
-        static let sheetHeight: CGFloat = max(.verticalValue(380), 320)
+        static let sheetHeight: CGFloat = max(.verticalValue(370), 320)
         static let sheetWidth: CGFloat = .horizontalValue(350)
         static let cornerRadius: CGFloat = .verticalValue(30)
         static let ghostSize: CGFloat = .verticalValue(70)

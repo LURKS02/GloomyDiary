@@ -19,7 +19,7 @@ final class DeleteView: BaseView {
         static let labelTopPadding: CGFloat = .verticalValue(25)
         static let stackViewTopPadding: CGFloat = .verticalValue(25)
         static let stackViewHorizontalPadding: CGFloat = .horizontalValue(40)
-        static let stackViewBottomPadding: CGFloat = .verticalValue(30)
+        static let stackViewBottomPadding: CGFloat = .verticalValue(25)
     }
 
     
