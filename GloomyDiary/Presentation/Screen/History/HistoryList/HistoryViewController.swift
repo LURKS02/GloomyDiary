@@ -78,7 +78,7 @@ private extension HistoryViewController {
             guard let self else { return }
             
             redrawSnapshot(with: store.counselingSessionDTOs.map { HistoryItem(session: $0) }, animated: false)
-            contentView.showContent = dataSource.snapshot().itemIdentifiers.isEmpty ? false : true
+            updateContentView()
         }
     }
     
@@ -87,6 +87,10 @@ private extension HistoryViewController {
         snapshot.appendSections([.main])
         snapshot.appendItems(items)
         dataSource.apply(snapshot, animatingDifferences: animated)
+    }
+    
+    func updateContentView() {
+        contentView.showContent = dataSource.snapshot().itemIdentifiers.isEmpty ? false : true
     }
 }
 
@@ -143,7 +147,11 @@ extension HistoryViewController {
             let deleteItem = items[index]
             snapshot.deleteItems([deleteItem])
             
-            dataSource.apply(snapshot, animatingDifferences: true)
+            UIView.performWithoutAnimation {
+                self.dataSource.apply(snapshot, animatingDifferences: false)
+                self.updateContentView()
+                self.contentView.listView.collectionView.layoutIfNeeded()
+            }
             })
         
         .disposed(by: rx.disposeBag)
