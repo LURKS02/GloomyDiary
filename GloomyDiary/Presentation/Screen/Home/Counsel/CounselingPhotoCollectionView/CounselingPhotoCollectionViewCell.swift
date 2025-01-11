@@ -9,6 +9,11 @@ import UIKit
 import RxSwift
 import RxRelay
 
+protocol CounselingPhotoCellDelegate: AnyObject {
+    func openImageViewer(with: URL)
+    func removeImage(_ url: URL)
+}
+
 final class CounselingPhotoCollectionViewCell: UICollectionViewCell {
     static let identifier: String = "CounselingPhotoCell"
     
@@ -23,6 +28,8 @@ final class CounselingPhotoCollectionViewCell: UICollectionViewCell {
     private let removeButton = CancelButton(frame: .zero)
     
     private var workItem: DispatchWorkItem?
+    
+    weak var delegate: CounselingPhotoCellDelegate?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -39,6 +46,7 @@ final class CounselingPhotoCollectionViewCell: UICollectionViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         
+        delegate = nil
         workItem?.cancel()
         disposeBag = DisposeBag()
     }
@@ -83,7 +91,8 @@ final class CounselingPhotoCollectionViewCell: UICollectionViewCell {
 }
 
 extension CounselingPhotoCollectionViewCell { 
-    func configure(with url: URL, viewController: UIViewController) {
+    func configure(with url: URL, delegate: CounselingPhotoCellDelegate) {
+        self.delegate = delegate
         workItem?.cancel()
         
         let networkItem = DispatchWorkItem { [weak self] in
@@ -96,15 +105,13 @@ extension CounselingPhotoCollectionViewCell {
         self.workItem = networkItem
         DispatchQueue.global().async(execute: networkItem)
         
-        tapRelay.subscribe(onNext: { _ in
-            guard let viewController = viewController as? CounselingViewController else { return }
-            viewController.openImageViewer(with: url)
+        tapRelay.subscribe(onNext: { [weak delegate] in
+            delegate?.openImageViewer(with: url)
         })
         .disposed(by: disposeBag)
         
-        removeRelay.subscribe(onNext: { _ in
-            guard let viewController = viewController as? CounselingViewController else { return }
-            viewController.removeImage(url)
+        removeRelay.subscribe(onNext: { [weak delegate] in
+            delegate?.removeImage(url)
         })
         .disposed(by: disposeBag)
     }

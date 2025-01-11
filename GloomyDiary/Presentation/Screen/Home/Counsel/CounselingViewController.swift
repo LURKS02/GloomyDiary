@@ -26,34 +26,24 @@ final class CounselingViewController: BaseViewController<CounselingView> {
     
     // MARK: - Properties
     
-    private lazy var animationClosure: () async throws -> String = { [weak self] in
-        guard let self,
-              let weatherDTO = WeatherDTO(identifier: self.store.weatherIdentifier),
-              let emojiDTO = EmojiDTO(identifier: self.store.emojiIdentifier) else {
-            throw LocalError(message: "DTO Error")
-        }
-        
-        let result = try await self.counselRepository.counsel(to: self.store.character,
-                                                              title: self.store.title,
-                                                              userInput: self.contentView.sendingLetterView.letterTextView.text,
-                                                              weather: weatherDTO,
-                                                              emoji: emojiDTO,
-                                                              urls: self.store.urls)
-        userSettingRepository.update(keyPath: \.isFirstProcess, value: false)
-        return result
-    }
-    
-    private lazy var dataSource: UICollectionViewDiffableDataSource<CounselingViewSection, CounselingViewItem> = UICollectionViewDiffableDataSource<CounselingViewSection, CounselingViewItem>(collectionView: contentView.photoCollectionView) { (collectionView, indexPath, item) -> UICollectionViewCell? in
-        
+    private lazy var dataSource: UICollectionViewDiffableDataSource<CounselingViewSection, CounselingViewItem> = UICollectionViewDiffableDataSource<CounselingViewSection, CounselingViewItem>(collectionView: contentView.photoCollectionView) { collectionView, indexPath, item in
         switch item {
         case .selectItem(let count, let maxCount):
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CounselingPhotoSelectionCollectionViewCell.identifier, for: indexPath) as? CounselingPhotoSelectionCollectionViewCell else { return UICollectionViewCell() }
+            guard let cell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: CounselingPhotoSelectionCollectionViewCell.identifier,
+                for: indexPath
+            ) as? CounselingPhotoSelectionCollectionViewCell else { return UICollectionViewCell() }
+            
             cell.configure(count: count, maxCount: maxCount)
             return cell
             
         case .photoItem(_, let url):
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CounselingPhotoCollectionViewCell.identifier, for: indexPath) as? CounselingPhotoCollectionViewCell else { return UICollectionViewCell() }
-            cell.configure(with: url, viewController: self)
+            guard let cell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: CounselingPhotoCollectionViewCell.identifier,
+                for: indexPath
+            ) as? CounselingPhotoCollectionViewCell else { return UICollectionViewCell() }
+            
+            cell.configure(with: url, delegate: self)
             return cell
         }
     }
@@ -190,7 +180,9 @@ extension CounselingViewController {
         navigationController?.pushViewController(resultViewController,
                                                  animated: true)
     }
-    
+}
+
+extension CounselingViewController: CounselingPhotoCellDelegate {
     func removeImage(_ url: URL) {
         let items = dataSource.snapshot().itemIdentifiers
         let filteredItems = items.compactMap { item -> CounselingViewItem? in
@@ -221,21 +213,28 @@ extension CounselingViewController {
 
 extension CounselingViewController: UINavigationControllerDelegate {
     func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationController.Operation, from fromVC: UIViewController, to toVC: UIViewController) -> (any UIViewControllerAnimatedTransitioning)? {
-        CounselTransition(animationClosure: animationClosure)
+        CounselTransition(animationClosure: sendLetter)
+    }
+    
+    private func sendLetter() async throws -> String {
+        guard let weatherDTO = WeatherDTO(identifier: self.store.weatherIdentifier),
+              let emojiDTO = EmojiDTO(identifier: self.store.emojiIdentifier) else {
+            throw LocalError(message: "DTO Error")
+        }
+        
+        let result = try await self.counselRepository.counsel(to: self.store.character,
+                                                              title: self.store.title,
+                                                              userInput: self.contentView.sendingLetterView.letterTextView.text,
+                                                              weather: weatherDTO,
+                                                              emoji: emojiDTO,
+                                                              urls: self.store.urls)
+        userSettingRepository.update(keyPath: \.isFirstProcess, value: false)
+        return result
     }
 }
 
-extension CounselingViewController: UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let snapshot = dataSource.snapshot()
-        let items = snapshot.itemIdentifiers
-        let selectedItem = items[indexPath.row]
-        
-        if case .selectItem = selectedItem {
-            openPicker()
-        }
-    }
-}
+
+// MARK: - Image picker
 
 extension CounselingViewController: PHPickerViewControllerDelegate {
     func openPicker() {
@@ -292,6 +291,21 @@ extension CounselingViewController: PHPickerViewControllerDelegate {
                     continuation.resume(throwing: LocalError(message: "Data load error"))
                 }
             }
+        }
+    }
+}
+
+
+// MARK: - CollectionView
+
+extension CounselingViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let snapshot = dataSource.snapshot()
+        let items = snapshot.itemIdentifiers
+        let selectedItem = items[indexPath.row]
+        
+        if case .selectItem = selectedItem {
+            openPicker()
         }
     }
 }
