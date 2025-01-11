@@ -26,22 +26,6 @@ final class CounselingViewController: BaseViewController<CounselingView> {
     
     // MARK: - Properties
     
-    private lazy var animationClosure: () async throws -> String = { [weak self] in
-        guard let self,
-              let weatherDTO = WeatherDTO(identifier: self.store.weatherIdentifier),
-              let emojiDTO = EmojiDTO(identifier: self.store.emojiIdentifier) else {
-            throw LocalError(message: "DTO Error")
-        }
-        
-        let result = try await self.counselRepository.counsel(to: self.store.character,
-                                                              title: self.store.title,
-                                                              userInput: self.contentView.sendingLetterView.letterTextView.text,
-                                                              weather: weatherDTO,
-                                                              emoji: emojiDTO,
-                                                              urls: self.store.urls)
-        userSettingRepository.update(keyPath: \.isFirstProcess, value: false)
-        return result
-    }
     
     private lazy var dataSource: UICollectionViewDiffableDataSource<CounselingViewSection, CounselingViewItem> = UICollectionViewDiffableDataSource<CounselingViewSection, CounselingViewItem>(collectionView: contentView.photoCollectionView) { (collectionView, indexPath, item) -> UICollectionViewCell? in
         
@@ -227,7 +211,7 @@ extension CounselingViewController: CounselingPhotoCellDelegate {
 
 extension CounselingViewController: UINavigationControllerDelegate {
     func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationController.Operation, from fromVC: UIViewController, to toVC: UIViewController) -> (any UIViewControllerAnimatedTransitioning)? {
-        CounselTransition(animationClosure: animationClosure)
+        CounselTransition(animationClosure: sendLetter)
     }
 }
 
@@ -239,7 +223,21 @@ extension CounselingViewController: UICollectionViewDelegate {
         
         if case .selectItem = selectedItem {
             openPicker()
+    
+    private func sendLetter() async throws -> String {
+        guard let weatherDTO = WeatherDTO(identifier: self.store.weatherIdentifier),
+              let emojiDTO = EmojiDTO(identifier: self.store.emojiIdentifier) else {
+            throw LocalError(message: "DTO Error")
         }
+        
+        let result = try await self.counselRepository.counsel(to: self.store.character,
+                                                              title: self.store.title,
+                                                              userInput: self.contentView.sendingLetterView.letterTextView.text,
+                                                              weather: weatherDTO,
+                                                              emoji: emojiDTO,
+                                                              urls: self.store.urls)
+        userSettingRepository.update(keyPath: \.isFirstProcess, value: false)
+        return result
     }
 }
 
