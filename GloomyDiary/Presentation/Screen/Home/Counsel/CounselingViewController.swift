@@ -26,12 +26,14 @@ final class CounselingViewController: BaseViewController<CounselingView> {
     
     // MARK: - Properties
     
-    
-    private lazy var dataSource: UICollectionViewDiffableDataSource<CounselingViewSection, CounselingViewItem> = UICollectionViewDiffableDataSource<CounselingViewSection, CounselingViewItem>(collectionView: contentView.photoCollectionView) { (collectionView, indexPath, item) -> UICollectionViewCell? in
-        
+    private lazy var dataSource: UICollectionViewDiffableDataSource<CounselingViewSection, CounselingViewItem> = UICollectionViewDiffableDataSource<CounselingViewSection, CounselingViewItem>(collectionView: contentView.photoCollectionView) { collectionView, indexPath, item in
         switch item {
         case .selectItem(let count, let maxCount):
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CounselingPhotoSelectionCollectionViewCell.identifier, for: indexPath) as? CounselingPhotoSelectionCollectionViewCell else { return UICollectionViewCell() }
+            guard let cell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: CounselingPhotoSelectionCollectionViewCell.identifier,
+                for: indexPath
+            ) as? CounselingPhotoSelectionCollectionViewCell else { return UICollectionViewCell() }
+            
             cell.configure(count: count, maxCount: maxCount)
             return cell
             
