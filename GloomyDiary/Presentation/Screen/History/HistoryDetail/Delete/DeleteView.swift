@@ -37,9 +37,12 @@ final class DeleteView: BaseView {
     private let characterImageView = UIImageView()
     
     private let notificationLabel = IntroduceLabel().then {
-        $0.text = "정말 기록을 삭제할까요?\n\n" +
-                  "삭제한 기록은\n" +
-                  "복구할 수 없어요."
+        $0.text = """
+            정말 기록을 삭제할까요?
+
+            삭제한 기록은
+            복구할 수 없어요.
+        """
     }
     
     private let buttonStackView = UIStackView().then {
