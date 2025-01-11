@@ -10,7 +10,7 @@ import Lottie
 
 final class CounselTransition: NSObject {
     
-    enum Metric {
+    private enum Metric {
         static let dummyViewMiddleY: CGFloat = .verticalValue(250)
         static let readyLabelCenterY: CGFloat = .verticalValue(450)
     }

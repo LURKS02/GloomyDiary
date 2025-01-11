@@ -11,7 +11,7 @@ final class HistoryDetailView: BaseView {
     
     // MARK: - Metric
 
-    private struct Metric {
+    private enum Metric {
         static let textPadding: CGFloat = 25
         static let viewPadding: CGFloat = 17
     }

@@ -11,7 +11,7 @@ final class ResultLetterView: LetterView {
     
     // MARK: - Metric
     
-    private struct Metric {
+    private enum Metric {
         static let copyButtonPadding: CGFloat = 20
     }
     

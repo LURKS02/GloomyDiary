@@ -11,7 +11,7 @@ final class ChoosingWeatherView: BaseView {
     
     // MARK: - Metric
     
-    private struct Metric {
+    private enum Metric {
         static let introduceLabelTopPadding: CGFloat = .verticalValue(153)
         static let nextButtonTopPadding: CGFloat = .verticalValue(50)
         static let stackViewTopPadding: CGFloat = .verticalValue(50)

@@ -11,7 +11,7 @@ final class ReviewView: BaseView {
     
     // MARK: - Metric
     
-    private struct Metric {
+    private enum Metric {
         static let sheetHeight: CGFloat = .verticalValue(450)
         static let cornerRadius: CGFloat = .verticalValue(30)
         static let characterSize: CGFloat = .verticalValue(80)

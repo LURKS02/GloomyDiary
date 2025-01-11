@@ -11,7 +11,7 @@ final class CounselingView: BaseView {
     
     // MARK: - Metric
     
-    enum Metric {
+    private enum Metric {
         static let characterSize: CGFloat = .verticalValue(61)
         static let characterImageTopPadding: CGFloat = .verticalValue(90)
         static let characterImageLeadingPadding: CGFloat = .horizontalValue(25)

@@ -13,7 +13,7 @@ final class SendingLetterView: LetterView {
     
     // MARK: - Metric
     
-    private struct Metric {
+    private enum Metric {
         static let letterImageViewTopPadding: CGFloat = .verticalValue(55)
         static let letterImageSize: CGFloat = .verticalValue(56)
         static let letterWritingGuideLabelTopPadding: CGFloat = 14

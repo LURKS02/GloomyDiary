@@ -14,7 +14,7 @@ final class ChoosingCharacterView: BaseView {
     
     // MARK: - Metric
     
-    private struct Metric {
+    private enum Metric {
         static let introduceLabelTopPadding: CGFloat = .verticalValue(100)
         static let scrollViewTopPadding: CGFloat = .verticalValue(53)
         static let nextButtonTopPadding: CGFloat = .verticalValue(40)

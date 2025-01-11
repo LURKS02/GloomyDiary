@@ -11,7 +11,7 @@ class LetterView: BaseView {
     
     // MARK: - Metric
     
-    private struct Metric {
+    private enum Metric {
         static let letterTextViewPadding: CGFloat = 30
     }
     
