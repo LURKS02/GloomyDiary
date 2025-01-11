@@ -11,7 +11,7 @@ final class ResponseHistoryLetterView: LetterView {
     
     // MARK: - Metric
     
-    private struct Metric {
+    private enum Metric {
         static let letterTextViewPadding: CGFloat = 30
     }
 

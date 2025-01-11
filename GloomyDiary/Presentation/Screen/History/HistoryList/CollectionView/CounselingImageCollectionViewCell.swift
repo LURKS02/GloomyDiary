@@ -14,7 +14,7 @@ final class CounselingImageCollectionViewCell: UICollectionViewCell {
     
     // MARK: - Metric
     
-    private struct Metric {
+    private enum Metric {
         static let itemSize: CGFloat = .verticalValue(95)
     }
     

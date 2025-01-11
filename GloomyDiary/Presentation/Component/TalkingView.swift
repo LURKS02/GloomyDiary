@@ -8,7 +8,7 @@
 import UIKit
 
 final class TalkingView: BaseView {
-    private struct Metric {
+    private enum Metric {
         static let verticalPadding: CGFloat = 18
         static let horizontalPadding: CGFloat = 23
         static let cornerRadius: CGFloat = 20

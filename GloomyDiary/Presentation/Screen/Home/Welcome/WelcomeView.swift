@@ -12,7 +12,7 @@ final class WelcomeView: BaseView {
     
     // MARK: - Metric
     
-    private struct Metric {
+    private enum Metric {
         static let moonTopPadding: CGFloat = .verticalValue(132)
         static let moonImageSize: CGFloat = .horizontalValue(43)
         static let ghostImageSize: CGFloat = .horizontalValue(78)

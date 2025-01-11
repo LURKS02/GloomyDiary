@@ -11,7 +11,7 @@ final class ValidResultView: BaseView {
     
     // MARK: - Metric
     
-    enum Metric {
+    private enum Metric {
         static let characterImageSize: CGFloat = .verticalValue(87)
         static let characterImageTopPadding: CGFloat = .verticalValue(71)
         static let letterTopPadding: CGFloat = .verticalValue(14)

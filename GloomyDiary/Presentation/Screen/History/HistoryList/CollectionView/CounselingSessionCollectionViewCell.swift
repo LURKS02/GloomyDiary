@@ -15,7 +15,7 @@ final class CounselingSessionCollectionViewCell: UICollectionViewCell {
     
     // MARK: - Metric
     
-    private struct Metric {
+    private enum Metric {
         static let cellVerticalPadding: CGFloat = .verticalValue(25)
         static let cellHorizontalPadding: CGFloat = .verticalValue(30)
         static let characterHorizontalPadding: CGFloat = .verticalValue(25)

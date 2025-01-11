@@ -9,7 +9,7 @@ import UIKit
 
 final class EmojiButton: UIButton {
     
-    private struct Metric {
+    private enum Metric {
         static let imagePadding: CGFloat = 5
         static let imageSize: CGFloat = .verticalValue(40)
         static let cornerRadius: CGFloat = .verticalValue(20)

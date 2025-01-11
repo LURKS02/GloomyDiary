@@ -11,7 +11,7 @@ final class EmptyListView: UIView {
     
     // MARK: - Metric
     
-    private struct Metric {
+    private enum Metric {
         static let ghostImageSize: CGFloat = 60
     }
 

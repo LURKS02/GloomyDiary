@@ -11,7 +11,7 @@ final class GuideView: BaseView {
     
     // MARK: - Metric
     
-    private struct Metric {
+    private enum Metric {
         static let ghostImageSize: CGFloat = .horizontalValue(50)
         static let ghostImageTopPadding: CGFloat = .verticalValue(40)
         static let firstLabelTopPadding: CGFloat = .verticalValue(40)

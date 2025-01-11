@@ -12,7 +12,7 @@ final class ChoosingTransition: NSObject {
     
     // MARK: - Metric
     
-    enum Metric {
+    private enum Metric {
         static let starWidth: CGFloat = .verticalValue(300)
         static let starHeight: CGFloat = .verticalValue(135)
         static let readyLabelPadding: CGFloat = .verticalValue(50)
