@@ -213,16 +213,6 @@ extension CounselingViewController: UINavigationControllerDelegate {
     func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationController.Operation, from fromVC: UIViewController, to toVC: UIViewController) -> (any UIViewControllerAnimatedTransitioning)? {
         CounselTransition(animationClosure: sendLetter)
     }
-}
-
-extension CounselingViewController: UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let snapshot = dataSource.snapshot()
-        let items = snapshot.itemIdentifiers
-        let selectedItem = items[indexPath.row]
-        
-        if case .selectItem = selectedItem {
-            openPicker()
     
     private func sendLetter() async throws -> String {
         guard let weatherDTO = WeatherDTO(identifier: self.store.weatherIdentifier),
@@ -240,6 +230,9 @@ extension CounselingViewController: UICollectionViewDelegate {
         return result
     }
 }
+
+
+// MARK: - Image picker
 
 extension CounselingViewController: PHPickerViewControllerDelegate {
     func openPicker() {
@@ -296,6 +289,21 @@ extension CounselingViewController: PHPickerViewControllerDelegate {
                     continuation.resume(throwing: LocalError(message: "Data load error"))
                 }
             }
+        }
+    }
+}
+
+
+// MARK: - CollectionView
+
+extension CounselingViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let snapshot = dataSource.snapshot()
+        let items = snapshot.itemIdentifiers
+        let selectedItem = items[indexPath.row]
+        
+        if case .selectItem = selectedItem {
+            openPicker()
         }
     }
 }
