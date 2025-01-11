@@ -52,8 +52,12 @@ final class CounselingViewController: BaseViewController<CounselingView> {
             return cell
             
         case .photoItem(_, let url):
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CounselingPhotoCollectionViewCell.identifier, for: indexPath) as? CounselingPhotoCollectionViewCell else { return UICollectionViewCell() }
-            cell.configure(with: url, viewController: self)
+            guard let cell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: CounselingPhotoCollectionViewCell.identifier,
+                for: indexPath
+            ) as? CounselingPhotoCollectionViewCell else { return UICollectionViewCell() }
+            
+            cell.configure(with: url, delegate: self)
             return cell
         }
     }
@@ -190,7 +194,9 @@ extension CounselingViewController {
         navigationController?.pushViewController(resultViewController,
                                                  animated: true)
     }
-    
+}
+
+extension CounselingViewController: CounselingPhotoCellDelegate {
     func removeImage(_ url: URL) {
         let items = dataSource.snapshot().itemIdentifiers
         let filteredItems = items.compactMap { item -> CounselingViewItem? in
