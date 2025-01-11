@@ -32,8 +32,10 @@ final class ErrorResultView: BaseView {
     }
     
     let subIntroduceLabel = IntroduceLabel().then {
-        $0.text = "네트워크가 잘 연결되어 있는지 확인해보세요.\n" +
-                  "잠시 기다렸다가 다시 시도해보세요.\n"
+        $0.text = """
+            네트워크가 잘 연결되어 있는지 확인해보세요.
+            잠시 기다렸다가 다시 시도해보세요.
+        """
         $0.textColor = .text(.subHighlight)
     }
     
