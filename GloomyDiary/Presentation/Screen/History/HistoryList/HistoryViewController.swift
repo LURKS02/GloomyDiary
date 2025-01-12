@@ -10,13 +10,22 @@ import ComposableArchitecture
 
 final class HistoryViewController: BaseViewController<HistoryView> {
     
+    typealias Section = HistorySection
+    typealias Item = HistoryItem
+    
     let store: StoreOf<History>
     
     
     // MARK: - Properties
 
-    private lazy var dataSource = UICollectionViewDiffableDataSource<HistorySection, HistoryItem>(collectionView: contentView.listView.collectionView) { [weak self] (collectionView, indexPath, item) -> UICollectionViewCell? in
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CounselingSessionCollectionViewCell.identifier, for: indexPath) as? CounselingSessionCollectionViewCell else { return nil }
+    private lazy var dataSource = UICollectionViewDiffableDataSource<Section, Item>(
+        collectionView: contentView.listView.collectionView
+    ) { [weak self] (collectionView, indexPath, item) -> UICollectionViewCell? in
+        guard let cell = collectionView.dequeueReusableCell(
+            withReuseIdentifier: CounselingSessionCollectionViewCell.identifier,
+            for: indexPath
+        ) as? CounselingSessionCollectionViewCell else { return nil }
+        
         cell.saveIndex(indexPath.row)
         cell.configure(with: item.session)
         
@@ -77,13 +86,13 @@ private extension HistoryViewController {
         observe { [weak self] in
             guard let self else { return }
             
-            redrawSnapshot(with: store.counselingSessionDTOs.map { HistoryItem(session: $0) }, animated: false)
+            redrawSnapshot(with: store.counselingSessionDTOs.map { Item(session: $0) }, animated: false)
             updateContentView()
         }
     }
     
-    func redrawSnapshot(with items: [HistoryItem], animated: Bool) {
-        var snapshot = NSDiffableDataSourceSnapshot<HistorySection, HistoryItem>()
+    func redrawSnapshot(with items: [Item], animated: Bool) {
+        var snapshot = NSDiffableDataSourceSnapshot<Section, Item>()
         snapshot.appendSections([.main])
         snapshot.appendItems(items)
         dataSource.apply(snapshot, animatingDifferences: animated)
