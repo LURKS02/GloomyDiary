@@ -15,7 +15,7 @@ struct ChoosingCharacter {
         let title: String
         let weatherIdentifier: String
         let emojiIdentifier: String
-        var character: CharacterDTO = .chan
+        var character: CounselingCharacter = .chan
     }
     
     enum Action {
@@ -26,7 +26,7 @@ struct ChoosingCharacter {
         Reduce { state, action in
             switch action {
             case .characterSelected(let identifier):
-                guard let character = CharacterDTO(identifier: identifier) else { return .none }
+                guard let character = CounselingCharacter(identifier: identifier) else { return .none }
                 state.character = character
                 return .none
             }

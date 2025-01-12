@@ -70,7 +70,7 @@ final class ChoosingCharacterView: BaseView {
     }
     
     private func setupScrollView() {
-        CharacterDTO.allCases.enumerated().forEach { index, character in
+        CounselingCharacter.allCases.enumerated().forEach { index, character in
             let button = CharacterButton(character: character)
             allCharacterButtons.append(button)
             

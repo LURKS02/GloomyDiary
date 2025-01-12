@@ -16,7 +16,7 @@ struct History {
     struct State: Equatable {
         let pageSize: Int = 10
         var page: Int = 0
-        var counselingSessionDTOs: [CounselingSessionDTO] = []
+        var Sessions: [Session] = []
         var isLoading: Bool = false
         var isEndOfPage: Bool = false
     }
@@ -24,7 +24,7 @@ struct History {
     enum Action {
         case refresh
         case loadNextPage
-        case counselingSessionDTOsResponse([CounselingSessionDTO])
+        case SessionsResponse([Session])
         case unload
         case stopFetchingPages
     }
@@ -37,7 +37,7 @@ struct History {
                 state.page = 0
                 return .run { [state] send in
                     let sessions = try await counselingSessionRepository.fetch(pageNumber: 0, pageSize: state.pageSize)
-                    await send(.counselingSessionDTOsResponse(sessions))
+                    await send(.SessionsResponse(sessions))
                 }
                 
             case .loadNextPage:
@@ -49,18 +49,18 @@ struct History {
                         return await send(.stopFetchingPages)
                     }
                         
-                    await send(.counselingSessionDTOsResponse(state.counselingSessionDTOs + sessions))
+                    await send(.SessionsResponse(state.Sessions + sessions))
                 }
                 
-            case let .counselingSessionDTOsResponse(sessions):
+            case let .SessionsResponse(sessions):
                 state.isLoading = false
                 
-                state.counselingSessionDTOs = sessions
+                state.Sessions = sessions
                 return .none
                 
             case .unload:
                 state.page = 0
-                state.counselingSessionDTOs = []
+                state.Sessions = []
                 return .none
                 
             case .stopFetchingPages:

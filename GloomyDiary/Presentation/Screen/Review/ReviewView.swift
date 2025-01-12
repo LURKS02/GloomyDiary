@@ -54,7 +54,7 @@ final class ReviewView: BaseView {
     
     // MARK: - Initialize
     
-    init(character: CharacterDTO) {
+    init(character: CounselingCharacter) {
         super.init(frame: .zero)
         
         configure(with: character)
@@ -64,7 +64,7 @@ final class ReviewView: BaseView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func configure(with character: CharacterDTO) {
+    private func configure(with character: CounselingCharacter) {
         characterImageView.image = UIImage(named: character.imageName)
         reviewLabel.text = character.reviewRequiringMessage
     }

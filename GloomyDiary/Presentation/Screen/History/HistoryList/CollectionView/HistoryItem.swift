@@ -8,5 +8,5 @@
 import Foundation
 
 struct HistoryItem: Hashable {
-    let session: CounselingSessionDTO
+    let session: Session
 }

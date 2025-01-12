@@ -170,7 +170,7 @@ private extension CounselingViewController {
 // MARK: - Naivation
 
 extension CounselingViewController {
-    func navigateToResult(with character: CharacterDTO) {
+    func navigateToResult(with character: CounselingCharacter) {
         let store: StoreOf<CounselResult> = Store(initialState: .init(
             character: character,
             request: self.contentView.sendingLetterView.letterTextView.text
@@ -217,16 +217,16 @@ extension CounselingViewController: UINavigationControllerDelegate {
     }
     
     private func sendLetter() async throws -> String {
-        guard let weatherDTO = WeatherDTO(identifier: self.store.weatherIdentifier),
-              let emojiDTO = EmojiDTO(identifier: self.store.emojiIdentifier) else {
-            throw LocalError(message: "DTO Error")
+        guard let Weather = Weather(identifier: self.store.weatherIdentifier),
+              let Emoji = Emoji(identifier: self.store.emojiIdentifier) else {
+            throw LocalError(message: "Session Error")
         }
         
         let result = try await self.counselRepository.counsel(to: self.store.character,
                                                               title: self.store.title,
                                                               userInput: self.contentView.sendingLetterView.letterTextView.text,
-                                                              weather: weatherDTO,
-                                                              emoji: emojiDTO,
+                                                              weather: Weather,
+                                                              emoji: Emoji,
                                                               urls: self.store.urls)
         userSettingRepository.update(keyPath: \.isFirstProcess, value: false)
         return result

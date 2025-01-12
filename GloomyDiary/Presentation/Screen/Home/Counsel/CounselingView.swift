@@ -147,7 +147,7 @@ final class CounselingView: BaseView {
 }
 
 extension CounselingView {
-    func configure(with character: CharacterDTO) {
+    func configure(with character: CounselingCharacter) {
         characterImageView.setImage(character.imageName)
         characterGreetingLabel.text = character.greetingMessage
     }

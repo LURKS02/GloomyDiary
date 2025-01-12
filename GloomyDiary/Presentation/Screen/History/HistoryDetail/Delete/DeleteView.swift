@@ -61,7 +61,7 @@ final class DeleteView: BaseView {
         $0.backgroundColor = .component(.buttonDisabledPurple)
     }
     
-    init(character: CharacterDTO) {
+    init(character: CounselingCharacter) {
         super.init(frame: .zero)
         self.characterImageView.image = UIImage(named: character.cryingImageName)
     }

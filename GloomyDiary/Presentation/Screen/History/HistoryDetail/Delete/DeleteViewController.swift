@@ -17,7 +17,7 @@ final class DeleteViewController: BaseViewController<DeleteView> {
     
     private let sessionID: UUID
     
-    init(session: CounselingSessionDTO) {
+    init(session: Session) {
         self.sessionID = session.id
         let contentView = DeleteView(character: session.counselor)
         super.init(contentView, logID: "Delete")

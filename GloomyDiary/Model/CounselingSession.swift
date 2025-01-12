@@ -109,31 +109,31 @@ enum SessionMigrationPlan: SchemaMigrationPlan {
 }
 
 extension CounselingSession {
-    convenience init(dto: CounselingSessionDTO) {
-        self.init(id: dto.id,
-                  counselorIdentifier: dto.counselor.identifier,
-                  title: dto.title,
-                  query: dto.query,
-                  response: dto.response,
-                  createdAt: dto.createdAt,
-                  weatherIdentifier: dto.weather.identifier,
-                  emojiIdentifier: dto.emoji.identifier,
-                  images: dto.urls.map { $0.lastPathComponent })
+    convenience init(session: Session) {
+        self.init(id: session.id,
+                  counselorIdentifier: session.counselor.identifier,
+                  title: session.title,
+                  query: session.query,
+                  response: session.response,
+                  createdAt: session.createdAt,
+                  weatherIdentifier: session.weather.identifier,
+                  emojiIdentifier: session.emoji.identifier,
+                  images: session.urls.map { $0.lastPathComponent })
     }
     
-    func toDTO() -> CounselingSessionDTO? {
-        guard let counselor = CharacterDTO(identifier: self.counselorIdentifier),
-              let weather = WeatherDTO(identifier: self.weatherIdentifier),
-              let emoji = EmojiDTO(identifier: self.emojiIdentifier) else { return nil }
+    func toDomain() -> Session? {
+        guard let counselor = CounselingCharacter(identifier: self.counselorIdentifier),
+              let weather = Weather(identifier: self.weatherIdentifier),
+              let emoji = Emoji(identifier: self.emojiIdentifier) else { return nil }
         
-        return CounselingSessionDTO(id: self.id,
-                                    counselor: counselor,
-                                    title: self.title,
-                                    query: self.query,
-                                    response: self.response,
-                                    createdAt: self.createdAt,
-                                    weather: weather,
-                                    emoji: emoji,
-                                    urls: images.map { ImageFileManager.shared.getImageURL(fileName: $0) })
+        return Session(id: self.id,
+                       counselor: counselor,
+                       title: self.title,
+                       query: self.query,
+                       response: self.response,
+                       createdAt: self.createdAt,
+                       weather: weather,
+                       emoji: emoji,
+                       urls: images.map { ImageFileManager.shared.getImageURL(fileName: $0) })
     }
 }

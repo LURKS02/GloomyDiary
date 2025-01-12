@@ -57,7 +57,7 @@ final class ResponseHistoryLetterView: LetterView {
 }
 
 extension ResponseHistoryLetterView {
-    func configure(with character: CharacterDTO, response: String) {
+    func configure(with character: CounselingCharacter, response: String) {
         characterImageView.setImage(character.imageName)
         letterTextView.text = response
     }

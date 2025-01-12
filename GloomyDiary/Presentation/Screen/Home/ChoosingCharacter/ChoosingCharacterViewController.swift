@@ -89,7 +89,7 @@ extension ChoosingCharacterViewController {
 // MARK: - Navigation
 
 extension ChoosingCharacterViewController {
-    func navigateToLetter(with character: CharacterDTO) {
+    func navigateToLetter(with character: CounselingCharacter) {
         let store: StoreOf<Counseling> = Store(initialState: .init(title: store.title, weatherIdentifier: store.weatherIdentifier, emojiIdentifier: store.emojiIdentifier, character: store.character), reducer: { Counseling() })
         let counselingViewController = CounselingViewController(store: store)
         navigationController?.delegate = self

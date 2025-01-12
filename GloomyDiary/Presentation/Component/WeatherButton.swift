@@ -18,7 +18,7 @@ final class WeatherButton: UIButton {
     
     private let feedbackGenerator = UIImpactFeedbackGenerator(style: .soft)
     
-    init(weather: WeatherDTO) {
+    init(weather: Weather) {
         self.identifier = weather.identifier
         super.init(frame: .zero)
         
@@ -34,7 +34,7 @@ final class WeatherButton: UIButton {
         self.applyCircularShape()
     }
     
-    private func setupConfiguration(with weather: WeatherDTO) {
+    private func setupConfiguration(with weather: Weather) {
         self.setImage(UIImage(named: weather.imageName)?.resized(width: Metric.imageSize, height: Metric.imageSize), for: .normal)
         
         var configuration = UIButton.Configuration.plain()
