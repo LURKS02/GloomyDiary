@@ -15,7 +15,7 @@ struct Counseling {
         let title: String
         let weatherIdentifier: String
         let emojiIdentifier: String
-        let character: CharacterDTO
+        let character: CounselingCharacter
         var urls: [URL] = []
     }
     

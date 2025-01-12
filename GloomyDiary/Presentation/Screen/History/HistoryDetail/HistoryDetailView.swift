@@ -133,7 +133,7 @@ final class HistoryDetailView: BaseView {
 }
 
 extension HistoryDetailView {
-    func configure(with session: CounselingSessionDTO) {
+    func configure(with session: Session) {
         titleLabel.text = session.title
         dateLabel.text = session.createdAt.normalDescription
         stateLabel.text = "날씨 \(session.weather.name), \(session.emoji.description)"

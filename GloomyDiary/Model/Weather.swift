@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum WeatherDTO: String, CaseIterable {
+enum Weather: String, CaseIterable {
     case sunny
     case cloudy
     case thunder
@@ -42,8 +42,8 @@ enum WeatherDTO: String, CaseIterable {
     }
 }
 
-extension WeatherDTO {
-    static func getRandomElement() -> WeatherDTO {
-        WeatherDTO.allCases.randomElement()!
+extension Weather {
+    static func getRandomElement() -> Weather {
+        Weather.allCases.randomElement()!
     }
 }

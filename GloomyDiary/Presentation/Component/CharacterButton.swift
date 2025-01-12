@@ -19,7 +19,7 @@ final class CharacterButton: UIButton {
     
     let identifier: String
     
-    init(character: CharacterDTO) {
+    init(character: CounselingCharacter) {
         self.identifier = character.identifier
         super.init(frame: .zero)
         
@@ -35,7 +35,7 @@ final class CharacterButton: UIButton {
         self.applyCornerRadius(20)
     }
     
-    private func setupConfiguration(with character: CharacterDTO) {
+    private func setupConfiguration(with character: CounselingCharacter) {
         self.setImage(UIImage(named: character.imageName)?.resized(width: Metric.imageSize, height: Metric.imageSize), for: .normal)
         
         var configuration = UIButton.Configuration.plain()

@@ -161,14 +161,14 @@ extension CounselingSessionCollectionViewCell {
         self.index = index
     }
     
-    func configureWithDummy(with session: CounselingSessionDTO) {
+    func configureWithDummy(with session: Session) {
         titleLabel.text = session.title
         stateLabel.text = "날씨 \(session.weather.name), \(session.emoji.description)"
         contentLabel.text = session.query
         resetConstraints(withImages: !session.urls.isEmpty)
     }
     
-    func configure(with session: CounselingSessionDTO) {
+    func configure(with session: Session) {
         titleLabel.text = session.title
         stateLabel.text = "날씨 \(session.weather.name), \(session.emoji.description)"
         characterImageView.image = UIImage(named: session.counselor.imageName)

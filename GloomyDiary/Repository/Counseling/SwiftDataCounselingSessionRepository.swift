@@ -11,17 +11,17 @@ import SwiftData
 final class SwiftDataCounselingSessionRepository: CounselingSessionRepository {
     private let swiftDataService = SwiftDataService<CounselingSession>(modelContainer: AppEnvironment.shared.modelContainer)
     
-    func fetch() async throws -> [CounselingSessionDTO] {
+    func fetch() async throws -> [Session] {
         let descriptor = FetchDescriptor<CounselingSession>(predicate: nil,
                                                             sortBy: [SortDescriptor(\.createdAt, order: .reverse)])
-        let sessions: [CounselingSession] = try await swiftDataService.fetch(descriptor: descriptor)
-        let sessionDTOs: [CounselingSessionDTO] = sessions.compactMap { $0.toDTO() }
+        let datas: [CounselingSession] = try await swiftDataService.fetch(descriptor: descriptor)
+        let sessions: [Session] = datas.compactMap { $0.toDomain() }
         
         Logger.send(type: .data, "상담 내역 불러오기")
-        return sessionDTOs
+        return sessions
     }
     
-    func fetch(pageNumber: Int, pageSize: Int) async throws -> [CounselingSessionDTO] {
+    func fetch(pageNumber: Int, pageSize: Int) async throws -> [Session] {
         var descriptor = FetchDescriptor<CounselingSession>(predicate: nil,
                                                             sortBy: [
                                                                 SortDescriptor(\CounselingSession.createdAt, order: .reverse)])
@@ -29,16 +29,16 @@ final class SwiftDataCounselingSessionRepository: CounselingSessionRepository {
         descriptor.fetchLimit = pageSize
         descriptor.includePendingChanges = false
         
-        let sessions: [CounselingSession] = try await swiftDataService.fetch(descriptor: descriptor)
-        let sessionDTOs: [CounselingSessionDTO] = sessions.compactMap { $0.toDTO() }
+        let datas: [CounselingSession] = try await swiftDataService.fetch(descriptor: descriptor)
+        let sessions: [Session] = datas.compactMap { $0.toDomain() }
         
         Logger.send(type: .data, "상담 내역 불러오기, 페이지: \(pageNumber)")
-        return sessionDTOs
+        return sessions
     }
     
-    func create(_ sessionDTO: CounselingSessionDTO) async throws {
-        let session = CounselingSession(dto: sessionDTO)
-        await swiftDataService.create(session)
+    func create(_ session: Session) async throws {
+        let data = CounselingSession(session: session)
+        await swiftDataService.create(data)
         try await swiftDataService.save()
         Logger.send(type: .data, "상담 내역 저장")
     }
@@ -51,11 +51,11 @@ final class SwiftDataCounselingSessionRepository: CounselingSessionRepository {
         Logger.send(type : .data, "상담 내역 삭제")
     }
     
-    func find(id: UUID) async throws -> CounselingSessionDTO? {
+    func find(id: UUID) async throws -> Session? {
         let descriptor = FetchDescriptor<CounselingSession>(predicate: #Predicate { $0.id == id })
         guard let session = try? await swiftDataService.fetch(descriptor: descriptor).first else { return nil }
         Logger.send(type: .data, "상담 내역 조회")
-        return session.toDTO()
+        return session.toDomain()
     }
     
     func initialize() async throws {

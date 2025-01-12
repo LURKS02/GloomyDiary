@@ -15,7 +15,7 @@ final class ReviewViewController: BaseViewController<ReviewView> {
     
     init(store: StoreOf<Review>) {
         self.store = store
-        let contentView = ReviewView(character: CharacterDTO.getRandomElement())
+        let contentView = ReviewView(character: CounselingCharacter.getRandomElement())
         super.init(contentView, logID: "Review")
     }
     

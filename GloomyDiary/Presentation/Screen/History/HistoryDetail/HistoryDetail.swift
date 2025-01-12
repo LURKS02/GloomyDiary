@@ -14,7 +14,7 @@ struct HistoryDetail {
     
     @ObservableState
     struct State: Equatable {
-        let session: CounselingSessionDTO
+        let session: Session
     }
     
     enum Action {

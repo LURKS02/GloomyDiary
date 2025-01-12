@@ -45,17 +45,17 @@ extension TestEnvironmentManager {
                 return urlIndex < urls.count ? urls[urlIndex] : nil
             }
             
-            let sessionDTO = CounselingSessionDTO(id: UUID(),
-                                                  counselor: CharacterDTO.getRandomElement(),
-                                                  title: "테스트",
-                                                  query: "테스트 쿼리",
-                                                  response: "테스트 리스폰스",
-                                                  createdAt: .now,
-                                                  weather: WeatherDTO.getRandomElement(),
-                                                  emoji: EmojiDTO.getRandomElement(),
-                                                  urls: imageURLs)
+            let session = Session(id: UUID(),
+                                  counselor: CounselingCharacter.getRandomElement(),
+                                  title: "테스트",
+                                  query: "테스트 쿼리",
+                                  response: "테스트 리스폰스",
+                                  createdAt: .now,
+                                  weather: Weather.getRandomElement(),
+                                  emoji: Emoji.getRandomElement(),
+                                  urls: imageURLs)
             
-            return sessionDTO
+            return session
         }
         
         await withTaskGroup(of: Void.self) { group in

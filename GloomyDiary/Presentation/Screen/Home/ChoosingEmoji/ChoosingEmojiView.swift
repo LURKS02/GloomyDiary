@@ -51,7 +51,7 @@ final class ChoosingEmojiView: BaseView {
         super.init(frame: .zero)
         
         var rowStackView: UIStackView?
-        EmojiDTO.allCases.enumerated().forEach { index, emoji in
+        Emoji.allCases.enumerated().forEach { index, emoji in
             if index % columnCount == 0 {
                 rowStackView = UIStackView().then {
                     $0.axis = .horizontal

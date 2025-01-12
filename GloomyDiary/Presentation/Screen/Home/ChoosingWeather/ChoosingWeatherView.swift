@@ -47,7 +47,7 @@ final class ChoosingWeatherView: BaseView {
     init() {
         super.init(frame: .zero)
         
-        WeatherDTO.allCases.forEach { weather in
+        Weather.allCases.forEach { weather in
             let button = WeatherButton(weather: weather)
             weatherButtonStackView.addArrangedSubview(button)
         }

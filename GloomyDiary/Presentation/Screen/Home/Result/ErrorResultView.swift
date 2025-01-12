@@ -90,7 +90,7 @@ final class ErrorResultView: BaseView {
         }
     }
     
-    func configure(with character: CharacterDTO) {
+    func configure(with character: CounselingCharacter) {
         characterImageView.setImage(character.cryingImageName)
     }
 }

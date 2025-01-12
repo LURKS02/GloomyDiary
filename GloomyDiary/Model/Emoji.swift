@@ -1,5 +1,5 @@
 //
-//  EmojiDTO.swift
+//  Emoji.swift
 //  GloomyDiary
 //
 //  Created by 디해 on 10/28/24.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum EmojiDTO: String, CaseIterable {
+enum Emoji: String, CaseIterable {
     case happy
     case sad
     case normal
@@ -54,8 +54,8 @@ enum EmojiDTO: String, CaseIterable {
     }
 }
 
-extension EmojiDTO {
-    static func getRandomElement() -> EmojiDTO {
-        EmojiDTO.allCases.randomElement()!
+extension Emoji {
+    static func getRandomElement() -> Emoji {
+        Emoji.allCases.randomElement()!
     }
 }

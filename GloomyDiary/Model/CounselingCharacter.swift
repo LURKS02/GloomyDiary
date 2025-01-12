@@ -1,5 +1,5 @@
 //
-//  Character.swift
+//  CounselingCharacter.swift
 //  GloomyDiary
 //
 //  Created by 디해 on 8/24/24.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum CharacterDTO: String, CaseIterable, Equatable {
+enum CounselingCharacter: String, CaseIterable, Equatable {
     case chan = "chan"
     case gomi = "gomi"
     case beomji = "beomji"
@@ -239,8 +239,8 @@ enum CharacterDTO: String, CaseIterable, Equatable {
     }
 }
 
-extension CharacterDTO {
-    static func getRandomElement() -> CharacterDTO {
-        CharacterDTO.allCases.randomElement()!
+extension CounselingCharacter {
+    static func getRandomElement() -> CounselingCharacter {
+        CounselingCharacter.allCases.randomElement()!
     }
 }

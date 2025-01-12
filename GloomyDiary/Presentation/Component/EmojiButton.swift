@@ -19,7 +19,7 @@ final class EmojiButton: UIButton {
     
     private let feedbackGenerator = UIImpactFeedbackGenerator(style: .soft)
     
-    init(emoji: EmojiDTO) {
+    init(emoji: Emoji) {
         self.identifier = emoji.identifier
         super.init(frame: .zero)
         
@@ -31,7 +31,7 @@ final class EmojiButton: UIButton {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func setupConfiguration(with emoji: EmojiDTO) {
+    private func setupConfiguration(with emoji: Emoji) {
         self.setImage(UIImage(named: emoji.imageName)?.resized(width: Metric.imageSize, height: Metric.imageSize), for: .normal)
         
         var configuration = UIButton.Configuration.plain()
