@@ -11,6 +11,9 @@ import RxRelay
 
 final class CounselingSessionCollectionViewCell: UICollectionViewCell {
     
+    typealias Section = HistoryImageSection
+    typealias Item = HistoryImageItem
+    
     static let identifier: String = "CounselingSessionCollectionViewCell"
     
     // MARK: - Metric
@@ -57,6 +60,8 @@ final class CounselingSessionCollectionViewCell: UICollectionViewCell {
         $0.register(CounselingImageCollectionViewCell.self, forCellWithReuseIdentifier: CounselingImageCollectionViewCell.identifier)
     }
     
+    private lazy var dataSource = UICollectionViewDiffableDataSource<Section, Item>(collectionView: imageCollectionView, cellProvider: provideCell)
+    
     let characterImageView = UIImageView()
     
     let contentLabel = UILabel().then {
@@ -72,7 +77,10 @@ final class CounselingSessionCollectionViewCell: UICollectionViewCell {
     private var urls: [URL] = [] {
         didSet {
             let now: CFTimeInterval = CACurrentMediaTime()
-            self.imageCollectionView.reloadData()
+            var snapshot = NSDiffableDataSourceSnapshot<Section, Item>()
+            snapshot.appendSections([.main])
+            snapshot.appendItems(self.urls.map { Item(url: $0) })
+            dataSource.apply(snapshot, animatingDifferences: false)
             
             DispatchQueue.main.async {
                 let elapsedTime = CACurrentMediaTime() - now
@@ -109,7 +117,6 @@ final class CounselingSessionCollectionViewCell: UICollectionViewCell {
     private func setup() {
         self.applyCornerRadius(20)
         self.backgroundColor = .component(.buttonPurple)
-        self.imageCollectionView.dataSource = self
         self.imageCollectionView.delegate = self
     }
     
@@ -198,17 +205,10 @@ extension CounselingSessionCollectionViewCell {
             }
         }
     }
-}
-
-extension CounselingSessionCollectionViewCell: UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        urls.count
-    }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CounselingImageCollectionViewCell.identifier, for: indexPath) as? CounselingImageCollectionViewCell else { return UICollectionViewCell() }
+    func provideCell(collectionView: UICollectionView, indexPath: IndexPath, item: Item) -> UICollectionViewCell? {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CounselingImageCollectionViewCell.identifier, for: indexPath) as? CounselingImageCollectionViewCell else { return nil }
         cell.configure(with: urls[indexPath.row])
-        
         return cell
     }
 }
