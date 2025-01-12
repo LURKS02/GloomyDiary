@@ -31,9 +31,9 @@ final class ChoosingCharacterView: BaseView {
     
     private let introduceLabel = IntroduceLabel().then {
         $0.text = """
-            "울다"에는
-            여러분들의 이야기를 들어줄
-            세 마리의 친구들이 있어요.
+        "울다"에는
+        여러분들의 이야기를 들어줄
+        세 마리의 친구들이 있어요.
         """
     }
     

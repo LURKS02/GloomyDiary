@@ -29,38 +29,38 @@ final class GuideView: BaseView {
     
     let firstIntroduceLabel = IntroduceLabel().then {
         $0.text = """
-            안녕?
-            만나서 반가워!
-            화면을 눌러봐.
+        안녕?
+        만나서 반가워!
+        화면을 눌러봐.
         """
     }
     
     let secondIntroduceLabel = IntroduceLabel().then {
         $0.text = """
-            "울다"는
-            우리가 함께
-            만들어가는 다이어리야.
+        "울다"는
+        우리가 함께
+        만들어가는 다이어리야.
         """
     }
     
     let thirdIntroduceLabel = IntroduceLabel().then {
         $0.text = """
-            너의 일상을 적은 편지를
-            동물 친구들에게 보낼 수 있어.
+        너의 일상을 적은 편지를
+        동물 친구들에게 보낼 수 있어.
 
-            좋은 일이나, 슬픈 일.
-            고민이나 걱정거리도 좋아.
-            네 이야기가 듣고 싶어!
+        좋은 일이나, 슬픈 일.
+        고민이나 걱정거리도 좋아.
+        네 이야기가 듣고 싶어!
         """
     }
     
     let lastIntroduceLabel = IntroduceLabel().then {
         $0.text = """
-            앗, 친구들이
-            기다리고 있나봐!
+        앗, 친구들이
+        기다리고 있나봐!
 
-            첫 번째 편지를
-            보내러 가볼까?
+        첫 번째 편지를
+        보내러 가볼까?
         """
     }
     

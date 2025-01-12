@@ -43,8 +43,8 @@ final class StartCounselingView: BaseView {
     
     private let secondIntroduceLabel = IntroduceLabel().then {
         $0.text = """
-            가만히 눈을 감고
-            오늘 하루를 떠올려보세요.
+        가만히 눈을 감고
+        오늘 하루를 떠올려보세요.
         """
     }
     

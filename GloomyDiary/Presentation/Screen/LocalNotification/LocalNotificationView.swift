@@ -172,11 +172,11 @@ extension LocalNotificationView {
     func showAcceptResult() async {
         ghostImageView.image = UIImage(named: "happyGhost")
         notificationLabel.text = """
-            알림이 설정되었어요!
+        알림이 설정되었어요!
 
-            이제 울다에서
-            데일리 알림을 보내드릴게요.
-            잊지 말고 방문하세요!
+        이제 울다에서
+        데일리 알림을 보내드릴게요.
+        잊지 말고 방문하세요!
         """
         buttonStackView.subviews.forEach { $0.removeFromSuperview() }
         buttonStackView.addArrangedSubview(checkButton)
@@ -199,11 +199,11 @@ extension LocalNotificationView {
     func showRejectResult() async {
         ghostImageView.image = UIImage(named: "cryingGhost")
         notificationLabel.text = """
-            알림을 거절했어요.
+        알림을 거절했어요.
 
-            설정 > 앱 > 울다 > 알림 에서
-            [알림 허용] 을 눌러
-            언제든 다시 알림을 설정할 수 있어요!
+        설정 > 앱 > 울다 > 알림 에서
+        [알림 허용] 을 눌러
+        언제든 다시 알림을 설정할 수 있어요!
         """
         buttonStackView.subviews.forEach { $0.removeFromSuperview() }
         buttonStackView.addArrangedSubview(checkButton)

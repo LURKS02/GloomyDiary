@@ -23,8 +23,8 @@ final class EmptyListView: UIView {
     
     private let introduceLabel = IntroduceLabel().then {
         $0.text = """
-            아직 아무 편지도
-            보내지 않았어요.
+        아직 아무 편지도
+        보내지 않았어요.
         """
     }
     

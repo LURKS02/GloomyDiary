@@ -32,8 +32,8 @@ final class SendingLetterView: LetterView {
     
     private let letterWritingGuideLabel = IntroduceLabel().then {
         $0.text = """
-            오늘 하루 있었던 일들을
-            편지로 적어볼까요?
+        오늘 하루 있었던 일들을
+        편지로 적어볼까요?
         """
     }
     
