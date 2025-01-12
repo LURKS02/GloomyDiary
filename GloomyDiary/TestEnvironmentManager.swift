@@ -74,8 +74,8 @@ extension TestEnvironmentManager {
     }
     
     private func saveImagesToDisk(datas: [Data]) {
-        datas.enumerated().forEach { (index, data) in
-            _ = try? ImageFileManager.shared.write(data: data, fileName: "image_\(index).jpg")
+        datas.forEach { data in
+            _ = try? ImageFileManager.shared.write(data: data, fileName: "image_\(UUID()).jpg")
         }
     }
     

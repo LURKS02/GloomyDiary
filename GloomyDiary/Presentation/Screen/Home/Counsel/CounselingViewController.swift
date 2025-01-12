@@ -273,7 +273,7 @@ extension CounselingViewController: PHPickerViewControllerDelegate {
         
         for result in results {
             let data = try await loadImageData(from: result)
-            let imageURL = try imageFileManager.write(data: data, fileName: "image_" + UUID().uuidString + ".jpg")
+            let imageURL = try imageFileManager.write(data: data, fileName: "image_\(UUID()).jpg")
             urls.append(imageURL)
         }
         
