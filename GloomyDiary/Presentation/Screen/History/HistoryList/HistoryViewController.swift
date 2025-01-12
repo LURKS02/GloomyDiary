@@ -15,6 +15,8 @@ final class HistoryViewController: BaseViewController<HistoryView> {
     
     let store: StoreOf<History>
     
+    private var sizeCache = Dictionary<DiffableSession, CGSize>()
+    
     
     // MARK: - Properties
 
@@ -127,16 +129,48 @@ extension HistoryViewController: UICollectionViewDelegate {
 }
 
 extension HistoryViewController: UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let cell = CounselingSessionCollectionViewCell(frame: .zero)
+    struct DiffableSession: Equatable, Hashable {
+        let id: UUID
+        let response: String
+        let urls: [URL]
+        
+        init(_ session: Session) {
+            self.id = session.id
+            self.response = session.response
+            self.urls = session.urls
+        }
+        
+        static func == (lhs: Self, rhs: Self) -> Bool {
+            lhs.id == rhs.id
+        }
+    }
+    
+    func collectionView(
+        _ collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
+        sizeForItemAt indexPath: IndexPath
+    ) -> CGSize {
         let items = dataSource.snapshot().itemIdentifiers
         let item = items[indexPath.row]
+        let session = item.session
         
-        cell.configureWithDummy(with: item.session)
+        let diffableSession = DiffableSession(session)
         
-        let targetSize = CGSize(width: UIView.screenWidth - 17*2, height: UIView.layoutFittingCompressedSize.height)
-        let size = cell.systemLayoutSizeFitting(targetSize, withHorizontalFittingPriority: .required, verticalFittingPriority: .fittingSizeLevel)
-        return size
+        if let size = sizeCache[diffableSession] {
+            return size
+        }
+        
+        else {
+            let cell = CounselingSessionCollectionViewCell(frame: .zero)
+            
+            cell.configureWithDummy(with: session)
+            
+            let targetSize = CGSize(width: UIView.screenWidth - 17*2, height: UIView.layoutFittingCompressedSize.height)
+            let size = cell.systemLayoutSizeFitting(targetSize, withHorizontalFittingPriority: .required, verticalFittingPriority: .fittingSizeLevel)
+            sizeCache[diffableSession] = size
+            
+            return size
+        }
     }
 }
 
