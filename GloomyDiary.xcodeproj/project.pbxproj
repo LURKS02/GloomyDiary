@@ -114,11 +114,9 @@
 		D9CF33032CEE65C300B1A92D /* GuideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9CF33022CEE65C300B1A92D /* GuideView.swift */; };
 		D9CF33052CEE6DC000B1A92D /* WelcomeTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9CF33042CEE6DC000B1A92D /* WelcomeTransition.swift */; };
 		D9CF34A62CEFA7A100B1A92D /* GuideOverTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9CF34A52CEFA7A100B1A92D /* GuideOverTransition.swift */; };
-		D9CF37932CF39BAC00B1A92D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D9CF37922CF39BAC00B1A92D /* GoogleService-Info.plist */; };
 		D9CF37962CF39C5500B1A92D /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = D9CF37952CF39C5500B1A92D /* FirebaseAnalytics */; };
 		D9CF37982CF39C5500B1A92D /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = D9CF37972CF39C5500B1A92D /* FirebaseCrashlytics */; };
 		D9CF38422CF4D1EA00B1A92D /* AmplitudeSwift in Frameworks */ = {isa = PBXBuildFile; productRef = D9CF38412CF4D1EA00B1A92D /* AmplitudeSwift */; };
-		D9CF38482CF4E7BD00B1A92D /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9CF38472CF4E7BD00B1A92D /* Logger.swift */; };
 		D9D9E00E2C5C1C2E0095792A /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D9E00B2C5C1C2E0095792A /* Color.swift */; };
 		D9D9E00F2C5C1C2E0095792A /* Font.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D9E00C2C5C1C2E0095792A /* Font.swift */; };
 		D9D9E0122C5C1C340095792A /* Extension+UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D9E0102C5C1C340095792A /* Extension+UIColor.swift */; };
@@ -143,7 +141,6 @@
 		D9DDE7442C8A269C004AE15C /* RoundedIconButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9DDE7432C8A269C004AE15C /* RoundedIconButton.swift */; };
 		D9DDE7462C8A2960004AE15C /* Extension+UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9DDE7452C8A2960004AE15C /* Extension+UIView.swift */; };
 		D9FCFFA12CB9A86600A53A14 /* OpenAI in Frameworks */ = {isa = PBXBuildFile; productRef = D9FCFFA02CB9A86600A53A14 /* OpenAI */; };
-		D9FCFFA32CB9A99600A53A14 /* Keys.plist in Resources */ = {isa = PBXBuildFile; fileRef = D9FCFFA22CB9A99600A53A14 /* Keys.plist */; };
 		D9FCFFC02CBAE4BF00A53A14 /* CounselRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9FCFFBF2CBAE4BF00A53A14 /* CounselRepository.swift */; };
 		D9FCFFC32CBC1A9400A53A14 /* CounselRepositoryProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9FCFFC22CBC1A9400A53A14 /* CounselRepositoryProtocol.swift */; };
 		D9FCFFC62CBC244900A53A14 /* Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9FCFFC52CBC244900A53A14 /* Toast.swift */; };
@@ -239,6 +236,8 @@
 		D97421CE2C5ABE15002E47F9 /* GloomyDiaryUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GloomyDiaryUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D97421D22C5ABE15002E47F9 /* GloomyDiaryUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GloomyDiaryUITests.swift; sourceTree = "<group>"; };
 		D97421D42C5ABE15002E47F9 /* GloomyDiaryUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GloomyDiaryUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		D97F1D8F2D3AA762001085E8 /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
+		D97F1D902D3AA773001085E8 /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
 		D99BF17B2CBEC14E00465718 /* CounselingSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CounselingSession.swift; sourceTree = "<group>"; };
 		D99BF17F2CBED3CE00465718 /* History.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = History.swift; sourceTree = "<group>"; };
 		D9B07F3D2C8B5F430048B2D9 /* Extension+UIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+UIImage.swift"; sourceTree = "<group>"; };
@@ -281,7 +280,6 @@
 		D9CF33042CEE6DC000B1A92D /* WelcomeTransition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeTransition.swift; sourceTree = "<group>"; };
 		D9CF34A52CEFA7A100B1A92D /* GuideOverTransition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuideOverTransition.swift; sourceTree = "<group>"; };
 		D9CF37922CF39BAC00B1A92D /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		D9CF38472CF4E7BD00B1A92D /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		D9D9E00B2C5C1C2E0095792A /* Color.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		D9D9E00C2C5C1C2E0095792A /* Font.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Font.swift; sourceTree = "<group>"; };
 		D9D9E0102C5C1C340095792A /* Extension+UIColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Extension+UIColor.swift"; sourceTree = "<group>"; };
@@ -495,6 +493,8 @@
 		D97421A52C5ABE12002E47F9 = {
 			isa = PBXGroup;
 			children = (
+				D97F1D902D3AA773001085E8 /* Release.xcconfig */,
+				D97F1D8F2D3AA762001085E8 /* Debug.xcconfig */,
 				D97421B02C5ABE12002E47F9 /* GloomyDiary */,
 				D97421C72C5ABE15002E47F9 /* GloomyDiaryTests */,
 				D97421D12C5ABE15002E47F9 /* GloomyDiaryUITests */,
@@ -671,14 +671,6 @@
 			path = Guide;
 			sourceTree = "<group>";
 		};
-		D9CF38442CF4E79100B1A92D /* Logger */ = {
-			isa = PBXGroup;
-			children = (
-				D9CF38472CF4E7BD00B1A92D /* Logger.swift */,
-			);
-			path = Logger;
-			sourceTree = "<group>";
-		};
 		D9D9E00D2C5C1C2E0095792A /* Color+Font */ = {
 			isa = PBXGroup;
 			children = (
@@ -780,7 +772,6 @@
 			children = (
 				D943504A2D36A40800659380 /* Cache */,
 				D95A25812CF797520007A71A /* LocalNotification */,
-				D9CF38442CF4E79100B1A92D /* Logger */,
 				D9FFF8832CE39176006DE533 /* Transition */,
 				D9BF60A32CCCF9B4001C9D2B /* Protocol */,
 				D9BF605F2CC6C574001C9D2B /* Environment */,
@@ -995,13 +986,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				D935483A2C72533A00E5EBF9 /* pulsingCircle.json in Resources */,
-				D9CF37932CF39BAC00B1A92D /* GoogleService-Info.plist in Resources */,
 				D97421BB2C5ABE14002E47F9 /* Assets.xcassets in Resources */,
 				D95A32DC2D00DCF50007A71A /* 온글잎 의연체.ttf in Resources */,
 				D9B07F922C99C8360048B2D9 /* stars.json in Resources */,
 				D97421BE2C5ABE14002E47F9 /* Base in Resources */,
 				D93548332C71E38F00E5EBF9 /* sparkles.json in Resources */,
-				D9FCFFA32CB9A99600A53A14 /* Keys.plist in Resources */,
 				D9DB062A2D2A79C90076B262 /* skeleton.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1044,7 +1033,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${BUILD_DIR%/Build/*}/SourcePackages/checkouts/firebase-ios-sdk/Crashlytics/run\"\n";
+			shellScript = "if [ \"$CONFIGURATION\" == \"Release\" ]; then\n  \"${BUILD_DIR%/Build/*}/SourcePackages/checkouts/firebase-ios-sdk/Crashlytics/run\"\nelse\n  echo \"Skipping Crashlytics in Debug mode\"\nfi\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -1103,7 +1092,6 @@
 				D9BF608A2CC997DC001C9D2B /* NavigationController.swift in Sources */,
 				D96741152D14985800FFA614 /* HistoryDetailImageView.swift in Sources */,
 				D966D27B2C9C0E150024CA7F /* ResultView.swift in Sources */,
-				D9CF38482CF4E7BD00B1A92D /* Logger.swift in Sources */,
 				D9BF605C2CC5F9A9001C9D2B /* SwiftDataCounselingSessionRepository.swift in Sources */,
 				D9DDE73F2C8A10E7004AE15C /* SendingLetterView.swift in Sources */,
 				D9FCFFC62CBC244900A53A14 /* Toast.swift in Sources */,
@@ -1225,6 +1213,7 @@
 /* Begin XCBuildConfiguration section */
 		D97421D62C5ABE15002E47F9 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D97F1D8F2D3AA762001085E8 /* Debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -1290,6 +1279,7 @@
 		};
 		D97421D72C5ABE15002E47F9 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D97F1D902D3AA773001085E8 /* Release.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -1348,6 +1338,7 @@
 		};
 		D97421D92C5ABE15002E47F9 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D97F1D8F2D3AA762001085E8 /* Debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -1383,6 +1374,7 @@
 		};
 		D97421DA2C5ABE15002E47F9 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D97F1D902D3AA773001085E8 /* Release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -1417,6 +1409,7 @@
 		};
 		D97421DC2C5ABE15002E47F9 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D97F1D8F2D3AA762001085E8 /* Debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
@@ -1436,6 +1429,7 @@
 		};
 		D97421DD2C5ABE15002E47F9 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D97F1D902D3AA773001085E8 /* Release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
@@ -1455,6 +1449,7 @@
 		};
 		D97421DF2C5ABE15002E47F9 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D97F1D8F2D3AA762001085E8 /* Debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -1472,6 +1467,7 @@
 		};
 		D97421E02C5ABE15002E47F9 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D97F1D902D3AA773001085E8 /* Release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
