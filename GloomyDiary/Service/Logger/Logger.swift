@@ -10,17 +10,9 @@ import Dependencies
 import Foundation
 
 struct Logger {
-    private let amplitude: Amplitude?
-    
-    var send: (
-        _ type: LogType?,
-        _ message: String,
-        _ parameters: [String: Any]?
-    ) -> Void
-    
-    init(send: @escaping (LogType?, String, [String : Any]?) -> Void) {
+    static let amplitude: Amplitude? = {
         #if DEBUG
-        self.amplitude = nil
+        return nil
         
         #else
         guard let path = Bundle.main.path(forResource: "Keys", ofType: "plist"),
@@ -28,16 +20,20 @@ struct Logger {
               let key = dict["AmplitudeAPIKey"] as? String
         else { fatalError("Amplitude Key not found") }
         
-        self.amplitude = Amplitude(
+        return Amplitude(
             configuration: Configuration(
-                apiKey: key,
-                autocapture: []
+            apiKey: key,
+            autocapture: []
             )
         )
         #endif
-        
-        self.send = send
-    }
+    }()
+    
+    var send: (
+        _ type: LogType?,
+        _ message: String,
+        _ parameters: [String: Any]?
+    ) -> Void
 }
 
 private enum LoggerKey: DependencyKey {
@@ -50,7 +46,7 @@ private enum LoggerKey: DependencyKey {
         if let type {
             message = "[\(type.keyword)] \(message) \(type.description)" }
         else { message = message }
-        amplitude?.track(eventType: message, eventProperties: parameters)
+        Logger.amplitude?.track(eventType: message, eventProperties: parameters)
         return
         #endif
     })

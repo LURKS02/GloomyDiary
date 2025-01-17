@@ -10,25 +10,21 @@ import Foundation
 import OpenAI
 
 struct AIService {
-    private let openAI: OpenAI?
-    
-    var generate: (_ input: String, _ setting: String) async throws -> String
-    
-    init(generate: @escaping (_ input: String, _ setting: String) -> String) {
+    static let openAI: OpenAI? = {
         #if DEBUG
-        self.openAI = nil
+        return nil
         
         #else
         guard let path = Bundle.main.path(forResource: "Keys", ofType: "plist"),
               let dict = NSDictionary(contentsOfFile: path) as? [String: Any],
               let token = dict["OpenAI"] as? String
         else { fatalError("API Token not found") }
-        
-        self.openAI = OpenAI(apiToken: token)
+
+        return OpenAI(apiToken: token)
         #endif
-        
-        self.generate = generate
-    }
+    }()
+    
+    var generate: (_ input: String, _ setting: String) async throws -> String
 }
 
 private enum AIServiceKey: DependencyKey {
@@ -37,6 +33,8 @@ private enum AIServiceKey: DependencyKey {
         return "테스트 리스폰스 입니다."
         
         #else
+        guard let openAI = AIService.openAI else { throw LocalError(message: "AIService not generated") }
+        
         let query = ChatQuery(messages: [
             .user(.init(content: .init(string: input))),
             .system(.init(content: setting))
