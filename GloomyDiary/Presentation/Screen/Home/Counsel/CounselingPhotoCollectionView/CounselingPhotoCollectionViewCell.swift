@@ -90,29 +90,30 @@ final class CounselingPhotoCollectionViewCell: UICollectionViewCell {
     }
 }
 
-extension CounselingPhotoCollectionViewCell {
+extension CounselingPhotoCollectionViewCell { 
     func configure(with id: UUID, delegate: CounselingPhotoCellDelegate) {
         self.delegate = delegate
         workItem?.cancel()
-        
+
         let networkItem = DispatchWorkItem { [weak self] in
             guard let self else { return }
             let image = try? ImageCache.shared.getThumbnailImage(forKey: id, pointSize: .init(width: 70, height: 70))
             DispatchQueue.main.async {
                 self.imageView.image = image
             }
-            self.workItem = networkItem
-            DispatchQueue.global().async(execute: networkItem)
-            
-            tapRelay.subscribe(onNext: { [weak delegate] in
-                delegate?.openImageViewer(with: id)
-            })
-            .disposed(by: disposeBag)
-            
-            removeRelay.subscribe(onNext: { [weak delegate] in
-                delegate?.removeImage(id)
-            })
-            .disposed(by: disposeBag)
         }
+            
+        self.workItem = networkItem
+        DispatchQueue.global().async(execute: networkItem)
+        
+        tapRelay.subscribe(onNext: { [weak delegate] in
+            delegate?.openImageViewer(with: id)
+        })
+        .disposed(by: disposeBag)
+        
+        removeRelay.subscribe(onNext: { [weak delegate] in
+            delegate?.removeImage(id)
+        })
+        .disposed(by: disposeBag)
     }
 }
