@@ -16,6 +16,7 @@
 		D937405A2C7E4075003E02FD /* CounselingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D93740592C7E4075003E02FD /* CounselingViewController.swift */; };
 		D937405C2C7E4099003E02FD /* CounselingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D937405B2C7E4099003E02FD /* CounselingView.swift */; };
 		D937405E2C7E40BF003E02FD /* Counseling.swift in Sources */ = {isa = PBXBuildFile; fileRef = D937405D2C7E40BF003E02FD /* Counseling.swift */; };
+		D94350B72D36A60000659380 /* CacheTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D94350B62D36A60000659380 /* CacheTests.swift */; };
 		D95A29C72CFCC8340007A71A /* ValidResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95A29C62CFCC8340007A71A /* ValidResultView.swift */; };
 		D95A29C92CFCCCE50007A71A /* ErrorResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95A29C82CFCCCE50007A71A /* ErrorResultView.swift */; };
 		D95A29CB2CFCE93C0007A71A /* ResultBackTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95A29CA2CFCE93C0007A71A /* ResultBackTransition.swift */; };
@@ -67,7 +68,6 @@
 		D97421B42C5ABE12002E47F9 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D97421B32C5ABE12002E47F9 /* SceneDelegate.swift */; };
 		D97421BB2C5ABE14002E47F9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D97421BA2C5ABE14002E47F9 /* Assets.xcassets */; };
 		D97421BE2C5ABE14002E47F9 /* Base in Resources */ = {isa = PBXBuildFile; fileRef = D97421BD2C5ABE14002E47F9 /* Base */; };
-		D97421C92C5ABE15002E47F9 /* GloomyDiaryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D97421C82C5ABE15002E47F9 /* GloomyDiaryTests.swift */; };
 		D97421D32C5ABE15002E47F9 /* GloomyDiaryUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D97421D22C5ABE15002E47F9 /* GloomyDiaryUITests.swift */; };
 		D97421D52C5ABE15002E47F9 /* GloomyDiaryUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D97421D42C5ABE15002E47F9 /* GloomyDiaryUITestsLaunchTests.swift */; };
 		D97421E42C5BF879002E47F9 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = D97421E32C5BF879002E47F9 /* SnapKit */; };
@@ -181,6 +181,7 @@
 		D93740592C7E4075003E02FD /* CounselingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CounselingViewController.swift; sourceTree = "<group>"; };
 		D937405B2C7E4099003E02FD /* CounselingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CounselingView.swift; sourceTree = "<group>"; };
 		D937405D2C7E40BF003E02FD /* Counseling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Counseling.swift; sourceTree = "<group>"; };
+		D94350B62D36A60000659380 /* CacheTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheTests.swift; sourceTree = "<group>"; };
 		D95A29C62CFCC8340007A71A /* ValidResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidResultView.swift; sourceTree = "<group>"; };
 		D95A29C82CFCCCE50007A71A /* ErrorResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorResultView.swift; sourceTree = "<group>"; };
 		D95A29CA2CFCE93C0007A71A /* ResultBackTransition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultBackTransition.swift; sourceTree = "<group>"; };
@@ -235,7 +236,6 @@
 		D97421BD2C5ABE14002E47F9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D97421BF2C5ABE14002E47F9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D97421C42C5ABE15002E47F9 /* GloomyDiaryTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GloomyDiaryTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		D97421C82C5ABE15002E47F9 /* GloomyDiaryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GloomyDiaryTests.swift; sourceTree = "<group>"; };
 		D97421CE2C5ABE15002E47F9 /* GloomyDiaryUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GloomyDiaryUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D97421D22C5ABE15002E47F9 /* GloomyDiaryUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GloomyDiaryUITests.swift; sourceTree = "<group>"; };
 		D97421D42C5ABE15002E47F9 /* GloomyDiaryUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GloomyDiaryUITestsLaunchTests.swift; sourceTree = "<group>"; };
@@ -314,12 +314,12 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		D943504A2D36A40800659380 /* Cache */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Cache; sourceTree = "<group>"; };
 		D95A25812CF797520007A71A /* LocalNotification */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = LocalNotification; sourceTree = "<group>"; };
 		D95A25842CF7A6C10007A71A /* LocalNotification */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = LocalNotification; sourceTree = "<group>"; };
 		D95A43882D0F3F900007A71A /* Service */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Service; sourceTree = "<group>"; };
 		D95A44B52D11F7710007A71A /* Review */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Review; sourceTree = "<group>"; };
 		D95C18332CCF6C8700055C7C /* ChoosingEmoji */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = ChoosingEmoji; sourceTree = "<group>"; };
-		D96743762D22AE9400FFA614 /* Image */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Image; sourceTree = "<group>"; };
 		D9FFF8832CE39176006DE533 /* Transition */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Transition; sourceTree = "<group>"; };
 		D9FFF8842CE391AE006DE533 /* CollectionView */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = CollectionView; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -539,7 +539,7 @@
 		D97421C72C5ABE15002E47F9 /* GloomyDiaryTests */ = {
 			isa = PBXGroup;
 			children = (
-				D97421C82C5ABE15002E47F9 /* GloomyDiaryTests.swift */,
+				D94350B62D36A60000659380 /* CacheTests.swift */,
 			);
 			path = GloomyDiaryTests;
 			sourceTree = "<group>";
@@ -778,6 +778,7 @@
 		D9D9E02E2C5FF5290095792A /* Base */ = {
 			isa = PBXGroup;
 			children = (
+				D943504A2D36A40800659380 /* Cache */,
 				D95A25812CF797520007A71A /* LocalNotification */,
 				D9CF38442CF4E79100B1A92D /* Logger */,
 				D9FFF8832CE39176006DE533 /* Transition */,
@@ -830,7 +831,6 @@
 		D9FCFFBE2CBAE4A900A53A14 /* Repository */ = {
 			isa = PBXGroup;
 			children = (
-				D96743762D22AE9400FFA614 /* Image */,
 				D9CF315A2CEC802800B1A92D /* UserSetting */,
 				D9BF604A2CC1814F001C9D2B /* Counseling */,
 				D9FCFFC12CBC1A7E00A53A14 /* Counsel */,
@@ -873,12 +873,12 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
+				D943504A2D36A40800659380 /* Cache */,
 				D95A25812CF797520007A71A /* LocalNotification */,
 				D95A25842CF7A6C10007A71A /* LocalNotification */,
 				D95A43882D0F3F900007A71A /* Service */,
 				D95A44B52D11F7710007A71A /* Review */,
 				D95C18332CCF6C8700055C7C /* ChoosingEmoji */,
-				D96743762D22AE9400FFA614 /* Image */,
 				D9FFF8832CE39176006DE533 /* Transition */,
 				D9FFF8842CE391AE006DE533 /* CollectionView */,
 			);
@@ -1182,7 +1182,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D97421C92C5ABE15002E47F9 /* GloomyDiaryTests.swift in Sources */,
+				D94350B72D36A60000659380 /* CacheTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
