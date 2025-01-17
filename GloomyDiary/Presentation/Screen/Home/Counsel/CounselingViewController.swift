@@ -13,6 +13,8 @@ final class CounselingViewController: BaseViewController<CounselingView> {
     
     let store: StoreOf<Counseling>
     
+    @Dependency(\.logger) var logger
+    
     private var isKeyboardShowing: Bool = false {
         didSet {
             updateContentOffset()
@@ -107,7 +109,7 @@ private extension CounselingViewController {
         contentView.letterSendingButton.rx.tap
             .do(onNext: { [weak self] _ in
                 guard let title = self?.contentView.letterSendingButton.title(for: .normal) else { return }
-                Logger.send(type: .tapped, title)
+                self?.logger.send(.tapped, title, nil)
             })
             .subscribe(onNext: { [weak self] _ in
                 guard let self else { return }

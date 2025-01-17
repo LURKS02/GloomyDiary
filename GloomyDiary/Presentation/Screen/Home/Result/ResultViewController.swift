@@ -11,6 +11,8 @@ import ComposableArchitecture
 final class ResultViewController: BaseViewController<ResultView> {
     let store: StoreOf<CounselResult>
     
+    @Dependency(\.logger) var logger
+    
     var hasValidResult: Bool = false {
         didSet {
             configure(hasValidResult: hasValidResult)
@@ -51,8 +53,8 @@ private extension ResultViewController {
         contentView.showValidResult()
         
         contentView.validResultView.resultLetterView.copyButton.rx.tap
-            .do(onNext: { _ in
-                Logger.send(type: .tapped, "클립보드 복사 버튼")
+            .do(onNext: { [weak self] _ in
+                self?.logger.send(.tapped, "클립보드 복사 버튼", nil)
             })
             .subscribe(onNext: { [weak self] _ in
                 guard let self else { return }
@@ -63,7 +65,7 @@ private extension ResultViewController {
         contentView.validResultView.homeButton.rx.tap
             .do(onNext: { [weak self] _ in
                 guard let title = self?.contentView.validResultView.homeButton.title(for: .normal) else { return }
-                Logger.send(type: .tapped, title)
+                self?.logger.send(.tapped, title, nil)
             })
             .subscribe(onNext: { [weak self] _ in
                 guard let self else { return }
@@ -74,7 +76,7 @@ private extension ResultViewController {
         contentView.validResultView.shareButton.rx.tap
             .do(onNext: { [weak self] _ in
                 guard let title = self?.contentView.validResultView.shareButton.title(for: .normal) else { return }
-                Logger.send(type: .tapped, title)
+                self?.logger.send(.tapped, title, nil)
             })
             .subscribe(onNext: { [weak self] _ in
                 guard let self else { return }
@@ -96,7 +98,7 @@ private extension ResultViewController {
         contentView.errorResultView.backButton.rx.tap
             .do(onNext: { [weak self] _ in
                 guard let title = self?.contentView.errorResultView.backButton.title(for: .normal) else { return }
-                Logger.send(type: .tapped, title)
+                self?.logger.send(.tapped, title, nil)
             })
             .subscribe(onNext: { [weak self] _ in
                 guard let self else { return }
@@ -108,7 +110,7 @@ private extension ResultViewController {
         contentView.errorResultView.homeButton.rx.tap
             .do(onNext: { [weak self] _ in
                 guard let title = self?.contentView.errorResultView.homeButton.title(for: .normal) else { return }
-                Logger.send(type: .tapped, title)
+                self?.logger.send(.tapped, title, nil)
             })
             .subscribe(onNext: { [weak self] _ in
                 guard let self else { return }

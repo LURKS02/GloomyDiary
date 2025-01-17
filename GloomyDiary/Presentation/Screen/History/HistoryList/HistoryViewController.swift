@@ -17,6 +17,8 @@ final class HistoryViewController: BaseViewController<HistoryView> {
     
     private var sizeCache = Dictionary<DiffableSession, CGSize>()
     
+    @Dependency(\.logger) var logger
+    
     
     // MARK: - Properties
 
@@ -200,7 +202,11 @@ extension HistoryViewController {
         .disposed(by: rx.disposeBag)
         
         self.navigationController?.pushViewController(historyDetailViewController, animated: true)
-        Logger.send(type: .tapped, "히스토리 선택", parameters: ["인덱스": index])
+        self.logger.send(
+            .tapped,
+            "히스토리 선택",
+            ["인덱스": index]
+        )
     }
 }
 

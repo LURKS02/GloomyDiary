@@ -7,10 +7,12 @@
 
 import UIKit
 import ComposableArchitecture
+import Dependencies
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
     var appCoordinator: AppCoordinator?
+    @Dependency(\.logger) var logger
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
@@ -32,11 +34,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 
     func sceneWillEnterForeground(_ scene: UIScene) {
-        Logger.send(type: .app, "포그라운드 진입")
+        self.logger.send(.app, "포그라운드 진입", nil)
     }
 
     func sceneDidEnterBackground(_ scene: UIScene) {
-        Logger.send(type: .app, "백그라운드 진입")
+        self.logger.send(.app, "백그라운드 진입", nil)
     }
 
 

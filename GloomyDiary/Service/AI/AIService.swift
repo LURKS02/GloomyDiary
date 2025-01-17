@@ -5,8 +5,8 @@
 //  Created by 디해 on 10/22/24.
 //
 
-import Foundation
 import Dependencies
+import Foundation
 import OpenAI
 
 struct AIService {

@@ -6,8 +6,11 @@
 //
 
 import UIKit
+import Dependencies
 
 final class LocalNotificationViewController: BaseViewController<LocalNotificationView> {
+    
+    @Dependency(\.logger) var logger
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,7 +35,7 @@ private extension LocalNotificationViewController {
                           let title = self.contentView.rejectButton.title(for: .normal) else { return }
                     await self.contentView.runFadeOutLeftAnimation()
                     await self.contentView.showRejectResult()
-                    Logger.send(type: .tapped, title)
+                    self.logger.send(.tapped, title, nil)
                 }
             })
             .disposed(by: rx.disposeBag)
@@ -50,7 +53,7 @@ private extension LocalNotificationViewController {
                         await self.contentView.showRejectResult()
                     }
                     
-                    Logger.send(type: .tapped, title)
+                    self.logger.send(.tapped, title, nil)
                 }
             })
             .disposed(by: rx.disposeBag)
@@ -63,7 +66,7 @@ private extension LocalNotificationViewController {
                     await self.contentView.runDismissAnimation()
                     self.dismiss(animated: false)
                     
-                    Logger.send(type: .tapped, title)
+                    self.logger.send(.tapped, title, nil)
                 }
             })
             .disposed(by: rx.disposeBag)

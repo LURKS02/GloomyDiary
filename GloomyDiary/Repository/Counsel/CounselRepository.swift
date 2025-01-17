@@ -11,6 +11,7 @@ import Dependencies
 final class CounselRepository: CounselRepositoryProtocol {
     @Dependency(\.counselingSessionRepository) var counselingSessionRepository
     @Dependency(\.aiService) var aiService
+    @Dependency(\.logger) var logger
     @Dependency(\.date.now) var now
     @Dependency(\.uuid) var uuid
     
@@ -22,7 +23,7 @@ final class CounselRepository: CounselRepositoryProtocol {
         emoji: Emoji,
         imageIDs: [UUID]
     ) async throws -> String {
-        Logger.send(type: .api, "AI 서비스 요청")
+        logger.send(.api, "AI 서비스 요청", nil)
         let response = try await aiService.generate(userInput, character.systemSetting)
         let session = Session(id: uuid(),
                               counselor: character,
@@ -34,7 +35,7 @@ final class CounselRepository: CounselRepositoryProtocol {
                               emoji: emoji,
                               imageIDs: imageIDs)
         try await counselingSessionRepository.create(session)
-        Logger.send(type: .api, "AI 서비스 응답 수신")
+        logger.send(.api, "AI 서비스 응답 수신", nil)
         return response
     }
 }

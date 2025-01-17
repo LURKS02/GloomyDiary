@@ -5,12 +5,14 @@
 //  Created by 디해 on 10/27/24.
 //
 
-import UIKit
 import ComposableArchitecture
+import UIKit
 
 final class StartCounselingViewController: BaseViewController<StartCounselingView> {
     
     let store: StoreOf<StartCounseling>
+    
+    @Dependency(\.logger) var logger
     
     private var isKeyboardShowing: Bool = false {
         didSet {
@@ -71,7 +73,7 @@ private extension StartCounselingViewController {
         contentView.nextButton.rx.tap
             .do(onNext: { [weak self] _ in
                 guard let title = self?.contentView.nextButton.title(for: .normal) else { return }
-                Logger.send(type: .tapped, title)
+                self?.logger.send(.tapped, title, nil)
             })
             .subscribe(onNext: { [weak self] _ in
                 guard let self,

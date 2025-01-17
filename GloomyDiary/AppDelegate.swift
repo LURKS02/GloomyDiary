@@ -11,11 +11,14 @@ import AmplitudeSwift
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        ArrayTransformer.register()
+        #if !DEBUG
         FirebaseApp.configure()
+        #endif
         
-        Logger.send(type: .app, "앱 실행")
+        ArrayTransformer.register()
+        
         return true
     }
 
