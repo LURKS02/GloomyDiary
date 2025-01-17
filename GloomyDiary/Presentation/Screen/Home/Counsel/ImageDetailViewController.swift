@@ -24,7 +24,11 @@ final class ImageDetailViewController: UIViewController {
         let screenHeight = UIView.screenHeight
         let screenSize = CGSize(width: screenWidth, height: screenHeight)
         
-        let downsampledImage = UIImage.downsample(imageAt: url, within: screenSize)
+        let downsampledImage = try? ImageCache.shared.getImage(
+            forKey: imageID,
+            pointSize: screenSize,
+            mode: .scaleAspectFit
+        )
         imageView.image = downsampledImage
     }
     

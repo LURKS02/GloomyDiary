@@ -98,7 +98,11 @@ final class HistoryDetailImageView: UIView {
     func configure(with imageIDs: [UUID]) {
         for index in imageIDs.indices {
             let imageView = UIImageView()
-            let downsampledImage = UIImage.downsample(imageAt: urls[index], to: .init(width: imageSize, height: imageSize))
+            guard let downsampledImage = try? ImageCache.shared.getImage(
+                forKey: imageIDs[index],
+                pointSize: .init(width: imageSize, height: imageSize)
+            ) else { return }
+            
             imageView.image = downsampledImage
             imageView.contentMode = .scaleAspectFill
             imageView.clipsToBounds = true

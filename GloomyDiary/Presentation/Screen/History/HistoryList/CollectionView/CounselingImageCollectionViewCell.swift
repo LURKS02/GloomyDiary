@@ -77,14 +77,21 @@ final class CounselingImageCollectionViewCell: UICollectionViewCell {
         workItem?.cancel()
         
         let newWorkItem = DispatchWorkItem { [weak self] in
-            guard let self else { return }
-            let downsampledImage = UIImage.downsample(imageAt: url, to: .init(width: Metric.itemSize, height: Metric.itemSize))
-            guard let downsampledImage else { return }
+            guard let self,
+                  let thumbnailImage = try? ImageCache.shared.getThumbnailImage(
+                    forKey: imageID,
+                    pointSize: .init(
+                        width: Metric.itemSize,
+                        height: Metric.itemSize
+                    )
+                  )
+            else { return }
+                    
             DispatchQueue.main.async {
                 guard imageID == self.imageID else { return }
                 self.lottieView.isHidden = true
                 UIView.transition(with: self.imageView, duration: 0.3, options: .transitionCrossDissolve, animations: {
-                    self.imageView.image = downsampledImage
+                    self.imageView.image = thumbnailImage
                 })
             }
         }

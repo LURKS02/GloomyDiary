@@ -97,10 +97,9 @@ extension CounselingPhotoCollectionViewCell {
 
         let networkItem = DispatchWorkItem { [weak self] in
             guard let self else { return }
-            let downsampledImage = UIImage.downsample(imageAt: url, to: .init(width: 70, height: 70))
+            let image = try? ImageCache.shared.getThumbnailImage(forKey: id, pointSize: .init(width: 70, height: 70))
             DispatchQueue.main.async {
-                self.imageView.image = downsampledImage
-            }
+                self.imageView.image = image
         }
         self.workItem = networkItem
         DispatchQueue.global().async(execute: networkItem)
