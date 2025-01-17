@@ -2044,7 +2044,7 @@
 				);
 				MARKETING_VERSION = 1.1.0;
 				OTHER_LDFLAGS = "-ObjC";
-				OTHER_SWIFT_FLAGS = "";
+				OTHER_SWIFT_FLAGS = "-D\"SCROLL_TEST\"";
 				PRODUCT_BUNDLE_IDENTIFIER = com.terranav.gloomydiary;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
