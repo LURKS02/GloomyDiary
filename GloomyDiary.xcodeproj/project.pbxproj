@@ -1996,7 +1996,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = "";
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "GloomyDiary copy4-Info.plist";
+				INFOPLIST_FILE = GloomyDiary/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "울다";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
@@ -2032,7 +2032,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = "";
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "GloomyDiary copy4-Info.plist";
+				INFOPLIST_FILE = GloomyDiary/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "울다";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
@@ -2067,7 +2067,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = "";
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "GloomyDiary copy4-Info.plist";
+				INFOPLIST_FILE = GloomyDiary/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "울다";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
