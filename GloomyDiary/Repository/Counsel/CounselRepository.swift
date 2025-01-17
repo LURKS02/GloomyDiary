@@ -10,7 +10,7 @@ import Dependencies
 
 final class CounselRepository: CounselRepositoryProtocol {
     @Dependency(\.counselingSessionRepository) var counselingSessionRepository
-    @Dependency(\.aiServicable) var aiService
+    @Dependency(\.aiService) var aiService
     @Dependency(\.date.now) var now
     @Dependency(\.uuid) var uuid
     
@@ -23,7 +23,7 @@ final class CounselRepository: CounselRepositoryProtocol {
         imageIDs: [UUID]
     ) async throws -> String {
         Logger.send(type: .api, "AI 서비스 요청")
-        let response = try await aiService.generateResponse(for: userInput, setting: character.systemSetting)
+        let response = try await aiService.generate(userInput, character.systemSetting)
         let session = Session(id: uuid(),
                               counselor: character,
                               title: title,
