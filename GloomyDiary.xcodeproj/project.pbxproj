@@ -73,6 +73,8 @@
 		D97421E42C5BF879002E47F9 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = D97421E32C5BF879002E47F9 /* SnapKit */; };
 		D97421E72C5BF90A002E47F9 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = D97421E62C5BF90A002E47F9 /* Lottie */; };
 		D97421EA2C5C0073002E47F9 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = D97421E92C5C0073002E47F9 /* ComposableArchitecture */; };
+		D97F1E0C2D3AC1C6001085E8 /* Keys.plist in Resources */ = {isa = PBXBuildFile; fileRef = D9FCFFA22CB9A99600A53A14 /* Keys.plist */; };
+		D97F1E0D2D3AC1C6001085E8 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D9CF37922CF39BAC00B1A92D /* GoogleService-Info.plist */; };
 		D99BF17C2CBEC14E00465718 /* CounselingSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = D99BF17B2CBEC14E00465718 /* CounselingSession.swift */; };
 		D99BF1802CBED3CE00465718 /* History.swift in Sources */ = {isa = PBXBuildFile; fileRef = D99BF17F2CBED3CE00465718 /* History.swift */; };
 		D9B07F3E2C8B5F430048B2D9 /* Extension+UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9B07F3D2C8B5F430048B2D9 /* Extension+UIImage.swift */; };
@@ -985,6 +987,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D97F1E0C2D3AC1C6001085E8 /* Keys.plist in Resources */,
+				D97F1E0D2D3AC1C6001085E8 /* GoogleService-Info.plist in Resources */,
 				D935483A2C72533A00E5EBF9 /* pulsingCircle.json in Resources */,
 				D97421BB2C5ABE14002E47F9 /* Assets.xcassets in Resources */,
 				D95A32DC2D00DCF50007A71A /* 온글잎 의연체.ttf in Resources */,
