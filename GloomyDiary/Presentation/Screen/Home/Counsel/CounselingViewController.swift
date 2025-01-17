@@ -222,12 +222,14 @@ extension CounselingViewController: UINavigationControllerDelegate {
             throw LocalError(message: "Session Error")
         }
         
-        let result = try await self.counselRepository.counsel(to: self.store.character,
-                                                              title: self.store.title,
-                                                              userInput: self.contentView.sendingLetterView.letterTextView.text,
-                                                              weather: Weather,
-                                                              emoji: Emoji,
-                                                              urls: self.store.urls)
+        let result = try await self.counselRepository.counsel(
+            to: self.store.character,
+            title: self.store.title,
+            userInput: self.contentView.sendingLetterView.letterTextView.text,
+            weather: Weather,
+            emoji: Emoji,
+            imageIDs: self.store.imageIDs
+        )
         userSettingRepository.update(keyPath: \.isFirstProcess, value: false)
         return result
     }
