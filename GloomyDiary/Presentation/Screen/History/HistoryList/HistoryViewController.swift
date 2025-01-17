@@ -132,12 +132,12 @@ extension HistoryViewController: UICollectionViewDelegateFlowLayout {
     struct DiffableSession: Equatable, Hashable {
         let id: UUID
         let response: String
-        let urls: [URL]
+        let imageIDs: [UUID]
         
         init(_ session: Session) {
             self.id = session.id
             self.response = session.response
-            self.urls = session.urls
+            self.imageIDs = session.imageIDs
         }
         
         static func == (lhs: Self, rhs: Self) -> Bool {

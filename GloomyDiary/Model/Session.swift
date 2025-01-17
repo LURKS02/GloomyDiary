@@ -16,7 +16,7 @@ struct Session: Identifiable, Hashable {
     let createdAt: Date
     let weather: Weather
     let emoji: Emoji
-    let urls: [URL]
+    let imageIDs: [UUID]
     
     init(
         id: UUID,
@@ -27,7 +27,7 @@ struct Session: Identifiable, Hashable {
         createdAt: Date,
         weather: Weather,
         emoji: Emoji,
-        urls: [URL]
+        imageIDs: [UUID]
     ) {
         self.id = id
         self.counselor = counselor
@@ -37,7 +37,7 @@ struct Session: Identifiable, Hashable {
         self.createdAt = createdAt
         self.weather = weather
         self.emoji = emoji
-        self.urls = urls
+        self.imageIDs = imageIDs
     }
 }
 

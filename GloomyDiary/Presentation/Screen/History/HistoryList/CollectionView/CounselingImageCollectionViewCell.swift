@@ -30,7 +30,7 @@ final class CounselingImageCollectionViewCell: UICollectionViewCell {
     
     private var workItem: DispatchWorkItem?
     
-    private var currentURL: URL?
+    private var imageID: UUID?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -47,7 +47,7 @@ final class CounselingImageCollectionViewCell: UICollectionViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         workItem?.cancel()
-        currentURL = nil
+        imageID = nil
         workItem = nil
         lottieView.isHidden = false
         imageView.image = nil
@@ -73,7 +73,7 @@ final class CounselingImageCollectionViewCell: UICollectionViewCell {
         }
     }
     
-    func configure(with url: URL) {
+    func configure(with imageID: UUID) {
         workItem?.cancel()
         
         let newWorkItem = DispatchWorkItem { [weak self] in
@@ -81,7 +81,7 @@ final class CounselingImageCollectionViewCell: UICollectionViewCell {
             let downsampledImage = UIImage.downsample(imageAt: url, to: .init(width: Metric.itemSize, height: Metric.itemSize))
             guard let downsampledImage else { return }
             DispatchQueue.main.async {
-                guard url == self.currentURL else { return }
+                guard imageID == self.imageID else { return }
                 self.lottieView.isHidden = true
                 UIView.transition(with: self.imageView, duration: 0.3, options: .transitionCrossDissolve, animations: {
                     self.imageView.image = downsampledImage
@@ -90,7 +90,7 @@ final class CounselingImageCollectionViewCell: UICollectionViewCell {
         }
         
         self.workItem = newWorkItem
-        self.currentURL = url
+        self.imageID = imageID
         DispatchQueue.global().asyncAfter(deadline: .now() + .milliseconds(250), execute: newWorkItem)
     }
 }

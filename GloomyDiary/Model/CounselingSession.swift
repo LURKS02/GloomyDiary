@@ -118,7 +118,7 @@ extension CounselingSession {
                   createdAt: session.createdAt,
                   weatherIdentifier: session.weather.identifier,
                   emojiIdentifier: session.emoji.identifier,
-                  images: session.urls.map { $0.lastPathComponent })
+                  images: session.imageIDs.map { $0.uuidString })
     }
     
     func toDomain() -> Session? {

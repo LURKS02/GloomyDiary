@@ -10,8 +10,8 @@ import RxSwift
 import RxRelay
 
 protocol CounselingPhotoCellDelegate: AnyObject {
-    func openImageViewer(with: URL)
-    func removeImage(_ url: URL)
+    func openImageViewer(with id: UUID)
+    func removeImage(_ id: UUID)
 }
 
 final class CounselingPhotoCollectionViewCell: UICollectionViewCell {
@@ -91,10 +91,10 @@ final class CounselingPhotoCollectionViewCell: UICollectionViewCell {
 }
 
 extension CounselingPhotoCollectionViewCell { 
-    func configure(with url: URL, delegate: CounselingPhotoCellDelegate) {
+    func configure(with id: UUID, delegate: CounselingPhotoCellDelegate) {
         self.delegate = delegate
         workItem?.cancel()
-        
+
         let networkItem = DispatchWorkItem { [weak self] in
             guard let self else { return }
             let downsampledImage = UIImage.downsample(imageAt: url, to: .init(width: 70, height: 70))
@@ -106,12 +106,12 @@ extension CounselingPhotoCollectionViewCell {
         DispatchQueue.global().async(execute: networkItem)
         
         tapRelay.subscribe(onNext: { [weak delegate] in
-            delegate?.openImageViewer(with: url)
+            delegate?.openImageViewer(with: id)
         })
         .disposed(by: disposeBag)
         
         removeRelay.subscribe(onNext: { [weak delegate] in
-            delegate?.removeImage(url)
+            delegate?.removeImage(id)
         })
         .disposed(by: disposeBag)
     }

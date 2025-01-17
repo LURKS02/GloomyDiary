@@ -20,9 +20,9 @@ final class TestEnvironmentManager {
 
 extension TestEnvironmentManager {
     private func prepareCounselingSessions() async {
-        var urls = loadImagesFromDisk()
+        var ids = ImageCache.shared.readIDs()
         
-        if urls.isEmpty {
+        if ids.isEmpty {
             let jsons = await fetchImageJSON(maxPage: maxPage)
             let imageURLs = jsons.compactMap { json -> URL? in
                 guard let urlString = json["download_url"] as? String else { return nil }
@@ -35,14 +35,14 @@ extension TestEnvironmentManager {
         }
         
         try? await counselingSessionRepository.initialize()
-        await createSessions(with: urls)
+        await createSessions(with: ids)
     }
     
-    private func createSessions(with urls: [URL]) async {
-        let sessions = stride(from: 0, to: urls.count, by: 3).map { index in
-            let imageURLs = (0..<3).compactMap { offset in
-                let urlIndex = index + offset
-                return urlIndex < urls.count ? urls[urlIndex] : nil
+    private func createSessions(with imageIDs: [UUID]) async {
+        let sessions = stride(from: 0, to: imageIDs.count, by: 3).map { index in
+            let ids = (0..<3).compactMap { offset in
+                let idIndex = index + offset
+                return idIndex < imageIDs.count ? imageIDs[idIndex] : nil
             }
             
             let session = Session(id: UUID(),
@@ -53,7 +53,7 @@ extension TestEnvironmentManager {
                                   createdAt: .now,
                                   weather: Weather.getRandomElement(),
                                   emoji: Emoji.getRandomElement(),
-                                  urls: imageURLs)
+                                  imageIDs: ids)
             
             return session
         }

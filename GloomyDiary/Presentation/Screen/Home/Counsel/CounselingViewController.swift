@@ -37,13 +37,13 @@ final class CounselingViewController: BaseViewController<CounselingView> {
             cell.configure(count: count, maxCount: maxCount)
             return cell
             
-        case .photoItem(_, let url):
+        case .photoItem(_, let imageID):
             guard let cell = collectionView.dequeueReusableCell(
                 withReuseIdentifier: CounselingPhotoCollectionViewCell.identifier,
                 for: indexPath
             ) as? CounselingPhotoCollectionViewCell else { return UICollectionViewCell() }
             
-            cell.configure(with: url, delegate: self)
+            cell.configure(with: imageID, delegate: self)
             return cell
         }
     }
@@ -183,10 +183,10 @@ extension CounselingViewController {
 }
 
 extension CounselingViewController: CounselingPhotoCellDelegate {
-    func removeImage(_ url: URL) {
+    func removeImage(_ id: UUID) {
         let items = dataSource.snapshot().itemIdentifiers
         let filteredItems = items.compactMap { item -> CounselingViewItem? in
-            if case let .photoItem(_, photoURL) = item, photoURL == url {
+            if case let .photoItem(_, photoID) = item, photoID == id {
                 return nil
             } else if case .photoItem = item {
                 return item
@@ -196,16 +196,16 @@ extension CounselingViewController: CounselingPhotoCellDelegate {
         
         applySnapshot(with: filteredItems)
             
-        store.send(.updateImageURLs(filteredItems.compactMap { item -> URL? in
-            if case let .photoItem(_, url) = item {
-                return url
+        store.send(.updateImageIDs(filteredItems.compactMap { item -> UUID? in
+            if case let .photoItem(_, imageID) = item {
+                return imageID
             }
             return nil
         }))
     }
     
-    func openImageViewer(with url: URL) {
-        let imageViewer = ImageDetailViewController(url: url)
+    func openImageViewer(with id: UUID) {
+        let imageViewer = ImageDetailViewController(imageID: id)
         imageViewer.modalPresentationStyle = .pageSheet
         present(imageViewer, animated: true)
     }
@@ -240,7 +240,7 @@ extension CounselingViewController: UINavigationControllerDelegate {
 
 extension CounselingViewController: PHPickerViewControllerDelegate {
     func openPicker() {
-        guard store.urls.count < 10 else { return }
+        guard store.imageIDs.count < 10 else { return }
         var pickerConfiguration = PHPickerConfiguration()
         let numberOfItems = dataSource.snapshot().numberOfItems
         pickerConfiguration.selectionLimit = 10 - numberOfItems + 1
@@ -256,22 +256,21 @@ extension CounselingViewController: PHPickerViewControllerDelegate {
         isPickerProcessing = true
         
         Task {
-            guard let urls = try? await loadImageURLs(from: results) else { return }
+            guard let ids = try? await loadImageIDs(from: results) else { return }
             let snapshot = dataSource.snapshot()
             var items = snapshot.itemIdentifiers
-            items.append(contentsOf: urls.map { CounselingViewItem.photoItem(UUID(), url: $0) })
+            items.append(contentsOf: ids.map { CounselingViewItem.photoItem(UUID(), imageID: $0) })
             items.removeFirst()
             applySnapshot(with: items)
             picker.dismiss(animated: true)
             isPickerProcessing = false
             
-            store.send(.selectedImageURLs(urls))
+            store.send(.selectedImageIDs(ids))
         }
     }
     
-    func loadImageURLs(from results: [PHPickerResult]) async throws -> [URL] {
-        let imageFileManager = ImageFileManager.shared
-        var urls: [URL] = []
+    func loadImageIDs(from results: [PHPickerResult]) async throws -> [UUID] {
+        var imageIDs: [UUID] = []
         
         for result in results {
             let data = try await loadImageData(from: result)
@@ -279,16 +278,16 @@ extension CounselingViewController: PHPickerViewControllerDelegate {
             urls.append(imageURL)
         }
         
-        return urls
+        return imageIDs
     }
     
-    func loadImageData(from result: PHPickerResult) async throws -> Data {
+    func loadUIImage(from result: PHPickerResult) async throws -> UIImage {
         try await withCheckedThrowingContinuation { continuation in
-            result.itemProvider.loadDataRepresentation(forTypeIdentifier: UTType.image.identifier) { data, error in
+            result.itemProvider.loadObject(ofClass: UIImage.self) { object, error in
                 if let error = error {
                     continuation.resume(throwing: error)
-                } else if let data = data {
-                    continuation.resume(returning: data)
+                } else if let image = object as? UIImage {
+                    continuation.resume(returning: image)
                 } else {
                     continuation.resume(throwing: LocalError(message: "Data load error"))
                 }
@@ -379,9 +378,9 @@ extension CounselingViewController: UICollectionViewDropDelegate {
             coordinator.drop(item.dragItem, toItemAt: destinationIndexPath)
         }
         
-        store.send(.updateImageURLs(updatedItems.compactMap { item -> URL? in
-            if case let .photoItem(_, url) = item {
-                return url
+        store.send(.updateImageIDs(updatedItems.compactMap { item -> UUID? in
+            if case let .photoItem(_, imageID) = item {
+                return imageID
             }
             return nil
         }))

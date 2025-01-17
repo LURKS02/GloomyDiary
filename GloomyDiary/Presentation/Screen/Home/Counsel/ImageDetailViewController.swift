@@ -17,7 +17,7 @@ final class ImageDetailViewController: UIViewController {
         $0.contentMode = .scaleAspectFit
     }
     
-    init(url: URL) {
+    init(imageID: UUID) {
         super.init(nibName: nil, bundle: nil)
         
         let screenWidth = UIView.screenWidth

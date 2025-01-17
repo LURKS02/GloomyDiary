@@ -32,7 +32,7 @@ final class CounselRepository: CounselRepositoryProtocol {
                               createdAt: now,
                               weather: weather,
                               emoji: emoji,
-                              urls: urls)
+                              imageIDs: imageIDs)
         try await counselingSessionRepository.create(session)
         Logger.send(type: .api, "AI 서비스 응답 수신")
         return response
