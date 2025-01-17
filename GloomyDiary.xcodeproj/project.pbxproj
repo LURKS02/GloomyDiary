@@ -10,8 +10,6 @@
 		D92F49832C79F58300CD7D2A /* GhostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D92F49822C79F58300CD7D2A /* GhostView.swift */; };
 		D92F49902C7A02BF00CD7D2A /* CounselingCharacter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D92F498F2C7A02BF00CD7D2A /* CounselingCharacter.swift */; };
 		D92F49922C7A08EA00CD7D2A /* IntroduceLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D92F49912C7A08EA00CD7D2A /* IntroduceLabel.swift */; };
-		D93548332C71E38F00E5EBF9 /* sparkles.json in Resources */ = {isa = PBXBuildFile; fileRef = D93548312C71E38F00E5EBF9 /* sparkles.json */; };
-		D935483A2C72533A00E5EBF9 /* pulsingCircle.json in Resources */ = {isa = PBXBuildFile; fileRef = D93548392C72533A00E5EBF9 /* pulsingCircle.json */; };
 		D935483D2C725BDA00E5EBF9 /* Animation.swift in Sources */ = {isa = PBXBuildFile; fileRef = D935483C2C725BDA00E5EBF9 /* Animation.swift */; };
 		D937405A2C7E4075003E02FD /* CounselingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D93740592C7E4075003E02FD /* CounselingViewController.swift */; };
 		D937405C2C7E4099003E02FD /* CounselingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D937405B2C7E4099003E02FD /* CounselingView.swift */; };
@@ -73,11 +71,13 @@
 		D97421E42C5BF879002E47F9 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = D97421E32C5BF879002E47F9 /* SnapKit */; };
 		D97421E72C5BF90A002E47F9 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = D97421E62C5BF90A002E47F9 /* Lottie */; };
 		D97421EA2C5C0073002E47F9 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = D97421E92C5C0073002E47F9 /* ComposableArchitecture */; };
+		D99958502D3AD65D008E6F71 /* stars.json in Resources */ = {isa = PBXBuildFile; fileRef = D999584F2D3AD65D008E6F71 /* stars.json */; };
+		D99958522D3AD930008E6F71 /* sparkles.json in Resources */ = {isa = PBXBuildFile; fileRef = D99958512D3AD92C008E6F71 /* sparkles.json */; };
+		D99958542D3AD954008E6F71 /* pulsingCircle.json in Resources */ = {isa = PBXBuildFile; fileRef = D99958532D3AD954008E6F71 /* pulsingCircle.json */; };
 		D99BF17C2CBEC14E00465718 /* CounselingSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = D99BF17B2CBEC14E00465718 /* CounselingSession.swift */; };
 		D99BF1802CBED3CE00465718 /* History.swift in Sources */ = {isa = PBXBuildFile; fileRef = D99BF17F2CBED3CE00465718 /* History.swift */; };
 		D9B07F3E2C8B5F430048B2D9 /* Extension+UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9B07F3D2C8B5F430048B2D9 /* Extension+UIImage.swift */; };
 		D9B07F402C8B66320048B2D9 /* Extension+UIStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9B07F3F2C8B66320048B2D9 /* Extension+UIStackView.swift */; };
-		D9B07F922C99C8360048B2D9 /* stars.json in Resources */ = {isa = PBXBuildFile; fileRef = D9B07F912C99C8360048B2D9 /* stars.json */; };
 		D9BF604C2CC1815F001C9D2B /* CounselingSessionRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9BF604B2CC1815F001C9D2B /* CounselingSessionRepository.swift */; };
 		D9BF605C2CC5F9A9001C9D2B /* SwiftDataCounselingSessionRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9BF605B2CC5F9A9001C9D2B /* SwiftDataCounselingSessionRepository.swift */; };
 		D9BF605E2CC6C1CD001C9D2B /* CounselingSessionRepositoryKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9BF605D2CC6C1CD001C9D2B /* CounselingSessionRepositoryKey.swift */; };
@@ -172,8 +172,6 @@
 		D92F49822C79F58300CD7D2A /* GhostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GhostView.swift; sourceTree = "<group>"; };
 		D92F498F2C7A02BF00CD7D2A /* CounselingCharacter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CounselingCharacter.swift; sourceTree = "<group>"; };
 		D92F49912C7A08EA00CD7D2A /* IntroduceLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroduceLabel.swift; sourceTree = "<group>"; };
-		D93548312C71E38F00E5EBF9 /* sparkles.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = sparkles.json; path = ../../../../../Downloads/sparkles.json; sourceTree = "<group>"; };
-		D93548392C72533A00E5EBF9 /* pulsingCircle.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = pulsingCircle.json; path = ../../../../../Downloads/pulsingCircle.json; sourceTree = "<group>"; };
 		D935483C2C725BDA00E5EBF9 /* Animation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Animation.swift; sourceTree = "<group>"; };
 		D93740592C7E4075003E02FD /* CounselingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CounselingViewController.swift; sourceTree = "<group>"; };
 		D937405B2C7E4099003E02FD /* CounselingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CounselingView.swift; sourceTree = "<group>"; };
@@ -238,11 +236,13 @@
 		D97421D42C5ABE15002E47F9 /* GloomyDiaryUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GloomyDiaryUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		D97F1D8F2D3AA762001085E8 /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
 		D97F1D902D3AA773001085E8 /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
+		D999584F2D3AD65D008E6F71 /* stars.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = stars.json; sourceTree = "<group>"; };
+		D99958512D3AD92C008E6F71 /* sparkles.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = sparkles.json; sourceTree = "<group>"; };
+		D99958532D3AD954008E6F71 /* pulsingCircle.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = pulsingCircle.json; sourceTree = "<group>"; };
 		D99BF17B2CBEC14E00465718 /* CounselingSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CounselingSession.swift; sourceTree = "<group>"; };
 		D99BF17F2CBED3CE00465718 /* History.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = History.swift; sourceTree = "<group>"; };
 		D9B07F3D2C8B5F430048B2D9 /* Extension+UIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+UIImage.swift"; sourceTree = "<group>"; };
 		D9B07F3F2C8B66320048B2D9 /* Extension+UIStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+UIStackView.swift"; sourceTree = "<group>"; };
-		D9B07F912C99C8360048B2D9 /* stars.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = stars.json; path = ../../../../../Downloads/stars.json; sourceTree = "<group>"; };
 		D9BF604B2CC1815F001C9D2B /* CounselingSessionRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CounselingSessionRepository.swift; sourceTree = "<group>"; };
 		D9BF605B2CC5F9A9001C9D2B /* SwiftDataCounselingSessionRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftDataCounselingSessionRepository.swift; sourceTree = "<group>"; };
 		D9BF605D2CC6C1CD001C9D2B /* CounselingSessionRepositoryKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CounselingSessionRepositoryKey.swift; sourceTree = "<group>"; };
@@ -386,10 +386,10 @@
 		D93548302C71E37F00E5EBF9 /* Lotties */ = {
 			isa = PBXGroup;
 			children = (
+				D99958532D3AD954008E6F71 /* pulsingCircle.json */,
+				D99958512D3AD92C008E6F71 /* sparkles.json */,
 				D9DB06292D2A79C90076B262 /* skeleton.json */,
-				D9B07F912C99C8360048B2D9 /* stars.json */,
-				D93548392C72533A00E5EBF9 /* pulsingCircle.json */,
-				D93548312C71E38F00E5EBF9 /* sparkles.json */,
+				D999584F2D3AD65D008E6F71 /* stars.json */,
 			);
 			path = Lotties;
 			sourceTree = "<group>";
@@ -985,13 +985,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D935483A2C72533A00E5EBF9 /* pulsingCircle.json in Resources */,
 				D97421BB2C5ABE14002E47F9 /* Assets.xcassets in Resources */,
 				D95A32DC2D00DCF50007A71A /* 온글잎 의연체.ttf in Resources */,
-				D9B07F922C99C8360048B2D9 /* stars.json in Resources */,
 				D97421BE2C5ABE14002E47F9 /* Base in Resources */,
-				D93548332C71E38F00E5EBF9 /* sparkles.json in Resources */,
+				D99958522D3AD930008E6F71 /* sparkles.json in Resources */,
 				D9DB062A2D2A79C90076B262 /* skeleton.json in Resources */,
+				D99958542D3AD954008E6F71 /* pulsingCircle.json in Resources */,
+				D99958502D3AD65D008E6F71 /* stars.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
