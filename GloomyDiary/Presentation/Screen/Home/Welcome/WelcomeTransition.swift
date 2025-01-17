@@ -17,8 +17,7 @@ extension WelcomeTransition: UIViewControllerAnimatedTransitioning {
     func animateTransition(using transitionContext: any UIViewControllerContextTransitioning) {
         let containerView = transitionContext.containerView
         guard let fromView = transitionContext.view(forKey: .from) as? WelcomeView,
-              let toView = transitionContext.view(forKey: .to) as? GuideView,
-              let fromViewController = transitionContext.viewController(forKey: .from) as? WelcomeViewController else { return }
+              let toView = transitionContext.view(forKey: .to) as? GuideView else { return }
         
         let ghostImageView = fromView.ghostImageView
         ghostImageView.translatesAutoresizingMaskIntoConstraints = true
