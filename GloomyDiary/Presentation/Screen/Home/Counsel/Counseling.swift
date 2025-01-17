@@ -16,23 +16,23 @@ struct Counseling {
         let weatherIdentifier: String
         let emojiIdentifier: String
         let character: CounselingCharacter
-        var urls: [URL] = []
+        var imageIDs: [UUID] = []
     }
     
     enum Action {
-        case selectedImageURLs([URL])
-        case updateImageURLs([URL])
+        case selectedImageIDs([UUID])
+        case updateImageIDs([UUID])
     }
     
     var body: some Reducer<State, Action> {
         Reduce { state, action in
             switch action {
-            case .selectedImageURLs(let urls):
-                state.urls += urls
+            case .selectedImageIDs(let ids):
+                state.imageIDs += ids
                 return .none
                 
-            case .updateImageURLs(let urls):
-                state.urls = urls
+            case .updateImageIDs(let ids):
+                state.imageIDs = ids
                 return .none
             }
         }

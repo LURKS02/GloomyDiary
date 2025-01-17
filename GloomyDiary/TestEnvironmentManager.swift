@@ -7,6 +7,7 @@
 
 import Foundation
 import Dependencies
+import UIKit.UIImage
 
 final class TestEnvironmentManager {
     @Dependency(\.counselingSessionRepository) var counselingSessionRepository
@@ -20,29 +21,37 @@ final class TestEnvironmentManager {
 
 extension TestEnvironmentManager {
     private func prepareCounselingSessions() async {
-        var urls = loadImagesFromDisk()
+        var ids = ImageCache.shared.readIDs()
         
-        if urls.isEmpty {
+        if ids.isEmpty {
             let jsons = await fetchImageJSON(maxPage: maxPage)
             let imageURLs = jsons.compactMap { json -> URL? in
                 guard let urlString = json["download_url"] as? String else { return nil }
                 return URL(string: urlString)
             }
             
-            let datas = await fetchData(from: imageURLs)
-            saveImagesToDisk(datas: datas)
-            urls = loadImagesFromDisk()
+            for url in imageURLs {
+                do {
+                    guard let imageData = try await fetchData(from: url) else { return }
+                    
+                    let id = try ImageCache.shared.saveImageDataToDisk(imageData)
+                    ids.append(id)
+                    print(">>>", ids.count)
+                } catch {
+                    print(error)
+                }
+            }
         }
         
         try? await counselingSessionRepository.initialize()
-        await createSessions(with: urls)
+        await createSessions(with: ids)
     }
     
-    private func createSessions(with urls: [URL]) async {
-        let sessions = stride(from: 0, to: urls.count, by: 3).map { index in
-            let imageURLs = (0..<3).compactMap { offset in
-                let urlIndex = index + offset
-                return urlIndex < urls.count ? urls[urlIndex] : nil
+    private func createSessions(with imageIDs: [UUID]) async {
+        let sessions = stride(from: 0, to: imageIDs.count, by: 3).map { index in
+            let ids = (0..<3).compactMap { offset in
+                let idIndex = index + offset
+                return idIndex < imageIDs.count ? imageIDs[idIndex] : nil
             }
             
             let session = Session(id: UUID(),
@@ -53,7 +62,7 @@ extension TestEnvironmentManager {
                                   createdAt: .now,
                                   weather: Weather.getRandomElement(),
                                   emoji: Emoji.getRandomElement(),
-                                  urls: imageURLs)
+                                  imageIDs: ids)
             
             return session
         }
@@ -67,16 +76,6 @@ extension TestEnvironmentManager {
         }
         
         try? await counselingSessionRepository.save()
-    }
-    
-    private func loadImagesFromDisk() -> [URL] {
-        return ImageFileManager.shared.getAllImageURL()
-    }
-    
-    private func saveImagesToDisk(datas: [Data]) {
-        datas.forEach { data in
-            _ = try? ImageFileManager.shared.write(data: data, fileName: "image_\(UUID()).jpg")
-        }
     }
     
     private func fetchImageJSON(maxPage: Int) async -> [[String: Any]] {
@@ -96,32 +95,23 @@ extension TestEnvironmentManager {
         return datas
     }
     
-    private func fetchData(from urls: [URL]) async -> [Data] {
-        var result: [Data] = []
-        
+    private func fetchData(from url: URL) async throws -> Data? {
         let configuration = URLSessionConfiguration.default
         configuration.timeoutIntervalForRequest = 10000
         configuration.timeoutIntervalForResource = 10000
         let session = URLSession(configuration: configuration)
         
-        await withTaskGroup(of: (Data?).self) { group in
-            for url in urls {
-                group.addTask {
-                    do {
-                        let (data, _) = try await session.data(from: url)
-                        return data
-                    } catch {
-                        print(error)
-                        return nil
-                    }
-                }
-            }
-            
-            for await data in group {
-                if let data = data { result.append(data) }
-            }
-        }
+        let (data, _) = try await session.data(from: url)
+        return data
+    }
+}
+
+private extension ImageCache {
+    @discardableResult
+    func saveImageDataToDisk(_ data: Data) throws -> UUID {
+        let id = UUID()
         
-        return result
+        guard let image = UIImage(data: data) else { throw LocalError(message: "invalid image") }
+        return try saveImageToDisk(image: image)
     }
 }

@@ -17,14 +17,18 @@ final class ImageDetailViewController: UIViewController {
         $0.contentMode = .scaleAspectFit
     }
     
-    init(url: URL) {
+    init(imageID: UUID) {
         super.init(nibName: nil, bundle: nil)
         
         let screenWidth = UIView.screenWidth
         let screenHeight = UIView.screenHeight
         let screenSize = CGSize(width: screenWidth, height: screenHeight)
         
-        let downsampledImage = UIImage.downsample(imageAt: url, within: screenSize)
+        let downsampledImage = try? ImageCache.shared.getImage(
+            forKey: imageID,
+            pointSize: screenSize,
+            mode: .scaleAspectFit
+        )
         imageView.image = downsampledImage
     }
     

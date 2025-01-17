@@ -8,5 +8,5 @@
 import Foundation
 
 struct HistoryImageItem: Hashable {
-    let url: URL
+    let imageID: UUID
 }

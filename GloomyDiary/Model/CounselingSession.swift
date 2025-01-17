@@ -118,7 +118,7 @@ extension CounselingSession {
                   createdAt: session.createdAt,
                   weatherIdentifier: session.weather.identifier,
                   emojiIdentifier: session.emoji.identifier,
-                  images: session.urls.map { $0.lastPathComponent })
+                  images: session.imageIDs.map { $0.uuidString })
     }
     
     func toDomain() -> Session? {
@@ -126,14 +126,15 @@ extension CounselingSession {
               let weather = Weather(identifier: self.weatherIdentifier),
               let emoji = Emoji(identifier: self.emojiIdentifier) else { return nil }
         
-        return Session(id: self.id,
-                       counselor: counselor,
-                       title: self.title,
-                       query: self.query,
-                       response: self.response,
-                       createdAt: self.createdAt,
-                       weather: weather,
-                       emoji: emoji,
-                       urls: images.map { ImageFileManager.shared.getImageURL(fileName: $0) })
+        return Session(
+            id: self.id,
+            counselor: counselor,
+            title: self.title,
+            query: self.query,
+            response: self.response,
+            createdAt: self.createdAt,
+            weather: weather,
+            emoji: emoji,
+            imageIDs: images.compactMap { UUID(uuidString: $0) })
     }
 }

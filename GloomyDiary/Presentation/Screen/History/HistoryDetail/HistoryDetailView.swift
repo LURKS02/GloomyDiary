@@ -141,7 +141,7 @@ extension HistoryDetailView {
         responseLetterView.configure(with: session.counselor, response: session.response)
         gradientBackgroundView.alpha = 0.0
         
-        if session.urls.isEmpty {
+        if session.imageIDs.isEmpty {
             contentLabel.snp.remakeConstraints { make in
                 make.top.equalTo(stateLabel.snp.bottom).offset(40)
                 make.horizontalEdges.equalToSuperview().inset(Metric.textPadding)
@@ -149,7 +149,7 @@ extension HistoryDetailView {
             
             imageScrollView.removeFromSuperview()
         } else {
-            imageScrollView.configure(with: session.urls)
+            imageScrollView.configure(with: session.imageIDs)
         }
     }
     

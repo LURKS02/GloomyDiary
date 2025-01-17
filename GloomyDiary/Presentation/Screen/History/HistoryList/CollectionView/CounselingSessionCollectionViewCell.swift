@@ -74,18 +74,12 @@ final class CounselingSessionCollectionViewCell: UICollectionViewCell {
     
     private let feedbackGenerator = UIImpactFeedbackGenerator(style: .soft)
     
-    private var urls: [URL] = [] {
+    private var imageIDs: [UUID] = [] {
         didSet {
-            let now: CFTimeInterval = CACurrentMediaTime()
             var snapshot = NSDiffableDataSourceSnapshot<Section, Item>()
             snapshot.appendSections([.main])
-            snapshot.appendItems(self.urls.map { Item(url: $0) })
+            snapshot.appendItems(self.imageIDs.map { Item(imageID: $0) })
             dataSource.apply(snapshot, animatingDifferences: false)
-            
-            DispatchQueue.main.async {
-                let elapsedTime = CACurrentMediaTime() - now
-                print(">>> elapsedTime", elapsedTime)
-            }
         }
     }
     
@@ -110,7 +104,7 @@ final class CounselingSessionCollectionViewCell: UICollectionViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         
-        urls = []
+        imageIDs = []
         disposeBag = DisposeBag()
     }
     
@@ -165,7 +159,7 @@ extension CounselingSessionCollectionViewCell {
         titleLabel.text = session.title
         stateLabel.text = "날씨 \(session.weather.name), \(session.emoji.description)"
         contentLabel.text = session.query
-        resetConstraints(withImages: !session.urls.isEmpty)
+        resetConstraints(withImages: !session.imageIDs.isEmpty)
     }
     
     func configure(with session: Session) {
@@ -174,8 +168,8 @@ extension CounselingSessionCollectionViewCell {
         characterImageView.image = UIImage(named: session.counselor.imageName)
         contentLabel.text = session.query
         
-        resetConstraints(withImages: !session.urls.isEmpty)
-        self.urls = session.urls
+        resetConstraints(withImages: !session.imageIDs.isEmpty)
+        self.imageIDs = session.imageIDs
     }
     
     func resetConstraints(withImages: Bool) {
@@ -208,7 +202,7 @@ extension CounselingSessionCollectionViewCell {
     
     func provideCell(collectionView: UICollectionView, indexPath: IndexPath, item: Item) -> UICollectionViewCell? {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CounselingImageCollectionViewCell.identifier, for: indexPath) as? CounselingImageCollectionViewCell else { return nil }
-        cell.configure(with: urls[indexPath.row])
+        cell.configure(with: imageIDs[indexPath.row])
         return cell
     }
 }

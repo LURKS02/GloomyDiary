@@ -30,11 +30,11 @@ final class HistoryDetailImageView: UIView {
         $0.backgroundColor = .black.withAlphaComponent(0.5)
     }
     
-    private var urls: [URL] = []
+    private var imageIDs: [UUID] = []
     
     private let imageSize: CGFloat
     
-    var tapRelay = PublishRelay<URL?>()
+    var tapRelay = PublishRelay<UUID?>()
     
     init(imageSize: CGFloat) {
         self.imageSize = imageSize
@@ -90,15 +90,19 @@ final class HistoryDetailImageView: UIView {
             .subscribe(onNext: { [weak self] _ in
                 guard let self else { return }
                 let page = pageControl.currentPage
-                tapRelay.accept(urls[page])
+                tapRelay.accept(imageIDs[page])
             })
             .disposed(by: rx.disposeBag)
     }
     
-    func configure(with urls: [URL]) {
-        for index in urls.indices {
+    func configure(with imageIDs: [UUID]) {
+        for index in imageIDs.indices {
             let imageView = UIImageView()
-            let downsampledImage = UIImage.downsample(imageAt: urls[index], to: .init(width: imageSize, height: imageSize))
+            guard let downsampledImage = try? ImageCache.shared.getImage(
+                forKey: imageIDs[index],
+                pointSize: .init(width: imageSize, height: imageSize)
+            ) else { return }
+            
             imageView.image = downsampledImage
             imageView.contentMode = .scaleAspectFill
             imageView.clipsToBounds = true
@@ -107,9 +111,9 @@ final class HistoryDetailImageView: UIView {
             scrollView.addSubview(imageView)
         }
         
-        pageControl.numberOfPages = urls.count
-        numberLabel.text = "1/\(urls.count)"
-        self.urls = urls
+        pageControl.numberOfPages = imageIDs.count
+        numberLabel.text = "1/\(imageIDs.count)"
+        self.imageIDs = imageIDs
     }
     
     override func layoutSubviews() {

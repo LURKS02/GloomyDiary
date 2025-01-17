@@ -97,10 +97,10 @@ final class HistoryDetailViewController: BaseViewController<HistoryDetailView> {
 private extension HistoryDetailViewController {
     func bind() {
         contentView.imageScrollView.tapRelay
-            .subscribe(onNext: { [weak self] url in
+            .subscribe(onNext: { [weak self] id in
                 guard let self,
-                      let url else { return }
-                openImageViewer(with: url)
+                      let id else { return }
+                openImageViewer(with: id)
             })
             .disposed(by: rx.disposeBag)
         
@@ -112,8 +112,8 @@ private extension HistoryDetailViewController {
 }
 
 private extension HistoryDetailViewController {
-    func openImageViewer(with url: URL) {
-        let imageViewer = ImageDetailViewController(url: url)
+    func openImageViewer(with imageID: UUID) {
+        let imageViewer = ImageDetailViewController(imageID: imageID)
         imageViewer.modalPresentationStyle = .pageSheet
         present(imageViewer, animated: true)
     }

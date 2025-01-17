@@ -59,9 +59,6 @@ extension UIImage {
         
         guard let cgImage = CGImageSourceCreateThumbnailAtIndex(imageSource, 0, downsampleOptions) else { return nil }
         
-        let originImage = UIImage(cgImage: cgImage)
-        let image = UIImage(cgImage: cgImage, scale: scale, orientation: .up)
-        
         return UIImage(cgImage: cgImage, scale: scale, orientation: .up)
     }
     
@@ -70,6 +67,57 @@ extension UIImage {
         let imageRenderer = UIGraphicsImageRenderer(size: size)
         let frame = CGRect(origin: .zero, size: size)
         
-        return imageRenderer.image { _ in self.draw(in: frame)}
+        return imageRenderer.image { _ in self.draw(in: frame) }
+    }
+    
+    func resizedToSquare(sidePixel: CGFloat) -> UIImage? {
+        let screenScale = UIScreen.main.scale
+        let side = sidePixel / screenScale
+        
+        let originalWidth = self.size.width
+        let originalHeight = self.size.height
+        
+        let scaleFactor = max(side / originalWidth, side / originalHeight)
+        let targetWidth = originalWidth * scaleFactor
+        let targetHeight = originalHeight * scaleFactor
+        
+        let size = CGSize(width: targetWidth, height: targetHeight)
+        
+        let frame = CGRect(
+            x: (size.width - side) / 2.0,
+            y: (size.height - side) / 2.0,
+            width: side,
+            height: side)
+        
+        let renderer = UIGraphicsImageRenderer(size: CGSize(width: side, height: side))
+        return renderer.image { _ in
+            self.draw(in: CGRect(origin: CGPoint(x: -frame.origin.x, y: -frame.origin.y), size: size))
+        }
+    }
+    
+    func resizedToFit(pixelWidth: CGFloat, pixelHeight: CGFloat) -> UIImage? {
+        let originalWidth = self.size.width * self.scale
+        let originalHeight = self.size.height * self.scale
+        
+        if originalWidth <= pixelWidth && originalHeight <= pixelHeight {
+            return self
+        }
+        
+        let widthRatio = pixelWidth / originalWidth
+        let heightRatio = pixelHeight / originalHeight
+        let scaleFactor = min(widthRatio, heightRatio)
+        
+        let targetWidth = originalWidth * scaleFactor
+        let targetHeight = originalHeight * scaleFactor
+        
+        let size = CGSize(width: targetWidth / UIScreen.main.scale, height: targetHeight / UIScreen.main.scale)
+        let frame = CGRect(origin: .zero, size: size)
+
+        let format = UIGraphicsImageRendererFormat()
+        format.opaque = true
+        format.prefersExtendedRange = false
+        let renderer = UIGraphicsImageRenderer(size: size, format: format)
+        
+        return renderer.image { _ in self.draw(in: frame) }
     }
 }
