@@ -20,11 +20,16 @@ final class AppCoordinator {
     }
     
     func start() {
+        #if SCROLL_TEST
+        showMainView()
+        
+        #else
         if isFirstProcess {
             showCounselView()
         } else {
             showMainView()
         }
+        #endif
     }
 }
 
@@ -61,7 +66,7 @@ private extension AppCoordinator {
         window.rootViewController = mainViewController
         window.makeKeyAndVisible()
         
-        #if DEBUG
+        #if SCROLL_TEST
         let debugReadyViewController = DebugReadyViewController()
         debugReadyViewController.modalPresentationStyle = .overFullScreen
         Task {
@@ -70,7 +75,7 @@ private extension AppCoordinator {
             }
             let testEnvironmentManager = TestEnvironmentManager()
             await testEnvironmentManager.prepareEnvironment()
-            
+    
             await MainActor.run {
                 debugReadyViewController.dismiss(animated: false)
             }

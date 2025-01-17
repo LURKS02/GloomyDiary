@@ -12,6 +12,7 @@ import ComposableArchitecture
 struct Home {
     @Dependency(\.counselingSessionRepository) var counselingSessionRepository
     @Dependency(\.userSettingRepository) var userSettingRepository
+    @Dependency(\.logger) var logger
     @Dependency(\.date.now) var now
     
     @ObservableState
@@ -68,14 +69,20 @@ struct Home {
 private extension Home {
     func suggestNotification(send: Send<Action>) async {
         userSettingRepository.update(keyPath: \.hasSuggestedNotification, value: true)
-        Logger.send(type: .system, "유저에게 알림을 제안합니다.")
         await send(.showNotificationSuggestion)
+        
+        logger.send(.system, "유저에게 알림을 제안합니다.", nil)
     }
 
     func suggestReview(send: Send<Action>, lastReviewDeclinedDate: Date?) async {
         let dateString = convertDateToString(date: lastReviewDeclinedDate)
-        Logger.send(type: .system, "리뷰를 요청합니다.", parameters: ["마지막 요청 날짜": dateString])
         await send(.showReviewSuggestion)
+        
+        logger.send(
+            .system,
+            "리뷰를 요청합니다.",
+            ["마지막 요청 날짜": dateString]
+        )
     }
     
     func isNotificationSuggestable() -> Bool {

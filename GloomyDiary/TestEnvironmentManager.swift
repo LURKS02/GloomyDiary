@@ -83,7 +83,7 @@ extension TestEnvironmentManager {
         let baseURL = "https://picsum.photos/v2/list"
         
         for page in 1...maxPage {
-            let params = "?page=\(page)&limit=\(100)"
+            let params = "?page=\(page)&limit=\(3)"
             guard let url = URL(string: baseURL + params) else { continue }
             
             guard let (data, _) = try? await URLSession.shared.data(from: url),

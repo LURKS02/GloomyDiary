@@ -12,6 +12,8 @@ final class ChoosingEmojiViewController: BaseViewController<ChoosingEmojiView> {
     
     let store: StoreOf<ChoosingEmoji>
     
+    @Dependency(\.logger) var logger
+    
     
     // MARK: - Initialize
 
@@ -43,9 +45,13 @@ extension ChoosingEmojiViewController {
     private func bind() {
         contentView.allEmojiButtons.forEach { button in
             button.rx.tap
-                .do(onNext: { _ in
+                .do(onNext: { [weak self] _ in
                     let identifier = button.identifier
-                    Logger.send(type: .tapped, "이모지 버튼", parameters: ["이모지": identifier])
+                    self?.logger.send(
+                        .tapped,
+                        "이모지 버튼",
+                        ["이모지": identifier]
+                    )
                 })
                 .subscribe(onNext: { [weak self] _ in
                     guard let self else { return }
@@ -67,7 +73,11 @@ extension ChoosingEmojiViewController {
             .do(onNext: { [weak self] _ in
                 guard let title = self?.contentView.nextButton.title(for: .normal),
                       let selectedEmoji = self?.store.emojiIdentifier else { return }
-                Logger.send(type: .tapped, title, parameters: ["선택한 이모지": selectedEmoji])
+                self?.logger.send(
+                    .tapped,
+                    title,
+                    ["선택한 이모지": selectedEmoji]
+                )
             })
             .subscribe(onNext: { [weak self] _ in
                 guard let self,

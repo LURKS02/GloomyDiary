@@ -13,6 +13,8 @@ final class ReviewViewController: BaseViewController<ReviewView> {
     
     let store: StoreOf<Review>
     
+    @Dependency(\.logger) var logger
+    
     init(store: StoreOf<Review>) {
         self.store = store
         let contentView = ReviewView(character: CounselingCharacter.getRandomElement())
@@ -47,7 +49,7 @@ private extension ReviewViewController {
                     self.store.send(.didDeclineReview)
                     await self.contentView.runDismissAnimation()
                     self.dismiss(animated: false)
-                    Logger.send(type: .tapped, "블러 뷰(리뷰 거절)")
+                    self.logger.send(.tapped, "블러 뷰(리뷰 거절)", nil)
                 }
             })
             .disposed(by: rx.disposeBag)
@@ -60,7 +62,7 @@ private extension ReviewViewController {
                     self.store.send(.didDeclineReview)
                     await self.contentView.runDismissAnimation()
                     self.dismiss(animated: false)
-                    Logger.send(type: .tapped, title)
+                    self.logger.send(.tapped, title, nil)
                 }
             })
             .disposed(by: rx.disposeBag)
@@ -75,7 +77,7 @@ private extension ReviewViewController {
                     AppStore.requestReview(in: windowScene)
                     await self.contentView.runDismissAnimation()
                     self.dismiss(animated: false)
-                    Logger.send(type: .tapped, title)
+                    self.logger.send(.tapped, title, nil)
                 }
             })
             .disposed(by: rx.disposeBag)

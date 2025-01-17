@@ -14,6 +14,8 @@ final class GuideViewController: BaseViewController<GuideView> {
     
     private var isRunningTask = false
     
+    @Dependency(\.logger) var logger
+    
     init() {
         super.init(logID: "Guide")
     }
@@ -40,7 +42,11 @@ private extension GuideViewController {
             .when(.recognized)
             .do(onNext: { [weak self] _ in
                 guard let self else { return }
-                Logger.send(type: .tapped, "튜토리얼 클릭", parameters: ["횟수": animationCount])
+                self.logger.send(
+                    .tapped,
+                    "튜토리얼 클릭",
+                    ["횟수": animationCount]
+                )
             })
             .subscribe(onNext: { [weak self] _ in
                 guard let self else { return }

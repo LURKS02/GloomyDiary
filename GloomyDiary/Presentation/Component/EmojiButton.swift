@@ -73,7 +73,7 @@ extension EmojiButton {
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesMoved(touches, with: event)
         
-        var contiguration = self.configuration
+        var configuration = self.configuration
         configuration?.background.backgroundColor = .component(.buttonSelectedBlue).withAlphaComponent(0.3)
         
         self.configuration = configuration

@@ -5,12 +5,15 @@
 //  Created by 디해 on 10/28/24.
 //
 
-import UIKit
 import ComposableArchitecture
+import Dependencies
+import UIKit
 
 final class ChoosingCharacterViewController: BaseViewController<ChoosingCharacterView> {
     
     let store: StoreOf<ChoosingCharacter>
+    
+    @Dependency(\.logger) var logger
     
     
     // MARK: - Initialize
@@ -58,7 +61,11 @@ extension ChoosingCharacterViewController {
             .do(onNext: { [weak self] _ in
                 guard let title = self?.contentView.nextButton.title(for: .normal),
                       let selectedCharacter = self?.store.character.name else { return }
-                Logger.send(type: .tapped, title, parameters: ["선택한 캐릭터": selectedCharacter])
+                self?.logger.send(
+                    .tapped,
+                    title,
+                    ["선택한 캐릭터": selectedCharacter]
+                )
             })
             .subscribe(onNext: { [weak self] _ in
                 guard let self else { return }
@@ -67,8 +74,12 @@ extension ChoosingCharacterViewController {
             .disposed(by: rx.disposeBag)
         
         contentView.characterIdentifierRelay
-            .do(onNext: { identifier in
-                Logger.send(type: .tapped, "캐릭터 선택", parameters: ["캐릭터": identifier])
+            .do(onNext: { [weak self] identifier in
+                self?.logger.send(
+                    .tapped,
+                    "캐릭터 선택",
+                    ["캐릭터": identifier]
+                )
             })
             .subscribe(onNext: { [weak self] identifier in
                 guard let self else { return }

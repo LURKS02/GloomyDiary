@@ -14,6 +14,8 @@ final class HistoryDetailViewController: BaseViewController<HistoryDetailView> {
     
     let store: StoreOf<HistoryDetail>
     
+    @Dependency(\.logger) var logger
+    
     private weak var weakNavigationController: UINavigationController?
     
     private var menuViewController: HistoryMenuViewController?
@@ -156,7 +158,7 @@ private extension HistoryDetailViewController {
     }
     
     func didTapdeleteMenu() {
-        Logger.send(type: .tapped, "상세 - 삭제하기")
+        self.logger.send(.tapped, "상세 - 삭제하기", nil)
         Task {
             guard let menuViewController else { return }
             await menuViewController.close()
@@ -174,7 +176,7 @@ private extension HistoryDetailViewController {
     }
     
     func didTapShareMenu() {
-        Logger.send(type: .tapped, "상세 - 공유하기")
+        self.logger.send(.tapped, "상세 - 공유하기", nil)
         guard let menuViewController else { return }
         ShareService.share(character: store.session.counselor,
                            request: store.session.query,

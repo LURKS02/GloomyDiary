@@ -6,10 +6,13 @@
 //
 
 import UIKit
+import Dependencies
 
 final class CircularTabBarController: UITabBarController {
     
     private let circularTabBar: CircularTabBar
+    
+    @Dependency(\.logger) var logger
     
     private var currentIndex: Int {
         didSet {
@@ -82,7 +85,12 @@ final class CircularTabBarController: UITabBarController {
         currentIndex = (currentIndex + 1) % circularTabBar.numberOfTabs
         rotateTabBar(index: currentIndex)
         highlightCurrentTab()
-        Logger.send(type: .tapped, "탭 바", parameters: ["현재 탭": currentIndex])
+        
+        self.logger.send(
+            .tapped,
+            "탭 바",
+            ["현재 탭": currentIndex]
+        )
     }
     
     private func rotateTabBar(index: Int) {

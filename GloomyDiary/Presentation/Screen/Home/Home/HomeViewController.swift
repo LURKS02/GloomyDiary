@@ -14,6 +14,8 @@ import RxGesture
 
 final class HomeViewController: BaseViewController<HomeView> {
     
+    @Dependency(\.logger) var logger
+    
     let store: StoreOf<Home>
     
     
@@ -75,8 +77,8 @@ extension HomeViewController {
     private func bind() {
         contentView.gradientView.rx.tapGesture()
             .when(.recognized)
-            .do(onNext: { _ in
-                Logger.send(type: .tapped, "GradientView")
+            .do(onNext: { [weak self] _ in
+                self?.logger.send(.tapped, "GradientView", nil)
             })
             .subscribe(onNext: { [weak self] _ in
                 self?.store.send(.ghostTapped)
@@ -86,7 +88,7 @@ extension HomeViewController {
         contentView.startButton.rx.tap
             .do(onNext: { [weak self] _ in
                 guard let title = self?.contentView.startButton.title(for: .normal) else { return }
-                Logger.send(type: .tapped, title)
+                self?.logger.send(.tapped, title, nil)
             })
             .subscribe(onNext: { [weak self] _ in
                 guard let self else { return }

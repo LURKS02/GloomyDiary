@@ -13,6 +13,8 @@ final class WelcomeViewController: BaseViewController<WelcomeView> {
         super.init(logID: "Welcome")
     }
     
+    @Dependency(\.logger) var logger
+    
     @MainActor required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -42,8 +44,8 @@ private extension WelcomeViewController {
     func bind() {
         contentView.ghostImageView.rx.tapGesture()
             .when(.recognized)
-            .do(onNext: { _ in
-                Logger.send(type: .tapped, "유령 버튼")
+            .do(onNext: { [weak self] _ in
+                self?.logger.send(.tapped, "유령 버튼", nil)
             })
             .subscribe(onNext: { [weak self] _ in
                 guard let self else { return }

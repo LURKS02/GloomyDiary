@@ -5,10 +5,13 @@
 //  Created by 디해 on 10/21/24.
 //
 
+import Dependencies
 import Foundation
 import SwiftData
 
 final class SwiftDataCounselingSessionRepository: CounselingSessionRepository {
+    @Dependency(\.logger) var logger
+    
     private let swiftDataService = SwiftDataService<CounselingSession>(modelContainer: AppEnvironment.shared.modelContainer)
     
     func fetch() async throws -> [Session] {
@@ -17,7 +20,7 @@ final class SwiftDataCounselingSessionRepository: CounselingSessionRepository {
         let datas: [CounselingSession] = try await swiftDataService.fetch(descriptor: descriptor)
         let sessions: [Session] = datas.compactMap { $0.toDomain() }
         
-        Logger.send(type: .data, "상담 내역 불러오기")
+        logger.send(.data, "상담 내역 불러오기", nil)
         return sessions
     }
     
@@ -32,7 +35,7 @@ final class SwiftDataCounselingSessionRepository: CounselingSessionRepository {
         let datas: [CounselingSession] = try await swiftDataService.fetch(descriptor: descriptor)
         let sessions: [Session] = datas.compactMap { $0.toDomain() }
         
-        Logger.send(type: .data, "상담 내역 불러오기, 페이지: \(pageNumber)")
+        logger.send(.data, "상담 내역 불러오기, 페이지: \(pageNumber)", nil)
         return sessions
     }
     
@@ -40,7 +43,7 @@ final class SwiftDataCounselingSessionRepository: CounselingSessionRepository {
         let data = CounselingSession(session: session)
         await swiftDataService.create(data)
         try await swiftDataService.save()
-        Logger.send(type: .data, "상담 내역 저장")
+        logger.send(.data, "상담 내역 저장", nil)
     }
     
     func delete(id: UUID) async throws {
@@ -48,13 +51,13 @@ final class SwiftDataCounselingSessionRepository: CounselingSessionRepository {
         guard let session = try? await swiftDataService.fetch(descriptor: descriptor).first else { return }
         await swiftDataService.delete(session)
         try await swiftDataService.save()
-        Logger.send(type : .data, "상담 내역 삭제")
+        logger.send(.data, "상담 내역 삭제", nil)
     }
     
     func find(id: UUID) async throws -> Session? {
         let descriptor = FetchDescriptor<CounselingSession>(predicate: #Predicate { $0.id == id })
         guard let session = try? await swiftDataService.fetch(descriptor: descriptor).first else { return nil }
-        Logger.send(type: .data, "상담 내역 조회")
+        logger.send(.data, "상담 내역 조회", nil)
         return session.toDomain()
     }
     

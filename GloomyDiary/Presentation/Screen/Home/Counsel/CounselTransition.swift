@@ -5,10 +5,12 @@
 //  Created by 디해 on 9/19/24.
 //
 
-import UIKit
+import Dependencies
 import Lottie
+import UIKit
 
 final class CounselTransition: NSObject {
+    @Dependency(\.logger) var logger
     
     private enum Metric {
         static let dummyViewMiddleY: CGFloat = .verticalValue(250)
@@ -86,7 +88,7 @@ extension CounselTransition: UIViewControllerAnimatedTransitioning {
                 do {
                     return try await animationClosure()
                 } catch {
-                    Logger.send(type: .system, error.localizedDescription)
+                    self.logger.send(.system, error.localizedDescription, nil)
                     return nil
                 }
             }()

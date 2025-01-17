@@ -12,6 +12,7 @@ import ComposableArchitecture
 final class DeleteViewController: BaseViewController<DeleteView> {
     
     @Dependency(\.counselingSessionRepository) var counselingSessionRepository
+    @Dependency(\.logger) var logger
     
     var deletionRelay = PublishRelay<Void>()
     
@@ -51,7 +52,7 @@ private extension DeleteViewController {
                     guard let self else { return }
                     await self.contentView.runDismissAnimation()
                     self.dismiss(animated: false)
-                    Logger.send(type: .tapped, "삭제 - 배경 클릭(아니요)")
+                    self.logger.send(.tapped, "삭제 - 배경 클릭(아니요)", nil)
                 }
             })
             .disposed(by: rx.disposeBag)
@@ -62,7 +63,7 @@ private extension DeleteViewController {
                     guard let self else { return }
                     await self.contentView.runDismissAnimation()
                     self.dismiss(animated: false)
-                    Logger.send(type: .tapped, "삭제 - 아니요")
+                    self.logger.send(.tapped, "삭제 - 아니요", nil)
                 }
             })
             .disposed(by: rx.disposeBag)
@@ -76,7 +77,7 @@ private extension DeleteViewController {
                     self.dismiss(animated: false)
                 }
                 
-                Logger.send(type: .tapped, "삭제 - 예")
+                self?.logger.send(.tapped, "삭제 - 예", nil)
             })
             .disposed(by: rx.disposeBag)
     }

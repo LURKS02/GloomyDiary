@@ -17,8 +17,7 @@ extension GuideOverTransition: UIViewControllerAnimatedTransitioning {
     func animateTransition(using transitionContext: any UIViewControllerContextTransitioning) {
         let containerView = transitionContext.containerView
         guard let fromView = transitionContext.view(forKey: .from) as? GuideView,
-              let toView = transitionContext.view(forKey: .to) as? StartCounselingView,
-              let fromViewController = transitionContext.viewController(forKey: .from) as? GuideViewController else { return }
+              let toView = transitionContext.view(forKey: .to) as? StartCounselingView else { return }
         
         toView.alpha = 0.0
         containerView.addSubview(toView)
