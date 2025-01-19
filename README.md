@@ -107,3 +107,18 @@ flowchart TD
 [[UICollectionView Scroll Hitch 최적화 및 이미지 처리 개선 1]](https://github.com/LURKS02/GloomyDiary/wiki/%08UICollectionView-Scroll-Hitch-%EC%B5%9C%EC%A0%81%ED%99%94-%EB%B0%8F-%EC%9D%B4%EB%AF%B8%EC%A7%80-%EC%B2%98%EB%A6%AC-%EA%B0%9C%EC%84%A0-1)<br>
 [[UICollectionView Scroll Hitch 최적화 및 이미지 처리 개선 2]](https://github.com/LURKS02/GloomyDiary/wiki/%08UICollectionView-Scroll-Hitch-%EC%B5%9C%EC%A0%81%ED%99%94-%EB%B0%8F-%EC%9D%B4%EB%AF%B8%EC%A7%80-%EC%B2%98%EB%A6%AC-%EA%B0%9C%EC%84%A0-2)<br>
 [[UIViewControllerAnimatedTransitioning 관련 이슈]](https://github.com/LURKS02/GloomyDiary/wiki/UIViewControllerAnimatedTransitioning-%EA%B4%80%EB%A0%A8-%EC%9D%B4%EC%8A%88)<br>
+
+<br>
+
+### Conventions
+#### 이슈 네이밍
+[FEATURE / FIX / REFACTOR / DOCS] 작업 내용
+
+#### 브랜치 전략
+- main: 배포용
+- develop: 기능 통합용
+- feature / fix / refactor branch: 새로운 기능 개발
+
+#### 브랜치 네이밍
+feature/#이슈번호/작업 내용
+
