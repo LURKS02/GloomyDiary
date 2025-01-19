@@ -63,20 +63,12 @@ flowchart LR
     HomeVC--알림 요청---LocalNotificationVC
 ```
 
-<br>
-
-### 시연 영상
-|과정|영상1|영상2|영상3|
-|-|-|-|-|
-| 튜토리얼 | ![Simulator Screen Recording - iPhone 16 Pro - 2025-01-20 at 06 09 47](https://github.com/user-attachments/assets/babea375-f60d-457e-8b13-4888237f82f7) | | |
-| 홈 | | | | 
-| 편지 쓰기 | ![Simulator Screen Recording - iPhone 16 Pro - 2025-01-20 at 06 17 34](https://github.com/user-attachments/assets/2fea2d5a-db4b-4331-855a-028a02a75a37) | ![Simulator Screen Recording - iPhone 16 Pro - 2025-01-20 at 06 19 18](https://github.com/user-attachments/assets/33c3789e-7484-4200-8d05-4c519321aea3) | |
-
-
-### MVVM 구조
+### 구조
 ```mermaid
 %%{init: {"theme": "base", "themeVariables": {"fontSize": "12px", "nodeSpacing": "5"}}}%%
+
 flowchart LR
+    subgraph Presentation
     subgraph ViewController
     View -- send --> Action
     subgraph Store
@@ -86,6 +78,27 @@ flowchart LR
     end
     View -- observe --> State
     end
+    end
+    style Presentation fill:#bcd
+
+    subgraph Dependencies
+    
+    CounselingSessionRepository
+    UserSettingRepository
+    AIService
+    Logger
+    end
+
+    Presentation-->Dependencies
+    style Dependencies fill:#bcd
 ```
 
+
+### 시연 영상
+|과정|영상1|영상2|영상3|
+|-|-|-|-|
+| 튜토리얼 | ![Simulator Screen Recording - iPhone 16 Pro - 2025-01-20 at 06 09 47](https://github.com/user-attachments/assets/babea375-f60d-457e-8b13-4888237f82f7) | | |
+| 홈 | ![Simulator Screen Recording - iPhone 16 Pro - 2025-01-20 at 06 52 14](https://github.com/user-attachments/assets/24041e1d-dc0e-4087-ad88-0b2a69d1c600) | ![Simulator Screen Recording - iPhone 16 Pro - 2025-01-20 at 06 49 12](https://github.com/user-attachments/assets/e4de0fac-908f-47e1-9bfb-a338f32e2257) | | 
+| 편지<br>쓰기 | ![Simulator Screen Recording - iPhone 16 Pro - 2025-01-20 at 06 17 34](https://github.com/user-attachments/assets/2fea2d5a-db4b-4331-855a-028a02a75a37) | ![Simulator Screen Recording - iPhone 16 Pro - 2025-01-20 at 06 19 18](https://github.com/user-attachments/assets/33c3789e-7484-4200-8d05-4c519321aea3) | ![Simulator Screen Recording - iPhone 16 Pro - 2025-01-20 at 06 44 23](https://github.com/user-attachments/assets/d7297155-44a8-4263-9717-6beef2a6d6b6) |
+| 히스토리 | ![Simulator Screen Recording - iPhone 16 Pro - 2025-01-20 at 06 45 46](https://github.com/user-attachments/assets/9414cc03-8047-4969-ba6e-8c9150917659) | ![Simulator Screen Recording - iPhone 16 Pro - 2025-01-20 at 06 46 22](https://github.com/user-attachments/assets/e4f72b02-43ff-45a0-839e-cf227403b643) | | 
 
