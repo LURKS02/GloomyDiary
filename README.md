@@ -10,6 +10,12 @@
 
 <br>
 
+### Clone & Build
+API Key 때문에 실제 AI 응답을 받는 기능은 제한되어 있습니다.<br>
+Clone 후 GloomyDiaryExample 스키마를 빌드하여 제한된 기능으로 시뮬레이션이 가능합니다.<br>
+
+<br>
+
 ### AI 답장을 받는 일기 애플리케이션
 
 > 우리들의 일기 다이어리 "울다"는 하루를 특별하게 기록하는 일기 애플리케이션입니다.<br>
@@ -33,9 +39,10 @@ SnapKit, Lottie, Firebase, Amplitude<br>
 <br>
 
 ### 흐름도
+
 ```mermaid
 %%{init: {"theme": "base", "themeVariables": {"fontSize": "12px", "nodeSpacing": "5"}}}%%
-flowchart TD
+flowchart LR
     subgraph 유저가 처음 실행한 경우
     WelcomeVC --> GuideVC
     end
@@ -56,6 +63,16 @@ flowchart TD
     HomeVC--알림 요청---LocalNotificationVC
 ```
 
+<br>
+
+### 시연 영상
+|과정|영상1|영상2|영상3|
+|-|-|-|-|
+| 튜토리얼 | ![Simulator Screen Recording - iPhone 16 Pro - 2025-01-20 at 06 09 47](https://github.com/user-attachments/assets/babea375-f60d-457e-8b13-4888237f82f7) | | |
+| 홈 | | | | 
+| 편지 쓰기 | ![Simulator Screen Recording - iPhone 16 Pro - 2025-01-20 at 06 17 34](https://github.com/user-attachments/assets/2fea2d5a-db4b-4331-855a-028a02a75a37) | ![Simulator Screen Recording - iPhone 16 Pro - 2025-01-20 at 06 19 18](https://github.com/user-attachments/assets/33c3789e-7484-4200-8d05-4c519321aea3) | |
+
+
 ### MVVM 구조
 ```mermaid
 %%{init: {"theme": "base", "themeVariables": {"fontSize": "12px", "nodeSpacing": "5"}}}%%
@@ -70,3 +87,5 @@ flowchart LR
     View -- observe --> State
     end
 ```
+
+
