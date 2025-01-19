@@ -33,10 +33,9 @@ SnapKit, Lottie, Firebase, Amplitude<br>
 <br>
 
 ### 흐름도
-
 ```mermaid
 %%{init: {"theme": "base", "themeVariables": {"fontSize": "12px", "nodeSpacing": "5"}}}%%
-flowchart LR
+flowchart TD
     subgraph 유저가 처음 실행한 경우
     WelcomeVC --> GuideVC
     end
