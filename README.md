@@ -6,32 +6,31 @@
 
 # 우리들의 다이어리, "울다"
 
+<img src="https://github.com/user-attachments/assets/fa720911-78fb-4fcc-8c60-2a1327e4bb73" width=900>
+
+<br>
+<br>
+
+**AI 답장을 받는 일기 애플리케이션**<br>
+
+> 우리들의 일기 다이어리 "울다"는 하루를 특별하게 기록하는 일기 애플리케이션입니다.<br>
+> ChatGPT와 연동하여 사용자가 입력한 일기 내용에 따라 따뜻한 위로와 공감의 답장을 받을 수 있습니다.<br>
+> 힐링이 필요한 하루를 울다와 함께 채워보세요.
 
 <br>
 
-### 기획 컨셉안
-![image](https://github.com/user-attachments/assets/fa720911-78fb-4fcc-8c60-2a1327e4bb73)
+### [앱스토어 v1.1.0](https://apps.apple.com/us/app/%EC%9A%B8%EB%8B%A4-%EC%9A%B0%EB%A6%AC%EB%93%A4%EC%9D%98-%EC%9D%BC%EA%B8%B0-%EB%8B%A4%EC%9D%B4%EC%96%B4%EB%A6%AC/id6738892165)
 
-<br>
+### [Figma](https://www.figma.com/design/4XnRA4iHJyDHKtFArvhVBG/ULDA?m=auto&t=wEoCwoRnoRfEIwtj-1)
 
-### Figma
-
-[우리들의 다이어리, 울다](https://www.figma.com/design/4XnRA4iHJyDHKtFArvhVBG/ULDA?m=auto&t=wEoCwoRnoRfEIwtj-1)
-
-<br>
-
-### Notion
-
-[소개 페이지](https://zest-waterfall-98b.notion.site/157531e408aa80e88016c3cabd16e6ed?pvs=4)
-
-<br>
+## 
 
 ### 기술 스택
-Swift, UIKit<br>
+Swift, UIKit, TCA, Swift-Dependencies<br>
 RxSwift, RxCocoa, RxRelay, RxGesture<br>
-TCA, Swift-Dependencies<br>
 SwiftData, UserDefaults, OpenAI<br>
-SnapKit, UserNotifications, StoreKit, Lottie<br>
-Firebase, Amplitude<br>
+SnapKit, Lottie, Firebase, Amplitude<br>
 
 <br>
+
+### 프로젝트 구조
