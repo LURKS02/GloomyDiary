@@ -6,9 +6,8 @@
 
 # 우리들의 다이어리, "울다"
 
-<img src="https://github.com/user-attachments/assets/fa720911-78fb-4fcc-8c60-2a1327e4bb73" width=900>
+![Frame 7](https://github.com/user-attachments/assets/6ae1cdc2-5986-4ddc-9de7-0cdd1b6b7972)
 
-<br>
 <br>
 
 ### AI 답장을 받는 일기 애플리케이션
@@ -33,4 +32,16 @@ SnapKit, Lottie, Firebase, Amplitude<br>
 
 <br>
 
-### 프로젝트 구조
+### MVVM 구조
+```mermaid
+flowchart LR
+    subgraph ViewController
+    View -- send --> Action
+    subgraph Store
+    Action -- change --> State
+    Action --> Effect
+    Effect --> Action
+    end
+    View -- observe --> State
+    end
+```
