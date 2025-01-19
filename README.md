@@ -32,8 +32,34 @@ SnapKit, Lottie, Firebase, Amplitude<br>
 
 <br>
 
+### 흐름도
+
+```mermaid
+%%{init: {"theme": "base", "themeVariables": {"fontSize": "12px", "nodeSpacing": "5"}}}%%
+flowchart LR
+    subgraph 유저가 처음 실행한 경우
+    WelcomeVC --> GuideVC
+    end
+    HomeVC --일기 쓰기--> StartCounselingVC
+    GuideVC --> StartCounselingVC --> ChoosingWeatherVC --> ChoosingEmojiVC --> ChoosingCharacterVC --> CounselingVC --> ResultVC
+    ResultVC --> HomeVC
+    subgraph CircularTabBarVC
+    HomeVC
+    HistoryVC
+    end
+    HomeVC--탭 전환-->HistoryVC
+    HistoryVC--탭 전환-->HomeVC
+    HistoryVC-->HistoryDetailVC
+    HistoryDetailVC--삭제 로직---DeleteVC
+    HistoryDetailVC--메뉴 열기---HistoryMenuVC
+    HistoryDetailVC--이미지 상세보기---ImageDetailVC
+    HomeVC--리뷰 요청---ReviewVC
+    HomeVC--알림 요청---LocalNotificationVC
+```
+
 ### MVVM 구조
 ```mermaid
+%%{init: {"theme": "base", "themeVariables": {"fontSize": "12px", "nodeSpacing": "5"}}}%%
 flowchart LR
     subgraph ViewController
     View -- send --> Action
