@@ -11,6 +11,9 @@
 <br>
 
 ### Clone & Build
+
+<img src="https://github.com/user-attachments/assets/5688e672-52a9-4180-9ce7-5e8ef6e29cd4" width=300>
+
 API Key 때문에 실제 AI 응답을 받는 기능은 제한되어 있습니다.<br>
 Clone 후 GloomyDiaryExample 스킴을 빌드하여 제한된 기능으로 시뮬레이션이 가능합니다.<br>
 
