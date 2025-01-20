@@ -25,10 +25,11 @@ Clone 후 GloomyDiaryExample 스킴을 빌드하여 제한된 기능으로 시�
 > ChatGPT와 연동하여 사용자가 입력한 일기 내용에 따라 따뜻한 위로와 공감의 답장을 받을 수 있습니다.<br>
 > 힐링이 필요한 하루를 울다와 함께 채워보세요.
 
-<br>
 
-### 앱스토어 v1.1.0
-[<img src="https://github.com/user-attachments/assets/dba5b62c-9db7-4715-b4cc-2b817503b082" height="50">](https://apps.apple.com/us/app/%EC%9A%B8%EB%8B%A4-%EC%9A%B0%EB%A6%AC%EB%93%A4%EC%9D%98-%EC%9D%BC%EA%B8%B0-%EB%8B%A4%EC%9D%B4%EC%96%B4%EB%A6%AC/id6738892165)
+|개발 기간|인원|앱스토어|
+|-|-|-|
+|2024.07 ~ 진행 중|1인|[<img src="https://github.com/user-attachments/assets/dba5b62c-9db7-4715-b4cc-2b817503b082" height="50">](https://apps.apple.com/us/app/%EC%9A%B8%EB%8B%A4-%EC%9A%B0%EB%A6%AC%EB%93%A4%EC%9D%98-%EC%9D%BC%EA%B8%B0-%EB%8B%A4%EC%9D%B4%EC%96%B4%EB%A6%AC/id6738892165)|
+
 
 <br>
 
