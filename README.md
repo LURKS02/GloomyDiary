@@ -12,7 +12,7 @@
 
 ### Clone & Build
 API Key 때문에 실제 AI 응답을 받는 기능은 제한되어 있습니다.<br>
-Clone 후 GloomyDiaryExample 스키마를 빌드하여 제한된 기능으로 시뮬레이션이 가능합니다.<br>
+Clone 후 GloomyDiaryExample 스킴을 빌드하여 제한된 기능으로 시뮬레이션이 가능합니다.<br>
 
 <br>
 
