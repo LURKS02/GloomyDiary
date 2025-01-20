@@ -24,9 +24,14 @@ Clone 후 GloomyDiaryExample 스킴을 빌드하여 제한된 기능으로 시�
 
 <br>
 
-### [앱스토어 v1.1.0](https://apps.apple.com/us/app/%EC%9A%B8%EB%8B%A4-%EC%9A%B0%EB%A6%AC%EB%93%A4%EC%9D%98-%EC%9D%BC%EA%B8%B0-%EB%8B%A4%EC%9D%B4%EC%96%B4%EB%A6%AC/id6738892165)
+### 앱스토어 v1.1.0
+[<img src="https://github.com/user-attachments/assets/dba5b62c-9db7-4715-b4cc-2b817503b082" height="50">](https://apps.apple.com/us/app/%EC%9A%B8%EB%8B%A4-%EC%9A%B0%EB%A6%AC%EB%93%A4%EC%9D%98-%EC%9D%BC%EA%B8%B0-%EB%8B%A4%EC%9D%B4%EC%96%B4%EB%A6%AC/id6738892165)
+
+<br>
 
 ### [Figma](https://www.figma.com/design/4XnRA4iHJyDHKtFArvhVBG/ULDA?m=auto&t=wEoCwoRnoRfEIwtj-1)
+
+<br>
 
 ## 
 
