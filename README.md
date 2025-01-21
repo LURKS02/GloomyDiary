@@ -10,7 +10,13 @@
 
 <br>
 
-## 🌙
+### AI 답장 받는 일기 애플리케이션
+
+> 우리들의 일기 다이어리 "울다"는 하루를 특별하게 기록하는 일기 애플리케이션입니다.<br>
+> ChatGPT와 연동하여 사용자가 입력한 일기 내용에 따라 따뜻한 위로와 공감의 답장을 받을 수 있습니다.<br>
+> 힐링이 필요한 하루를 울다와 함께 채워보세요.
+
+<br>
 
 | ![Simulator Screen Recording - iPhone 16 Pro - 2025-01-20 at 06 17 34](https://github.com/user-attachments/assets/2fea2d5a-db4b-4331-855a-028a02a75a37) | ![Simulator Screen Recording - iPhone 16 Pro - 2025-01-20 at 06 19 18](https://github.com/user-attachments/assets/33c3789e-7484-4200-8d05-4c519321aea3) | ![Simulator Screen Recording - iPhone 16 Pro - 2025-01-20 at 06 44 23](https://github.com/user-attachments/assets/d7297155-44a8-4263-9717-6beef2a6d6b6) | ![Simulator Screen Recording - iPhone 16 Pro - 2025-01-20 at 06 45 46](https://github.com/user-attachments/assets/9414cc03-8047-4969-ba6e-8c9150917659) | ![Simulator Screen Recording - iPhone 16 Pro - 2025-01-20 at 06 46 22](https://github.com/user-attachments/assets/e4f72b02-43ff-45a0-839e-cf227403b643) |
 |-|-|-|-|-|
@@ -31,13 +37,7 @@ Clone 후 GloomyDiaryExample 스킴을 빌드하여 제한된 기능으로 시�
 
 <br>
 
-## 소개
-
-### AI 답장 받는 일기 애플리케이션
-
-> 우리들의 일기 다이어리 "울다"는 하루를 특별하게 기록하는 일기 애플리케이션입니다.<br>
-> ChatGPT와 연동하여 사용자가 입력한 일기 내용에 따라 따뜻한 위로와 공감의 답장을 받을 수 있습니다.<br>
-> 힐링이 필요한 하루를 울다와 함께 채워보세요.
+## 프로젝트 정보
 
 <br>
 
@@ -48,7 +48,7 @@ Clone 후 GloomyDiaryExample 스킴을 빌드하여 제한된 기능으로 시�
 
 <br>
 
-## 
+##  
 
 ### 기술 스택
 Swift, UIKit, TCA, Swift-Dependencies<br>
