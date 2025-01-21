@@ -67,8 +67,8 @@ flowchart TD
     subgraph ViewController
     View -- send --> Action
     subgraph Store
-    Action o-.-o Reducer
-    Reducer o-.-o State
+    Action -.- Reducer
+    Reducer -.- State
     Action --> Effect
     Effect --> Action
     end
