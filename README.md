@@ -93,7 +93,7 @@ flowchart TD
 
 ### 구현사항
 📌 제네릭 뷰를 갖는 BaseViewController를 통해 뷰와 뷰 컨트롤러 코드 분리<br>
-📌 TCA Reducer를 통해 MVVM 구현 및 Swift-Dependencies를 통한 의존성 관리<br>
+📌 TCA 구조 및 Swift-Dependencies를 통한 의존성 관리<br>
 📌 애니메이션 옵션을 지정하여 Swift Concurrency 형태로 실행할 수 있는 커스텀 Animation / AnimationGroup 구현<br>
 📌 커스텀 애니메이션 및 탭바가 적용된 CircularTabBarController 구현 (로그 제거 예정)<br>
 📌 커스텀 이미지 캐시 구현<br>
