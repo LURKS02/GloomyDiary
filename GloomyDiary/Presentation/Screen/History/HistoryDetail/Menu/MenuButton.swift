@@ -24,8 +24,8 @@ final class MenuButton: UIButton {
     func configure(with item: MenuItem) {
         var configuration = Configuration.plain()
         var title = AttributedString(item.name)
-        var type = item.type
-        var fontColor: UIColor = (type == .warning) ? .text(.warning) : .text(.subHighlight)
+        let type = item.type
+        let fontColor: UIColor = (type == .warning) ? .text(.warning) : .text(.subHighlight)
         title.font = .온글잎_의연체.title
         configuration.attributedTitle = title
         self.configuration = configuration

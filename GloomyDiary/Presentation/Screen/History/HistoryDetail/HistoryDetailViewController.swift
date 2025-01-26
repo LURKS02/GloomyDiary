@@ -5,34 +5,22 @@
 //  Created by 디해 on 10/23/24.
 //
 
-import UIKit
 import ComposableArchitecture
 import RxSwift
 import RxRelay
+import UIKit
 
 final class HistoryDetailViewController: BaseViewController<HistoryDetailView> {
     
+    @Dependency(\.logger) var logger
+    
     let store: StoreOf<HistoryDetail>
     
-    @Dependency(\.logger) var logger
+    // MARK: - Properties
     
     private weak var weakNavigationController: UINavigationController?
     
     private var menuViewController: HistoryMenuViewController?
-    
-    var deletionRelay = PublishRelay<Void>()
-    
-    
-    // MARK: - Initialize
-    
-    init(store: StoreOf<HistoryDetail>) {
-        self.store = store
-        super.init(logID: "HistoryDetail")
-    }
-    
-    @MainActor required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
     
     private var windowTopInset: CGFloat? {
         guard let keyWindow = UIApplication.shared.connectedScenes
@@ -47,6 +35,20 @@ final class HistoryDetailViewController: BaseViewController<HistoryDetailView> {
     private var navigationControllerHeight: CGFloat? {
         guard let navigationBar = self.navigationController?.navigationBar else { return nil }
         return navigationBar.frame.height
+    }
+    
+    var deletionRelay = PublishRelay<Void>()
+    
+    
+    // MARK: - Initialize
+    
+    init(store: StoreOf<HistoryDetail>) {
+        self.store = store
+        super.init()
+    }
+    
+    @MainActor required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     
@@ -73,8 +75,10 @@ final class HistoryDetailViewController: BaseViewController<HistoryDetailView> {
               let navigationControllerHeight else { return }
         contentView.makeScrollViewOffsetConstraints(offset: windowTopInset + navigationControllerHeight)
         
-        guard let navigationController = navigationController as? NavigationController else { return }
-        navigationController.backgroundColor = .component(.buttonPurple)
+//        guard let navigationController = navigationController else { return }
+//        let appearance = navigationController.navigationBar.standardAppearance
+//        appearance.backgroundColor = .component(.buttonPurple)
+//        navigationController.backgroundColor = .component(.buttonPurple)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -96,6 +100,9 @@ final class HistoryDetailViewController: BaseViewController<HistoryDetailView> {
     }
 }
 
+
+// MARK: - bind
+
 private extension HistoryDetailViewController {
     func bind() {
         contentView.imageScrollView.tapRelay
@@ -113,6 +120,9 @@ private extension HistoryDetailViewController {
     }
 }
 
+
+// MARK: - Navigation
+
 private extension HistoryDetailViewController {
     func openImageViewer(with imageID: UUID) {
         let imageViewer = ImageDetailViewController(imageID: imageID)
@@ -128,12 +138,28 @@ private extension HistoryDetailViewController {
         imageView.contentMode = .center
         self.navigationItem.titleView = imageView
         
-        let moreButton = UIBarButtonItem(image: UIImage(systemName: "ellipsis"),
-                                         style: .plain,
-                                         target: self,
-                                         action: #selector(showMenu))
+        let moreButton = UIBarButtonItem(
+            image: UIImage(systemName: "ellipsis"),
+            style: .plain,
+            target: self,
+            action: #selector(showMenu)
+        )
+        
+        let backButton = UIBarButtonItem(
+            image: UIImage(systemName: "chevron.left"),
+            style: .plain,
+            target: self,
+            action: #selector(backButtonTapped)
+        )
+        
         moreButton.tintColor = .white
+        backButton.tintColor = .white
         navigationItem.rightBarButtonItem = moreButton
+        navigationItem.leftBarButtonItem = backButton
+    }
+    
+    @objc func backButtonTapped() {
+        navigationController?.popViewController(animated: true)
     }
     
     @objc func showMenu() {
@@ -186,12 +212,112 @@ private extension HistoryDetailViewController {
     }
 }
 
-extension HistoryDetailViewController: UINavigationControllerDelegate {
-    func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationController.Operation, from fromVC: UIViewController, to toVC: UIViewController) -> (any UIViewControllerAnimatedTransitioning)? {
-        HistoryDetailTransition()
+
+// MARK: - Transition
+
+extension HistoryDetailViewController: FromTransitionable {
+    var fromTransitionComponent: UIView? {
+        nil
     }
     
-    func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
+    func prepareTransition(duration: TimeInterval) async {
+        let targetFrame = CGRect(
+            x: 100,
+            y: 0,
+            width: UIView.screenWidth,
+            height: UIView.screenHeight
+        )
+        
+        navigationController?.interactivePopGestureRecognizer?.isEnabled = false
+        
+        await playDetailViewAnimation(
+            contentView,
+            frame: targetFrame,
+            duration: duration,
+            showing: false
+        )
+        
+        navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+    }
+}
+
+
+extension HistoryDetailViewController: ToTransitionable {
+    var toTransitionComponent: UIView? {
+        nil
+    }
+    
+    func completeTransition(duration: TimeInterval) async {
+        let targetFrame = CGRect(
+            x: 100,
+            y: 0,
+            width: UIView.screenWidth,
+            height: UIView.screenHeight
+        )
+        
+        contentView.alpha = 0.0
+        contentView.frame = targetFrame
+        navigationController?.interactivePopGestureRecognizer?.isEnabled = false
+        
+        await playDetailViewAnimation(
+            contentView,
+            frame: CGRect(
+                x: 0,
+                y: 0,
+                width: UIView.screenWidth,
+                height: UIView.screenHeight
+            ),
+            duration: duration,
+            showing: true
+        )
+        
+        navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+    }
+    
+    @MainActor
+    private func playDetailViewAnimation(
+        _ view: UIView,
+        frame: CGRect,
+        duration: TimeInterval,
+        showing: Bool
+    ) async {
+        await withCheckedContinuation { continuation in
+            AnimationGroup(
+                animations: [Animation(view: view,
+                                       animationCase: showing ? .fadeIn : .fadeOut,
+                                       duration: duration),
+                             Animation(view: view,
+                                       animationCase: .frame(frame),
+                                       duration: duration)
+                ],
+                mode: .parallel,
+                loop: .once(completion: { continuation.resume() }))
+            .run()
+        }
+    }
+}
+
+
+extension HistoryDetailViewController: UINavigationControllerDelegate {
+    func navigationController(
+        _ navigationController: UINavigationController,
+        animationControllerFor operation: UINavigationController.Operation,
+        from fromVC: UIViewController,
+        to toVC: UIViewController
+    ) -> (any UIViewControllerAnimatedTransitioning)? {
+        AnimatedTransition(
+            fromDuration: 0.3,
+            toDuration: 0.0,
+            timing: .parallel,
+            transitionContentType: .switchedHierarchyTransition
+        )
+    }
+    
+    func navigationController(
+        _ navigationController: UINavigationController,
+        willShow viewController: UIViewController,
+        animated: Bool
+    ) {
         if let coordinator = navigationController.topViewController?.transitionCoordinator {
             coordinator.notifyWhenInteractionChanges { context in
                 if context.isCancelled {

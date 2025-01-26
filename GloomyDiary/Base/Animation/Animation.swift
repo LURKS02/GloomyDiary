@@ -37,7 +37,7 @@ extension Animation {
             { [weak view] in
                 view?.alpha = value
             }
-        case .redraw(let frame):
+        case .frame(let frame):
             { [weak view] in
                 view?.frame = frame
             }
@@ -59,7 +59,7 @@ enum AnimationCase {
     case fadeIn
     case fadeOut
     case fade(value: Double)
-    case redraw(frame: CGRect)
-    case transform(transform: CGAffineTransform)
+    case frame(_ frame: CGRect)
+    case transform(_ transform: CGAffineTransform)
     case custom(closure: (UIView?) -> Void)
 }

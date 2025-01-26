@@ -8,7 +8,13 @@
 import UIKit
 
 enum ShareService {
-    static func share(character: CounselingCharacter, request: String, response: String, in viewController: UIViewController, completion: (() -> Void)? = nil) {
+    static func share(
+        character: CounselingCharacter,
+        request: String,
+        response: String,
+        in viewController: UIViewController,
+        completion: (() -> Void)? = nil
+    ) {
         let textToShare = """
         ✉️ \(character.name)로부터 답장이 도착했어요!
 

@@ -7,6 +7,14 @@
 
 import UIKit
 
+protocol ToTabSwitchable: UIViewController {
+    func playTabAppearingAnimation() async
+}
+
+protocol FromTabSwitchable: UIViewController {
+    func playTabDisappearingAnimation() async
+}
+
 final class TabSwitchingTransition: NSObject { }
 
 extension TabSwitchingTransition: UIViewControllerAnimatedTransitioning {

@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-final class HistoryView: BaseView {
+final class HistoryView: UIView {
     
     // MARK: - Views
     
@@ -31,19 +31,31 @@ final class HistoryView: BaseView {
         }
     }
     
+    init() {
+        super.init(frame: .zero)
+        
+        setup()
+        addSubviews()
+        setupConstraints()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     
     // MARK: - View Life Cycle
     
-    override func setup() {
+    private func setup() {
         backgroundColor = .background(.mainPurple)
     }
     
-    override func addSubviews() {
+    private func addSubviews() {
         addSubview(listView)
         addSubview(emptyView)
     }
     
-    override func setupConstraints() {
+    private func setupConstraints() {
         listView.snp.makeConstraints { make in
             make.top.equalTo(self.safeAreaLayoutGuide.snp.top)
             make.horizontalEdges.equalToSuperview()

@@ -7,21 +7,23 @@
 
 import UIKit
 
-final class DeleteView: BaseView {
+final class DeleteView: UIView {
     
     // MARK: - Metric
     
     private enum Metric {
-        static let sheetHorizontalPadding: CGFloat = .horizontalValue(20)
-        static let cornerRadius: CGFloat = .verticalValue(30)
-        static let characterSize: CGFloat = .verticalValue(70)
-        static let characterTopPadding: CGFloat = .verticalValue(35)
-        static let labelTopPadding: CGFloat = .verticalValue(25)
-        static let stackViewTopPadding: CGFloat = .verticalValue(25)
-        static let stackViewHorizontalPadding: CGFloat = .horizontalValue(40)
-        static let stackViewBottomPadding: CGFloat = .verticalValue(25)
+        static let sheetHorizontalPadding: CGFloat = .deviceAdjustedWidth(20)
+        static let cornerRadius: CGFloat = .deviceAdjustedHeight(30)
+        static let characterSize: CGFloat = .deviceAdjustedHeight(70)
+        static let characterTopPadding: CGFloat = .deviceAdjustedHeight(35)
+        static let labelTopPadding: CGFloat = .deviceAdjustedHeight(25)
+        static let stackViewTopPadding: CGFloat = .deviceAdjustedHeight(25)
+        static let stackViewHorizontalPadding: CGFloat = .deviceAdjustedWidth(40)
+        static let stackViewBottomPadding: CGFloat = .deviceAdjustedHeight(25)
     }
-
+    
+    
+    // MARK: - Views
     
     private let backgroundView = UIView().then {
         $0.backgroundColor = .black.withAlphaComponent(0.4)
@@ -36,7 +38,7 @@ final class DeleteView: BaseView {
     
     private let characterImageView = UIImageView()
     
-    private let notificationLabel = IntroduceLabel().then {
+    private let notificationLabel = NormalLabel().then {
         $0.text = """
         정말 기록을 삭제할까요?
 
@@ -61,9 +63,15 @@ final class DeleteView: BaseView {
         $0.backgroundColor = .component(.buttonDisabledPurple)
     }
     
+    
+    // MARK: - Initialize
+    
     init(character: CounselingCharacter) {
         super.init(frame: .zero)
         self.characterImageView.image = UIImage(named: character.cryingImageName)
+        
+        addSubviews()
+        setupConstraints()
     }
     
     @MainActor required init?(coder: NSCoder) {
@@ -73,7 +81,7 @@ final class DeleteView: BaseView {
     
     // MARK: - View Life Cycle
     
-    override func addSubviews() {
+    private func addSubviews() {
         addSubview(backgroundView)
         addSubview(sheetBackgroundView)
         sheetBackgroundView.addSubview(characterImageView)
@@ -83,7 +91,7 @@ final class DeleteView: BaseView {
         buttonStackView.addArrangedSubview(rejectButton)
     }
 
-    override func setupConstraints() {
+    private func setupConstraints() {
         backgroundView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
@@ -114,22 +122,27 @@ final class DeleteView: BaseView {
     }
 }
 
+
+// MARK: - Animations
+
 extension DeleteView {
     @MainActor
     func runAppearanceAnimation() async {
         sheetBackgroundView.transform = .identity.scaledBy(x: 0.75, y: 0.75)
         await withCheckedContinuation { continuation in
-            AnimationGroup(animations: [.init(view: backgroundView,
-                                              animationCase: .fadeIn,
-                                              duration: 0.3),
-                                        .init(view: sheetBackgroundView,
-                                              animationCase: .transform(transform: .identity),
-                                              duration: 0.3),
-                                        .init(view: sheetBackgroundView,
-                                              animationCase: .fadeIn,
-                                              duration: 0.3)],
-                           mode: .parallel,
-                           loop: .once(completion: { continuation.resume() }))
+            AnimationGroup(
+                animations: [Animation(view: backgroundView,
+                                       animationCase: .fadeIn,
+                                       duration: 0.3),
+                             Animation(view: sheetBackgroundView,
+                                       animationCase: .transform( .identity),
+                                       duration: 0.3),
+                             Animation(view: sheetBackgroundView,
+                                       animationCase: .fadeIn,
+                                       duration: 0.3)
+                ],
+                mode: .parallel,
+                loop: .once(completion: { continuation.resume() }))
             .run()
         }
     }
@@ -137,17 +150,19 @@ extension DeleteView {
     @MainActor
     func runDismissAnimation() async {
         await withCheckedContinuation { continuation in
-            AnimationGroup(animations: [.init(view: backgroundView,
-                                              animationCase: .fadeOut,
-                                              duration: 0.3),
-                                        .init(view: sheetBackgroundView,
-                                              animationCase: .transform(transform: .identity.scaledBy(x: 0.75, y: 0.75)),
-                                              duration: 0.3),
-                                        .init(view: sheetBackgroundView,
-                                              animationCase: .fadeOut,
-                                              duration: 0.3)],
-                           mode: .parallel,
-                           loop: .once(completion: { continuation.resume() }))
+            AnimationGroup(
+                animations: [Animation(view: backgroundView,
+                                       animationCase: .fadeOut,
+                                       duration: 0.3),
+                             Animation(view: sheetBackgroundView,
+                                       animationCase: .transform( .identity.scaledBy(x: 0.75, y: 0.75)),
+                                       duration: 0.3),
+                             Animation(view: sheetBackgroundView,
+                                       animationCase: .fadeOut,
+                                       duration: 0.3)
+                ],
+                mode: .parallel,
+                loop: .once(completion: { continuation.resume() }))
             .run()
         }
     }

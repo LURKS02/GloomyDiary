@@ -9,6 +9,9 @@ import UIKit
 import RxRelay
 
 final class HistoryDetailImageView: UIView {
+    
+    // MARK: - Views
+    
     private lazy var scrollView = UIScrollView().then {
         $0.isPagingEnabled = true
         $0.showsHorizontalScrollIndicator = false
@@ -22,7 +25,7 @@ final class HistoryDetailImageView: UIView {
         $0.hidesForSinglePage = true
     }
     
-    private let numberLabel = IntroduceLabel().then {
+    private let numberLabel = NormalLabel().then {
         $0.font = .온글잎_의연체.body
     }
     
@@ -30,11 +33,17 @@ final class HistoryDetailImageView: UIView {
         $0.backgroundColor = .black.withAlphaComponent(0.5)
     }
     
+    var tapRelay = PublishRelay<UUID?>()
+    
+    
+    // MARK: - Properties
+
     private var imageIDs: [UUID] = []
     
     private let imageSize: CGFloat
     
-    var tapRelay = PublishRelay<UUID?>()
+    
+    // MARK: - Initialize
     
     init(imageSize: CGFloat) {
         self.imageSize = imageSize
@@ -48,40 +57,8 @@ final class HistoryDetailImageView: UIView {
         bind()
     }
     
-    required init?(coder: NSCoder) {
+    @MainActor required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-    
-    private func setup() {
-        applyCornerRadius(10)
-    }
-    
-    private func addSubviews() {
-        addSubview(scrollView)
-        addSubview(pageControl)
-        addSubview(labelBackgroundView)
-        labelBackgroundView.addSubview(numberLabel)
-    }
-    
-    private func setupConstraints() {
-        scrollView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
-        }
-        
-        pageControl.snp.makeConstraints { make in
-            make.centerX.equalToSuperview()
-            make.bottom.equalToSuperview().inset(5)
-        }
-        
-        labelBackgroundView.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(15)
-            make.trailing.equalToSuperview().inset(15)
-        }
-        
-        numberLabel.snp.makeConstraints { make in
-            make.verticalEdges.equalToSuperview().inset(2)
-            make.horizontalEdges.equalToSuperview().inset(13)
-        }
     }
     
     private func bind() {
@@ -116,6 +93,41 @@ final class HistoryDetailImageView: UIView {
         self.imageIDs = imageIDs
     }
     
+    
+    // MARK: - View Life Cycle
+    
+    private func setup() {
+        applyCornerRadius(10)
+    }
+    
+    private func addSubviews() {
+        addSubview(scrollView)
+        addSubview(pageControl)
+        addSubview(labelBackgroundView)
+        labelBackgroundView.addSubview(numberLabel)
+    }
+    
+    private func setupConstraints() {
+        scrollView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+        
+        pageControl.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.bottom.equalToSuperview().inset(5)
+        }
+        
+        labelBackgroundView.snp.makeConstraints { make in
+            make.top.equalToSuperview().offset(15)
+            make.trailing.equalToSuperview().inset(15)
+        }
+        
+        numberLabel.snp.makeConstraints { make in
+            make.verticalEdges.equalToSuperview().inset(2)
+            make.horizontalEdges.equalToSuperview().inset(13)
+        }
+    }
+    
     override func layoutSubviews() {
         super.layoutSubviews()
         
@@ -129,6 +141,9 @@ final class HistoryDetailImageView: UIView {
         labelBackgroundView.applyCircularShape()
     }
 }
+
+
+// MARK: - Scroll Delegate
 
 extension HistoryDetailImageView: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {

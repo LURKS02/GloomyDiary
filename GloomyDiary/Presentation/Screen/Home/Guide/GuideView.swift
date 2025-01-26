@@ -7,27 +7,27 @@
 
 import UIKit
 
-final class GuideView: BaseView {
+final class GuideView: UIView {
     
     // MARK: - Metric
     
     private enum Metric {
-        static let ghostImageSize: CGFloat = .horizontalValue(50)
-        static let ghostImageTopPadding: CGFloat = .verticalValue(40)
-        static let firstLabelTopPadding: CGFloat = .verticalValue(40)
-        static let secondLabelTopPadding: CGFloat = .verticalValue(40)
-        static let thirdLabelTopPadding: CGFloat = .verticalValue(40)
-        static let lastLabelTopPadding: CGFloat = .verticalValue(40)
+        static let ghostImageSize: CGFloat = .deviceAdjustedWidth(50)
+        static let ghostImageTopPadding: CGFloat = .deviceAdjustedHeight(100)
+        static let firstLabelTopPadding: CGFloat = .deviceAdjustedHeight(40)
+        static let secondLabelTopPadding: CGFloat = .deviceAdjustedHeight(40)
+        static let thirdLabelTopPadding: CGFloat = .deviceAdjustedHeight(40)
+        static let lastLabelTopPadding: CGFloat = .deviceAdjustedHeight(40)
     }
     
-    let gradientView = GradientView(colors: [.background(.darkPurple), .background(.mainPurple), .background(.mainPurple)])
     
-    let ghostImageView: GhostView = GhostView().then {
-        $0.setImage("ghost")
-        $0.setSize(Metric.ghostImageSize)
-    }
+    // MARK: - Views
     
-    let firstIntroduceLabel = IntroduceLabel().then {
+    private let gradientView = GradientView(colors: [.background(.darkPurple), .background(.mainPurple), .background(.mainPurple)])
+    
+    let ghostView = GhostView()
+    
+    private let firstNormalLabel = NormalLabel().then {
         $0.text = """
         안녕?
         만나서 반가워!
@@ -35,7 +35,7 @@ final class GuideView: BaseView {
         """
     }
     
-    let secondIntroduceLabel = IntroduceLabel().then {
+    private let secondNormalLabel = NormalLabel().then {
         $0.text = """
         "울다"는
         우리가 함께
@@ -43,7 +43,7 @@ final class GuideView: BaseView {
         """
     }
     
-    let thirdIntroduceLabel = IntroduceLabel().then {
+    private let thirdNormalLabel = NormalLabel().then {
         $0.text = """
         너의 일상을 적은 편지를
         동물 친구들에게 보낼 수 있어.
@@ -54,7 +54,7 @@ final class GuideView: BaseView {
         """
     }
     
-    let lastIntroduceLabel = IntroduceLabel().then {
+    private let lastNormalLabel = NormalLabel().then {
         $0.text = """
         앗, 친구들이
         기다리고 있나봐!
@@ -64,62 +64,89 @@ final class GuideView: BaseView {
         """
     }
     
-    
-    var labels: [UIView] {
-        subviews.filter { $0 != ghostImageView && $0 != gradientView }
-    }
-    
     private let feedbackGenerator = UIImpactFeedbackGenerator(style: .soft)
     
-    private var labelAnimations: [Animation] {
-        labels.map { Animation(view: $0,
-                               animationCase: .fadeIn,
-                               duration: 0.5) }
+    
+    // MARK: - Properties
+    
+    var labels: [UIView] {
+        subviews.exclude(
+            ghostView,
+            gradientView
+        )
     }
+    
+    private var labelAnimations: [Animation] {
+        labels.map {
+            Animation(view: $0,
+                      animationCase: .fadeIn,
+                      duration: 0.5)
+        }
+    }
+    
+    
+    // MARK: - Initialize
+    
+    init() {
+        super.init(frame: .zero)
+        
+        setup()
+        addSubviews()
+        setupConstraints()
+        
+        hideAllLabels()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     
     // MARK: - View Life Cycle
     
-    override func setup() {
-        self.backgroundColor = .background(.mainPurple)
+    private func setup() {
+        backgroundColor = .background(.mainPurple)
     }
     
-    override func addSubviews() {
+    private func addSubviews() {
         addSubview(gradientView)
-        addSubview(ghostImageView)
-        addSubview(firstIntroduceLabel)
-        addSubview(secondIntroduceLabel)
-        addSubview(thirdIntroduceLabel)
-        addSubview(lastIntroduceLabel)
+        addSubview(ghostView)
+        addSubview(firstNormalLabel)
+        addSubview(secondNormalLabel)
+        addSubview(thirdNormalLabel)
+        addSubview(lastNormalLabel)
     }
     
-    override func setupConstraints() {
+    private func setupConstraints() {
         gradientView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
         
-        ghostImageView.snp.makeConstraints { make in
+        ghostView.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.top.equalTo(self.safeAreaLayoutGuide.snp.top).offset(Metric.ghostImageTopPadding)
+            make.top.equalToSuperview().offset(Metric.ghostImageTopPadding)
+            make.height.equalTo(Metric.ghostImageSize)
+            make.width.equalTo(Metric.ghostImageSize)
         }
         
-        firstIntroduceLabel.snp.makeConstraints { make in
+        firstNormalLabel.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.top.equalTo(ghostImageView.snp.bottom).offset(Metric.firstLabelTopPadding)
+            make.top.equalTo(ghostView.snp.bottom).offset(Metric.firstLabelTopPadding)
         }
         
-        secondIntroduceLabel.snp.makeConstraints { make in
+        secondNormalLabel.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.top.equalTo(firstIntroduceLabel.snp.bottom).offset(Metric.secondLabelTopPadding)
+            make.top.equalTo(firstNormalLabel.snp.bottom).offset(Metric.secondLabelTopPadding)
         }
         
-        thirdIntroduceLabel.snp.makeConstraints { make in
+        thirdNormalLabel.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.top.equalTo(secondIntroduceLabel.snp.bottom).offset(Metric.thirdLabelTopPadding)
+            make.top.equalTo(secondNormalLabel.snp.bottom).offset(Metric.thirdLabelTopPadding)
         }
         
-        lastIntroduceLabel.snp.makeConstraints { make in
+        lastNormalLabel.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.top.equalTo(thirdIntroduceLabel.snp.bottom).offset(Metric.lastLabelTopPadding)
+            make.top.equalTo(thirdNormalLabel.snp.bottom).offset(Metric.lastLabelTopPadding)
         }
     }
 }
@@ -135,33 +162,40 @@ extension GuideView {
     @MainActor
     func runLabelAnimation(index: Int) async {
         await withCheckedContinuation { continuation in
-            AnimationGroup(animations: [labelAnimations[index]],
-                           mode: .parallel,
-                           loop: .once(completion: { continuation.resume() }))
+            AnimationGroup(
+                animations: [labelAnimations[index]],
+                mode: .parallel,
+                loop: .once(completion: { continuation.resume() })
+            )
             .run()
         }
     }
     
     @MainActor
-    func hideAllComponents() async {
-        let animations = subviews.filter { $0 != gradientView }.map { Animation(view: $0,
-                                                                                animationCase: .fadeOut,
-                                                                                duration: 0.5) }
+    func hideAllComponents(duration: TimeInterval) async {
+        let animations = subviews.exclude(gradientView)
+            .map {
+                Animation(view: $0,
+                          animationCase: .fadeOut,
+                          duration: duration)
+            }
+        
         await withCheckedContinuation { continuation in
-            AnimationGroup(animations: animations,
-                           mode: .parallel,
-                           loop: .once(completion: { continuation.resume() }))
+            AnimationGroup(
+                animations: animations,
+                mode: .parallel,
+                loop: .once(completion: { continuation.resume() })
+            )
             .run()
         }
     }
 }
 
 extension GuideView {
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        super.touchesBegan(touches, with: event)
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesEnded(touches, with: event)
         
         feedbackGenerator.prepare()
         feedbackGenerator.impactOccurred()
-        self.isUserInteractionEnabled = false
     }
 }

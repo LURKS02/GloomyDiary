@@ -9,10 +9,12 @@ import ComposableArchitecture
 import UIKit
 
 final class StartCounselingViewController: BaseViewController<StartCounselingView> {
-    
+    @Dependency(\.logger) var logger
+
     let store: StoreOf<StartCounseling>
     
-    @Dependency(\.logger) var logger
+    
+    // MARK: - Properties
     
     private var isKeyboardShowing: Bool = false {
         didSet {
@@ -26,7 +28,8 @@ final class StartCounselingViewController: BaseViewController<StartCounselingVie
         self.store = store
         let isFirstProcess = store.isFirstProcess
         let contentView = StartCounselingView(isFirstProcess: isFirstProcess)
-        super.init(contentView, logID: "StartCounseling")
+        
+        super.init(contentView)
     }
     
     @MainActor required init?(coder: NSCoder) {
@@ -38,12 +41,13 @@ final class StartCounselingViewController: BaseViewController<StartCounselingVie
     }
     
     
-    // MARK: - View Controller Life Cycle
+    // MARK: - ViewController Life Cycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
         bind()
+        contentView.hideAllComponents()
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -58,9 +62,19 @@ final class StartCounselingViewController: BaseViewController<StartCounselingVie
 
 private extension StartCounselingViewController {
     func bind() {
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(keyboardWillShow),
+            name: UIResponder.keyboardWillShowNotification,
+            object: nil
+        )
         
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(keyboardWillHide),
+            name: UIResponder.keyboardWillHideNotification,
+            object: nil
+        )
         
         contentView.titleTextField.textControlProperty
             .subscribe(onNext: { [weak self] text in
@@ -129,25 +143,46 @@ extension StartCounselingViewController {
 }
 
 
-// MARK: - Transition Animation
+// MARK: - Transition
+
+extension StartCounselingViewController: FromTransitionable {
+    var fromTransitionComponent: UIView? {
+        nil
+    }
+    
+    func prepareTransition(duration: TimeInterval) async {
+        await contentView.playFadeOutAllComponents(duration: duration)
+    }
+}
+
+extension StartCounselingViewController: ToTransitionable {
+    var toTransitionComponent: UIView? {
+        contentView.moonImageView
+    }
+    
+    func completeTransition(duration: TimeInterval) async {
+        contentView.moonImageView.transform = .identity.translatedBy(x: 0, y: .deviceAdjustedHeight(35))
+        
+        let percentages: [CGFloat] = [10, 70, 20]
+        let calculatedDurations = percentages.map { duration * $0 / 100 }
+        
+        await contentView.playMovingMoon(duration: calculatedDurations[0])
+        await contentView.playFadeInFirstPart(duration: calculatedDurations[1])
+        await contentView.playFadeInSecondPart(duration: calculatedDurations[2])
+    }
+}
 
 extension StartCounselingViewController: UINavigationControllerDelegate {
-    func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationController.Operation, from fromVC: UIViewController, to toVC: UIViewController) -> (any UIViewControllerAnimatedTransitioning)? {
-        PresentingTransition()
-    }
-}
-
-extension StartCounselingViewController: Presentable {
-    func playAppearingAnimation() async {
-        contentView.hideAllComponents()
-        contentView.moonImageView.transform = .identity.translatedBy(x: 0, y: .verticalValue(35))
-        await contentView.playFadeInFirstPart()
-        await contentView.playFadeInSecondPart()
-    }
-}
-
-extension StartCounselingViewController: PresentingDisappearable {
-    func playDisappearingAnimation() async {
-        await contentView.playFadeOutAllComponents()
+    func navigationController(
+        _ navigationController: UINavigationController,
+        animationControllerFor operation: UINavigationController.Operation,
+        from fromVC: UIViewController,
+        to toVC: UIViewController
+    ) -> (any UIViewControllerAnimatedTransitioning)? {
+        AnimatedTransition(
+            fromDuration: 0.5,
+            toDuration: 2.0,
+            transitionContentType: .normalTransition
+        )
     }
 }

@@ -20,7 +20,7 @@ final class ChoosingCharacterViewController: BaseViewController<ChoosingCharacte
 
     init(store: StoreOf<ChoosingCharacter>) {
         self.store = store
-        super.init(logID: "ChoosingCharacter")
+        super.init()
         
         self.navigationItem.hidesBackButton = true
     }
@@ -36,6 +36,7 @@ final class ChoosingCharacterViewController: BaseViewController<ChoosingCharacte
         super.viewDidLoad()
         
         bind()
+        contentView.hideAllComponents()
     }
 }
 
@@ -109,23 +110,38 @@ extension ChoosingCharacterViewController {
 }
 
 
-// MARK: - TransitionAnimation
+// MARK: - Transition
+
+extension ChoosingCharacterViewController: FromTransitionable {
+    var fromTransitionComponent: UIView? {
+        contentView.allCharacterButtons.first(where: { $0.isSelected })?.imageView
+    }
+    
+    func prepareTransition(duration: TimeInterval) async {
+        await contentView.playFadeOutAllComponents(duration: duration)
+    }
+}
+
+extension ChoosingCharacterViewController: ToTransitionable {
+    var toTransitionComponent: UIView? {
+        nil
+    }
+    
+    func completeTransition(duration: TimeInterval) async {
+        await contentView.playFadeInAllComponents(duration: duration)
+    }
+}
 
 extension ChoosingCharacterViewController: UINavigationControllerDelegate {
-    func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationController.Operation, from fromVC: UIViewController, to toVC: UIViewController) -> (any UIViewControllerAnimatedTransitioning)? {
-        ChoosingTransition()
-    }
-}
-
-extension ChoosingCharacterViewController: Presentable {
-    func playAppearingAnimation() async {
-        contentView.hideAllComponents()
-        await contentView.playFadeInAllComponents()
-    }
-}
-
-extension ChoosingCharacterViewController: PresentingDisappearable {
-    func playDisappearingAnimation() async {
-        await contentView.playFadeOutAllComponents()
+    func navigationController(
+        _ navigationController: UINavigationController,
+        animationControllerFor operation: UINavigationController.Operation,
+        from fromVC: UIViewController,
+        to toVC: UIViewController
+    ) -> (any UIViewControllerAnimatedTransitioning)? {
+        AnimatedTransition(fromDuration: 0.5,
+                           contentDuration: 2.5,
+                           toDuration: 0.5,
+                           transitionContentType: .frameTransitionWithLottie(store.character))
     }
 }

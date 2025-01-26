@@ -7,26 +7,24 @@
 
 import UIKit
 
-final class ValidResultView: BaseView {
+final class ValidResultView: UIView {
     
     // MARK: - Metric
     
     private enum Metric {
-        static let characterImageSize: CGFloat = .verticalValue(87)
-        static let characterImageTopPadding: CGFloat = .verticalValue(71)
-        static let letterTopPadding: CGFloat = .verticalValue(14)
-        static let letterHorizontalPadding: CGFloat = .horizontalValue(17)
-        static let letterBottomPadding: CGFloat = .verticalValue(218)
-        static let shareButtonTopPadding: CGFloat = .verticalValue(25)
-        static let homeButtonTopPadding: CGFloat = .verticalValue(15)
+        static let characterImageSize: CGFloat = .deviceAdjustedHeight(87)
+        static let characterImageTopPadding: CGFloat = .deviceAdjustedHeight(71)
+        static let letterTopPadding: CGFloat = .deviceAdjustedHeight(14)
+        static let letterHorizontalPadding: CGFloat = .deviceAdjustedWidth(17)
+        static let letterBottomPadding: CGFloat = .deviceAdjustedHeight(218)
+        static let shareButtonTopPadding: CGFloat = .deviceAdjustedHeight(25)
+        static let homeButtonTopPadding: CGFloat = .deviceAdjustedHeight(15)
     }
 
     
     // MARK: - Views
     
-    let characterImageView: ImageView = ImageView().then {
-        $0.setSize(Metric.characterImageSize)
-    }
+    let characterImageView = UIImageView()
     
     let resultLetterView = ResultLetterView()
     
@@ -40,23 +38,37 @@ final class ValidResultView: BaseView {
     }
     
     
+    init() {
+        super.init(frame: .zero)
+        
+        setup()
+        addSubviews()
+        setupConstraints()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     // MARK: - View Life Cycle
     
-    override func setup() {
+    private func setup() {
         backgroundColor = .background(.mainPurple)
     }
     
-    override func addSubviews() {
+    private func addSubviews() {
         addSubview(characterImageView)
         addSubview(resultLetterView)
         addSubview(shareButton)
         addSubview(homeButton)
     }
     
-    override func setupConstraints() {
+    private func setupConstraints() {
         characterImageView.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(Metric.characterImageTopPadding)
             make.centerX.equalToSuperview()
+            make.height.equalTo(Metric.characterImageSize)
+            make.width.equalTo(Metric.characterImageSize)
         }
         
         resultLetterView.snp.makeConstraints { make in
@@ -78,7 +90,7 @@ final class ValidResultView: BaseView {
     }
     
     func configure(with character: CounselingCharacter) {
-        characterImageView.setImage(character.imageName)
+        characterImageView.image = UIImage(named: character.imageName)
     }
 }
 
@@ -90,42 +102,46 @@ extension ValidResultView {
     }
     
     @MainActor
-    func playAllComponentsFadeIn() async {
+    func playAllComponentsFadeIn(duration: TimeInterval) async {
         hideAllComponents()
         
         await withCheckedContinuation { continuation in
-            AnimationGroup(animations: [.init(view: resultLetterView,
-                                              animationCase: .fadeIn,
-                                              duration: 0.5),
-                                        .init(view: homeButton,
-                                              animationCase: .fadeIn,
-                                              duration: 0.5),
-                                        .init(view: shareButton,
-                                              animationCase: .fadeIn,
-                                              duration: 0.5)],
-                           mode: .parallel,
-                           loop: .once(completion: { continuation.resume() }))
+            AnimationGroup(
+                animations: [Animation(view: resultLetterView,
+                                       animationCase: .fadeIn,
+                                       duration: duration),
+                             Animation(view: homeButton,
+                                       animationCase: .fadeIn,
+                                       duration: duration),
+                             Animation(view: shareButton,
+                                       animationCase: .fadeIn,
+                                       duration: duration)
+                ],
+                mode: .parallel,
+                loop: .once(completion: { continuation.resume() }))
             .run()
         }
     }
     
     @MainActor
-    func playAllComponentsFadeOut() async {
+    func playAllComponentsFadeOut(duration: TimeInterval) async {
         await withCheckedContinuation { continuation in
-            AnimationGroup(animations: [.init(view: resultLetterView,
-                                              animationCase: .fadeOut,
-                                              duration: 0.5),
-                                        .init(view: homeButton,
-                                              animationCase: .fadeOut,
-                                              duration: 0.5),
-                                        .init(view: characterImageView,
-                                              animationCase: .fadeOut,
-                                              duration: 0.5),
-                                        .init(view: shareButton,
-                                              animationCase: .fadeOut,
-                                              duration: 0.5)],
-                           mode: .parallel,
-                           loop: .once(completion: { continuation.resume() }))
+            AnimationGroup(
+                animations: [Animation(view: resultLetterView,
+                                       animationCase: .fadeOut,
+                                       duration: duration),
+                             Animation(view: homeButton,
+                                       animationCase: .fadeOut,
+                                       duration: duration),
+                             Animation(view: characterImageView,
+                                       animationCase: .fadeOut,
+                                       duration: duration),
+                             Animation(view: shareButton,
+                                       animationCase: .fadeOut,
+                                       duration: duration)
+                ],
+                mode: .parallel,
+                loop: .once(completion: { continuation.resume() }))
             .run()
         }
     }

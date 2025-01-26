@@ -7,7 +7,7 @@
 
 import UIKit
 
-class LetterView: BaseView {
+class LetterView: UIView {
     
     // MARK: - Metric
     
@@ -23,17 +23,32 @@ class LetterView: BaseView {
         $0.showsVerticalScrollIndicator = false
     }
     
+    
+    // MARK: - Initialize
+    
+    init() {
+        super.init(frame: .zero)
+        
+        setup()
+        addSubviews()
+        setupConstraints()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     // MARK: - View Life Cycle
     
-    override func setup() {
+    func setup() {
         applyCornerRadius(20)
     }
     
-    override func addSubviews() {
+    func addSubviews() {
         addSubview(letterTextView)
     }
     
-    override func setupConstraints() {
+    func setupConstraints() {
         letterTextView.snp.makeConstraints { make in
             make.edges.equalToSuperview().inset(Metric.letterTextViewPadding)
         }

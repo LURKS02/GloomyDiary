@@ -10,18 +10,18 @@ import RxSwift
 import RxRelay
 import Lottie
 
-final class ChoosingCharacterView: BaseView {
+final class ChoosingCharacterView: UIView {
     
     // MARK: - Metric
     
     private enum Metric {
-        static let introduceLabelTopPadding: CGFloat = .verticalValue(100)
-        static let scrollViewTopPadding: CGFloat = .verticalValue(53)
-        static let nextButtonTopPadding: CGFloat = .verticalValue(40)
-        static let buttonWidth: CGFloat = .verticalValue(240)
-        static let buttonHeight: CGFloat = .verticalValue(240)
-        static let scrollPadding: CGFloat = .verticalValue(20)
-        static let detailLabelTopPadding: CGFloat = .verticalValue(34)
+        static let NormalLabelTopPadding: CGFloat = .deviceAdjustedHeight(100)
+        static let scrollViewTopPadding: CGFloat = .deviceAdjustedHeight(53)
+        static let nextButtonTopPadding: CGFloat = .deviceAdjustedHeight(40)
+        static let buttonWidth: CGFloat = .deviceAdjustedHeight(240)
+        static let buttonHeight: CGFloat = .deviceAdjustedHeight(240)
+        static let scrollPadding: CGFloat = .deviceAdjustedHeight(20)
+        static let detailLabelTopPadding: CGFloat = .deviceAdjustedHeight(34)
     }
     
     
@@ -29,7 +29,7 @@ final class ChoosingCharacterView: BaseView {
     
     private let gradientView = GradientView(colors: [.background(.darkPurple), .background(.mainPurple)], locations: [0.0, 0.5, 1.0])
     
-    private let introduceLabel = IntroduceLabel().then {
+    private let introduceLabel = NormalLabel().then {
         $0.text = """
         "울다"에는
         여러분들의 이야기를 들어줄
@@ -44,7 +44,7 @@ final class ChoosingCharacterView: BaseView {
     
     private var contentView = UIView()
     
-    let detailInformationLabel = IntroduceLabel().then {
+    let detailInformationLabel = NormalLabel().then {
         $0.font = UIView.screenHeight <= 700 ? .온글잎_의연체.body : .온글잎_의연체.title
     }
     
@@ -52,13 +52,22 @@ final class ChoosingCharacterView: BaseView {
         $0.setTitle("다음", for: .normal)
     }
     
+    
+    // MARK: - Properties
+    
     var allCharacterButtons: [CharacterButton] = []
     
     var characterIdentifierRelay = PublishRelay<String>()
     
+    
+    // MARK: - Initialize
+    
     init() {
         super.init(frame: .zero)
         
+        setup()
+        addSubviews()
+        setupConstraints()
         setupScrollView()
         
         let panGesture = UIPanGestureRecognizer(target: self, action: #selector(handlePan))
@@ -68,46 +77,15 @@ final class ChoosingCharacterView: BaseView {
     @MainActor required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+
     
-    private func setupScrollView() {
-        CounselingCharacter.allCases.enumerated().forEach { index, character in
-            let button = CharacterButton(character: character)
-            allCharacterButtons.append(button)
-            
-            contentView.addSubview(button)
-            button.snp.makeConstraints { make in
-                if index == 0 {
-                    make.leading.equalTo(contentView.snp.leading)
-                } else {
-                    make.leading.equalTo(allCharacterButtons[index-1].snp.trailing).offset(Metric.scrollPadding)
-                }
-                make.width.equalTo(Metric.buttonWidth)
-                make.height.equalTo(Metric.buttonHeight)
-                make.top.bottom.equalToSuperview()
-            }
-        }
-        
-        if let lastButton = allCharacterButtons.last {
-            lastButton.snp.makeConstraints { make in
-                make.trailing.equalToSuperview()
-            }
-        }
-    }
+    // MARK: - View Life Cycle
     
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        
-        scrollView.contentInset = .init(top: 0,
-                                        left: (self.bounds.width - Metric.buttonWidth) / 2,
-                                        bottom: 0,
-                                        right: (self.bounds.width - Metric.buttonWidth) / 2)
-    }
-    
-    override func setup() {
+    private func setup() {
         backgroundColor = .background(.mainPurple)
     }
     
-    override func addSubviews() {
+    private func addSubviews() {
         addSubview(gradientView)
         addSubview(introduceLabel)
         addSubview(scrollView)
@@ -117,14 +95,14 @@ final class ChoosingCharacterView: BaseView {
         scrollView.addSubview(contentView)
     }
     
-    override func setupConstraints() {
+    private func setupConstraints() {
         gradientView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
         
         introduceLabel.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.top.equalToSuperview().offset(Metric.introduceLabelTopPadding)
+            make.top.equalToSuperview().offset(Metric.NormalLabelTopPadding)
         }
         
         scrollView.snp.makeConstraints { make in
@@ -163,7 +141,44 @@ final class ChoosingCharacterView: BaseView {
         self.allCharacterButtons
             .forEach { $0.isSelected = false }
     }
+    
+    private func setupScrollView() {
+        CounselingCharacter.allCases.enumerated().forEach { index, character in
+            let button = CharacterButton(character: character)
+            allCharacterButtons.append(button)
+            
+            contentView.addSubview(button)
+            button.snp.makeConstraints { make in
+                if index == 0 {
+                    make.leading.equalTo(contentView.snp.leading)
+                } else {
+                    make.leading.equalTo(allCharacterButtons[index-1].snp.trailing).offset(Metric.scrollPadding)
+                }
+                make.width.equalTo(Metric.buttonWidth)
+                make.height.equalTo(Metric.buttonHeight)
+                make.top.bottom.equalToSuperview()
+            }
+        }
+        
+        if let lastButton = allCharacterButtons.last {
+            lastButton.snp.makeConstraints { make in
+                make.trailing.equalToSuperview()
+            }
+        }
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        scrollView.contentInset = .init(top: 0,
+                                        left: (self.bounds.width - Metric.buttonWidth) / 2,
+                                        bottom: 0,
+                                        right: (self.bounds.width - Metric.buttonWidth) / 2)
+    }
 }
+
+
+// MARK: - Animations
 
 extension ChoosingCharacterView {
     func hideAllComponents() {
@@ -172,27 +187,38 @@ extension ChoosingCharacterView {
     }
     
     @MainActor
-    func playFadeInAllComponents() async {
+    func playFadeInAllComponents(duration: TimeInterval) async {
         await withCheckedContinuation { continuation in
-            AnimationGroup(animations: subviews.filter { $0 != gradientView }.map {Animation(view: $0, animationCase: .fadeIn, duration: 0.5)}, mode: .parallel, loop: .once(completion: { continuation.resume() }))
-                .run()
+            AnimationGroup(
+                animations: subviews.exclude(gradientView).map {
+                    Animation(view: $0,
+                              animationCase: .fadeIn,
+                              duration: 0.5)
+                },
+                mode: .parallel,
+                loop: .once(completion: { continuation.resume() }))
+            .run()
         }
     }
     
     @MainActor
-    func playFadeOutAllComponents() async {
+    func playFadeOutAllComponents(duration: TimeInterval) async {
         await withCheckedContinuation { continuation in
-            AnimationGroup(animations: subviews.map { Animation(view: $0, animationCase: .fadeOut, duration: 0.5)}, mode: .parallel, loop: .once(completion: { continuation.resume() }))
-                .run()
+            AnimationGroup(
+                animations: subviews.map {
+                    Animation(view: $0,
+                              animationCase: .fadeOut,
+                              duration: 0.5)
+                },
+                mode: .parallel,
+                loop: .once(completion: { continuation.resume() }))
+            .run()
         }
     }
 }
 
-extension ChoosingCharacterView: UIGestureRecognizerDelegate {
-    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-        return true
-    }
-}
+
+// MARK: - Scroll Delegate
 
 extension ChoosingCharacterView: UIScrollViewDelegate {
     @objc private func handlePan(_ gesture: UIPanGestureRecognizer) {
@@ -229,5 +255,14 @@ extension ChoosingCharacterView: UIScrollViewDelegate {
         scrollView.setContentOffset(CGPoint(x: CGFloat(page) * pageWidth - inset,
                                             y: 0),
                                     animated: true)
+    }
+}
+
+
+// MARK: - Gesture
+
+extension ChoosingCharacterView: UIGestureRecognizerDelegate {
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
     }
 }

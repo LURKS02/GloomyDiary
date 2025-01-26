@@ -18,9 +18,7 @@ final class ResponseHistoryLetterView: LetterView {
     
     // MARK: - Views
     
-    private let characterImageView = ImageView().then {
-        $0.setSize(50)
-    }
+    private let characterImageView = UIImageView()
 
     
     // MARK: - View Life Cycle
@@ -45,6 +43,8 @@ final class ResponseHistoryLetterView: LetterView {
         characterImageView.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(20)
             make.centerX.equalToSuperview()
+            make.height.equalTo(50)
+            make.width.equalTo(50)
         }
         
         letterTextView.snp.remakeConstraints { make in
@@ -58,7 +58,7 @@ final class ResponseHistoryLetterView: LetterView {
 
 extension ResponseHistoryLetterView {
     func configure(with character: CounselingCharacter, response: String) {
-        characterImageView.setImage(character.imageName)
+        characterImageView.image = UIImage(named: character.imageName)
         letterTextView.text = response
     }
 }

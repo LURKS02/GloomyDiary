@@ -5,12 +5,12 @@
 //  Created by 디해 on 8/5/24.
 //
 
-import UIKit
 import ComposableArchitecture
 import RxSwift
 import RxRelay
 import RxCocoa
 import RxGesture
+import UIKit
 
 final class HomeViewController: BaseViewController<HomeView> {
     
@@ -30,7 +30,7 @@ final class HomeViewController: BaseViewController<HomeView> {
     
     init(store: StoreOf<Home>) {
         self.store = store
-        super.init(logID: "Home")
+        super.init()
     }
     
     required init?(coder: NSCoder) {
@@ -125,7 +125,7 @@ extension HomeViewController {
     }
     
     func presentNotificationSuggestion() {
-        let localNotificationViewController = LocalNotificationViewController(logID: "LocalNotification")
+        let localNotificationViewController = LocalNotificationViewController()
         localNotificationViewController.modalPresentationStyle = .overFullScreen
         present(localNotificationViewController, animated: false)
     }
@@ -133,6 +133,7 @@ extension HomeViewController {
     func navigateToCounseling() {
         let store: StoreOf<StartCounseling> = Store(initialState: .init(), reducer: { StartCounseling() })
         let startCounselingViewController = StartCounselingViewController(store: store)
+        startCounselingViewController.contentView.moonImageView.alpha = 1.0
         let navigationViewController = UINavigationController(rootViewController: startCounselingViewController)
         
         navigationViewController.modalPresentationStyle = .custom
@@ -143,15 +144,65 @@ extension HomeViewController {
 }
 
 
-// MARK: - Transition Animation
+// MARK: - Transition
 
-extension HomeViewController: UIViewControllerTransitioningDelegate {
-    func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> (any UIViewControllerAnimatedTransitioning)? {
-        PresentingTransition()
+extension HomeViewController: FromTransitionable {
+    var fromTransitionComponent: UIView? {
+        contentView.moonImageView
     }
     
-    func animationController(forDismissed dismissed: UIViewController) -> (any UIViewControllerAnimatedTransitioning)? {
-        ResultDismissTransition()
+    func prepareTransition(duration: TimeInterval) async {
+        if let circularTabBarControllable = self.tabBarController as? CircularTabBarControllable {
+            async let playAllComponentsFadeOut: () = contentView.playFadeOutAllComponents(duration: duration)
+            async let playTabBarFadeOut: () = circularTabBarControllable.hideCircularTabBar(duration: duration)
+            let _ = await (playAllComponentsFadeOut, playTabBarFadeOut)
+        } else {
+            await contentView.playFadeOutAllComponents(duration: duration)
+        }
+    }
+}
+
+extension HomeViewController: ToTransitionable {
+    var toTransitionComponent: UIView? {
+        nil
+    }
+    
+    func completeTransition(duration: TimeInterval) async {
+        contentView.hideAllComponents()
+        
+        if let circularTabBarControllable = self.tabBarController as? CircularTabBarControllable {
+            async let playAllComponentsFadeIn: () = contentView.playAllComponentsFadeIn(duration: duration)
+            async let playTabBarFadeIn: () = circularTabBarControllable.showCircularTabBar(duration: duration)
+            let _ = await (playAllComponentsFadeIn, playTabBarFadeIn)
+        } else {
+            await contentView.playAllComponentsFadeIn(duration: duration)
+        }
+        
+        store.send(.ghostTapped)
+        store.send(.viewDidAppear)
+    }
+}
+
+extension HomeViewController: UIViewControllerTransitioningDelegate {
+    func animationController(
+        forPresented presented: UIViewController,
+        presenting: UIViewController,
+        source: UIViewController
+    ) -> (any UIViewControllerAnimatedTransitioning)? {
+        AnimatedTransition(
+            fromDuration: 0.5,
+            toDuration: 4.5,
+            transitionContentType: .normalTransition)
+    }
+    
+    func animationController(
+        forDismissed dismissed: UIViewController
+    ) -> (any UIViewControllerAnimatedTransitioning)? {
+        AnimatedTransition(
+            fromDuration: 0.5,
+            toDuration: 0.5,
+            transitionContentType: .normalTransition
+        )
     }
 }
 
@@ -164,34 +215,5 @@ extension HomeViewController: ToTabSwitchable {
 extension HomeViewController: FromTabSwitchable {
     func playTabDisappearingAnimation() async {
         await contentView.playDisappearingToRight()
-    }
-}
-
-extension HomeViewController: DismissedAppearable {
-    func playAppearingAnimation() async {
-        contentView.hideAllComponents()
-        
-        if let circularTabBarControllable = self.tabBarController as? CircularTabBarControllable {
-            async let playAllComponentsFadeIn: () = contentView.playAllComponentsFadeIn()
-            async let playTabBarFadeIn: () = circularTabBarControllable.showCircularTabBar(duration: 0.5)
-            let _ = await (playAllComponentsFadeIn, playTabBarFadeIn)
-        } else {
-            await contentView.playAllComponentsFadeIn()
-        }
-        
-        store.send(.ghostTapped)
-        store.send(.viewDidAppear)
-    }
-}
-
-extension HomeViewController: PresentingDisappearable {
-    func playDisappearingAnimation() async {
-        if let circularTabBarControllable = self.tabBarController as? CircularTabBarControllable {
-            async let playAllComponentsFadeOut: () = contentView.playFadeOutAllComponents()
-            async let playTabBarFadeOut: () = circularTabBarControllable.hideCircularTabBar(duration: 0.5)
-            let _ = await (playAllComponentsFadeOut, playTabBarFadeOut)
-        } else {
-            await contentView.playFadeOutAllComponents()
-        }
     }
 }

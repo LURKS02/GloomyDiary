@@ -7,24 +7,27 @@
 
 import UIKit
 
-final class ChoosingEmojiView: BaseView {
+final class ChoosingEmojiView: UIView {
     
     // MARK: - Metric
     
     private enum Metric {
-        static let nextButtonTopPadding: CGFloat = .verticalValue(50)
+        static let nextButtonTopPadding: CGFloat = .deviceAdjustedHeight(50)
         static let stackViewSpacing: CGFloat = 15
-        static let introduceLabelTopPadding: CGFloat = .verticalValue(153)
-        static let emojiStackViewTopPadding: CGFloat = .verticalValue(60)
-        static let emojiStackViewHorizontalPadding: CGFloat = .horizontalValue(30)
+        static let NormalLabelTopPadding: CGFloat = .deviceAdjustedHeight(153)
+        static let emojiStackViewTopPadding: CGFloat = .deviceAdjustedHeight(60)
+        static let emojiStackViewHorizontalPadding: CGFloat = .deviceAdjustedWidth(30)
     }
     
     
     // MARK: - Views
 
-    private let gradientView = GradientView(colors: [.background(.darkPurple), .background(.mainPurple)], locations: [0.0, 0.5, 1.0])
+    private let gradientView = GradientView(
+        colors: [.background(.darkPurple), .background(.mainPurple)],
+        locations: [0.0, 0.5, 1.0]
+    )
     
-    private let introduceLabel = IntroduceLabel().then {
+    private let introduceLabel = NormalLabel().then {
         $0.text = "기분은 어때요?"
     }
     
@@ -38,17 +41,23 @@ final class ChoosingEmojiView: BaseView {
         $0.setTitle("다음", for: .normal)
     }
     
-    let columnCount: Int = 3
+    
+    // MARK: - Properties
     
     var allEmojiButtons: [EmojiButton] {
         emojiStackView.flattenSubviews.compactMap { $0 as? EmojiButton }
     }
+    
+    let columnCount: Int = 3
     
     
     // MARK: - Initialize
 
     init() {
         super.init(frame: .zero)
+        
+        addSubviews()
+        setupConstraints()
         
         var rowStackView: UIStackView?
         Emoji.allCases.enumerated().forEach { index, emoji in
@@ -74,25 +83,21 @@ final class ChoosingEmojiView: BaseView {
     
     // MARK: - View Life Cycle
     
-    override func setup() {
-        
-    }
-    
-    override func addSubviews() {
+    private func addSubviews() {
         addSubview(gradientView)
         addSubview(introduceLabel)
         addSubview(emojiStackView)
         addSubview(nextButton)
     }
 
-    override func setupConstraints() {
+    private func setupConstraints() {
         gradientView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
         
         introduceLabel.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.top.equalToSuperview().offset(Metric.introduceLabelTopPadding)
+            make.top.equalToSuperview().offset(Metric.NormalLabelTopPadding)
         }
         
         emojiStackView.snp.makeConstraints { make in
@@ -125,49 +130,52 @@ final class ChoosingEmojiView: BaseView {
 
 extension ChoosingEmojiView {
     func hideAllComponents() {
-        subviews.filter { $0 != gradientView }
-            .forEach { $0.alpha = 0.0 }
+        subviews.exclude(gradientView).forEach { $0.alpha = 0.0 }
     }
     
     @MainActor
-    func playFadeInAllComponents() async {
+    func playFadeInAllComponents(duration: TimeInterval) async {
+        let percentages: [CGFloat] = [25, 50, 25]
+        let calculatedDurations = percentages.map { duration * $0 / 100 }
+        
+        await playShowingLabel(duration: calculatedDurations[0])
+        await playStackView(duration: calculatedDurations[1])
+        await playShowingNextButton(duration: calculatedDurations[2])
+    }
+    
+    @MainActor
+    func playShowingLabel(duration: TimeInterval) async {
         await withCheckedContinuation { continuation in
-            AnimationGroup(animations: [.init(view: introduceLabel,
-                                              animationCase: .fadeIn,
-                                              duration: 0.5)],
-                           mode: .serial,
-                           loop: .once(completion: { continuation.resume() }))
-            .run()
-        }
-            
-        await playStackView()
-            
-        await withCheckedContinuation { continuation in
-            AnimationGroup(animations: [.init(view: nextButton,
-                                              animationCase: .fadeIn,
-                                              duration: 0.5)],
-                           mode: .serial,
-                           loop: .once(completion: { continuation.resume() }))
+            AnimationGroup(
+                animations: [Animation(view: introduceLabel,
+                                       animationCase: .fadeIn,
+                                       duration: duration)
+                ],
+                mode: .serial,
+                loop: .once(completion: { continuation.resume() }))
             .run()
         }
     }
     
     @MainActor
-    private func playStackView() async {
+    private func playStackView(duration: TimeInterval) async {
+        let buttonDuration: TimeInterval = 0.5
         emojiStackView.alpha = 1.0
         
         allEmojiButtons.forEach { button in
             button.alpha = 0.0
-            button.transform = .identity.translatedBy(x: 0, y: .verticalValue(20))
+            button.transform = .identity.translatedBy(x: 0, y: .deviceAdjustedHeight(20))
         }
         
         await withCheckedContinuation { continuation in
             let totalAnimations = allEmojiButtons.count
             var completedAnimations = 0
             
+            let reciprocal = (duration - buttonDuration) / Double(allEmojiButtons.count)
+            
             allEmojiButtons.enumerated().forEach { index, button in
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1 * Double(index)) {
-                    self.playButton(button: button) {
+                DispatchQueue.main.asyncAfter(deadline: .now() + reciprocal * Double(index)) {
+                    self.playButton(button: button, duration: buttonDuration) {
                         completedAnimations += 1
                         
                         if completedAnimations ==  totalAnimations { continuation.resume() }
@@ -177,8 +185,26 @@ extension ChoosingEmojiView {
         }
     }
     
-    private func playButton(button: EmojiButton, completion: @escaping () -> Void) {
-        UIView.animate(withDuration: 0.5, animations: {
+    @MainActor
+    private func playShowingNextButton(duration: TimeInterval) async {
+        await withCheckedContinuation { continuation in
+            AnimationGroup(
+                animations: [Animation(view: nextButton,
+                                       animationCase: .fadeIn,
+                                       duration: duration)
+                ],
+                mode: .serial,
+                loop: .once(completion: { continuation.resume() }))
+            .run()
+        }
+    }
+    
+    private func playButton(
+        button: EmojiButton,
+        duration: TimeInterval,
+        completion: @escaping () -> Void
+    ) {
+        UIView.animate(withDuration: duration, animations: {
             button.alpha = 1.0
             button.transform = .identity
         }) { _ in
@@ -189,9 +215,16 @@ extension ChoosingEmojiView {
     @MainActor
     func playFadeOutAllComponents() async {
         await withCheckedContinuation { continuation in
-            AnimationGroup(animations: subviews.filter { $0 != gradientView }.map { Animation(view: $0, animationCase: .fadeOut, duration: 0.5)},
-                           mode: .parallel,
-                           loop: .once(completion: { continuation.resume() }))
+            AnimationGroup(
+                animations: subviews.exclude(gradientView).map {
+                    Animation(
+                        view: $0,
+                        animationCase: .fadeOut,
+                        duration: 0.5
+                    )
+                },
+                mode: .parallel,
+                loop: .once(completion: { continuation.resume() }))
             .run()
         }
     }

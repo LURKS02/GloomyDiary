@@ -74,7 +74,10 @@ private extension AnimationGroup {
         }
     }
     
-    func startSequentialAnimators(with animators: [UIViewPropertyAnimator], completion: @escaping () -> Void) {
+    func startSequentialAnimators(
+        with animators: [UIViewPropertyAnimator],
+        completion: @escaping () -> Void
+    ) {
         guard !animators.isEmpty else { return }
         
         for (index, animator) in animators.enumerated() {
@@ -91,16 +94,19 @@ private extension AnimationGroup {
         animators.first?.startAnimation()
     }
     
-    func startParallelAnimators(with animators: [UIViewPropertyAnimator], completion: @escaping () -> Void) {
-        guard let longestAnimator = animators.max(by: { $0.duration < $1.duration }) else {
+    func startParallelAnimators(
+        with animators: [UIViewPropertyAnimator],
+        completion: @escaping () -> Void
+    ) {
+        guard let longestAnimator = animators.max(by: { $0.duration > $1.duration }) else {
             completion()
             return
         }
         
-        longestAnimator.addCompletion { _ in
+        animators.forEach { $0.startAnimation() }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + longestAnimator.duration) {
             completion()
         }
-        
-        animators.forEach { $0.startAnimation() }
     }
 }

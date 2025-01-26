@@ -8,7 +8,7 @@
 import UIKit
 import RxRelay
 
-final class HistoryDetailMenuView: BaseView {
+final class HistoryDetailMenuView: UIView {
     
     // MARK: - Views
     
@@ -38,30 +38,45 @@ final class HistoryDetailMenuView: BaseView {
         $0.distribution = .fillEqually
     }
     
+    
+    // MARK: - Properties
+    
     private var navigationControllerHeight: CGFloat
+    
+    
+    // MARK: - Initialize
     
     init(navigationControllerHeight: CGFloat) {
         self.navigationControllerHeight = navigationControllerHeight
         super.init(frame: .zero)
+        
+        addSubviews()
+        setupConstraints()
     }
     
     @MainActor required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func configure(with items: [MenuItem]) {
+        let buttons = items.map { createButton(item: $0) }
+        menuButtons = buttons
+    }
+    
+    private func createButton(item: MenuItem) -> MenuButton {
+        return MenuButton(item: item)
+    }
+    
     
     // MARK: - View Life Cycle
     
-    override func setup() {
-    }
-    
-    override func addSubviews() {
+    private func addSubviews() {
         addSubview(backgroundView)
         addSubview(containerView)
         containerView.addSubview(buttonStackView)
     }
     
-    override func setupConstraints() {
+    private func setupConstraints() {
         backgroundView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
@@ -75,18 +90,10 @@ final class HistoryDetailMenuView: BaseView {
             make.edges.equalToSuperview().inset(20)
         }
     }
-
-    func configure(with items: [MenuItem]) {
-        let buttons = items.map { createButton(item: $0) }
-        menuButtons = buttons
-    }
 }
 
-private extension HistoryDetailMenuView {
-    func createButton(item: MenuItem) -> MenuButton {
-        return MenuButton(item: item)
-    }
-}
+
+// MARK: - Animations
 
 extension HistoryDetailMenuView {
     @MainActor

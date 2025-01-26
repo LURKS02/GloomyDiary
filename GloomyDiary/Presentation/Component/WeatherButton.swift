@@ -10,8 +10,8 @@ import UIKit
 final class WeatherButton: UIButton {
 
     private enum Metric {
-        static let imageLeadingPadding: CGFloat = .horizontalValue(20)
-        static let imageSize: CGFloat = .verticalValue(63)
+        static let imageLeadingPadding: CGFloat = .deviceAdjustedWidth(20)
+        static let imageSize: CGFloat = .deviceAdjustedHeight(63)
     }
     
     let identifier: String
@@ -66,7 +66,7 @@ extension WeatherButton {
         feedbackGenerator.impactOccurred()
         
         AnimationGroup.init(animations: [.init(view: self,
-                                               animationCase: .transform(transform: CGAffineTransform(scaleX: 0.95, y: 0.95)),
+                                               animationCase: .transform( CGAffineTransform(scaleX: 0.95, y: 0.95)),
                                                duration: 0.1)],
                             mode: .parallel,
                             loop: .once(completion: nil))
@@ -86,7 +86,7 @@ extension WeatherButton {
         super.touchesEnded(touches, with: event)
         
         AnimationGroup.init(animations: [.init(view: self,
-                                               animationCase: .transform(transform: .identity),
+                                               animationCase: .transform( .identity),
                                                duration: 0.1)],
                             mode: .parallel,
                             loop: .once(completion: {} ))
@@ -97,7 +97,7 @@ extension WeatherButton {
         super.touchesCancelled(touches, with: event)
         
         AnimationGroup.init(animations: [.init(view: self,
-                                               animationCase: .transform(transform: .identity),
+                                               animationCase: .transform( .identity),
                                                duration: 0.1)],
                             mode: .parallel,
                             loop: .once(completion: {}))

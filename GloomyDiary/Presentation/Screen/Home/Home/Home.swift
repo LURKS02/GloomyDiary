@@ -11,7 +11,7 @@ import ComposableArchitecture
 @Reducer
 struct Home {
     @Dependency(\.counselingSessionRepository) var counselingSessionRepository
-    @Dependency(\.userSettingRepository) var userSettingRepository
+    @Dependency(\.userSetting) var userSetting
     @Dependency(\.logger) var logger
     @Dependency(\.date.now) var now
     
@@ -36,9 +36,9 @@ struct Home {
             case .viewDidAppear:
                 return .run { send in
                     if isNotificationSuggestable() {
-                        await suggestNotification(send: send)
+                        try await suggestNotification(send: send)
                     } else {
-                        let lastReviewDeclinedDate = userSettingRepository.get(keyPath: \.lastReviewDeclinedDate)
+                        let lastReviewDeclinedDate = userSetting.get(keyPath: \.lastReviewDeclinedDate)
                         if try await isReviewSuggestionEligible(date: lastReviewDeclinedDate) {
                             await suggestReview(send: send, lastReviewDeclinedDate: lastReviewDeclinedDate)
                         }
@@ -67,8 +67,8 @@ struct Home {
 }
 
 private extension Home {
-    func suggestNotification(send: Send<Action>) async {
-        userSettingRepository.update(keyPath: \.hasSuggestedNotification, value: true)
+    func suggestNotification(send: Send<Action>) async throws {
+        try userSetting.update(keyPath: \.hasSuggestedNotification, value: true)
         await send(.showNotificationSuggestion)
         
         logger.send(.system, "유저에게 알림을 제안합니다.", nil)
@@ -86,7 +86,7 @@ private extension Home {
     }
     
     func isNotificationSuggestable() -> Bool {
-        let hasSuggestedNotification = userSettingRepository.get(keyPath: \.hasSuggestedNotification)
+        let hasSuggestedNotification = userSetting.get(keyPath: \.hasSuggestedNotification)
         return !hasSuggestedNotification
     }
     
@@ -94,7 +94,7 @@ private extension Home {
         let sessions = try await counselingSessionRepository.fetch()
         if date == nil && sessions.count < 2 { return false }
         else {
-            let hasReviewed = userSettingRepository.get(keyPath: \.hasReviewed)
+            let hasReviewed = userSetting.get(keyPath: \.hasReviewed)
             if hasReviewed { return false }
             
             if let date = date {

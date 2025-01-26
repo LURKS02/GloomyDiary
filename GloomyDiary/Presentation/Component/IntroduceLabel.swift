@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class IntroduceLabel: UILabel {
+final class NormalLabel: UILabel {
     init() {
         super.init(frame: .zero)
         

@@ -24,7 +24,7 @@ final class CounselingPhotoSelectionCollectionViewCell: UICollectionViewCell {
         $0.tintColor = .text(.subHighlight)
     }
     
-    private let countLabel = IntroduceLabel()
+    private let countLabel = NormalLabel()
     
     override init(frame: CGRect) {
         super.init(frame: frame)

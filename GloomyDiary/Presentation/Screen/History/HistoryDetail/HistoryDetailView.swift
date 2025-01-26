@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class HistoryDetailView: BaseView {
+final class HistoryDetailView: UIView {
     
     // MARK: - Metric
 
@@ -25,17 +25,17 @@ final class HistoryDetailView: BaseView {
     
     private let contentView = UIView()
     
-    private let titleLabel = IntroduceLabel().then {
+    private let titleLabel = NormalLabel().then {
         $0.font = .온글잎_의연체.heading
         $0.textAlignment = .left
     }
     
-    private let dateLabel = IntroduceLabel().then {
+    private let dateLabel = NormalLabel().then {
         $0.font = .온글잎_의연체.body
         $0.textAlignment = .left
     }
     
-    private let stateLabel = IntroduceLabel().then {
+    private let stateLabel = NormalLabel().then {
         $0.font = .온글잎_의연체.body
         $0.textColor = .text(.fogHighlight)
         $0.textAlignment = .left
@@ -43,31 +43,50 @@ final class HistoryDetailView: BaseView {
     
     let imageScrollView = HistoryDetailImageView(imageSize: UIView.screenWidth - Metric.viewPadding * 2)
     
-    private let contentLabel = IntroduceLabel().then {
+    private let contentLabel = NormalLabel().then {
         $0.textColor = .text(.subHighlight)
         $0.textAlignment = .left
     }
     
-    private let letterImageView = ImageView().then {
-        $0.setImage("letter")
-        $0.setSize(45)
+    private let letterImageView = UIImageView().then {
+        $0.image = UIImage(named: "letter")
     }
     
     private let responseLetterView = ResponseHistoryLetterView()
     
-    private lazy var gradientBackgroundView = GradientView(colors: [.component(.buttonPurple).withAlphaComponent(0.0), .component(.buttonPurple)],
-                                                           locations: [0.0, 0.5, 1.0])
+    private lazy var gradientBackgroundView = GradientView(
+        colors: [.component(.buttonPurple).withAlphaComponent(0.0), .component(.buttonPurple)],
+        locations: [0.0, 0.5, 1.0]
+    )
+    
+    
+    // MARK: - Properties
     
     var isAnimated: Bool = false
     
     
+    // MARK: - Initialize
+
+    init() {
+        super.init(frame: .zero)
+        
+        setup()
+        addSubviews()
+        setupConstraints()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    
     // MARK: - View Life Cycle
 
-    override func setup() {
+    private func setup() {
         backgroundColor = .component(.buttonPurple)
     }
     
-    override func addSubviews() {
+    private func addSubviews() {
         addSubview(scrollView)
         addSubview(gradientBackgroundView)
         scrollView.addSubview(contentView)
@@ -80,7 +99,7 @@ final class HistoryDetailView: BaseView {
         contentView.addSubview(responseLetterView)
     }
     
-    override func setupConstraints() {
+    private func setupConstraints() {
         scrollView.snp.makeConstraints { make in
             make.horizontalEdges.equalTo(self.safeAreaLayoutGuide)
             make.bottom.equalTo(self.safeAreaLayoutGuide)
@@ -95,12 +114,17 @@ final class HistoryDetailView: BaseView {
             make.leading.equalToSuperview()
             make.trailing.equalToSuperview()
             make.bottom.equalToSuperview()
-            make.height.equalTo(CGFloat.verticalValue(70))
+            make.height.equalTo(CGFloat.deviceAdjustedHeight(70))
         }
         
         titleLabel.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(20)
             make.horizontalEdges.equalToSuperview().inset(Metric.textPadding)
+        }
+        
+        letterImageView.snp.makeConstraints { make in
+            make.height.equalTo(45)
+            make.width.equalTo(45)
         }
         
         dateLabel.snp.makeConstraints { make in
@@ -161,6 +185,9 @@ extension HistoryDetailView {
     }
 }
 
+
+// MARK: - Animations
+
 extension HistoryDetailView {
     func hideAllComponents() {
         scrollView.alpha = 0.0
@@ -180,11 +207,13 @@ extension HistoryDetailView {
     @MainActor
     func playFadeInGradientView() async {
         await withCheckedContinuation { continuation in
-            AnimationGroup(animations: [.init(view: gradientBackgroundView,
-                                              animationCase: .fadeIn,
-                                              duration: 0.4)],
-                           mode: .parallel,
-                           loop: .once(completion: { continuation.resume() }))
+            AnimationGroup(
+                animations: [Animation(view: gradientBackgroundView,
+                                       animationCase: .fadeIn,
+                                       duration: 0.4)
+                ],
+                mode: .parallel,
+                loop: .once(completion: { continuation.resume() }))
             .run()
         }
     }
@@ -206,26 +235,16 @@ extension HistoryDetailView {
         
         let view = contentView.subviews[index]
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1 * Double(index)) {
-            AnimationGroup(animations: [.init(view: view,
-                                              animationCase: .fadeIn,
-                                              duration: 0.5),
-                                        .init(view: view,
-                                              animationCase: .transform(transform: .identity),
-                                              duration: 0.5)],
-                           mode: .parallel,
-                           loop: .once(completion: completion))
-            .run()
-        }
-    }
-    
-    @MainActor
-    func playFadeOutAllComponents() async {
-        await withCheckedContinuation { continuation in
-            AnimationGroup(animations: [.init(view: scrollView,
-                                              animationCase: .fadeOut,
-                                              duration: 0.2)],
-                           mode: .parallel,
-                           loop: .once(completion: { continuation.resume() }))
+            AnimationGroup(
+                animations: [Animation(view: view,
+                                       animationCase: .fadeIn,
+                                       duration: 0.3),
+                             Animation(view: view,
+                                       animationCase: .transform( .identity),
+                                       duration: 0.3)
+                ],
+                mode: .parallel,
+                loop: .once(completion: completion))
             .run()
         }
     }

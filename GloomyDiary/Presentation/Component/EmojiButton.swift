@@ -11,8 +11,8 @@ final class EmojiButton: UIButton {
     
     private enum Metric {
         static let imagePadding: CGFloat = 5
-        static let imageSize: CGFloat = .verticalValue(40)
-        static let cornerRadius: CGFloat = .verticalValue(20)
+        static let imageSize: CGFloat = .deviceAdjustedHeight(40)
+        static let cornerRadius: CGFloat = .deviceAdjustedHeight(20)
     }
     
     let identifier: String
@@ -63,7 +63,7 @@ extension EmojiButton {
         feedbackGenerator.impactOccurred()
         
         AnimationGroup.init(animations: [.init(view: self,
-                                               animationCase: .transform(transform: CGAffineTransform(scaleX: 0.95, y: 0.95)),
+                                               animationCase: .transform( CGAffineTransform(scaleX: 0.95, y: 0.95)),
                                                duration: 0.1)],
                             mode: .parallel,
                             loop: .once(completion: { }))
@@ -83,7 +83,7 @@ extension EmojiButton {
         super.touchesEnded(touches, with: event)
         
         AnimationGroup.init(animations: [.init(view: self,
-                                               animationCase: .transform(transform: .identity),
+                                               animationCase: .transform( .identity),
                                                duration: 0.1)],
                             mode: .parallel,
                             loop: .once(completion: {} ))
@@ -94,7 +94,7 @@ extension EmojiButton {
         super.touchesCancelled(touches, with: event)
         
         AnimationGroup.init(animations: [.init(view: self,
-                                               animationCase: .transform(transform: .identity),
+                                               animationCase: .transform( .identity),
                                                duration: 0.1)],
                             mode: .parallel,
                             loop: .once(completion: {}))

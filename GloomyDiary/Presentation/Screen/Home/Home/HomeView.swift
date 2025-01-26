@@ -8,22 +8,22 @@
 import UIKit
 import Lottie
 
-final class HomeView: BaseView {
+final class HomeView: UIView {
     
     // MARK: - Metric
 
     private enum Metric {
-        static let moonTopPadding: CGFloat = .verticalValue(132)
-        static let ghostButtonPadding: CGFloat = .verticalValue(65)
-        static let buttonBottomPadding: CGFloat = .verticalValue(266)
+        static let moonTopPadding: CGFloat = .deviceAdjustedHeight(132)
+        static let ghostButtonPadding: CGFloat = .deviceAdjustedHeight(65)
+        static let buttonBottomPadding: CGFloat = .deviceAdjustedHeight(266)
         
-        static let ghostTalkingSpacing: CGFloat = .verticalValue(14)
-        static let ghostTalkingRightPadding: CGFloat = .horizontalValue(23)
-        static let ghostImageRightPadding: CGFloat = .horizontalValue(119)
+        static let ghostTalkingSpacing: CGFloat = .deviceAdjustedHeight(14)
+        static let ghostTalkingRightPadding: CGFloat = .deviceAdjustedWidth(23)
+        static let ghostImageRightPadding: CGFloat = .deviceAdjustedWidth(119)
         
-        static let moonImageSize: CGFloat = .verticalValue(43)
-        static let pulsingCircleSize: CGFloat = .verticalValue(380)
-        static let ghostImageSize: CGFloat = .horizontalValue(78)
+        static let moonImageSize: CGFloat = .deviceAdjustedHeight(43)
+        static let pulsingCircleSize: CGFloat = .deviceAdjustedHeight(380)
+        static let ghostImageSize: CGFloat = .deviceAdjustedWidth(78)
         
         static let pulsingCircleAlpha: CGFloat = 0.3
         static let pulsingCircleAnimationSpeed: CGFloat = 0.3
@@ -38,9 +38,8 @@ final class HomeView: BaseView {
                                                            .background(.mainPurple),
                                                            .background(.mainPurple)])
     
-    let moonImageView: ImageView = ImageView().then {
-        $0.setImage("moon")
-        $0.setSize(Metric.moonImageSize)
+    let moonImageView = UIImageView().then {
+        $0.image = UIImage(named: "moon")
     }
     
     let pulsingCircleLottieView = LottieAnimationView(name: "pulsingCircle").then {
@@ -59,8 +58,6 @@ final class HomeView: BaseView {
     }
     
     let ghostImageView: GhostView = GhostView().then {
-        $0.setImage("ghost")
-        $0.setSize(Metric.ghostImageSize)
         $0.isUserInteractionEnabled = false
     }
     
@@ -74,13 +71,28 @@ final class HomeView: BaseView {
     }
     
     
+    // MARK: - Initialize
+    
+    init() {
+        super.init(frame: .zero)
+        
+        setup()
+        addSubviews()
+        setupConstraints()
+    }
+    
+    @MainActor required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    
     // MARK: - View Life Cycle
     
-    override func setup() {
+    private func setup() {
         self.backgroundColor = .background(.mainPurple)
     }
     
-    override func addSubviews() {
+    private func addSubviews() {
         addSubview(gradientView)
         addSubview(moonImageView)
         addSubview(pulsingCircleLottieView)
@@ -90,7 +102,7 @@ final class HomeView: BaseView {
         addSubview(startButton)
     }
     
-    override func setupConstraints() {
+    private func setupConstraints() {
         gradientView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
@@ -98,6 +110,8 @@ final class HomeView: BaseView {
         moonImageView.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
             make.top.equalToSuperview().offset(Metric.moonTopPadding)
+            make.height.equalTo(Metric.moonImageSize)
+            make.width.equalTo(Metric.moonImageSize)
         }
         
         pulsingCircleLottieView.snp.makeConstraints { make in
@@ -118,6 +132,8 @@ final class HomeView: BaseView {
         ghostImageView.snp.makeConstraints { make in
             make.bottom.equalTo(startButton.snp.top).offset(-Metric.ghostButtonPadding)
             make.right.equalToSuperview().offset(-Metric.ghostImageRightPadding)
+            make.height.equalTo(Metric.ghostImageSize)
+            make.width.equalTo(Metric.ghostImageSize)
         }
         
         startButton.snp.makeConstraints { make in
@@ -136,33 +152,53 @@ extension HomeView {
     }
     
     @MainActor
-    func playFadeOutAllComponents() async {
+    func playFadeOutAllComponents(duration: TimeInterval) async {
+        let animations = subviews.exclude(moonImageView, gradientView).map {
+            Animation(view: $0,
+                      animationCase: .fadeOut,
+                      duration: duration)
+        }
+        
         await withCheckedContinuation { continuation in
-            AnimationGroup(animations: subviews.filter { $0 != moonImageView && $0 != gradientView }
-                .map { .init(view: $0,
-                             animationCase: .fadeOut,
-                             duration: 0.5) },
-                           mode: .parallel,
-                           loop: .once(completion: { continuation.resume() }))
+            AnimationGroup(
+                animations: animations,
+                mode: .parallel,
+                loop: .once(completion: { continuation.resume() }))
             .run()
         }
     }
     
     @MainActor
-    func playAllComponentsFadeIn() async {
+    func playAllComponentsFadeIn(duration: TimeInterval) async {
         await withCheckedContinuation { continuation in
-            AnimationGroup(animations: subviews.filter { $0 != pulsingCircleLottieView && $0 != sparklingLottieView }
-                .map { .init(view: $0,
-                             animationCase: .fadeIn,
-                             duration: 0.5) } +
-                           [.init(view: pulsingCircleLottieView,
-                                  animationCase: .fade(value: Metric.pulsingCircleAlpha),
-                                  duration: 0.5),
-                            .init(view: sparklingLottieView,
-                                  animationCase: .fade(value: Metric.sparklingAlpha),
-                                  duration: 0.5)],
-                           mode: .parallel,
-                           loop: .once(completion: { continuation.resume() }))
+            var animations = subviews.exclude(pulsingCircleLottieView, sparklingLottieView).map {
+                Animation(
+                    view: $0,
+                    animationCase: .fadeIn,
+                    duration: duration
+                )
+            }
+            
+            animations.append(
+                Animation(
+                    view: pulsingCircleLottieView,
+                    animationCase: .fade(value: Metric.pulsingCircleAlpha),
+                    duration: duration
+                )
+            )
+            
+            animations.append(
+                Animation(
+                    view: sparklingLottieView,
+                    animationCase: .fade(value: Metric.sparklingAlpha),
+                    duration: duration
+                )
+            )
+            
+            AnimationGroup(
+                animations: animations,
+                mode: .parallel,
+                loop: .once(completion: { continuation.resume() }))
             .run()
         }
     }
@@ -171,42 +207,61 @@ extension HomeView {
     func playAppearingFromLeft() async {
         hideAllComponents()
         
-        self.subviews.filter { $0 != gradientView }
+        self.subviews
+            .exclude(gradientView)
             .forEach { $0.transform = .identity.translatedBy(x: -10, y: 0) }
         
+        let transformAnimation = subviews.exclude(gradientView).map {
+            Animation(view: $0,
+                      animationCase: .transform(.identity),
+                      duration: 0.2)
+        }
+        
+        let fadeInAnimation = subviews.exclude(pulsingCircleLottieView, sparklingLottieView).map {
+            Animation(view: $0,
+                      animationCase: .fadeIn,
+                      duration: 0.2)
+        }
+        
+        let pulsingCircleAnimation = Animation(view: pulsingCircleLottieView,
+                                               animationCase: .fade(value: Metric.pulsingCircleAlpha),
+                                               duration: 0.2)
+        
+        let sparklingAnimation = Animation(view: sparklingLottieView,
+                                           animationCase: .fade(value: Metric.sparklingAlpha),
+                                           duration: 0.2)
+        
         await withCheckedContinuation { continuation in
-            AnimationGroup(animations: subviews.filter { $0 != gradientView }
-                                               .map { .init(view: $0,
-                                                            animationCase: .transform(transform: .identity),
-                                                            duration: 0.2) } +
-                                       subviews.filter { $0 != pulsingCircleLottieView && $0 != sparklingLottieView }
-                                               .map { .init(view: $0,
-                                                            animationCase: .fadeIn,
-                                                            duration: 0.2) } +
-                                       [.init(view: pulsingCircleLottieView,
-                                              animationCase: .fade(value: Metric.pulsingCircleAlpha),
-                                              duration: 0.2),
-                                        .init(view: sparklingLottieView,
-                                              animationCase: .fade(value: Metric.sparklingAlpha),
-                                              duration: 0.2)],
-                           mode: .parallel,
-                           loop: .once(completion: { continuation.resume() }))
+            AnimationGroup(
+                animations: transformAnimation + fadeInAnimation + [pulsingCircleAnimation, sparklingAnimation],
+                mode: .parallel,
+                loop: .once(completion: { continuation.resume() })
+            )
             .run()
         }
     }
     
     @MainActor
     func playDisappearingToRight() async {
+        let transformAnimation = subviews.exclude(gradientView)
+            .map {
+            Animation(view: $0,
+                      animationCase: .transform( .init(translationX: 10, y: 0)),
+                      duration: 0.2)
+            }
+        
+        let fadeOutAnimation = subviews
+            .map {
+                Animation(view: $0,
+                          animationCase: .fadeOut,
+                          duration: 0.2)
+            }
+        
         await withCheckedContinuation { continuation in
-            AnimationGroup(animations: subviews.filter { $0 != gradientView }
-                .map { .init(view: $0,
-                             animationCase: .transform(transform: .init(translationX: 10, y: 0)),
-                             duration: 0.2) } +
-                           subviews.map { .init(view: $0,
-                                                animationCase: .fadeOut,
-                                                duration: 0.2) },
-                           mode: .parallel,
-                           loop: .once(completion: { continuation.resume() }))
+            AnimationGroup(
+                animations: transformAnimation + fadeOutAnimation,
+                mode: .parallel,
+                loop: .once(completion: { continuation.resume() }))
             .run()
         }
     }

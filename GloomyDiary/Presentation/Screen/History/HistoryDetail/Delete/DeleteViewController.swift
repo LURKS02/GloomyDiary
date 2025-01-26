@@ -21,7 +21,7 @@ final class DeleteViewController: BaseViewController<DeleteView> {
     init(session: Session) {
         self.sessionID = session.id
         let contentView = DeleteView(character: session.counselor)
-        super.init(contentView, logID: "Delete")
+        super.init(contentView)
     }
     
     @MainActor required init?(coder: NSCoder) {

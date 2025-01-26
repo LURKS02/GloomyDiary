@@ -19,7 +19,7 @@ final class ChoosingEmojiViewController: BaseViewController<ChoosingEmojiView> {
 
     init(store: StoreOf<ChoosingEmoji>) {
         self.store = store
-        super.init(logID: "ChoosingEmoji")
+        super.init()
         
         self.navigationItem.hidesBackButton = true
     }
@@ -35,6 +35,7 @@ final class ChoosingEmojiViewController: BaseViewController<ChoosingEmojiView> {
         super.viewDidLoad()
         
         bind()
+        contentView.hideAllComponents()
     }
 }
 
@@ -112,21 +113,37 @@ extension ChoosingEmojiViewController {
 
 // MARK: - TransitionAnimation
 
-extension ChoosingEmojiViewController: UINavigationControllerDelegate {
-    func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationController.Operation, from fromVC: UIViewController, to toVC: UIViewController) -> (any UIViewControllerAnimatedTransitioning)? {
-        PresentingTransition()
+extension ChoosingEmojiViewController: FromTransitionable {
+    var fromTransitionComponent: UIView? {
+        nil
     }
-}
-
-extension ChoosingEmojiViewController: Presentable {
-    func playAppearingAnimation() async {
-        contentView.hideAllComponents()
-        await contentView.playFadeInAllComponents()
-    }
-}
-
-extension ChoosingEmojiViewController: PresentingDisappearable {
-    func playDisappearingAnimation() async {
+    
+    func prepareTransition(duration: TimeInterval) async {
         await contentView.playFadeOutAllComponents()
+    }
+}
+
+extension ChoosingEmojiViewController: ToTransitionable {
+    var toTransitionComponent: UIView? {
+        nil
+    }
+    
+    func completeTransition(duration: TimeInterval) async {
+        await contentView.playFadeInAllComponents(duration: duration)
+    }
+}
+
+extension ChoosingEmojiViewController: UINavigationControllerDelegate {
+    func navigationController(
+        _ navigationController: UINavigationController,
+        animationControllerFor operation: UINavigationController.Operation,
+        from fromVC: UIViewController,
+        to toVC: UIViewController
+    ) -> (any UIViewControllerAnimatedTransitioning)? {
+        AnimatedTransition(
+            fromDuration: 0.5,
+            toDuration: 2.0,
+            transitionContentType: .normalTransition
+        )
     }
 }

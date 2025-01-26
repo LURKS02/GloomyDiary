@@ -9,64 +9,93 @@ import UIKit
 import ComposableArchitecture
 
 final class AppCoordinator {
-    var window: UIWindow
-    private let isFirstProcess: Bool
+    @Dependency(\.userSetting) var userSetting
+    
+    private let window: UIWindow
+    
+    private var isFirstProcess: Bool {
+        userSetting.get(keyPath: \.isFirstProcess)
+    }
     
     init(window: UIWindow) {
-        @Dependency(\.userSettingRepository) var userSettingRepository
-        
         self.window = window
-        self.isFirstProcess = userSettingRepository.get(keyPath: \.isFirstProcess)
     }
     
     func start() {
         #if SCROLL_TEST
-        showMainView()
+        showScrollSetting()
         
         #else
         if isFirstProcess {
-            showCounselView()
+            showTutorial()
         } else {
-            showMainView()
+            showHome()
         }
         #endif
     }
 }
 
 private extension AppCoordinator {
-    func showCounselView() {
+    func showTutorial() {
         let mainViewController = CircularTabBarController(tabBarItems: [.home, .history])
         mainViewController.hideCircularTabBar()
+        
         guard let originView = mainViewController.view else { return }
-        let coveringView = UIView().then {
+        
+        let coveringView = createCoveringView(for: originView)
+        originView.addSubview(coveringView)
+        
+        configureWindow(with: mainViewController)
+        
+        let welcomeViewController = createWelcomeViewController()
+        
+        guard let selectedViewController = mainViewController.selectedViewController else { return }
+        configureCustomTransition(for: welcomeViewController, in: selectedViewController, coveringView: coveringView)
+    }
+    
+    private func createCoveringView(for originView: UIView) -> UIView {
+        return UIView().then {
             $0.backgroundColor = .background(.mainPurple)
             $0.frame = originView.bounds
         }
-        
-        originView.addSubview(coveringView)
-        window.rootViewController = mainViewController
-        window.makeKeyAndVisible()
-            
-        let welcomeViewController = WelcomeViewController()
-            
-        let navigationViewController = UINavigationController(rootViewController: welcomeViewController)
-        navigationViewController.modalPresentationStyle = .custom
-            
-        guard let selectedViewController = mainViewController.selectedViewController,
-              let animationDelegateViewController =  selectedViewController as? UIViewControllerTransitioningDelegate else { return }
-            
-        navigationViewController.transitioningDelegate = animationDelegateViewController
-        selectedViewController.present(navigationViewController, animated: false) {
-            coveringView.removeFromSuperview()
-        }
     }
     
-    func showMainView() {
+    private func configureWindow(with rootViewController: UIViewController) {
+        window.rootViewController = rootViewController
+        window.makeKeyAndVisible()
+    }
+    
+    private func createWelcomeViewController() -> UINavigationController {
+        let welcomeViewController = WelcomeViewController()
+        let navigationController = UINavigationController(rootViewController: welcomeViewController)
+        navigationController.modalPresentationStyle = .custom
+        return navigationController
+    }
+    
+    private func configureCustomTransition(
+        for navigationController: UINavigationController,
+        in viewController: UIViewController,
+        coveringView: UIView
+    ) {
+        guard let delegateViewController = viewController as? UIViewControllerTransitioningDelegate else { return }
+
+        navigationController.transitioningDelegate = delegateViewController
+        viewController.present(navigationController, animated: false) {
+        }
+    }
+}
+    
+private extension AppCoordinator {
+    func showHome() {
         let mainViewController = CircularTabBarController(tabBarItems: [.home, .history])
         window.rootViewController = mainViewController
         window.makeKeyAndVisible()
+    }
+    
+    #if SCROLL_TEST
+    func showScrollSetting() {
+        showHome()
         
-        #if SCROLL_TEST
         let debugReadyViewController = DebugReadyViewController()
         debugReadyViewController.modalPresentationStyle = .overFullScreen
         Task {
@@ -80,6 +109,6 @@ private extension AppCoordinator {
                 debugReadyViewController.dismiss(animated: false)
             }
         }
-        #endif
     }
+    #endif
 }

@@ -15,7 +15,7 @@ final class CounselingImageCollectionViewCell: UICollectionViewCell {
     // MARK: - Metric
     
     private enum Metric {
-        static let itemSize: CGFloat = .verticalValue(95)
+        static let itemSize: CGFloat = .deviceAdjustedHeight(95)
     }
     
     lazy var imageView = UIImageView().then {

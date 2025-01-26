@@ -5,11 +5,10 @@
 //  Created by 디해 on 8/5/24.
 //
 
-import UIKit
 import ComposableArchitecture
+import UIKit
 
 final class HistoryViewController: BaseViewController<HistoryView> {
-    
     typealias Section = HistorySection
     typealias Item = HistoryItem
     
@@ -45,16 +44,18 @@ final class HistoryViewController: BaseViewController<HistoryView> {
     
     private let feedbackGenerator = UIImpactFeedbackGenerator(style: .soft)
     
+    
     // MARK: - Initialize
     
     init(store: StoreOf<History>) {
         self.store = store
-        super.init(logID: "History")
+        super.init()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
     
     // MARK: - View Controller Life Cycle
     
@@ -94,7 +95,11 @@ private extension HistoryViewController {
             updateContentView()
         }
     }
-    
+}
+
+// MARK: - Snapshot
+
+private extension HistoryViewController {
     func redrawSnapshot(with items: [Item], animated: Bool) {
         var snapshot = NSDiffableDataSourceSnapshot<Section, Item>()
         snapshot.appendSections([.main])
@@ -176,6 +181,9 @@ extension HistoryViewController: UICollectionViewDelegateFlowLayout {
     }
 }
 
+
+// MARK: - Navigation
+
 extension HistoryViewController {
     private func navigateToDetail(index: Int) {
         let items = dataSource.snapshot().itemIdentifiers
@@ -210,6 +218,9 @@ extension HistoryViewController {
     }
 }
 
+
+// MARK: - Tab Switch Delegate
+
 extension HistoryViewController: CircularTabBarDelegate {
     func tabDidDisappear() {
         store.send(.unload)
@@ -221,11 +232,40 @@ extension HistoryViewController: CircularTabBarDelegate {
 }
 
 
-// MARK: - Transition Animation
+// MARK: - Transition
+
+extension HistoryViewController: FromTransitionable {
+    var fromTransitionComponent: UIView? {
+        nil
+    }
+    
+    func prepareTransition(duration: TimeInterval) async {
+        return 
+    }
+}
+
+extension HistoryViewController: ToTransitionable {
+    var toTransitionComponent: UIView? {
+        nil
+    }
+    
+    func completeTransition(duration: TimeInterval) async {
+        return
+    }
+}
 
 extension HistoryViewController: UINavigationControllerDelegate {
-    func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationController.Operation, from fromVC: UIViewController, to toVC: UIViewController) -> (any UIViewControllerAnimatedTransitioning)? {
-        HistoryDetailTransition()
+    func navigationController(
+        _ navigationController: UINavigationController,
+        animationControllerFor operation: UINavigationController.Operation,
+        from fromVC: UIViewController,
+        to toVC: UIViewController
+    ) -> (any UIViewControllerAnimatedTransitioning)? {
+        AnimatedTransition(
+            fromDuration: 0.0,
+            toDuration: 0.3,
+            transitionContentType: .normalTransition
+        )
     }
 }
 
