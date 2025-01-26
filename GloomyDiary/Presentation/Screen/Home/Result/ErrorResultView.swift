@@ -12,12 +12,12 @@ final class ErrorResultView: BaseView {
     // MARK: - Metric
     
     private enum Metric {
-        static let characterImageSize: CGFloat = .verticalValue(87)
-        static let characterImageTopPadding: CGFloat = .verticalValue(100)
-        static let introduceLabelTopPadding: CGFloat = .verticalValue(20)
-        static let subIntroduceLabelTopPadding: CGFloat = .verticalValue(20)
-        static let backButtonTopPadding: CGFloat = .verticalValue(30)
-        static let homeButtonTopPadding: CGFloat = .verticalValue(10)
+        static let characterImageSize: CGFloat = .deviceAdjustedHeight(87)
+        static let characterImageTopPadding: CGFloat = .deviceAdjustedHeight(100)
+        static let NormalLabelTopPadding: CGFloat = .deviceAdjustedHeight(20)
+        static let subNormalLabelTopPadding: CGFloat = .deviceAdjustedHeight(20)
+        static let backButtonTopPadding: CGFloat = .deviceAdjustedHeight(30)
+        static let homeButtonTopPadding: CGFloat = .deviceAdjustedHeight(10)
     }
 
     

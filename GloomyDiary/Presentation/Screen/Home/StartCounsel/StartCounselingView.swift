@@ -12,17 +12,17 @@ final class StartCounselingView: BaseView {
     // MARK: - Metric
     
     private enum Metric {
-        static let moonTopPadding: CGFloat = .verticalValue(97)
-        static let firstIntroduceLabelTopPadding: CGFloat = .verticalValue(80)
-        static let secondIntroduceLabelTopPadding: CGFloat = .verticalValue(31)
-        static let thirdIntroduceLabelTopPadding: CGFloat = .verticalValue(22)
-        static let titleTextFieldTopPadding: CGFloat = .verticalValue(32)
-        static let finalIntroduceLabelTopPadding: CGFloat = .verticalValue(35)
-        static let nextButtonTopPadding: CGFloat = .verticalValue(30)
+        static let moonTopPadding: CGFloat = .deviceAdjustedHeight(97)
+        static let firstNormalLabelTopPadding: CGFloat = .deviceAdjustedHeight(80)
+        static let secondNormalLabelTopPadding: CGFloat = .deviceAdjustedHeight(31)
+        static let thirdNormalLabelTopPadding: CGFloat = .deviceAdjustedHeight(22)
+        static let titleTextFieldTopPadding: CGFloat = .deviceAdjustedHeight(32)
+        static let finalNormalLabelTopPadding: CGFloat = .deviceAdjustedHeight(35)
+        static let nextButtonTopPadding: CGFloat = .deviceAdjustedHeight(30)
         static let titleTextFieldHeight: CGFloat = 60
-        static let titleTextFieldWidth: CGFloat = .horizontalValue(312)
-        static let moonImageSize: CGFloat = .verticalValue(43)
-        static let warningLabelPadding: CGFloat = .verticalValue(5)
+        static let titleTextFieldWidth: CGFloat = .deviceAdjustedWidth(312)
+        static let moonImageSize: CGFloat = .deviceAdjustedHeight(43)
+        static let warningLabelPadding: CGFloat = .deviceAdjustedHeight(5)
     }
 
     

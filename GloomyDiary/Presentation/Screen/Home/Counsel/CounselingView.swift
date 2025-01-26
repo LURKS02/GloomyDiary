@@ -12,18 +12,18 @@ final class CounselingView: BaseView {
     // MARK: - Metric
     
     private enum Metric {
-        static let characterSize: CGFloat = .verticalValue(61)
-        static let characterImageTopPadding: CGFloat = .verticalValue(90)
-        static let characterImageLeadingPadding: CGFloat = .horizontalValue(25)
-        static let characterImageTrailingPadding: CGFloat = .horizontalValue(20)
-        static let greetingLabelTrailingPadding: CGFloat = .horizontalValue(25)
-        static let photoCollectionViewTopPadding: CGFloat = .verticalValue(60)
-        static let photoCollectionViewHorizontalPadding: CGFloat = .horizontalValue(21)
+        static let characterSize: CGFloat = .deviceAdjustedHeight(61)
+        static let characterImageTopPadding: CGFloat = .deviceAdjustedHeight(90)
+        static let characterImageLeadingPadding: CGFloat = .deviceAdjustedWidth(25)
+        static let characterImageTrailingPadding: CGFloat = .deviceAdjustedWidth(20)
+        static let greetingLabelTrailingPadding: CGFloat = .deviceAdjustedWidth(25)
+        static let photoCollectionViewTopPadding: CGFloat = .deviceAdjustedHeight(60)
+        static let photoCollectionViewHorizontalPadding: CGFloat = .deviceAdjustedWidth(21)
         static let photoCollectionViewHeight: CGFloat = 78
-        static let sendingLetterTopPadding: CGFloat = .verticalValue(20)
-        static let sendingLetterHorizontalPadding: CGFloat = .horizontalValue(17)
-        static let sendingLetterBottomPadding: CGFloat = .verticalValue(250)
-        static let sendingButtonTopPadding: CGFloat = .verticalValue(25)
+        static let sendingLetterTopPadding: CGFloat = .deviceAdjustedHeight(20)
+        static let sendingLetterHorizontalPadding: CGFloat = .deviceAdjustedWidth(17)
+        static let sendingLetterBottomPadding: CGFloat = .deviceAdjustedHeight(250)
+        static let sendingButtonTopPadding: CGFloat = .deviceAdjustedHeight(25)
     }
 
     

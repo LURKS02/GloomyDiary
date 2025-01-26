@@ -9,9 +9,9 @@ import UIKit
 
 final class HorizontalButton: UIButton {
     private enum Metric {
-        static let buttonWidth: CGFloat = .verticalValue(180)
-        static let buttonHeight: CGFloat = max(.verticalValue(56), 50)
-        static let buttonCornerRadius: CGFloat = max(.verticalValue(28), 25)
+        static let buttonWidth: CGFloat = .deviceAdjustedHeight(180)
+        static let buttonHeight: CGFloat = max(.deviceAdjustedHeight(56), 50)
+        static let buttonCornerRadius: CGFloat = max(.deviceAdjustedHeight(28), 25)
     }
     
     private var originBackgroundColor: UIColor = .component(.buttonPurple)

@@ -12,11 +12,11 @@ final class ChoosingEmojiView: BaseView {
     // MARK: - Metric
     
     private enum Metric {
-        static let nextButtonTopPadding: CGFloat = .verticalValue(50)
+        static let nextButtonTopPadding: CGFloat = .deviceAdjustedHeight(50)
         static let stackViewSpacing: CGFloat = 15
-        static let introduceLabelTopPadding: CGFloat = .verticalValue(153)
-        static let emojiStackViewTopPadding: CGFloat = .verticalValue(60)
-        static let emojiStackViewHorizontalPadding: CGFloat = .horizontalValue(30)
+        static let NormalLabelTopPadding: CGFloat = .deviceAdjustedHeight(153)
+        static let emojiStackViewTopPadding: CGFloat = .deviceAdjustedHeight(60)
+        static let emojiStackViewHorizontalPadding: CGFloat = .deviceAdjustedWidth(30)
     }
     
     

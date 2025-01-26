@@ -11,8 +11,8 @@ final class EmojiButton: UIButton {
     
     private enum Metric {
         static let imagePadding: CGFloat = 5
-        static let imageSize: CGFloat = .verticalValue(40)
-        static let cornerRadius: CGFloat = .verticalValue(20)
+        static let imageSize: CGFloat = .deviceAdjustedHeight(40)
+        static let cornerRadius: CGFloat = .deviceAdjustedHeight(20)
     }
     
     let identifier: String

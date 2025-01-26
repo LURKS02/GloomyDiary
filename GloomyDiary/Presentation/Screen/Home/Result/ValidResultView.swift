@@ -12,13 +12,13 @@ final class ValidResultView: BaseView {
     // MARK: - Metric
     
     private enum Metric {
-        static let characterImageSize: CGFloat = .verticalValue(87)
-        static let characterImageTopPadding: CGFloat = .verticalValue(71)
-        static let letterTopPadding: CGFloat = .verticalValue(14)
-        static let letterHorizontalPadding: CGFloat = .horizontalValue(17)
-        static let letterBottomPadding: CGFloat = .verticalValue(218)
-        static let shareButtonTopPadding: CGFloat = .verticalValue(25)
-        static let homeButtonTopPadding: CGFloat = .verticalValue(15)
+        static let characterImageSize: CGFloat = .deviceAdjustedHeight(87)
+        static let characterImageTopPadding: CGFloat = .deviceAdjustedHeight(71)
+        static let letterTopPadding: CGFloat = .deviceAdjustedHeight(14)
+        static let letterHorizontalPadding: CGFloat = .deviceAdjustedWidth(17)
+        static let letterBottomPadding: CGFloat = .deviceAdjustedHeight(218)
+        static let shareButtonTopPadding: CGFloat = .deviceAdjustedHeight(25)
+        static let homeButtonTopPadding: CGFloat = .deviceAdjustedHeight(15)
     }
 
     

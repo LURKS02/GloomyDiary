@@ -12,14 +12,14 @@ final class DeleteView: BaseView {
     // MARK: - Metric
     
     private enum Metric {
-        static let sheetHorizontalPadding: CGFloat = .horizontalValue(20)
-        static let cornerRadius: CGFloat = .verticalValue(30)
-        static let characterSize: CGFloat = .verticalValue(70)
-        static let characterTopPadding: CGFloat = .verticalValue(35)
-        static let labelTopPadding: CGFloat = .verticalValue(25)
-        static let stackViewTopPadding: CGFloat = .verticalValue(25)
-        static let stackViewHorizontalPadding: CGFloat = .horizontalValue(40)
-        static let stackViewBottomPadding: CGFloat = .verticalValue(25)
+        static let sheetHorizontalPadding: CGFloat = .deviceAdjustedWidth(20)
+        static let cornerRadius: CGFloat = .deviceAdjustedHeight(30)
+        static let characterSize: CGFloat = .deviceAdjustedHeight(70)
+        static let characterTopPadding: CGFloat = .deviceAdjustedHeight(35)
+        static let labelTopPadding: CGFloat = .deviceAdjustedHeight(25)
+        static let stackViewTopPadding: CGFloat = .deviceAdjustedHeight(25)
+        static let stackViewHorizontalPadding: CGFloat = .deviceAdjustedWidth(40)
+        static let stackViewBottomPadding: CGFloat = .deviceAdjustedHeight(25)
     }
 
     

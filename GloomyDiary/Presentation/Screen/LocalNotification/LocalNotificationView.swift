@@ -12,14 +12,14 @@ final class LocalNotificationView: BaseView {
     // MARK: - Metric
     
     private enum Metric {
-        static let sheetHeight: CGFloat = max(.verticalValue(370), 320)
-        static let sheetWidth: CGFloat = .horizontalValue(350)
-        static let cornerRadius: CGFloat = .verticalValue(30)
-        static let ghostSize: CGFloat = .verticalValue(70)
-        static let ghostImageTopPadding: CGFloat = .verticalValue(35)
-        static let notificationLabelTopPadding: CGFloat = .verticalValue(25)
-        static let buttonStackViewTopPadding: CGFloat = .verticalValue(35)
-        static let buttonStackViewHorizontalPadding: CGFloat = .horizontalValue(40)
+        static let sheetHeight: CGFloat = max(.deviceAdjustedHeight(370), 320)
+        static let sheetWidth: CGFloat = .deviceAdjustedWidth(350)
+        static let cornerRadius: CGFloat = .deviceAdjustedHeight(30)
+        static let ghostSize: CGFloat = .deviceAdjustedHeight(70)
+        static let ghostImageTopPadding: CGFloat = .deviceAdjustedHeight(35)
+        static let notificationLabelTopPadding: CGFloat = .deviceAdjustedHeight(25)
+        static let buttonStackViewTopPadding: CGFloat = .deviceAdjustedHeight(35)
+        static let buttonStackViewHorizontalPadding: CGFloat = .deviceAdjustedWidth(40)
     }
 
     

@@ -12,13 +12,13 @@ final class ReviewView: BaseView {
     // MARK: - Metric
     
     private enum Metric {
-        static let sheetHeight: CGFloat = .verticalValue(450)
-        static let cornerRadius: CGFloat = .verticalValue(30)
-        static let characterSize: CGFloat = .verticalValue(80)
-        static let characterImageTopPadding: CGFloat = .verticalValue(40)
-        static let reviewLabelTopPadding: CGFloat = .verticalValue(25)
-        static let buttonStackViewTopPadding: CGFloat = .verticalValue(45)
-        static let buttonStackViewHorizontalPadding: CGFloat = .horizontalValue(40)
+        static let sheetHeight: CGFloat = .deviceAdjustedHeight(450)
+        static let cornerRadius: CGFloat = .deviceAdjustedHeight(30)
+        static let characterSize: CGFloat = .deviceAdjustedHeight(80)
+        static let characterImageTopPadding: CGFloat = .deviceAdjustedHeight(40)
+        static let reviewLabelTopPadding: CGFloat = .deviceAdjustedHeight(25)
+        static let buttonStackViewTopPadding: CGFloat = .deviceAdjustedHeight(45)
+        static let buttonStackViewHorizontalPadding: CGFloat = .deviceAdjustedWidth(40)
     }
 
     

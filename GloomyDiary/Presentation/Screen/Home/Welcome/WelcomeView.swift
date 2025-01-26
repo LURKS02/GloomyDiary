@@ -13,13 +13,13 @@ final class WelcomeView: BaseView {
     // MARK: - Metric
     
     private enum Metric {
-        static let moonTopPadding: CGFloat = .verticalValue(132)
-        static let moonImageSize: CGFloat = .horizontalValue(43)
-        static let ghostImageSize: CGFloat = .horizontalValue(78)
-        static let firstLabelTopPadding: CGFloat = .verticalValue(40)
-        static let secondLabelTopPadding: CGFloat = .verticalValue(15)
-        static let ghostImageViewBottomPadding: CGFloat = .verticalValue(300)
-        static let talkingLabelBottomPadding: CGFloat = .verticalValue(250)
+        static let moonTopPadding: CGFloat = .deviceAdjustedHeight(132)
+        static let moonImageSize: CGFloat = .deviceAdjustedWidth(43)
+        static let ghostImageSize: CGFloat = .deviceAdjustedWidth(78)
+        static let firstLabelTopPadding: CGFloat = .deviceAdjustedHeight(40)
+        static let secondLabelTopPadding: CGFloat = .deviceAdjustedHeight(15)
+        static let ghostImageViewBottomPadding: CGFloat = .deviceAdjustedHeight(300)
+        static let talkingLabelBottomPadding: CGFloat = .deviceAdjustedHeight(250)
     }
 
     

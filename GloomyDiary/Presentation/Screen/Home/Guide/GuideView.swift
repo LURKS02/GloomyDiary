@@ -12,12 +12,12 @@ final class GuideView: BaseView {
     // MARK: - Metric
     
     private enum Metric {
-        static let ghostImageSize: CGFloat = .horizontalValue(50)
-        static let ghostImageTopPadding: CGFloat = .verticalValue(40)
-        static let firstLabelTopPadding: CGFloat = .verticalValue(40)
-        static let secondLabelTopPadding: CGFloat = .verticalValue(40)
-        static let thirdLabelTopPadding: CGFloat = .verticalValue(40)
-        static let lastLabelTopPadding: CGFloat = .verticalValue(40)
+        static let ghostImageSize: CGFloat = .deviceAdjustedWidth(50)
+        static let ghostImageTopPadding: CGFloat = .deviceAdjustedHeight(100)
+        static let firstLabelTopPadding: CGFloat = .deviceAdjustedHeight(40)
+        static let secondLabelTopPadding: CGFloat = .deviceAdjustedHeight(40)
+        static let thirdLabelTopPadding: CGFloat = .deviceAdjustedHeight(40)
+        static let lastLabelTopPadding: CGFloat = .deviceAdjustedHeight(40)
     }
     
     let gradientView = GradientView(colors: [.background(.darkPurple), .background(.mainPurple), .background(.mainPurple)])

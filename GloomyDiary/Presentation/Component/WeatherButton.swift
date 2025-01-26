@@ -10,8 +10,8 @@ import UIKit
 final class WeatherButton: UIButton {
 
     private enum Metric {
-        static let imageLeadingPadding: CGFloat = .horizontalValue(20)
-        static let imageSize: CGFloat = .verticalValue(63)
+        static let imageLeadingPadding: CGFloat = .deviceAdjustedWidth(20)
+        static let imageSize: CGFloat = .deviceAdjustedHeight(63)
     }
     
     let identifier: String

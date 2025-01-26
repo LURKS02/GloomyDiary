@@ -19,14 +19,14 @@ final class CounselingSessionCollectionViewCell: UICollectionViewCell {
     // MARK: - Metric
     
     private enum Metric {
-        static let cellVerticalPadding: CGFloat = .verticalValue(25)
-        static let cellHorizontalPadding: CGFloat = .verticalValue(30)
-        static let characterHorizontalPadding: CGFloat = .verticalValue(25)
-        static let collectionViewHorizontalPadding: CGFloat = .horizontalValue(18)
-        static let stateLabelTopPadding: CGFloat = .verticalValue(5)
-        static let collectionViewTopPadding: CGFloat = .verticalValue(15)
-        static let itemSize: CGFloat = .verticalValue(95)
-        static let contentLabelTopPadding: CGFloat = .verticalValue(15)
+        static let cellVerticalPadding: CGFloat = .deviceAdjustedHeight(25)
+        static let cellHorizontalPadding: CGFloat = .deviceAdjustedHeight(30)
+        static let characterHorizontalPadding: CGFloat = .deviceAdjustedHeight(25)
+        static let collectionViewHorizontalPadding: CGFloat = .deviceAdjustedWidth(18)
+        static let stateLabelTopPadding: CGFloat = .deviceAdjustedHeight(5)
+        static let collectionViewTopPadding: CGFloat = .deviceAdjustedHeight(15)
+        static let itemSize: CGFloat = .deviceAdjustedHeight(95)
+        static let contentLabelTopPadding: CGFloat = .deviceAdjustedHeight(15)
     }
     
     // MARK: - Component

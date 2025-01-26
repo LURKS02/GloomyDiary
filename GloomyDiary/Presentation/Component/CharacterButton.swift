@@ -10,8 +10,8 @@ import UIKit
 final class CharacterButton: UIButton {
     
     private enum Metric {
-        static let imagePadding: CGFloat = .verticalValue(20)
-        static let imageSize: CGFloat = .verticalValue(120)
+        static let imagePadding: CGFloat = .deviceAdjustedHeight(20)
+        static let imageSize: CGFloat = .deviceAdjustedHeight(120)
         static let topInset: CGFloat = 50
         static let horizontalInset: CGFloat = 50
         static let bottomInset: CGFloat = 37

@@ -13,17 +13,17 @@ final class HomeView: BaseView {
     // MARK: - Metric
 
     private enum Metric {
-        static let moonTopPadding: CGFloat = .verticalValue(132)
-        static let ghostButtonPadding: CGFloat = .verticalValue(65)
-        static let buttonBottomPadding: CGFloat = .verticalValue(266)
+        static let moonTopPadding: CGFloat = .deviceAdjustedHeight(132)
+        static let ghostButtonPadding: CGFloat = .deviceAdjustedHeight(65)
+        static let buttonBottomPadding: CGFloat = .deviceAdjustedHeight(266)
         
-        static let ghostTalkingSpacing: CGFloat = .verticalValue(14)
-        static let ghostTalkingRightPadding: CGFloat = .horizontalValue(23)
-        static let ghostImageRightPadding: CGFloat = .horizontalValue(119)
+        static let ghostTalkingSpacing: CGFloat = .deviceAdjustedHeight(14)
+        static let ghostTalkingRightPadding: CGFloat = .deviceAdjustedWidth(23)
+        static let ghostImageRightPadding: CGFloat = .deviceAdjustedWidth(119)
         
-        static let moonImageSize: CGFloat = .verticalValue(43)
-        static let pulsingCircleSize: CGFloat = .verticalValue(380)
-        static let ghostImageSize: CGFloat = .horizontalValue(78)
+        static let moonImageSize: CGFloat = .deviceAdjustedHeight(43)
+        static let pulsingCircleSize: CGFloat = .deviceAdjustedHeight(380)
+        static let ghostImageSize: CGFloat = .deviceAdjustedWidth(78)
         
         static let pulsingCircleAlpha: CGFloat = 0.3
         static let pulsingCircleAnimationSpeed: CGFloat = 0.3

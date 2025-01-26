@@ -14,9 +14,9 @@ final class CircularTabBar: UIView {
     
     private let tabBarItems: [CircularTabBarItem]
     
-    private let iconSize: CGFloat = .verticalValue(30)
+    private let iconSize: CGFloat = .deviceAdjustedHeight(30)
     
-    private let iconOffset: CGFloat = .verticalValue(40)
+    private let iconOffset: CGFloat = .deviceAdjustedHeight(40)
     
     var color: UIColor = .component(.darkPurple)
 
@@ -24,7 +24,7 @@ final class CircularTabBar: UIView {
     
     private let feedbackGenerator = UIImpactFeedbackGenerator(style: .medium)
     
-    let diameter: CGFloat = .verticalValue(200)
+    let diameter: CGFloat = .deviceAdjustedHeight(200)
     
     var radius: CGFloat {
         diameter / 2

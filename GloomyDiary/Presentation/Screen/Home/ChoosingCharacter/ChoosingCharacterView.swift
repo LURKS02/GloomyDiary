@@ -15,13 +15,13 @@ final class ChoosingCharacterView: BaseView {
     // MARK: - Metric
     
     private enum Metric {
-        static let introduceLabelTopPadding: CGFloat = .verticalValue(100)
-        static let scrollViewTopPadding: CGFloat = .verticalValue(53)
-        static let nextButtonTopPadding: CGFloat = .verticalValue(40)
-        static let buttonWidth: CGFloat = .verticalValue(240)
-        static let buttonHeight: CGFloat = .verticalValue(240)
-        static let scrollPadding: CGFloat = .verticalValue(20)
-        static let detailLabelTopPadding: CGFloat = .verticalValue(34)
+        static let NormalLabelTopPadding: CGFloat = .deviceAdjustedHeight(100)
+        static let scrollViewTopPadding: CGFloat = .deviceAdjustedHeight(53)
+        static let nextButtonTopPadding: CGFloat = .deviceAdjustedHeight(40)
+        static let buttonWidth: CGFloat = .deviceAdjustedHeight(240)
+        static let buttonHeight: CGFloat = .deviceAdjustedHeight(240)
+        static let scrollPadding: CGFloat = .deviceAdjustedHeight(20)
+        static let detailLabelTopPadding: CGFloat = .deviceAdjustedHeight(34)
     }
     
     
