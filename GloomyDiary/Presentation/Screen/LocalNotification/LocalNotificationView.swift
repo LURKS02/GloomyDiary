@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class LocalNotificationView: BaseView {
+final class LocalNotificationView: UIView {
     
     // MARK: - Metric
     
@@ -37,7 +37,7 @@ final class LocalNotificationView: BaseView {
         $0.image = UIImage(named: "ghost")
     }
     
-    let notificationLabel = IntroduceLabel().then {
+    let notificationLabel = NormalLabel().then {
         $0.text = """
         잊어버리지 않고
         편지를 보낼 수 있도록
@@ -67,10 +67,21 @@ final class LocalNotificationView: BaseView {
         $0.setTitle("확인", for: .normal)
     }
     
+    init() {
+        super.init(frame: .zero)
+        
+        addSubviews()
+        setupConstraints()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     
     // MARK: - View Life Cycle
 
-    override func addSubviews() {
+    private func addSubviews() {
         addSubview(blurView)
         addSubview(sheetBackgroundView)
         sheetBackgroundView.addSubview(ghostImageView)
@@ -80,7 +91,7 @@ final class LocalNotificationView: BaseView {
         buttonStackView.addArrangedSubview(acceptButton)
     }
     
-    override func setupConstraints() {
+    private func setupConstraints() {
         blurView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
@@ -123,7 +134,7 @@ extension LocalNotificationView {
                 view.effect = UIBlurEffect(style: .dark)
             }), duration: 0.3),
                                         .init(view: sheetBackgroundView,
-                                              animationCase: .transform(transform: .identity), duration: 0.2),
+                                              animationCase: .transform( .identity), duration: 0.2),
                                         .init(view: sheetBackgroundView,
                                               animationCase: .fadeIn,
                                               duration: 0.2)],
@@ -142,7 +153,7 @@ extension LocalNotificationView {
                 view.effect = nil
             }), duration: 0.3),
                                         .init(view: sheetBackgroundView,
-                                              animationCase: .transform(transform: .identity.scaledBy(x: 0.75, y: 0.75)),
+                                              animationCase: .transform( .identity.scaledBy(x: 0.75, y: 0.75)),
                                               duration: 0.2),
                                         .init(view: sheetBackgroundView,
                                               animationCase: .fadeOut,
@@ -157,7 +168,7 @@ extension LocalNotificationView {
     func runFadeOutLeftAnimation() async {
         await withCheckedContinuation { continuation in
             AnimationGroup(animations: sheetBackgroundView.subviews.map { Animation(view: $0,
-                                                                                    animationCase: .transform(transform: .identity.translatedBy(x: -20, y: 0)),
+                                                                                    animationCase: .transform( .identity.translatedBy(x: -20, y: 0)),
                                                                                     duration: 0.2) }
                            + sheetBackgroundView.subviews.map { Animation(view: $0,
                                                                           animationCase: .fadeOut,
@@ -185,7 +196,7 @@ extension LocalNotificationView {
         
         await withCheckedContinuation { continuation in
             AnimationGroup(animations: sheetBackgroundView.subviews.map { Animation(view: $0,
-                                                                                    animationCase: .transform(transform: .identity),
+                                                                                    animationCase: .transform( .identity),
                                                                                     duration: 0.2) } + sheetBackgroundView.subviews.map { Animation(view: $0,
                                                                                                                                                     animationCase: .fadeIn,
                                                                                                                                                     duration: 0.2) },
@@ -212,7 +223,7 @@ extension LocalNotificationView {
         
         await withCheckedContinuation { continuation in
             AnimationGroup(animations: sheetBackgroundView.subviews.map { Animation(view: $0,
-                                                                                    animationCase: .transform(transform: .identity),
+                                                                                    animationCase: .transform( .identity),
                                                                                     duration: 0.2) } + sheetBackgroundView.subviews.map { Animation(view: $0,
                                                                                                                                                     animationCase: .fadeIn,
                                                                                                                                                     duration: 0.2) },

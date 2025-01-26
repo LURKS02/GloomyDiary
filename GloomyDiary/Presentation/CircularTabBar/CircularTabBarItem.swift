@@ -5,8 +5,8 @@
 //  Created by 디해 on 10/25/24.
 //
 
-import UIKit
 import ComposableArchitecture
+import UIKit
 
 enum CircularTabBarItem: String {
     case home
@@ -24,7 +24,8 @@ extension CircularTabBarItem {
             
         case .history:
             let store = Store(initialState: History.State()) { History() }
-            return NavigationController(rootViewController: HistoryViewController(store: store))
+            
+            return HistoryNavigationController(rootViewController: HistoryViewController(store: store))
         }
     }
 }

@@ -9,26 +9,20 @@ import UIKit
 import ComposableArchitecture
 
 final class GuideViewController: BaseViewController<GuideView> {
-    
-    private var animationCount: Int = 1
-    
-    private var isRunningTask = false
-    
     @Dependency(\.logger) var logger
     
-    init() {
-        super.init(logID: "Guide")
-    }
+    // MARK: - Properties
     
-    @MainActor required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+    private var animationCount: Int = 1
+    private var isRunningTask = false
+    
+    
+    // MARK: - ViewController Life Cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         bind()
-        
         navigationController?.setNavigationBarHidden(true, animated: false)
     }
 }
@@ -54,6 +48,7 @@ private extension GuideViewController {
                 
                 if self.isRunningTask { return }
                 self.isRunningTask = true
+                self.contentView.isUserInteractionEnabled = false
                 
                 Task { @MainActor in
                     await self.contentView.runLabelAnimation(index: self.animationCount)
@@ -80,10 +75,39 @@ extension GuideViewController {
 }
 
 
-// MARK: - Transition Animation
+// MARK: - Transition
+
+extension GuideViewController: FromTransitionable {
+    var fromTransitionComponent: UIView? {
+        nil
+    }
+    
+    func prepareTransition(duration: TimeInterval) async {
+        await contentView.hideAllComponents(duration: duration)
+    }
+}
+
+extension GuideViewController: ToTransitionable {
+    var toTransitionComponent: UIView? {
+        contentView.ghostView
+    }
+    
+    func completeTransition(duration: TimeInterval) async {
+        await contentView.runLabelAnimation(index: 0)
+    }
+}
 
 extension GuideViewController: UINavigationControllerDelegate {
-    func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationController.Operation, from fromVC: UIViewController, to toVC: UIViewController) -> (any UIViewControllerAnimatedTransitioning)? {
-        GuideOverTransition()
+    func navigationController(
+        _ navigationController: UINavigationController,
+        animationControllerFor operation: UINavigationController.Operation,
+        from fromVC: UIViewController,
+        to toVC: UIViewController
+    ) -> (any UIViewControllerAnimatedTransitioning)? {
+        AnimatedTransition(
+            fromDuration: 0.5,
+            toDuration: 4.5,
+            transitionContentType: .normalTransition
+        )
     }
 }

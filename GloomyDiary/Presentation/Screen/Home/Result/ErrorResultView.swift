@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class ErrorResultView: BaseView {
+final class ErrorResultView: UIView {
     
     // MARK: - Metric
     
@@ -23,15 +23,13 @@ final class ErrorResultView: BaseView {
     
     // MARK: - Views
     
-    let characterImageView = ImageView().then {
-        $0.setSize(Metric.characterImageSize)
-    }
+    let characterImageView = UIImageView()
     
-    let introduceLabel = IntroduceLabel().then {
+    let informationLabel = NormalLabel().then {
         $0.text = "일시적인 오류가 발생했어요."
     }
     
-    let subIntroduceLabel = IntroduceLabel().then {
+    let subInformationLabel = NormalLabel().then {
         $0.text = """
         네트워크가 잘 연결되어 있는지 확인해보세요.
         잠시 기다렸다가 다시 시도해보세요.
@@ -49,38 +47,55 @@ final class ErrorResultView: BaseView {
     }
     
     
+    // MARK: - Initialize
+    
+    init() {
+        super.init(frame: .zero)
+        
+        setup()
+        addSubviews()
+        setupConstraints()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    
     // MARK: - View Life Cycle
     
-    override func setup() {
+    private func setup() {
         backgroundColor = .background(.mainPurple)
     }
     
-    override func addSubviews() {
+    private func addSubviews() {
         addSubview(characterImageView)
-        addSubview(introduceLabel)
-        addSubview(subIntroduceLabel)
+        addSubview(informationLabel)
+        addSubview(subInformationLabel)
         addSubview(backButton)
         addSubview(homeButton)
     }
 
-    override func setupConstraints() {
+    private func setupConstraints() {
         characterImageView.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(Metric.characterImageTopPadding)
             make.centerX.equalToSuperview()
+            make.height.equalTo(Metric.characterImageSize)
+            make.width.equalTo(Metric.characterImageSize)
         }
         
-        introduceLabel.snp.makeConstraints { make in
-            make.top.equalTo(characterImageView.snp.bottom).offset(Metric.introduceLabelTopPadding)
+        informationLabel.snp.makeConstraints { make in
+            make.top.equalTo(characterImageView.snp.bottom).offset(Metric.NormalLabelTopPadding)
             make.centerX.equalToSuperview()
         }
         
-        subIntroduceLabel.snp.makeConstraints { make in
-            make.top.equalTo(introduceLabel.snp.bottom).offset(Metric.subIntroduceLabelTopPadding)
+        subInformationLabel.snp.makeConstraints { make in
+            make.top.equalTo(informationLabel.snp.bottom).offset(Metric.subNormalLabelTopPadding)
             make.centerX.equalToSuperview()
         }
         
         backButton.snp.makeConstraints { make in
-            make.top.equalTo(subIntroduceLabel.snp.bottom).offset(Metric.backButtonTopPadding)
+            make.top.equalTo(subInformationLabel.snp.bottom).offset(Metric.backButtonTopPadding)
             make.centerX.equalToSuperview()
         }
         
@@ -91,37 +106,41 @@ final class ErrorResultView: BaseView {
     }
     
     func configure(with character: CounselingCharacter) {
-        characterImageView.setImage(character.cryingImageName)
+        characterImageView.image = UIImage(named: character.cryingImageName)
     }
 }
 
 extension ErrorResultView {
     func hideAllComponents() {
-        subviews.filter { $0 != characterImageView }.forEach { $0.alpha = 0.0 }
+        subviews.exclude(characterImageView).forEach { $0.alpha = 0.0 }
     }
     
     @MainActor
-    func playAllComponentsFadeIn() async {
+    func playAllComponentsFadeIn(duration: TimeInterval) async {
         hideAllComponents()
         
         await withCheckedContinuation { continuation in
-            AnimationGroup(animations: subviews.filter { $0 != characterImageView }.map { Animation(view: $0,
-                                                                                                    animationCase: .fadeIn,
-                                                                                                    duration: 0.5) },
-                           mode: .parallel,
-                           loop: .once(completion: { continuation.resume() }))
+            AnimationGroup(
+                animations: subviews.exclude(characterImageView).map {
+                    Animation(view: $0,
+                              animationCase: .fadeIn,
+                              duration: duration) },
+                mode: .parallel,
+                loop: .once(completion: { continuation.resume() }))
             .run()
         }
     }
     
     @MainActor
-    func playAllComponentsFadeOut() async {
+    func playAllComponentsFadeOut(duration: TimeInterval) async {
         await withCheckedContinuation { continuation in
-            AnimationGroup(animations: subviews.map { Animation(view: $0,
-                                                                animationCase: .fadeOut,
-                                                                duration: 0.5) },
-                           mode: .parallel,
-                           loop: .once(completion: { continuation.resume() }))
+            AnimationGroup(
+                animations: subviews.map {
+                    Animation(view: $0,
+                              animationCase: .fadeOut,
+                              duration: duration) },
+                mode: .parallel,
+                loop: .once(completion: { continuation.resume() }))
             .run()
         }
     }

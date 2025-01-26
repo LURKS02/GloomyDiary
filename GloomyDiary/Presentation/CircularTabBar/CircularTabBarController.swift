@@ -62,7 +62,7 @@ final class CircularTabBarController: UITabBarController {
     }
     
     private func setupTabBar() {
-        view.backgroundColor = .white
+        view.backgroundColor = .clear
         
         circularTabBar.frame = CGRect(x: view.bounds.width / 2 - circularTabBar.diameter / 2,
                                       y: view.bounds.height - circularTabBar.diameter / 2 + 10,

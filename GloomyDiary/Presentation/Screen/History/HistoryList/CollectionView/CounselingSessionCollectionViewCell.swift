@@ -227,7 +227,7 @@ extension CounselingSessionCollectionViewCell {
         feedbackGenerator.impactOccurred()
         
         AnimationGroup.init(animations: [.init(view: self,
-                                               animationCase: .transform(transform: .identity.scaledBy(x: 0.97, y: 0.97)),
+                                               animationCase: .transform( .identity.scaledBy(x: 0.97, y: 0.97)),
                                                duration: 0.1)],
                             mode: .parallel,
                             loop: .once(completion: nil))
@@ -246,7 +246,7 @@ extension CounselingSessionCollectionViewCell {
         self.backgroundColor = .component(.buttonPurple)
         
         AnimationGroup.init(animations: [.init(view: self,
-                                               animationCase: .transform(transform: .identity),
+                                               animationCase: .transform( .identity),
                                                duration: 0.1)],
                             mode: .parallel,
                             loop: .once(completion: nil))
@@ -259,7 +259,7 @@ extension CounselingSessionCollectionViewCell {
         self.backgroundColor = .component(.buttonPurple)
         
         AnimationGroup.init(animations: [.init(view: self,
-                                               animationCase: .transform(transform: .identity),
+                                               animationCase: .transform( .identity),
                                                duration: 0.1)],
                             mode: .parallel,
                             loop: .once(completion: nil))

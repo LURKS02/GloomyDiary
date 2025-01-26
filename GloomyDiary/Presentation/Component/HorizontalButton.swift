@@ -85,22 +85,26 @@ extension HorizontalButton {
         feedbackGenerator.prepare()
         feedbackGenerator.impactOccurred()
         
-        AnimationGroup.init(animations: [.init(view: self,
-                                               animationCase: .transform(transform: CGAffineTransform(scaleX: 1.05, y: 1.05)),
-                                               duration: 0.1)],
-                            mode: .parallel,
-                            loop: .once(completion: {}))
+        AnimationGroup(
+            animations: [Animation(view: self,
+                                   animationCase: .transform(CGAffineTransform(scaleX: 1.05, y: 1.05)),
+                                   duration: 0.1)
+            ],
+            mode: .parallel,
+            loop: .once(completion: nil))
         .run()
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesEnded(touches, with: event)
     
-        AnimationGroup.init(animations: [.init(view: self,
-                                               animationCase: .transform(transform: .identity),
-                                               duration: 0.1)],
-                            mode: .parallel,
-                            loop: .once(completion: {} ))
+        AnimationGroup(
+            animations: [Animation(view: self,
+                                   animationCase: .transform(.identity),
+                                   duration: 0.1)
+            ],
+            mode: .parallel,
+            loop: .once(completion: nil))
         .run()
             
     }
@@ -108,11 +112,12 @@ extension HorizontalButton {
     override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesCancelled(touches, with: event)
         
-        AnimationGroup.init(animations: [.init(view: self,
-                                               animationCase: .transform(transform: .identity),
-                                               duration: 0.1)],
-                            mode: .parallel,
-                            loop: .once(completion: {} ))
+        AnimationGroup(
+            animations: [Animation(view: self,
+                                   animationCase: .transform(.identity),
+                                   duration: 0.1)],
+            mode: .parallel,
+            loop: .once(completion: {} ))
         .run()
     }
 }

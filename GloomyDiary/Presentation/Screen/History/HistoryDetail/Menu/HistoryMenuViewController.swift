@@ -10,6 +10,8 @@ import RxRelay
 
 final class HistoryMenuViewController: BaseViewController<HistoryDetailMenuView> {
     
+    // MARK: - Properties
+    
     let buttonTappedRelay = PublishRelay<String>()
     
     
@@ -17,7 +19,7 @@ final class HistoryMenuViewController: BaseViewController<HistoryDetailMenuView>
     
     init(navigationControllerHeight: CGFloat) {
         let contentView = HistoryDetailMenuView(navigationControllerHeight: navigationControllerHeight)
-        super.init(contentView, logID: "HistoryDetailMenuView")
+        super.init(contentView)
     }
     
     @MainActor required init?(coder: NSCoder) {
@@ -66,6 +68,9 @@ private extension HistoryMenuViewController {
             .disposed(by: rx.disposeBag)
     }
 }
+
+
+// MARK: - Animations
 
 extension HistoryMenuViewController {
     @MainActor

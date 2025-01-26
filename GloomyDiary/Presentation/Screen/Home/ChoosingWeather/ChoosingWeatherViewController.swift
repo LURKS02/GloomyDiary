@@ -19,7 +19,7 @@ final class ChoosingWeatherViewController: BaseViewController<ChoosingWeatherVie
     
     init(store: StoreOf<ChoosingWeather>) {
         self.store = store
-        super.init(logID: "ChoosingWeather")
+        super.init()
         
         self.navigationItem.hidesBackButton = true
     }
@@ -35,6 +35,7 @@ final class ChoosingWeatherViewController: BaseViewController<ChoosingWeatherVie
         super.viewDidLoad()
         
         bind()
+        contentView.hideAllComponents()
     }
 }
 
@@ -88,9 +89,7 @@ extension ChoosingWeatherViewController {
         
         observe { [weak self] in
             guard let self else { return }
-            
             self.contentView.spotlight(to: store.weatherIdentifier)
-            
             self.contentView.nextButton.isEnabled = store.isSendable
         }
     }
@@ -101,7 +100,10 @@ extension ChoosingWeatherViewController {
 
 extension ChoosingWeatherViewController {
     func navigateToEmojiSelection(with weatherIdentifier: String) {
-        let store: StoreOf<ChoosingEmoji> = Store(initialState: .init(title: store.title, weatherIdenfitier: weatherIdentifier), reducer: { ChoosingEmoji() })
+        let store: StoreOf<ChoosingEmoji> = Store(
+            initialState: .init(title: store.title, weatherIdenfitier: weatherIdentifier),
+            reducer: { ChoosingEmoji()}
+        )
         let choosingEmojiViewController = ChoosingEmojiViewController(store: store)
         navigationController?.delegate = self
         navigationController?.pushViewController(choosingEmojiViewController, animated: true)
@@ -109,23 +111,39 @@ extension ChoosingWeatherViewController {
 }
 
 
-// MARK: - Transition Animation
+// MARK: - Transition
+
+extension ChoosingWeatherViewController: FromTransitionable {
+    var fromTransitionComponent: UIView? {
+        nil
+    }
+    
+    func prepareTransition(duration: TimeInterval) async {
+        await contentView.playFadeOutAllComponents(duration: duration)
+    }
+}
+
+extension ChoosingWeatherViewController: ToTransitionable {
+    var toTransitionComponent: UIView? {
+        nil
+    }
+    
+    func completeTransition(duration: TimeInterval) async {
+        await contentView.playFadeInAllComponents(duration: duration)
+    }
+}
 
 extension ChoosingWeatherViewController: UINavigationControllerDelegate {
-    func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationController.Operation, from fromVC: UIViewController, to toVC: UIViewController) -> (any UIViewControllerAnimatedTransitioning)? {
-        PresentingTransition()
-    }
-}
-
-extension ChoosingWeatherViewController: Presentable {
-    func playAppearingAnimation() async {
-        contentView.hideAllComponents()
-        await contentView.playFadeInAllComponents()
-    }
-}
-
-extension ChoosingWeatherViewController: PresentingDisappearable {
-    func playDisappearingAnimation() async {
-        await contentView.playFadeOutAllComponents()
+    func navigationController(
+        _ navigationController: UINavigationController,
+        animationControllerFor operation: UINavigationController.Operation,
+        from fromVC: UIViewController,
+        to toVC: UIViewController
+    ) -> (any UIViewControllerAnimatedTransitioning)? {
+        AnimatedTransition(
+            fromDuration: 0.5,
+            toDuration: 2.0,
+            transitionContentType: .normalTransition
+        )
     }
 }

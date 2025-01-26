@@ -5,26 +5,18 @@
 //  Created by 디해 on 8/28/24.
 //
 
-import UIKit
 import ComposableArchitecture
 import PhotosUI
+import UIKit
 
 final class CounselingViewController: BaseViewController<CounselingView> {
     
     let store: StoreOf<Counseling>
     
+    @Dependency(\.counselRepository) var counselRepository
+    @Dependency(\.userSetting) var userSetting
     @Dependency(\.logger) var logger
     
-    private var isKeyboardShowing: Bool = false {
-        didSet {
-            updateContentOffset()
-        }
-    }
-    
-    private var isPickerProcessing: Bool = false
-    
-    @Dependency(\.counselRepository) var counselRepository
-    @Dependency(\.userSettingRepository) var userSettingRepository
     
     // MARK: - Properties
     
@@ -50,12 +42,20 @@ final class CounselingViewController: BaseViewController<CounselingView> {
         }
     }
     
+    private var isKeyboardShowing: Bool = false {
+        didSet {
+            updateContentOffset()
+        }
+    }
+    
+    private var isPickerProcessing: Bool = false
+    
     
     // MARK: - Initialize
 
     init(store: StoreOf<Counseling>) {
         self.store = store
-        super.init(logID: "Counseling")
+        super.init()
         
         self.navigationItem.hidesBackButton = true
         contentView.tapGesture.addTarget(self, action: #selector(viewTouched))
@@ -96,9 +96,19 @@ private extension CounselingViewController {
         contentView.photoCollectionView.dragDelegate = self
         contentView.photoCollectionView.dropDelegate = self
         
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(keyboardWillShow),
+            name: UIResponder.keyboardWillShowNotification,
+            object: nil
+        )
         
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(keyboardWillHide),
+            name: UIResponder.keyboardWillHideNotification,
+            object: nil
+        )
         
         contentView.sendingLetterView.validationSubject
             .subscribe(onNext: { [weak self] validation in
@@ -124,6 +134,9 @@ private extension CounselingViewController {
         }
     }
 }
+
+
+// MARK: - Snapshot
 
 private extension CounselingViewController {
     func initializeSnapshot() {
@@ -213,9 +226,40 @@ extension CounselingViewController: CounselingPhotoCellDelegate {
     }
 }
 
+
+// MARK: - Transition
+
+extension CounselingViewController: FromTransitionable {
+    var fromTransitionComponent: UIView? {
+        contentView.characterImageView
+    }
+    
+    func prepareTransition(duration: TimeInterval) async {
+        await contentView.playFadeOutAllComponents(duration: duration)
+    }
+}
+
+extension CounselingViewController: ToTransitionable {
+    var toTransitionComponent: UIView? {
+        contentView.characterImageView
+    }
+    
+    func completeTransition(duration: TimeInterval) async {
+        await contentView.playFadeInAllComponents(duration: duration)
+    }
+}
+
 extension CounselingViewController: UINavigationControllerDelegate {
-    func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationController.Operation, from fromVC: UIViewController, to toVC: UIViewController) -> (any UIViewControllerAnimatedTransitioning)? {
-        CounselTransition(animationClosure: sendLetter)
+    func navigationController(
+        _ navigationController: UINavigationController,
+        animationControllerFor operation: UINavigationController.Operation,
+        from fromVC: UIViewController,
+        to toVC: UIViewController
+    ) -> (any UIViewControllerAnimatedTransitioning)? {
+        AnimatedTransition(fromDuration: 0.5,
+                           contentDuration: 3.0,
+                           toDuration: 0.5,
+                           transitionContentType: .frameTransitionWithClosure(store.character, closure: sendLetter))
     }
     
     private func sendLetter() async throws -> String {
@@ -232,7 +276,7 @@ extension CounselingViewController: UINavigationControllerDelegate {
             emoji: Emoji,
             imageIDs: self.store.imageIDs
         )
-        userSettingRepository.update(keyPath: \.isFirstProcess, value: false)
+        try userSetting.update(keyPath: \.isFirstProcess, value: false)
         return result
     }
 }
@@ -299,7 +343,7 @@ extension CounselingViewController: PHPickerViewControllerDelegate {
 }
 
 
-// MARK: - CollectionView
+// MARK: - CollectionView Delegate
 
 extension CounselingViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {

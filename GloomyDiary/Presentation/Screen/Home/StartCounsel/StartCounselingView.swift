@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class StartCounselingView: BaseView {
+final class StartCounselingView: UIView {
     
     // MARK: - Metric
     
@@ -30,25 +30,25 @@ final class StartCounselingView: BaseView {
     
     let containerView = UIView()
     
-    let moonImageView = ImageView().then {
-        $0.setImage("moon")
-        $0.setSize(Metric.moonImageSize)
+    let moonImageView = UIImageView().then {
+        $0.image = UIImage(named: "moon")
+        $0.alpha = 0.0
     }
     
     private let gradientView = GradientView(colors: [.background(.darkPurple), .background(.mainPurple)], locations: [0.0, 0.5, 1.0])
     
-    private lazy var firstIntroduceLabel = IntroduceLabel().then {
+    private lazy var firstNormalLabel = NormalLabel().then {
         $0.text = isFirstProcess ? "첫 번째 편지를 보내볼까요?" : "반가워요!"
     }
     
-    private let secondIntroduceLabel = IntroduceLabel().then {
+    private let secondNormalLabel = NormalLabel().then {
         $0.text = """
         가만히 눈을 감고
         오늘 하루를 떠올려보세요.
         """
     }
     
-    private let thirdIntroduceLabel = IntroduceLabel().then {
+    private let thirdNormalLabel = NormalLabel().then {
         $0.text = "준비되셨나요?"
     }
     
@@ -61,7 +61,7 @@ final class StartCounselingView: BaseView {
         $0.textAlignment = .center
     }
     
-    private let finalIntroduceLabel = IntroduceLabel().then {
+    private let finalNormalLabel = NormalLabel().then {
         $0.text = "편지의 제목을 지어주세요."
     }
     
@@ -81,6 +81,10 @@ final class StartCounselingView: BaseView {
         self.isFirstProcess = isFirstProcess
         
         super.init(frame: .zero)
+        
+        setup()
+        addSubviews()
+        setupConstraints()
     }
     
     @MainActor required init?(coder: NSCoder) {
@@ -90,25 +94,25 @@ final class StartCounselingView: BaseView {
     
     // MARK: - View Life Cycle
     
-    override func setup() {
+    private func setup() {
         backgroundColor = .background(.mainPurple)
     }
     
-    override func addSubviews() {
+    private func addSubviews() {
         addSubview(gradientView)
         addSubview(containerView)
         
         containerView.addSubview(moonImageView)
-        containerView.addSubview(firstIntroduceLabel)
-        containerView.addSubview(secondIntroduceLabel)
-        containerView.addSubview(thirdIntroduceLabel)
+        containerView.addSubview(firstNormalLabel)
+        containerView.addSubview(secondNormalLabel)
+        containerView.addSubview(thirdNormalLabel)
         containerView.addSubview(titleTextField)
         containerView.addSubview(warningLabel)
-        containerView.addSubview(finalIntroduceLabel)
+        containerView.addSubview(finalNormalLabel)
         containerView.addSubview(nextButton)
     }
     
-    override func setupConstraints() {
+    private func setupConstraints() {
         gradientView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
@@ -120,26 +124,28 @@ final class StartCounselingView: BaseView {
         moonImageView.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
             make.top.equalToSuperview().offset(Metric.moonTopPadding)
+            make.height.equalTo(Metric.moonImageSize)
+            make.width.equalTo(Metric.moonImageSize)
         }
         
-        firstIntroduceLabel.snp.makeConstraints { make in
+        firstNormalLabel.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.top.equalTo(moonImageView.snp.bottom).offset(Metric.firstIntroduceLabelTopPadding)
+            make.top.equalTo(moonImageView.snp.bottom).offset(Metric.firstNormalLabelTopPadding)
         }
         
-        secondIntroduceLabel.snp.makeConstraints { make in
+        secondNormalLabel.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.top.equalTo(firstIntroduceLabel.snp.bottom).offset(Metric.secondIntroduceLabelTopPadding)
+            make.top.equalTo(firstNormalLabel.snp.bottom).offset(Metric.secondNormalLabelTopPadding)
         }
         
-        thirdIntroduceLabel.snp.makeConstraints { make in
+        thirdNormalLabel.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.top.equalTo(secondIntroduceLabel.snp.bottom).offset(Metric.thirdIntroduceLabelTopPadding)
+            make.top.equalTo(secondNormalLabel.snp.bottom).offset(Metric.thirdNormalLabelTopPadding)
         }
         
         titleTextField.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.top.equalTo(thirdIntroduceLabel.snp.bottom).offset(Metric.titleTextFieldTopPadding)
+            make.top.equalTo(thirdNormalLabel.snp.bottom).offset(Metric.titleTextFieldTopPadding)
             make.height.equalTo(Metric.titleTextFieldHeight)
             make.width.equalTo(Metric.titleTextFieldWidth)
         }
@@ -149,14 +155,14 @@ final class StartCounselingView: BaseView {
             make.leading.equalTo(titleTextField.snp.leading).offset(Metric.warningLabelPadding)
         }
         
-        finalIntroduceLabel.snp.makeConstraints { make in
+        finalNormalLabel.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.top.equalTo(titleTextField.snp.bottom).offset(Metric.finalIntroduceLabelTopPadding)
+            make.top.equalTo(titleTextField.snp.bottom).offset(Metric.finalNormalLabelTopPadding)
         }
         
         nextButton.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.top.equalTo(finalIntroduceLabel.snp.bottom).offset(Metric.nextButtonTopPadding)
+            make.top.equalTo(finalNormalLabel.snp.bottom).offset(Metric.nextButtonTopPadding)
         }
     }
 }
@@ -166,63 +172,90 @@ final class StartCounselingView: BaseView {
 
 extension StartCounselingView {
     func hideAllComponents() {
-        firstIntroduceLabel.alpha = 0.0
-        secondIntroduceLabel.alpha = 0.0
-        thirdIntroduceLabel.alpha = 0.0
+        firstNormalLabel.alpha = 0.0
+        secondNormalLabel.alpha = 0.0
+        thirdNormalLabel.alpha = 0.0
         titleTextField.alpha = 0.0
-        finalIntroduceLabel.alpha = 0.0
+        finalNormalLabel.alpha = 0.0
         nextButton.alpha = 0.0
     }
     
     @MainActor
-    func playFadeInFirstPart() async {
-        moonImageView.transform = .identity.translatedBy(x: 0, y: .verticalValue(35))
+    func playMovingMoon(duration: TimeInterval) async {
         await withCheckedContinuation { continuation in
-            AnimationGroup(animations: [.init(view: moonImageView,
-                                              animationCase: .transform(transform: .identity),
-                                              duration: 1.0),
-                                        .init(view: firstIntroduceLabel,
-                                              animationCase: .fadeIn,
-                                              duration: 0.5),
-                                        .init(view: secondIntroduceLabel,
-                                              animationCase: .fadeIn,
-                                              duration: 1.5),
-                                        .init(view: thirdIntroduceLabel,
-                                              animationCase: .fadeIn,
-                                              duration: 0.5)],
-                           mode: .serial,
-                           loop: .once(completion: { continuation.resume() }))
+            AnimationGroup(
+                animations: [Animation(view: moonImageView,
+                                       animationCase: .fadeIn,
+                                       duration: 0.5)
+                ],
+                mode: .parallel,
+                loop: .once(completion: { continuation.resume() }))
             .run()
         }
     }
     
     @MainActor
-    func playFadeInSecondPart() async {
+    func playFadeInFirstPart(duration: TimeInterval) async {
+        moonImageView.transform = .identity.translatedBy(x: 0, y: .deviceAdjustedHeight(35))
+        
+        let percentages: [CGFloat] = [30, 20, 40, 10]
+        let calculatedDurations = percentages.map { duration * $0 / 100 }
+        
         await withCheckedContinuation { continuation in
-            AnimationGroup(animations: [.init(view: titleTextField,
-                                              animationCase: .fadeIn,
-                                              duration: 0.5),
-                                        .init(view: finalIntroduceLabel,
-                                              animationCase: .fadeIn,
-                                              duration: 0.5),
-                                        .init(view: nextButton,
-                                              animationCase: .fadeIn,
-                                              duration: 0.5)],
-                           mode: .parallel,
-                           loop: .once(completion: { continuation.resume() }))
+            AnimationGroup(
+                animations: [Animation(view: moonImageView,
+                                       animationCase: .transform( .identity),
+                                       duration: calculatedDurations[0]),
+                             Animation(view: firstNormalLabel,
+                                       animationCase: .fadeIn,
+                                       duration: calculatedDurations[1]),
+                             Animation(view: secondNormalLabel,
+                                       animationCase: .fadeIn,
+                                       duration: calculatedDurations[2]),
+                             Animation(view: thirdNormalLabel,
+                                       animationCase: .fadeIn,
+                                       duration: calculatedDurations[3])
+                ],
+                mode: .serial,
+                loop: .once(completion: { continuation.resume() }))
             .run()
         }
     }
     
     @MainActor
-    func playFadeOutAllComponents() async {
+    func playFadeInSecondPart(duration: TimeInterval) async {
         await withCheckedContinuation { continuation in
-            AnimationGroup(animations: subviews.filter { $0 != gradientView }
-                                               .map { Animation(view: $0,
-                                                                animationCase: .fadeOut,
-                                                                duration: 0.5)},
-                           mode: .parallel,
-                           loop: .once(completion: { continuation.resume() }))
+            AnimationGroup(
+                animations: [Animation(view: titleTextField,
+                                       animationCase: .fadeIn,
+                                       duration: duration),
+                             Animation(view: finalNormalLabel,
+                                       animationCase: .fadeIn,
+                                       duration: duration),
+                             Animation(view: nextButton,
+                                       animationCase: .fadeIn,
+                                       duration: duration)
+                ],
+                mode: .parallel,
+                loop: .once(completion: { continuation.resume() }))
+            .run()
+        }
+    }
+    
+    @MainActor
+    func playFadeOutAllComponents(duration: TimeInterval) async {
+        let views = subviews.exclude(gradientView)
+            .map {
+                Animation(view: $0,
+                          animationCase: .fadeOut,
+                          duration: duration)
+            }
+        
+        await withCheckedContinuation { continuation in
+            AnimationGroup(
+                animations: views,
+                mode: .parallel,
+                loop: .once(completion: { continuation.resume() }))
             .run()
         }
     }

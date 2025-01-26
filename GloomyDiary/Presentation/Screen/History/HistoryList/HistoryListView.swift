@@ -26,7 +26,7 @@ final class HistoryListView: UIView {
     private let gradientBackgroundView = GradientView(colors: [.background(.mainPurple).withAlphaComponent(0.0), .background(.mainPurple)], locations: [0.0, 0.5, 1.0])
     
     
-    // MARK: - Initializer
+    // MARK: - Initialize
     
     init() {
         super.init(frame: .zero)
@@ -35,7 +35,7 @@ final class HistoryListView: UIView {
         setupConstraints()
     }
     
-    required init?(coder: NSCoder) {
+    @MainActor required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
@@ -68,6 +68,9 @@ final class HistoryListView: UIView {
     }
 }
 
+
+// MARK: - Animations
+
 extension HistoryListView {
     func hideAllComponents() {
         collectionView.alpha = 0.0
@@ -79,14 +82,16 @@ extension HistoryListView {
         self.collectionView.transform = .identity.translatedBy(x: -10, y: 0)
         
         await withCheckedContinuation { continuation in
-            AnimationGroup(animations: [.init(view: self.collectionView,
-                                              animationCase: .fadeIn,
-                                              duration: 0.2),
-                                        .init(view: self.collectionView,
-                                              animationCase: .transform(transform: .identity),
-                                              duration: 0.2)],
-                           mode: .parallel,
-                           loop: .once(completion: { continuation.resume() }))
+            AnimationGroup(
+                animations: [Animation(view: self.collectionView,
+                                       animationCase: .fadeIn,
+                                       duration: 0.2),
+                             Animation(view: self.collectionView,
+                                       animationCase: .transform( .identity),
+                                       duration: 0.2)
+                ],
+                mode: .parallel,
+                loop: .once(completion: { continuation.resume() }))
             .run()
         }
     }
@@ -94,14 +99,16 @@ extension HistoryListView {
     @MainActor
     func playDisappearingToRight() async {
         await withCheckedContinuation { continuation in
-            AnimationGroup(animations: [.init(view: self.collectionView,
-                                              animationCase: .fadeOut,
-                                              duration: 0.2),
-                                        .init(view: self.collectionView,
-                                              animationCase: .transform(transform: .identity.translatedBy(x: 10, y: 0)),
-                                              duration: 0.2)],
-                           mode: .parallel,
-                           loop: .once(completion: { continuation.resume() }))
+            AnimationGroup(
+                animations: [Animation(view: self.collectionView,
+                                       animationCase: .fadeOut,
+                                       duration: 0.2),
+                             Animation(view: self.collectionView,
+                                       animationCase: .transform( .identity.translatedBy(x: 10, y: 0)),
+                                       duration: 0.2)
+                ],
+                mode: .parallel,
+                loop: .once(completion: { continuation.resume() }))
             .run()
         }
     }

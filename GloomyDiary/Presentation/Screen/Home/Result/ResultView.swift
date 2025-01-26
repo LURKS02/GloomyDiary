@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class ResultView: BaseView {
+final class ResultView: UIView {
     
     lazy var validResultView = ValidResultView()
     
@@ -29,11 +29,19 @@ final class ResultView: BaseView {
         }
     }
     
-    func animateValidResult() async {
-        await validResultView.playAllComponentsFadeIn()
+    func playShowingValidResult(duration: TimeInterval) async {
+        await validResultView.playAllComponentsFadeIn(duration: duration)
     }
     
-    func animateErrorResult() async {
-        await errorResultView.playAllComponentsFadeIn()
+    func playShowingErrorResult(duration: TimeInterval) async {
+        await errorResultView.playAllComponentsFadeIn(duration: duration)
+    }
+    
+    func playHidingValidResult(duration: TimeInterval) async {
+        await validResultView.playAllComponentsFadeOut(duration: duration)
+    }
+    
+    func playHidingErrorResult(duration: TimeInterval) async {
+        await errorResultView.playAllComponentsFadeOut(duration: duration)
     }
 }

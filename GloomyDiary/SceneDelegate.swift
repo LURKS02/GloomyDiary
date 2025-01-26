@@ -12,6 +12,7 @@ import Dependencies
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
     var appCoordinator: AppCoordinator?
+    
     @Dependency(\.logger) var logger
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
@@ -42,16 +43,4 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 
 
-}
-
-extension UIApplication {
-    var safeAreaTopInset: CGFloat? {
-        guard let keyWindow = connectedScenes
-            .filter({ $0.activationState == .foregroundActive })
-            .first(where: { $0 is UIWindowScene })
-            .flatMap({ $0 as? UIWindowScene })?.windows
-            .first(where: \.isKeyWindow) else { return nil }
-        
-        return keyWindow.safeAreaInsets.top
-    }
 }

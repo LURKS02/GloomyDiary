@@ -17,8 +17,8 @@ struct StartCounseling {
         var warning: String = ""
         
         init() {
-            @Dependency(\.userSettingRepository) var userSettingRepository
-            isFirstProcess = userSettingRepository.get(keyPath: \.isFirstProcess)
+            @Dependency(\.userSetting) var userSetting
+            isFirstProcess = userSetting.get(keyPath: \.isFirstProcess)
         }
     }
     

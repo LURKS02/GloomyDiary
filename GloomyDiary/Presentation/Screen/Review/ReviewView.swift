@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class ReviewView: BaseView {
+final class ReviewView: UIView {
     
     // MARK: - Metric
     
@@ -33,7 +33,7 @@ final class ReviewView: BaseView {
     
     let characterImageView = UIImageView()
     
-    let reviewLabel = IntroduceLabel()
+    let reviewLabel = NormalLabel()
     
     let buttonStackView = UIStackView().then {
         $0.axis = .horizontal
@@ -57,6 +57,9 @@ final class ReviewView: BaseView {
     init(character: CounselingCharacter) {
         super.init(frame: .zero)
         
+        addSubviews()
+        setupConstraints()
+        
         configure(with: character)
     }
     
@@ -72,7 +75,7 @@ final class ReviewView: BaseView {
     
     // MARK: - View Life Cycle
     
-    override func addSubviews() {
+    private func addSubviews() {
         addSubview(blurView)
         addSubview(sheetBackgroundView)
         sheetBackgroundView.addSubview(characterImageView)
@@ -82,7 +85,7 @@ final class ReviewView: BaseView {
         buttonStackView.addArrangedSubview(acceptButton)
     }
 
-    override func setupConstraints() {
+    private func setupConstraints() {
         blurView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
@@ -124,7 +127,7 @@ extension ReviewView {
             }),
                                               duration: 0.3),
                                         .init(view: sheetBackgroundView,
-                                              animationCase: .transform(transform: .identity.translatedBy(x: 0, y: -Metric.sheetHeight)),
+                                              animationCase: .transform( .identity.translatedBy(x: 0, y: -Metric.sheetHeight)),
                                               duration: 0.2)],
                            mode: .parallel,
                            loop: .once(completion: { continuation.resume() }))
@@ -141,7 +144,7 @@ extension ReviewView {
                 view.effect = nil
             }), duration: 0.3),
                                         .init(view: sheetBackgroundView,
-                                              animationCase: .transform(transform: .identity),
+                                              animationCase: .transform( .identity),
                                               duration: 0.2)],
                            mode: .parallel,
                            loop: .once(completion: { continuation.resume() }))

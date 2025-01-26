@@ -16,12 +16,13 @@ final class EmptyListView: UIView {
     }
 
     
-    private let ghostImageView = ImageView().then {
-        $0.setImage("cryingGhost")
-        $0.setSize(Metric.ghostImageSize)
+    // MARK: - Views
+    
+    private let ghostImageView = UIImageView().then {
+        $0.image = UIImage(named: "cryingGhost")
     }
     
-    private let introduceLabel = IntroduceLabel().then {
+    private let introduceLabel = NormalLabel().then {
         $0.text = """
         아직 아무 편지도
         보내지 않았어요.
@@ -54,6 +55,8 @@ final class EmptyListView: UIView {
         ghostImageView.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
             make.centerY.equalToSuperview().offset(-60)
+            make.height.equalTo(Metric.ghostImageSize)
+            make.width.equalTo(Metric.ghostImageSize)
         }
         
         introduceLabel.snp.makeConstraints { make in
@@ -62,6 +65,9 @@ final class EmptyListView: UIView {
         }
     }
 }
+
+
+// MARK: - Animations
 
 extension EmptyListView {
     func hideAllComponents() {
@@ -72,24 +78,26 @@ extension EmptyListView {
     @MainActor
     func playAppearingFromLeft() async {
         hideAllComponents()
-        self.ghostImageView.transform = .identity.translatedBy(x: -10, y: 0)
-        self.introduceLabel.transform = .identity.translatedBy(x: -10, y: 0)
+        
+        ghostImageView.transform = .identity.translatedBy(x: -10, y: 0)
+        introduceLabel.transform = .identity.translatedBy(x: -10, y: 0)
         
         await withCheckedContinuation { continuation in
-            AnimationGroup(animations: [.init(view: self.ghostImageView,
-                                              animationCase: .fadeIn,
-                                              duration: 0.2),
-                                        .init(view: self.ghostImageView,
-                                              animationCase: .transform(transform: .identity),
-                                              duration: 0.2),
-                                        .init(view: introduceLabel,
-                                              animationCase: .fadeIn,
-                                              duration: 0.2),
-                                        .init(view: introduceLabel,
-                                              animationCase: .transform(transform: .identity),
-                                              duration: 0.2)],
-                           mode: .parallel,
-                           loop: .once(completion: { continuation.resume() }))
+            AnimationGroup(
+                animations: [Animation(view: ghostImageView,
+                                       animationCase: .fadeIn,
+                                       duration: 0.2),
+                             Animation(view: ghostImageView,
+                                       animationCase: .transform(.identity),
+                                       duration: 0.2),
+                             Animation(view: introduceLabel,
+                                       animationCase: .fadeIn,
+                                       duration: 0.2),
+                             Animation(view: introduceLabel,
+                                       animationCase: .transform(.identity),
+                                       duration: 0.2)],
+                mode: .parallel,
+                loop: .once(completion: { continuation.resume() }))
             .run()
         }
     }
@@ -97,16 +105,21 @@ extension EmptyListView {
     @MainActor
     func playDisappearingToRight() async {
         await withCheckedContinuation { continuation in
-            AnimationGroup(animations: [.init(view: self.ghostImageView,
-                                              animationCase: .fadeOut,
-                                              duration: 0.2),
-                                        .init(view: self.ghostImageView,
-                                              animationCase: .transform(transform: .identity.translatedBy(x: 10, y: 0)), duration: 0.2),
-                                        .init(view: self.introduceLabel, animationCase: .fadeOut, duration: 0.2),
-                                        .init(view: self.introduceLabel,
-                                              animationCase: .transform(transform: .identity.translatedBy(x: 10, y: 0)), duration: 0.2)],
-                           mode: .parallel,
-                           loop: .once(completion: { continuation.resume() }))
+            AnimationGroup(
+                animations: [Animation(view: ghostImageView,
+                                       animationCase: .fadeOut,
+                                       duration: 0.2),
+                             Animation(view: ghostImageView,
+                                       animationCase: .transform(.identity.translatedBy(x: 10, y: 0)),
+                                       duration: 0.2),
+                             Animation(view: introduceLabel,
+                                       animationCase: .fadeOut,
+                                       duration: 0.2),
+                             Animation(view: introduceLabel,
+                                       animationCase: .transform(.identity.translatedBy(x: 10, y: 0)),
+                                       duration: 0.2)],
+                mode: .parallel,
+                loop: .once(completion: { continuation.resume() }))
             .run()
         }
     }

@@ -10,7 +10,7 @@ import ComposableArchitecture
 
 @Reducer
 struct Review {
-    @Dependency(\.userSettingRepository) var userSettingRepository
+    @Dependency(\.userSetting) var userSetting
     @Dependency(\.date.now) var now
     
     @ObservableState
@@ -26,10 +26,10 @@ struct Review {
         Reduce { state, action in
             switch action {
             case .didAcceptReview:
-                userSettingRepository.update(keyPath: \.hasReviewed, value: true)
+                try? userSetting.update(keyPath: \.hasReviewed, value: true)
                 return .none
             case .didDeclineReview:
-                userSettingRepository.update(keyPath: \.lastReviewDeclinedDate, value: now)
+                try? userSetting.update(keyPath: \.lastReviewDeclinedDate, value: now)
                 return .none
             }
         }

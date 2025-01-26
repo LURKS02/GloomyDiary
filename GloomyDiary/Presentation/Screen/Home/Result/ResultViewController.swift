@@ -21,7 +21,7 @@ final class ResultViewController: BaseViewController<ResultView> {
     
     init(store: StoreOf<CounselResult>) {
         self.store = store
-        super.init(logID: "Result")
+        super.init()
     }
     
     required init?(coder: NSCoder) {
@@ -146,20 +146,47 @@ private extension ResultViewController {
 }
 
 
-// MARK: - Transition Animation
+// MARK: - Transition
 
-extension ResultViewController: Dismissable {
-    func playDismissingAnimation() async {
-        if hasValidResult {
-            await contentView.validResultView.playAllComponentsFadeOut()
+extension ResultViewController: FromTransitionable {
+    var fromTransitionComponent: UIView? {
+        nil
+    }
+    
+    func prepareTransition(duration: TimeInterval) async {
+        if store.response.isEmpty {
+            await contentView.playHidingErrorResult(duration: duration)
         } else {
-            await contentView.errorResultView.playAllComponentsFadeOut()
+            await contentView.playHidingValidResult(duration: duration)
+        }
+    }
+}
+
+extension ResultViewController: ToTransitionable {
+    var toTransitionComponent: UIView? {
+        nil
+    }
+    
+    func completeTransition(duration: TimeInterval) async {
+        if store.response.isEmpty {
+            await contentView.playShowingErrorResult(duration: duration)
+        } else {
+            await contentView.playShowingValidResult(duration: duration)
         }
     }
 }
 
 extension ResultViewController: UINavigationControllerDelegate {
-    func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationController.Operation, from fromVC: UIViewController, to toVC: UIViewController) -> (any UIViewControllerAnimatedTransitioning)? {
-        ResultBackTransition()
+    func navigationController(
+        _ navigationController: UINavigationController,
+        animationControllerFor operation: UINavigationController.Operation,
+        from fromVC: UIViewController,
+        to toVC: UIViewController
+    ) -> (any UIViewControllerAnimatedTransitioning)? {
+        AnimatedTransition(
+            fromDuration: 0.5,
+            toDuration: 0.5,
+            transitionContentType: .normalTransition
+        )
     }
 }

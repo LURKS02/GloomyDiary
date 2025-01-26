@@ -25,12 +25,11 @@ final class SendingLetterView: LetterView {
     
     // MARK: - Views
     
-    private let letterImageView = ImageView().then {
-        $0.setImage("letter")
-        $0.setSize(Metric.letterImageSize)
+    private let letterImageView = UIImageView().then {
+        $0.image = UIImage(named: "letter")
     }
     
-    private let letterWritingGuideLabel = IntroduceLabel().then {
+    private let letterWritingGuideLabel = NormalLabel().then {
         $0.text = """
         오늘 하루 있었던 일들을
         편지로 적어볼까요?
@@ -82,6 +81,8 @@ final class SendingLetterView: LetterView {
         letterImageView.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(Metric.letterImageViewTopPadding)
             make.centerX.equalToSuperview()
+            make.height.equalTo(Metric.letterImageSize)
+            make.width.equalTo(Metric.letterImageSize)
         }
         
         letterWritingGuideLabel.snp.makeConstraints { make in

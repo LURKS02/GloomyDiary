@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class CounselingView: BaseView {
+final class CounselingView: UIView {
     
     // MARK: - Metric
     
@@ -31,11 +31,9 @@ final class CounselingView: BaseView {
 
     let containerView = UIView()
     
-    let characterImageView: ImageView = ImageView().then {
-        $0.setSize(Metric.characterSize)
-    }
+    let characterImageView = UIImageView()
     
-    let characterGreetingLabel: IntroduceLabel = IntroduceLabel().then {
+    let characterGreetingLabel = NormalLabel().then {
         $0.textAlignment = .left
     }
     
@@ -72,10 +70,22 @@ final class CounselingView: BaseView {
         $0.cancelsTouchesInView = false
     }
     
+    init() {
+        super.init(frame: .zero)
+        
+        setup()
+        addSubviews()
+        setupConstraints()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     
     // MARK: - View Life Cycle
     
-    override func setup() {
+    private func setup() {
         addGestureRecognizer(tapGesture)
         backgroundColor = .background(.mainPurple)
         characterGreetingLabel.alpha = 0
@@ -84,7 +94,7 @@ final class CounselingView: BaseView {
         photoCollectionView.alpha = 0
     }
     
-    override func addSubviews() {
+    private func addSubviews() {
         addSubview(containerView)
         
         containerView.addSubview(characterImageView)
@@ -96,7 +106,7 @@ final class CounselingView: BaseView {
         containerView.addSubview(leftEdgeView)
     }
     
-    override func setupConstraints() {
+    private func setupConstraints() {
         containerView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
@@ -104,6 +114,8 @@ final class CounselingView: BaseView {
         characterImageView.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(Metric.characterImageTopPadding)
             make.leading.equalToSuperview().offset(Metric.characterImageLeadingPadding)
+            make.height.equalTo(Metric.characterSize)
+            make.width.equalTo(Metric.characterSize)
         }
         
         characterGreetingLabel.snp.makeConstraints { make in
@@ -148,7 +160,7 @@ final class CounselingView: BaseView {
 
 extension CounselingView {
     func configure(with character: CounselingCharacter) {
-        characterImageView.setImage(character.imageName)
+        characterImageView.image = UIImage(named: character.imageName)
         characterGreetingLabel.text = character.greetingMessage
     }
 }
@@ -162,46 +174,53 @@ extension CounselingView {
     }
     
     @MainActor
-    func showAllComponents() async {
+    func playFadeInAllComponents(duration: TimeInterval) async {
+        characterImageView.alpha = 0.0
+        
         await withCheckedContinuation { continuation in
-            AnimationGroup(animations: [.init(view: characterImageView,
-                                              animationCase: .fadeIn,
-                                              duration: 0.5),
-                                        .init(view: characterGreetingLabel,
-                                              animationCase: .fadeIn,
-                                              duration: 0.5),
-                                        .init(view: photoCollectionView,
-                                              animationCase: .fadeIn,
-                                              duration: 0.5),
-                                        .init(view: sendingLetterView,
-                                              animationCase: .fadeIn,
-                                              duration: 0.5),
-                                        .init(view: letterSendingButton,
-                                              animationCase: .fadeIn,
-                                              duration: 0.5)],
-                           mode: .parallel,
-                           loop: .once(completion: { continuation.resume() }))
+            AnimationGroup(
+                animations: [Animation(view: characterImageView,
+                                       animationCase: .fadeIn,
+                                       duration: duration),
+                             Animation(view: characterGreetingLabel,
+                                       animationCase: .fadeIn,
+                                       duration: duration),
+                             Animation(view: photoCollectionView,
+                                       animationCase: .fadeIn,
+                                       duration: duration),
+                             Animation(view: sendingLetterView,
+                                       animationCase: .fadeIn,
+                                       duration: duration),
+                             Animation(view: letterSendingButton,
+                                       animationCase: .fadeIn,
+                                       duration: duration)
+                ],
+                mode: .parallel,
+                loop: .once(completion: { continuation.resume() }))
             .run()
         }
     }
     
     @MainActor
-    func removeAllComponents() async {
+    func playFadeOutAllComponents(duration: TimeInterval) async {
+        var animations = [Animation(view: characterGreetingLabel,
+                                    animationCase: .fadeOut,
+                                    duration: duration),
+                          Animation(view: sendingLetterView,
+                                    animationCase: .fadeOut,
+                                    duration: duration),
+                          Animation(view: letterSendingButton,
+                                    animationCase: .fadeOut,
+                                    duration: duration),
+                          Animation(view: photoCollectionView,
+                                    animationCase: .fadeOut,
+                                    duration: duration)]
+        
         await withCheckedContinuation { continuation in
-            AnimationGroup(animations: [.init(view: characterGreetingLabel,
-                                              animationCase: .fadeOut,
-                                              duration: 0.5),
-                                        .init(view: sendingLetterView,
-                                              animationCase: .fadeOut,
-                                              duration: 0.5),
-                                        .init(view: letterSendingButton,
-                                              animationCase: .fadeOut,
-                                              duration: 0.5),
-                                        .init(view: photoCollectionView,
-                                              animationCase: .fadeOut,
-                                              duration: 0.5)],
-                           mode: .parallel,
-                           loop: .once(completion: { continuation.resume() }))
+            AnimationGroup(
+                animations: animations,
+                mode: .parallel,
+                loop: .once(completion: { continuation.resume() }))
             .run()
         }
     }
