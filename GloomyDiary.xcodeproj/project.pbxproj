@@ -411,7 +411,7 @@
 		D943504A2D36A40800659380 /* Cache */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Cache; sourceTree = "<group>"; };
 		D95A25812CF797520007A71A /* LocalNotification */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = LocalNotification; sourceTree = "<group>"; };
 		D95A25842CF7A6C10007A71A /* LocalNotification */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = LocalNotification; sourceTree = "<group>"; };
-		D95A43882D0F3F900007A71A /* Dependencies */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Dependencies; sourceTree = "<group>"; };
+		D95A43882D0F3F900007A71A /* Dependency */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Dependency; sourceTree = "<group>"; };
 		D95A44B52D11F7710007A71A /* Review */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Review; sourceTree = "<group>"; };
 		D95C18332CCF6C8700055C7C /* ChoosingEmoji */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = ChoosingEmoji; sourceTree = "<group>"; };
 		D9FFF8842CE391AE006DE533 /* CollectionView */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = CollectionView; sourceTree = "<group>"; };
@@ -632,7 +632,7 @@
 		D97421B02C5ABE12002E47F9 /* GloomyDiary */ = {
 			isa = PBXGroup;
 			children = (
-				D95A43882D0F3F900007A71A /* Dependencies */,
+				D95A43882D0F3F900007A71A /* Dependency */,
 				D9FCFFBE2CBAE4A900A53A14 /* Repository */,
 				D92F498E2C7A029A00CD7D2A /* Model */,
 				D9D9E02E2C5FF5290095792A /* Base */,
@@ -957,7 +957,7 @@
 				D943504A2D36A40800659380 /* Cache */,
 				D95A25812CF797520007A71A /* LocalNotification */,
 				D95A25842CF7A6C10007A71A /* LocalNotification */,
-				D95A43882D0F3F900007A71A /* Dependencies */,
+				D95A43882D0F3F900007A71A /* Dependency */,
 				D95A44B52D11F7710007A71A /* Review */,
 				D95C18332CCF6C8700055C7C /* ChoosingEmoji */,
 				D9FFF8842CE391AE006DE533 /* CollectionView */,
@@ -1034,7 +1034,7 @@
 				D943504A2D36A40800659380 /* Cache */,
 				D95A25812CF797520007A71A /* LocalNotification */,
 				D95A25842CF7A6C10007A71A /* LocalNotification */,
-				D95A43882D0F3F900007A71A /* Dependencies */,
+				D95A43882D0F3F900007A71A /* Dependency */,
 				D95A44B52D11F7710007A71A /* Review */,
 				D95C18332CCF6C8700055C7C /* ChoosingEmoji */,
 				D9FFF8842CE391AE006DE533 /* CollectionView */,
