@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class TalkingView: BaseView {
+final class TalkingView: UIView {
     private enum Metric {
         static let verticalPadding: CGFloat = 18
         static let horizontalPadding: CGFloat = 23
@@ -21,17 +21,35 @@ final class TalkingView: BaseView {
         $0.font = .온글잎_의연체.title
     }
     
-    override func setup() {
+    
+    // MARK: - Initialize
+
+    init() {
+        super.init(frame: .zero)
+        
+        setup()
+        addSubviews()
+        setupConstraints()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    
+    // MARK: - View Life Cycle
+    
+    private func setup() {
         self.backgroundColor = .component(.darkPurple)
         self.layer.cornerRadius = Metric.cornerRadius
         self.layer.masksToBounds = true
     }
     
-    override func addSubviews() {
+    private func addSubviews() {
         self.addSubview(talkingLabel)
     }
     
-    override func setupConstraints() {
+    private func setupConstraints() {
         talkingLabel.snp.makeConstraints { make in
             make.verticalEdges.equalToSuperview().inset(Metric.verticalPadding)
             make.horizontalEdges.equalToSuperview().inset(Metric.horizontalPadding)
@@ -89,7 +107,7 @@ extension TalkingView {
     func playFrameAnimation(_ frame: CGRect) async {
         await withCheckedContinuation { continuation in
             AnimationGroup(animations: [.init(view: self,
-                                              animationCase: .redraw(frame: frame),
+                                              animationCase: .frame( frame),
                                               duration: 0.2)],
                            mode: .parallel,
                            loop: .once(completion: { continuation.resume() }))
