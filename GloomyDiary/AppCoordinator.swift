@@ -81,6 +81,7 @@ private extension AppCoordinator {
 
         navigationController.transitioningDelegate = delegateViewController
         viewController.present(navigationController, animated: false) {
+            coveringView.removeFromSuperview()
         }
     }
 }
