@@ -136,7 +136,7 @@ extension HomeViewController {
         startCounselingViewController.contentView.moonImageView.alpha = 1.0
         let navigationViewController = UINavigationController(rootViewController: startCounselingViewController)
         
-        navigationViewController.modalPresentationStyle = .custom
+        navigationViewController.modalPresentationStyle = .fullScreen
         navigationViewController.transitioningDelegate = self
         
         self.present(navigationViewController, animated: true)

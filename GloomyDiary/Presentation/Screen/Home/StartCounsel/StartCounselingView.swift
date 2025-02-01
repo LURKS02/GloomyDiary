@@ -182,15 +182,17 @@ extension StartCounselingView {
     
     @MainActor
     func playMovingMoon(duration: TimeInterval) async {
-        await withCheckedContinuation { continuation in
-            AnimationGroup(
-                animations: [Animation(view: moonImageView,
-                                       animationCase: .fadeIn,
-                                       duration: 0.5)
-                ],
-                mode: .parallel,
-                loop: .once(completion: { continuation.resume() }))
-            .run()
+        if moonImageView.alpha == 0.0 {
+            await withCheckedContinuation { continuation in
+                AnimationGroup(
+                    animations: [Animation(view: moonImageView,
+                                           animationCase: .fadeIn,
+                                           duration: duration)
+                    ],
+                    mode: .parallel,
+                    loop: .once(completion: { continuation.resume() }))
+                .run()
+            }
         }
     }
     
