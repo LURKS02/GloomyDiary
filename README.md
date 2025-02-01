@@ -67,12 +67,12 @@ flowchart TD
     subgraph ViewController
     View -- send --> Action
     subgraph Store
-    Action -.- Reducer
-    Reducer -.- State
+    Action --> Reducer
+    Reducer --> State
     Action --> Effect
     Effect --> Action
     end
-    View -- observe --> State
+    State -.-> View
     end
     end
     style Presentation fill:#bcd
