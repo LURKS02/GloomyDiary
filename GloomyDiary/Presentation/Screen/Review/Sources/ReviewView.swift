@@ -120,17 +120,20 @@ extension ReviewView {
     @MainActor
     func runAppearanceAnimation() async {
         await withCheckedContinuation { continuation in
-            AnimationGroup(animations: [.init(view: blurView,
-                                              animationCase: .custom(closure: { view in
-                guard let view = view as? UIVisualEffectView else { return }
-                view.effect = UIBlurEffect(style: .dark)
-            }),
-                                              duration: 0.3),
-                                        .init(view: sheetBackgroundView,
-                                              animationCase: .transform( .identity.translatedBy(x: 0, y: -Metric.sheetHeight)),
-                                              duration: 0.2)],
-                           mode: .parallel,
-                           loop: .once(completion: { continuation.resume() }))
+            AnimationGroup(
+                animations: [
+                    Animation(view: blurView,
+                              animationCase: .custom(
+                                closure: { view in
+                                    guard let view = view as? UIVisualEffectView else { return }
+                                    view.effect = UIBlurEffect(style: .dark) }),
+                              duration: 0.3),
+                    Animation(view: sheetBackgroundView,
+                              animationCase: .transform( .identity.translatedBy(x: 0, y: -Metric.sheetHeight)),
+                              duration: 0.2)
+                ],
+                mode: .parallel,
+                loop: .once(completion: { continuation.resume() }))
             .run()
         }
     }
@@ -138,16 +141,19 @@ extension ReviewView {
     @MainActor
     func runDismissAnimation() async {
         await withCheckedContinuation { continuation in
-            AnimationGroup(animations: [.init(view: blurView,
-                                              animationCase: .custom(closure: { view in
-                guard let view = view as? UIVisualEffectView else { return }
-                view.effect = nil
-            }), duration: 0.3),
-                                        .init(view: sheetBackgroundView,
-                                              animationCase: .transform( .identity),
-                                              duration: 0.2)],
-                           mode: .parallel,
-                           loop: .once(completion: { continuation.resume() }))
+            AnimationGroup(
+                animations: [
+                    Animation(view: blurView,
+                              animationCase: .custom(closure: { view in
+                                  guard let view = view as? UIVisualEffectView else { return }
+                                  view.effect = nil
+                              }), duration: 0.3),
+                    Animation(view: sheetBackgroundView,
+                              animationCase: .transform( .identity),
+                              duration: 0.2)
+                ],
+                mode: .parallel,
+                loop: .once(completion: { continuation.resume() }))
             .run()
         }
     }
