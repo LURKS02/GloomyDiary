@@ -7,11 +7,11 @@
 
 import UIKit
 
-protocol ToTabSwitchable: UIViewController {
+protocol ToTabSwitchAnimatable: UIViewController {
     func playTabAppearingAnimation() async
 }
 
-protocol FromTabSwitchable: UIViewController {
+protocol FromTabSwitchAnimatable: UIViewController {
     func playTabDisappearingAnimation() async
 }
 
@@ -48,19 +48,19 @@ extension TabSwitchingTransition: UIViewControllerAnimatedTransitioning {
 }
 
 private extension UIViewController {
-    var toTabSwitchable: ToTabSwitchable? {
+    var toTabSwitchable: ToTabSwitchAnimatable? {
         if let naivgationController = self as? UINavigationController {
-            return naivgationController.topViewController as? ToTabSwitchable
+            return naivgationController.topViewController as? ToTabSwitchAnimatable
         } else {
-            return self as? ToTabSwitchable
+            return self as? ToTabSwitchAnimatable
         }
     }
     
-    var fromTabSwitchable: FromTabSwitchable? {
+    var fromTabSwitchable: FromTabSwitchAnimatable? {
         if let naivgationController = self as? UINavigationController {
-            return naivgationController.topViewController as? FromTabSwitchable
+            return naivgationController.topViewController as? FromTabSwitchAnimatable
         } else {
-            return self as? FromTabSwitchable
+            return self as? FromTabSwitchAnimatable
         }
     }
 }

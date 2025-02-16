@@ -6,27 +6,16 @@
 //
 
 import UIKit
-import Dependencies
 
 final class CircularTabBarController: UITabBarController {
     
     private let circularTabBar: CircularTabBar
     
-    @Dependency(\.logger) var logger
-    
     private var currentIndex: Int {
         didSet {
             guard let viewControllers else { return }
             
-            if let newViewController = viewControllers[currentIndex].tabBarDelegate {
-                newViewController.tabWillAppear()
-            }
-            
             selectedIndex = currentIndex
-            
-            if let currentViewController = viewControllers[selectedIndex].tabBarDelegate {
-                currentViewController.tabDidDisappear()
-            }
         }
     }
     
@@ -73,24 +62,7 @@ final class CircularTabBarController: UITabBarController {
     }
     
     private func setupTapGesture() {
-        circularTabBar.tabBarTappedRelay
-            .subscribe(onNext: { [weak self] _ in
-                guard let self else { return }
-                self.tabTapped()
-            })
-            .disposed(by: rx.disposeBag)
-    }
-    
-    private func tabTapped() {
-        currentIndex = (currentIndex + 1) % circularTabBar.numberOfTabs
-        rotateTabBar(index: currentIndex)
-        highlightCurrentTab()
-        
-        self.logger.send(
-            .tapped,
-            "탭 바",
-            ["현재 탭": currentIndex]
-        )
+        circularTabBar.tabBarDelegate = self
     }
     
     private func rotateTabBar(index: Int) {
@@ -109,8 +81,20 @@ final class CircularTabBarController: UITabBarController {
     }
 }
 
+extension CircularTabBarController: CircularTabBarDelegate {
+    func tabBarTapped() {
+        currentIndex = (currentIndex + 1) % circularTabBar.numberOfTabs
+        rotateTabBar(index: currentIndex)
+        highlightCurrentTab()
+    }
+}
+
 extension CircularTabBarController: UITabBarControllerDelegate {
-    func tabBarController(_ tabBarController: UITabBarController, animationControllerForTransitionFrom fromVC: UIViewController, to toVC: UIViewController) -> (any UIViewControllerAnimatedTransitioning)? {
+    func tabBarController(
+        _ tabBarController: UITabBarController,
+        animationControllerForTransitionFrom fromVC: UIViewController,
+        to toVC: UIViewController
+    ) -> (any UIViewControllerAnimatedTransitioning)? {
         TabSwitchingTransition()
     }
 }
