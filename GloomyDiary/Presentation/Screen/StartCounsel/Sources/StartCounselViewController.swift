@@ -5,13 +5,13 @@
 //  Created by 디해 on 10/27/24.
 //
 
+import CombineCocoa
 import ComposableArchitecture
 import UIKit
 
-final class StartCounselingViewController: BaseViewController<StartCounselingView> {
-    @Dependency(\.logger) var logger
+final class StartCounselViewController: BaseViewController<StartCounselingView> {
 
-    let store: StoreOf<StartCounseling>
+    @UIBindable var store: StoreOf<StartCounsel>
     
     
     // MARK: - Properties
@@ -22,14 +22,13 @@ final class StartCounselingViewController: BaseViewController<StartCounselingVie
         }
     }
     
+    private let backgroundTap = UITapGestureRecognizer()
+    
     // MARK: - Initialize
     
-    init(store: StoreOf<StartCounseling>) {
+    init(store: StoreOf<StartCounsel>) {
         self.store = store
-        let isFirstProcess = store.isFirstProcess
-        let contentView = StartCounselingView(isFirstProcess: isFirstProcess)
-        
-        super.init(contentView)
+        super.init()
     }
     
     @MainActor required init?(coder: NSCoder) {
@@ -45,22 +44,17 @@ final class StartCounselingViewController: BaseViewController<StartCounselingVie
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         bind()
-        contentView.hideAllComponents()
-    }
-    
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        super.touchesBegan(touches, with: event)
         
-        self.contentView.titleTextField.endEditing(true)
+        self.navigationController?.delegate = self
+        store.send(.view(.viewDidLoad))
     }
 }
 
 
 // MARK: - bind
 
-private extension StartCounselingViewController {
+private extension StartCounselViewController {
     func bind() {
         NotificationCenter.default.addObserver(
             self,
@@ -76,28 +70,32 @@ private extension StartCounselingViewController {
             object: nil
         )
         
-        contentView.titleTextField.textControlProperty
-            .subscribe(onNext: { [weak self] text in
-                guard let self,
-                      let text else { return }
-                self.store.send(.input(title: text))
-            })
-            .disposed(by: rx.disposeBag)
+        contentView.containerView.addGestureRecognizer(backgroundTap)
         
-        contentView.nextButton.rx.tap
-            .do(onNext: { [weak self] _ in
-                guard let title = self?.contentView.nextButton.title(for: .normal) else { return }
-                self?.logger.send(.tapped, title, nil)
-            })
-            .subscribe(onNext: { [weak self] _ in
-                guard let self,
-                      let value = contentView.titleTextField.text else { return }
-                navigateToWeatherSelection(with: value)
-            })
-            .disposed(by: rx.disposeBag)
+        backgroundTap.tapPublisher
+            .sink { [weak self] _ in
+                guard let self else { return }
+                self.contentView.endEditing(true)
+            }
+            .store(in: &cancellables)
+        
+        contentView.titleTextField.textPublisher
+            .sink { [weak self] text in
+                guard let self, let text else { return }
+                store.send(.view(.didEnterText(text)))
+            }
+            .store(in: &cancellables)
+        
+        contentView.nextButton.tapPublisher
+            .sink { [weak self] in
+                guard let self else { return }
+                store.send(.view(.didTapNextButton))
+            }
+            .store(in: &cancellables)
         
         observe { [weak self] in
             guard let self else { return }
+            self.contentView.configure(isFirstProcess: store.isFirstProcess)
             self.contentView.nextButton.isEnabled = store.isSendable
             self.contentView.warningLabel.text = store.warning
         }
@@ -107,7 +105,7 @@ private extension StartCounselingViewController {
 
 // MARK: - Keyboard
 
-private extension StartCounselingViewController {
+private extension StartCounselViewController {
     @objc func keyboardWillShow(notification: NSNotification) {
         isKeyboardShowing = true
     }
@@ -131,21 +129,10 @@ private extension StartCounselingViewController {
     }
 }
 
-// MARK: - Navigation
-
-extension StartCounselingViewController {
-    func navigateToWeatherSelection(with title: String) {
-        let store: StoreOf<ChoosingWeather> = Store(initialState: .init(title: title), reducer: { ChoosingWeather() })
-        let choosingWeatherViewController = ChoosingWeatherViewController(store: store)
-        navigationController?.delegate = self
-        navigationController?.pushViewController(choosingWeatherViewController, animated: true)
-    }
-}
-
 
 // MARK: - Transition
 
-extension StartCounselingViewController: FromTransitionable {
+extension StartCounselViewController: FromTransitionable {
     var fromTransitionComponent: UIView? {
         nil
     }
@@ -155,7 +142,7 @@ extension StartCounselingViewController: FromTransitionable {
     }
 }
 
-extension StartCounselingViewController: ToTransitionable {
+extension StartCounselViewController: ToTransitionable {
     var toTransitionComponent: UIView? {
         contentView.moonImageView
     }
@@ -172,14 +159,14 @@ extension StartCounselingViewController: ToTransitionable {
     }
 }
 
-extension StartCounselingViewController: UINavigationControllerDelegate {
+extension StartCounselViewController: UINavigationControllerDelegate {
     func navigationController(
         _ navigationController: UINavigationController,
         animationControllerFor operation: UINavigationController.Operation,
         from fromVC: UIViewController,
         to toVC: UIViewController
     ) -> (any UIViewControllerAnimatedTransitioning)? {
-        AnimatedTransition(
+        return AnimatedTransition(
             fromDuration: 0.5,
             toDuration: 2.0,
             transitionContentType: .normalTransition

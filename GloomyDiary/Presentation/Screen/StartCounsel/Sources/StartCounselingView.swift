@@ -35,11 +35,12 @@ final class StartCounselingView: UIView {
         $0.alpha = 0.0
     }
     
-    private let gradientView = GradientView(colors: [.background(.darkPurple), .background(.mainPurple)], locations: [0.0, 0.5, 1.0])
+    private let gradientView = GradientView(
+        colors: [.background(.darkPurple), .background(.mainPurple)],
+        locations: [0.0, 0.5, 1.0]
+    )
     
-    private lazy var firstNormalLabel = NormalLabel().then {
-        $0.text = isFirstProcess ? "첫 번째 편지를 보내볼까요?" : "반가워요!"
-    }
+    private let firstNormalLabel = NormalLabel()
     
     private let secondNormalLabel = NormalLabel().then {
         $0.text = """
@@ -52,7 +53,7 @@ final class StartCounselingView: UIView {
         $0.text = "준비되셨나요?"
     }
     
-    let titleTextField = TextField()
+    let titleTextField = RoundTextField()
     
     let warningLabel = UILabel().then {
         $0.text = "15자 이하로 작성해주세요."
@@ -70,21 +71,16 @@ final class StartCounselingView: UIView {
     }
     
     
-    // MARK: - Properties
-    
-    let isFirstProcess: Bool
-    
-    
     // MARK: - Initialize
 
-    init(isFirstProcess: Bool) {
-        self.isFirstProcess = isFirstProcess
-        
+    init() {
         super.init(frame: .zero)
         
         setup()
         addSubviews()
         setupConstraints()
+        
+        hideAllComponents()
     }
     
     @MainActor required init?(coder: NSCoder) {
@@ -165,6 +161,10 @@ final class StartCounselingView: UIView {
             make.top.equalTo(finalNormalLabel.snp.bottom).offset(Metric.nextButtonTopPadding)
         }
     }
+    
+    func configure(isFirstProcess: Bool) {
+        firstNormalLabel.text = isFirstProcess ? "첫 번째 편지를 보내볼까요?" : "반가워요!"
+    }
 }
 
 
@@ -172,12 +172,10 @@ final class StartCounselingView: UIView {
 
 extension StartCounselingView {
     func hideAllComponents() {
-        firstNormalLabel.alpha = 0.0
-        secondNormalLabel.alpha = 0.0
-        thirdNormalLabel.alpha = 0.0
-        titleTextField.alpha = 0.0
-        finalNormalLabel.alpha = 0.0
-        nextButton.alpha = 0.0
+        containerView.subviews.exclude(
+            moonImageView,
+            warningLabel
+        ).forEach { $0.alpha = 0.0 }
     }
     
     @MainActor
@@ -185,9 +183,10 @@ extension StartCounselingView {
         if moonImageView.alpha == 0.0 {
             await withCheckedContinuation { continuation in
                 AnimationGroup(
-                    animations: [Animation(view: moonImageView,
-                                           animationCase: .fadeIn,
-                                           duration: duration)
+                    animations: [
+                        Animation(view: moonImageView,
+                                  animationCase: .fadeIn,
+                                  duration: duration)
                     ],
                     mode: .parallel,
                     loop: .once(completion: { continuation.resume() }))
@@ -205,18 +204,19 @@ extension StartCounselingView {
         
         await withCheckedContinuation { continuation in
             AnimationGroup(
-                animations: [Animation(view: moonImageView,
-                                       animationCase: .transform( .identity),
-                                       duration: calculatedDurations[0]),
-                             Animation(view: firstNormalLabel,
-                                       animationCase: .fadeIn,
-                                       duration: calculatedDurations[1]),
-                             Animation(view: secondNormalLabel,
-                                       animationCase: .fadeIn,
-                                       duration: calculatedDurations[2]),
-                             Animation(view: thirdNormalLabel,
-                                       animationCase: .fadeIn,
-                                       duration: calculatedDurations[3])
+                animations: [
+                    Animation(view: moonImageView,
+                              animationCase: .transform( .identity),
+                              duration: calculatedDurations[0]),
+                    Animation(view: firstNormalLabel,
+                              animationCase: .fadeIn,
+                              duration: calculatedDurations[1]),
+                    Animation(view: secondNormalLabel,
+                              animationCase: .fadeIn,
+                              duration: calculatedDurations[2]),
+                    Animation(view: thirdNormalLabel,
+                              animationCase: .fadeIn,
+                              duration: calculatedDurations[3])
                 ],
                 mode: .serial,
                 loop: .once(completion: { continuation.resume() }))
@@ -228,15 +228,16 @@ extension StartCounselingView {
     func playFadeInSecondPart(duration: TimeInterval) async {
         await withCheckedContinuation { continuation in
             AnimationGroup(
-                animations: [Animation(view: titleTextField,
-                                       animationCase: .fadeIn,
-                                       duration: duration),
-                             Animation(view: finalNormalLabel,
-                                       animationCase: .fadeIn,
-                                       duration: duration),
-                             Animation(view: nextButton,
-                                       animationCase: .fadeIn,
-                                       duration: duration)
+                animations: [
+                    Animation(view: titleTextField,
+                              animationCase: .fadeIn,
+                              duration: duration),
+                    Animation(view: finalNormalLabel,
+                              animationCase: .fadeIn,
+                              duration: duration),
+                    Animation(view: nextButton,
+                              animationCase: .fadeIn,
+                              duration: duration)
                 ],
                 mode: .parallel,
                 loop: .once(completion: { continuation.resume() }))
@@ -246,8 +247,7 @@ extension StartCounselingView {
     
     @MainActor
     func playFadeOutAllComponents(duration: TimeInterval) async {
-        let views = subviews.exclude(gradientView)
-            .map {
+        let views = subviews.exclude(gradientView).map {
                 Animation(view: $0,
                           animationCase: .fadeOut,
                           duration: duration)
