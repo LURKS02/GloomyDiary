@@ -146,12 +146,13 @@ extension WelcomeView {
     func playFadeInBackground() async {
         await withCheckedContinuation { continuation in
             AnimationGroup(
-                animations: [Animation(view: gradientView,
-                                       animationCase: .fadeIn,
-                                       duration: 1.0),
-                             Animation(view: moonImageView,
-                                       animationCase: .fadeIn,
-                                       duration: 0.5)
+                animations: [
+                    Animation(view: gradientView,
+                              animationCase: .fadeIn,
+                              duration: 1.0),
+                    Animation(view: moonImageView,
+                              animationCase: .fadeIn,
+                              duration: 0.5)
                 ],
                 mode: .parallel,
                 loop: .once(completion: { continuation.resume() }))
@@ -163,12 +164,13 @@ extension WelcomeView {
     func playFadeInNormalLabels() async {
         await withCheckedContinuation { continuation in
             AnimationGroup(
-                animations: [Animation(view: firstNormalLabel,
-                                       animationCase: .fadeIn,
-                                       duration: 0.5),
-                             Animation(view: secondNormalLabel,
-                                       animationCase: .fadeIn,
-                                       duration: 0.5)
+                animations: [
+                    Animation(view: firstNormalLabel,
+                              animationCase: .fadeIn,
+                              duration: 0.5),
+                    Animation(view: secondNormalLabel,
+                              animationCase: .fadeIn,
+                              duration: 0.5)
                 ],
                 mode: .serial,
                 loop: .once(completion: { continuation.resume() }))
@@ -180,12 +182,13 @@ extension WelcomeView {
     func playFadeInGhost() async {
         await withCheckedContinuation { continuation in
             AnimationGroup(
-                animations: [Animation(view: ghostView,
-                                       animationCase: .fadeIn,
-                                       duration: 0.5),
-                             Animation(view: talkingLabel,
-                                       animationCase: .fadeIn,
-                                       duration: 0.5)
+                animations: [
+                    Animation(view: ghostView,
+                              animationCase: .fadeIn,
+                              duration: 0.5),
+                    Animation(view: talkingLabel,
+                              animationCase: .fadeIn,
+                              duration: 0.5)
                 ],
                 mode: .parallel,
                 loop: .once(completion: { continuation.resume() }))
@@ -199,18 +202,19 @@ extension WelcomeView {
     func playFadeOutAllComponents(duration: TimeInterval) async {
         await withCheckedContinuation { continuation in
             AnimationGroup(
-                animations: [Animation(view: moonImageView,
-                                       animationCase: .fadeOut,
-                                       duration: duration),
-                             Animation(view: firstNormalLabel,
-                                       animationCase: .fadeOut,
-                                       duration: duration),
-                             Animation(view: secondNormalLabel,
-                                       animationCase: .fadeOut,
-                                       duration: duration),
-                             Animation(view: talkingLabel,
-                                       animationCase: .fadeOut,
-                                       duration: duration)
+                animations: [
+                    Animation(view: moonImageView,
+                              animationCase: .fadeOut,
+                              duration: duration),
+                    Animation(view: firstNormalLabel,
+                              animationCase: .fadeOut,
+                              duration: duration),
+                    Animation(view: secondNormalLabel,
+                              animationCase: .fadeOut,
+                              duration: duration),
+                    Animation(view: talkingLabel,
+                              animationCase: .fadeOut,
+                              duration: duration)
                 ],
                 mode: .parallel,
                 loop: .once(completion: { continuation.resume() }))
@@ -222,18 +226,19 @@ extension WelcomeView {
         bounceTimer?.invalidate()
         bounceTimer = Timer.scheduledTimer(withTimeInterval: 2.0, repeats: true) { [self] _ in
             AnimationGroup(
-                animations: [Animation(view: ghostView,
-                                       animationCase: .transform(.identity.translatedBy(x: 0, y: -5)),
-                                       duration: 0.2),
-                             Animation(view: ghostView,
-                                       animationCase: .transform(.identity),
-                                       duration: 0.2),
-                             Animation(view: ghostView,
-                                       animationCase: .transform(.identity.translatedBy(x: 0, y: -5)),
-                                       duration: 0.2),
-                             Animation(view: ghostView,
-                                       animationCase: .transform(.identity),
-                                       duration: 0.2)
+                animations: [
+                    Animation(view: ghostView,
+                              animationCase: .transform(.identity.translatedBy(x: 0, y: -5)),
+                              duration: 0.2),
+                    Animation(view: ghostView,
+                              animationCase: .transform(.identity),
+                              duration: 0.2),
+                    Animation(view: ghostView,
+                              animationCase: .transform(.identity.translatedBy(x: 0, y: -5)),
+                              duration: 0.2),
+                    Animation(view: ghostView,
+                              animationCase: .transform(.identity),
+                              duration: 0.2)
                 ],
                 mode: .serial,
                 loop: .once(completion: nil))
