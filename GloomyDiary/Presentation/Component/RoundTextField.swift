@@ -5,22 +5,18 @@
 //  Created by 디해 on 10/28/24.
 //
 
+import Combine
+import CombineCocoa
 import UIKit
-import RxCocoa
-import RxSwift
 
-final class TextField: UIView {
-    private let textField = UITextField().then {
+final class RoundTextField: UIView {
+    let textField = UITextField().then {
         $0.font = .온글잎_의연체.title
         $0.textColor = .text(.highlight)
     }
     
-    var text: String? {
-        textField.text
-    }
-    
-    var textControlProperty: ControlProperty<String?> {
-        textField.rx.text
+    var textPublisher: AnyPublisher<String?, Never> {
+        textField.textPublisher
     }
     
     init() {

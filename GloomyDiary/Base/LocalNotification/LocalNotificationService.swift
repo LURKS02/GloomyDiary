@@ -9,8 +9,8 @@ import Foundation
 import UserNotifications
 import Dependencies
 
-final class LocalNotification {
-    static let shared = LocalNotification()
+final class LocalNotificationService {
+    static let shared = LocalNotificationService()
     
     private init() { }
     
