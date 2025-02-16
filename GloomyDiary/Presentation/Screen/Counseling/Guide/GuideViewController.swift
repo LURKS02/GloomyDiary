@@ -5,16 +5,31 @@
 //  Created by 디해 on 11/21/24.
 //
 
-import UIKit
+import CombineCocoa
 import ComposableArchitecture
+import UIKit
 
 final class GuideViewController: BaseViewController<GuideView> {
     @Dependency(\.logger) var logger
+    
+    let store: StoreOf<Guide>
     
     // MARK: - Properties
     
     private var animationCount: Int = 1
     private var isRunningTask = false
+    
+    
+    // MARK: - Initialize
+    
+    init(store: StoreOf<Guide>) {
+        self.store = store
+        super.init()
+    }
+    
+    @MainActor required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     
     // MARK: - ViewController Life Cycle
@@ -24,6 +39,7 @@ final class GuideViewController: BaseViewController<GuideView> {
         
         bind()
         navigationController?.setNavigationBarHidden(true, animated: false)
+        navigationController?.delegate = self
     }
 }
 
@@ -44,7 +60,10 @@ private extension GuideViewController {
             })
             .subscribe(onNext: { [weak self] _ in
                 guard let self else { return }
-                guard animationCount < contentView.labels.count else { return navigateToStartCounsel() }
+                guard animationCount < contentView.labels.count else {
+                    store.send(.delegate(.navigateToStartCounsel))
+                    return
+                }
                 
                 if self.isRunningTask { return }
                 self.isRunningTask = true
@@ -59,18 +78,6 @@ private extension GuideViewController {
                 
             })
             .disposed(by: rx.disposeBag)
-    }
-}
-
-
-// MARK: - Navigation
-
-extension GuideViewController {
-    func navigateToStartCounsel() {
-        let store: StoreOf<StartCounseling> = Store(initialState: .init(), reducer: { StartCounseling() })
-        let startCounselingViewController = StartCounselingViewController(store: store)
-        navigationController?.delegate = self
-        navigationController?.pushViewController(startCounselingViewController, animated: true)
     }
 }
 
