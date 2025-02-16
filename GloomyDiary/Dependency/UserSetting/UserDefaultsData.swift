@@ -8,15 +8,13 @@
 import Foundation
 
 final class UserDefaultsData: UserDatabase {
-    static let shared = UserDefaultsData()
-    
     private let userDefaults = UserDefaults.standard
     private let key = "UserSetting"
     private let encoder = JSONEncoder()
     private let decoder = JSONDecoder()
     private var setting: UserSetting
     
-    private init() {
+    init() {
         let savedData = userDefaults.data(forKey: key)
         if let savedData,
            let savedSetting = try? decoder.decode(UserSetting.self, from: savedData) {

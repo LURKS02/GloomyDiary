@@ -9,8 +9,8 @@ import Foundation
 import Dependencies
 
 private enum UserSettingKey: DependencyKey {
-    static var liveValue: any UserDatabase = UserDefaultsData.shared
-    static var testValue: any UserDatabase = MockUserData.shared
+    static var liveValue: any UserDatabase = UserDefaultsData()
+    static var testValue: any UserDatabase = MockUserData()
 }
 
 extension DependencyValues {
