@@ -128,18 +128,22 @@ extension LocalNotificationView {
     func runAppearanceAnimation() async {
         sheetBackgroundView.transform = .identity.scaledBy(x: 0.75, y: 0.75)
         await withCheckedContinuation { continuation in
-            AnimationGroup(animations: [.init(view: blurView,
-                                              animationCase: .custom(closure: { view in
-                guard let view = view as? UIVisualEffectView else { return }
-                view.effect = UIBlurEffect(style: .dark)
-            }), duration: 0.3),
-                                        .init(view: sheetBackgroundView,
-                                              animationCase: .transform( .identity), duration: 0.2),
-                                        .init(view: sheetBackgroundView,
-                                              animationCase: .fadeIn,
-                                              duration: 0.2)],
-                           mode: .parallel,
-                           loop: .once(completion: { continuation.resume() }))
+            AnimationGroup(
+                animations: [
+                    Animation(view: blurView,
+                              animationCase: .custom(closure: { view in
+                                  guard let view = view as? UIVisualEffectView else { return }
+                                  view.effect = UIBlurEffect(style: .dark)
+                              }),
+                              duration: 0.3),
+                    Animation(view: sheetBackgroundView,
+                              animationCase: .transform( .identity),
+                              duration: 0.2),
+                    Animation(view: sheetBackgroundView,
+                              animationCase: .fadeIn,
+                              duration: 0.2)],
+                mode: .parallel,
+                loop: .once(completion: { continuation.resume() }))
             .run()
         }
     }
@@ -147,32 +151,42 @@ extension LocalNotificationView {
     @MainActor
     func runDismissAnimation() async {
         await withCheckedContinuation { continuation in
-            AnimationGroup(animations: [.init(view: blurView,
-                                              animationCase: .custom(closure: { view in
-                guard let view = view as? UIVisualEffectView else { return }
-                view.effect = nil
-            }), duration: 0.3),
-                                        .init(view: sheetBackgroundView,
-                                              animationCase: .transform( .identity.scaledBy(x: 0.75, y: 0.75)),
-                                              duration: 0.2),
-                                        .init(view: sheetBackgroundView,
-                                              animationCase: .fadeOut,
-                                              duration: 0.2)],
-                           mode: .parallel,
-                           loop: .once(completion: { continuation.resume() }))
+            AnimationGroup(
+                animations: [
+                    Animation(view: blurView,
+                              animationCase: .custom(closure: { view in
+                                  guard let view = view as? UIVisualEffectView else { return }
+                                  view.effect = nil
+                              }),
+                              duration: 0.3),
+                    Animation(view: sheetBackgroundView,
+                          animationCase: .transform( .identity.scaledBy(x: 0.75, y: 0.75)),
+                          duration: 0.2),
+                    Animation(view: sheetBackgroundView,
+                          animationCase: .fadeOut,
+                          duration: 0.2)],
+                mode: .parallel,
+                loop: .once(completion: { continuation.resume() }))
             .run()
         }
     }
     
     @MainActor
     func runFadeOutLeftAnimation() async {
+        let transformAnimations = sheetBackgroundView.subviews.map {
+            Animation(view: $0,
+                      animationCase: .transform(.identity.translatedBy(x: -20, y: 0)),
+                      duration: 0.2)
+        }
+        
+        let fadeOutAnimations = sheetBackgroundView.subviews.map {
+            Animation(view: $0,
+                      animationCase: .fadeOut,
+                      duration: 0.2)
+        }
+        
         await withCheckedContinuation { continuation in
-            AnimationGroup(animations: sheetBackgroundView.subviews.map { Animation(view: $0,
-                                                                                    animationCase: .transform( .identity.translatedBy(x: -20, y: 0)),
-                                                                                    duration: 0.2) }
-                           + sheetBackgroundView.subviews.map { Animation(view: $0,
-                                                                          animationCase: .fadeOut,
-                                                                          duration: 0.2) },
+            AnimationGroup(animations: transformAnimations + fadeOutAnimations,
                            mode: .parallel,
                            loop: .once(completion: { continuation.resume() }))
             .run()
@@ -194,14 +208,19 @@ extension LocalNotificationView {
         
         sheetBackgroundView.subviews.forEach { $0.transform = .identity.translatedBy(x: 20, y: 0) }
         
+        let transformAnimations = sheetBackgroundView.subviews.map {
+            Animation(view: $0, animationCase: .transform(.identity), duration: 0.2)
+        }
+        
+        let fadeInAnimations = sheetBackgroundView.subviews.map {
+            Animation(view: $0, animationCase: .fadeIn, duration: 0.2)
+        }
+        
         await withCheckedContinuation { continuation in
-            AnimationGroup(animations: sheetBackgroundView.subviews.map { Animation(view: $0,
-                                                                                    animationCase: .transform( .identity),
-                                                                                    duration: 0.2) } + sheetBackgroundView.subviews.map { Animation(view: $0,
-                                                                                                                                                    animationCase: .fadeIn,
-                                                                                                                                                    duration: 0.2) },
-                           mode: .parallel,
-                           loop: .once(completion: { continuation.resume() }))
+            AnimationGroup(
+                animations: transformAnimations + fadeInAnimations,
+                mode: .parallel,
+                loop: .once(completion: { continuation.resume() }))
             .run()
         }
     }
@@ -221,12 +240,20 @@ extension LocalNotificationView {
         
         sheetBackgroundView.subviews.forEach { $0.transform = .identity.translatedBy(x: 20, y: 0) }
         
+        let transformAnimations = sheetBackgroundView.subviews.map {
+            Animation(view: $0,
+                      animationCase: .transform( .identity),
+                      duration: 0.2)
+        }
+        
+        let fadeInAnimations = sheetBackgroundView.subviews.map {
+            Animation(view: $0,
+                      animationCase: .fadeIn,
+                      duration: 0.2)
+        }
+        
         await withCheckedContinuation { continuation in
-            AnimationGroup(animations: sheetBackgroundView.subviews.map { Animation(view: $0,
-                                                                                    animationCase: .transform( .identity),
-                                                                                    duration: 0.2) } + sheetBackgroundView.subviews.map { Animation(view: $0,
-                                                                                                                                                    animationCase: .fadeIn,
-                                                                                                                                                    duration: 0.2) },
+            AnimationGroup(animations: transformAnimations + fadeInAnimations,
                            mode: .parallel,
                            loop: .once(completion: { continuation.resume() }))
             .run()
