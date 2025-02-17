@@ -147,9 +147,10 @@ extension ChoosingEmojiView {
     func playShowingLabel(duration: TimeInterval) async {
         await withCheckedContinuation { continuation in
             AnimationGroup(
-                animations: [Animation(view: introduceLabel,
-                                       animationCase: .fadeIn,
-                                       duration: duration)
+                animations: [
+                    Animation(view: introduceLabel,
+                              animationCase: .fadeIn,
+                              duration: duration)
                 ],
                 mode: .serial,
                 loop: .once(completion: { continuation.resume() }))
@@ -189,9 +190,10 @@ extension ChoosingEmojiView {
     private func playShowingNextButton(duration: TimeInterval) async {
         await withCheckedContinuation { continuation in
             AnimationGroup(
-                animations: [Animation(view: nextButton,
-                                       animationCase: .fadeIn,
-                                       duration: duration)
+                animations: [
+                    Animation(view: nextButton,
+                              animationCase: .fadeIn,
+                              duration: duration)
                 ],
                 mode: .serial,
                 loop: .once(completion: { continuation.resume() }))
