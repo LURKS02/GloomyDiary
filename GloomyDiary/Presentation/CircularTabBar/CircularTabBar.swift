@@ -6,9 +6,10 @@
 //
 
 import UIKit
-import RxRelay
 
 final class CircularTabBar: UIView {
+    
+    weak var tabBarDelegate: CircularTabBarDelegate?
     
     let contentView = UIView()
     
@@ -35,8 +36,6 @@ final class CircularTabBar: UIView {
     var numberOfTabs: Int {
         tabBarItems.count
     }
-    
-    var tabBarTappedRelay = PublishRelay<Void>()
     
     init(items: [CircularTabBarItem]) {
         self.tabBarItems = items
@@ -123,7 +122,7 @@ extension CircularTabBar {
         }
         
         if isTouchInside {
-            tabBarTappedRelay.accept(())
+            tabBarDelegate?.tabBarTapped()
         }
     }
     

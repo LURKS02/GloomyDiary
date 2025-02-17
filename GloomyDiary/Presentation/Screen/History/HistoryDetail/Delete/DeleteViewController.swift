@@ -7,6 +7,7 @@
 
 import UIKit
 import RxRelay
+import RxGesture
 import ComposableArchitecture
 
 final class DeleteViewController: BaseViewController<DeleteView> {

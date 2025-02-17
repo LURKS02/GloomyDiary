@@ -28,7 +28,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 
     func sceneDidBecomeActive(_ scene: UIScene) {
-        LocalNotification.shared.scheduleDailyNotifications(for: 60)
+        LocalNotificationService.shared.scheduleDailyNotifications(for: 60)
     }
 
     func sceneWillResignActive(_ scene: UIScene) {

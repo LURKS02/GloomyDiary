@@ -221,13 +221,19 @@ extension HistoryViewController {
 
 // MARK: - Tab Switch Delegate
 
-extension HistoryViewController: CircularTabBarDelegate {
+extension HistoryViewController: CircularTabBarControllerDelegate {
     func tabDidDisappear() {
         store.send(.unload)
     }
     
     func tabWillAppear() {
         store.send(.refresh)
+        
+        self.logger.send(
+            .tapped,
+            "탭 바",
+            ["현재 탭": "History"]
+        )
     }
 }
 
@@ -269,7 +275,7 @@ extension HistoryViewController: UINavigationControllerDelegate {
     }
 }
 
-extension HistoryViewController: ToTabSwitchable {
+extension HistoryViewController: ToTabSwitchAnimatable {
     func playTabAppearingAnimation() async {
         if contentView.showContent {
             await contentView.listView.playAppearingFromLeft()
@@ -279,7 +285,7 @@ extension HistoryViewController: ToTabSwitchable {
     }
 }
 
-extension HistoryViewController: FromTabSwitchable {
+extension HistoryViewController: FromTabSwitchAnimatable {
     func playTabDisappearingAnimation() async {
         if contentView.showContent {
             await contentView.listView.playDisappearingToRight()
