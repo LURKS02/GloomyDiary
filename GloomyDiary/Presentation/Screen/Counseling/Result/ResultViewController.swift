@@ -5,8 +5,8 @@
 //  Created by 디해 on 9/19/24.
 //
 
-import UIKit
 import ComposableArchitecture
+import UIKit
 
 final class ResultViewController: BaseViewController<ResultView> {
     let store: StoreOf<CounselResult>

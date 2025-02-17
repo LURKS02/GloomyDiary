@@ -5,13 +5,14 @@
 //  Created by 디해 on 8/28/24.
 //
 
+import CombineCocoa
 import ComposableArchitecture
 import PhotosUI
 import UIKit
 
 final class CounselingViewController: BaseViewController<CounselingView> {
     
-    let store: StoreOf<Counseling>
+    @UIBindable var store: StoreOf<Counseling>
     
     @Dependency(\.counselRepository) var counselRepository
     @Dependency(\.userSetting) var userSetting
@@ -77,6 +78,7 @@ final class CounselingViewController: BaseViewController<CounselingView> {
         
         bind()
         initializeSnapshot()
+        self.navigationController?.delegate = self
     }
     
     
@@ -92,7 +94,6 @@ final class CounselingViewController: BaseViewController<CounselingView> {
 
 private extension CounselingViewController {
     private func bind() {
-        contentView.photoCollectionView.delegate = self
         contentView.photoCollectionView.dragDelegate = self
         contentView.photoCollectionView.dropDelegate = self
         
@@ -110,22 +111,52 @@ private extension CounselingViewController {
             object: nil
         )
         
+        contentView.photoCollectionView.didSelectItemPublisher
+            .sink { [weak self] indexPath in
+                guard let self else { return }
+                let snapshot = dataSource.snapshot()
+                let items = snapshot.itemIdentifiers
+                let selectedItem = items[indexPath.row]
+                
+                if case .selectItem = selectedItem {
+                    store.send(.view(.didTapPicker))
+                }
+            }
+            .store(in: &cancellables)
+        
+        
+        
+        present(item: $store.scope(state: \.picker, action: \.scope.picker)) { store in
+            var configuration = PHPickerConfiguration()
+            configuration.selectionLimit = store.state.selectionLimit
+            configuration.filter = .images
+            
+            let pickerViewController = PHPickerViewController(configuration: configuration)
+            pickerViewController.delegate = self
+            
+            return pickerViewController
+        }
+        
+        self.contentView.sendingLetterView.letterTextView.textPublisher
+            .sink { [weak self] text in
+                guard let self, let text else { return }
+                store.send(.view(.didEnterText(text)))
+            }
+            .store(in: &cancellables)
+        
         contentView.sendingLetterView.validationSubject
             .subscribe(onNext: { [weak self] validation in
                 self?.contentView.letterSendingButton.isEnabled = validation
             })
             .disposed(by: rx.disposeBag)
         
-        contentView.letterSendingButton.rx.tap
-            .do(onNext: { [weak self] _ in
-                guard let title = self?.contentView.letterSendingButton.title(for: .normal) else { return }
-                self?.logger.send(.tapped, title, nil)
-            })
-            .subscribe(onNext: { [weak self] _ in
+        contentView.letterSendingButton.tapPublisher
+            .sink { [weak self] in
                 guard let self else { return }
-                navigateToResult(with: store.character)
-            })
-            .disposed(by: rx.disposeBag)
+                
+                store.send(.view(.didTapSendingButton))
+            }
+            .store(in: &cancellables)
         
         observe { [weak self] in
             guard let self else { return }
@@ -184,19 +215,6 @@ private extension CounselingViewController {
 
 // MARK: - Naivation
 
-extension CounselingViewController {
-    func navigateToResult(with character: CounselingCharacter) {
-        let store: StoreOf<CounselResult> = Store(initialState: .init(
-            character: character,
-            request: self.contentView.sendingLetterView.letterTextView.text
-        ), reducer: { CounselResult() })
-        let resultViewController = ResultViewController(store: store)
-        navigationController?.delegate = self
-        navigationController?.pushViewController(resultViewController,
-                                                 animated: true)
-    }
-}
-
 extension CounselingViewController: CounselingPhotoCellDelegate {
     func removeImage(_ id: UUID) {
         let items = dataSource.snapshot().itemIdentifiers
@@ -211,12 +229,12 @@ extension CounselingViewController: CounselingPhotoCellDelegate {
         
         applySnapshot(with: filteredItems)
             
-        store.send(.updateImageIDs(filteredItems.compactMap { item -> UUID? in
+        store.send(.view(.didUpdateImageIDs(filteredItems.compactMap { item -> UUID? in
             if case let .photoItem(_, imageID) = item {
                 return imageID
             }
             return nil
-        }))
+        })))
     }
     
     func openImageViewer(with id: UUID) {
@@ -263,17 +281,12 @@ extension CounselingViewController: UINavigationControllerDelegate {
     }
     
     private func sendLetter() async throws -> String {
-        guard let Weather = Weather(identifier: self.store.weatherIdentifier),
-              let Emoji = Emoji(identifier: self.store.emojiIdentifier) else {
-            throw LocalError(message: "Session Error")
-        }
-        
         let result = try await self.counselRepository.counsel(
             to: self.store.character,
             title: self.store.title,
             userInput: self.contentView.sendingLetterView.letterTextView.text,
-            weather: Weather,
-            emoji: Emoji,
+            weather: self.store.weather,
+            emoji: self.store.emoji,
             imageIDs: self.store.imageIDs
         )
         try userSetting.update(keyPath: \.isFirstProcess, value: false)
@@ -285,18 +298,6 @@ extension CounselingViewController: UINavigationControllerDelegate {
 // MARK: - Image picker
 
 extension CounselingViewController: PHPickerViewControllerDelegate {
-    func openPicker() {
-        guard store.imageIDs.count < 10 else { return }
-        var pickerConfiguration = PHPickerConfiguration()
-        let numberOfItems = dataSource.snapshot().numberOfItems
-        pickerConfiguration.selectionLimit = 10 - numberOfItems + 1
-        pickerConfiguration.filter = .images
-        let picker = PHPickerViewController(configuration: pickerConfiguration)
-        picker.delegate = self
-        
-        present(picker, animated: true)
-    }
-    
     func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
         guard !isPickerProcessing else { return }
         isPickerProcessing = true
@@ -308,10 +309,9 @@ extension CounselingViewController: PHPickerViewControllerDelegate {
             items.append(contentsOf: ids.map { CounselingViewItem.photoItem(UUID(), imageID: $0) })
             items.removeFirst()
             applySnapshot(with: items)
-            picker.dismiss(animated: true)
             isPickerProcessing = false
             
-            store.send(.selectedImageIDs(ids))
+            store.send(.scope(.picker(.presented(.addImages(ids)))))
         }
     }
     
@@ -344,18 +344,6 @@ extension CounselingViewController: PHPickerViewControllerDelegate {
 
 
 // MARK: - CollectionView Delegate
-
-extension CounselingViewController: UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let snapshot = dataSource.snapshot()
-        let items = snapshot.itemIdentifiers
-        let selectedItem = items[indexPath.row]
-        
-        if case .selectItem = selectedItem {
-            openPicker()
-        }
-    }
-}
 
 extension CounselingViewController: UICollectionViewDragDelegate {
     func collectionView(_ collectionView: UICollectionView, itemsForBeginning session: any UIDragSession, at indexPath: IndexPath) -> [UIDragItem] {
@@ -424,11 +412,11 @@ extension CounselingViewController: UICollectionViewDropDelegate {
             coordinator.drop(item.dragItem, toItemAt: destinationIndexPath)
         }
         
-        store.send(.updateImageIDs(updatedItems.compactMap { item -> UUID? in
+        store.send(.view(.didUpdateImageIDs(updatedItems.compactMap { item -> UUID? in
             if case let .photoItem(_, imageID) = item {
                 return imageID
             }
             return nil
-        }))
+        })))
     }
 }

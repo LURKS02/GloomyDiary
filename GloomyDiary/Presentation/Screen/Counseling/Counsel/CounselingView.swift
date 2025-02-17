@@ -179,21 +179,22 @@ extension CounselingView {
         
         await withCheckedContinuation { continuation in
             AnimationGroup(
-                animations: [Animation(view: characterImageView,
-                                       animationCase: .fadeIn,
-                                       duration: duration),
-                             Animation(view: characterGreetingLabel,
-                                       animationCase: .fadeIn,
-                                       duration: duration),
-                             Animation(view: photoCollectionView,
-                                       animationCase: .fadeIn,
-                                       duration: duration),
-                             Animation(view: sendingLetterView,
-                                       animationCase: .fadeIn,
-                                       duration: duration),
-                             Animation(view: letterSendingButton,
-                                       animationCase: .fadeIn,
-                                       duration: duration)
+                animations: [
+                    Animation(view: characterImageView,
+                              animationCase: .fadeIn,
+                              duration: duration),
+                    Animation(view: characterGreetingLabel,
+                              animationCase: .fadeIn,
+                              duration: duration),
+                    Animation(view: photoCollectionView,
+                              animationCase: .fadeIn,
+                              duration: duration),
+                    Animation(view: sendingLetterView,
+                              animationCase: .fadeIn,
+                              duration: duration),
+                    Animation(view: letterSendingButton,
+                              animationCase: .fadeIn,
+                              duration: duration)
                 ],
                 mode: .parallel,
                 loop: .once(completion: { continuation.resume() }))
@@ -203,18 +204,20 @@ extension CounselingView {
     
     @MainActor
     func playFadeOutAllComponents(duration: TimeInterval) async {
-        var animations = [Animation(view: characterGreetingLabel,
-                                    animationCase: .fadeOut,
-                                    duration: duration),
-                          Animation(view: sendingLetterView,
-                                    animationCase: .fadeOut,
-                                    duration: duration),
-                          Animation(view: letterSendingButton,
-                                    animationCase: .fadeOut,
-                                    duration: duration),
-                          Animation(view: photoCollectionView,
-                                    animationCase: .fadeOut,
-                                    duration: duration)]
+        let animations = [
+            Animation(view: characterGreetingLabel,
+                      animationCase: .fadeOut,
+                      duration: duration),
+            Animation(view: sendingLetterView,
+                      animationCase: .fadeOut,
+                      duration: duration),
+            Animation(view: letterSendingButton,
+                      animationCase: .fadeOut,
+                      duration: duration),
+            Animation(view: photoCollectionView,
+                      animationCase: .fadeOut,
+                      duration: duration)
+        ]
         
         await withCheckedContinuation { continuation in
             AnimationGroup(

@@ -17,7 +17,7 @@ struct CounselResult {
         var response: String = ""
     }
     
-    enum Action {
+    enum Action: Equatable {
         case updateResponse(String)
     }
     
