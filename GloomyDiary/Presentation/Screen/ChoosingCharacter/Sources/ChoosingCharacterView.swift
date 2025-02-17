@@ -5,10 +5,9 @@
 //  Created by 디해 on 10/28/24.
 //
 
-import UIKit
-import RxSwift
-import RxRelay
+import Combine
 import Lottie
+import UIKit
 
 final class ChoosingCharacterView: UIView {
     
@@ -37,7 +36,7 @@ final class ChoosingCharacterView: UIView {
         """
     }
     
-    private lazy var scrollView = UIScrollView().then {
+    private var scrollView = UIScrollView().then {
         $0.isPagingEnabled = false
         $0.showsHorizontalScrollIndicator = false
     }
@@ -57,7 +56,7 @@ final class ChoosingCharacterView: UIView {
     
     var allCharacterButtons: [CharacterButton] = []
     
-    var characterIdentifierRelay = PublishRelay<String>()
+    var pageSubject = PassthroughSubject<Int, Never>()
     
     
     // MARK: - Initialize
@@ -170,10 +169,12 @@ final class ChoosingCharacterView: UIView {
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        scrollView.contentInset = .init(top: 0,
-                                        left: (self.bounds.width - Metric.buttonWidth) / 2,
-                                        bottom: 0,
-                                        right: (self.bounds.width - Metric.buttonWidth) / 2)
+        scrollView.contentInset = UIEdgeInsets(
+            top: 0,
+            left: (self.bounds.width - Metric.buttonWidth) / 2,
+            bottom: 0,
+            right: (self.bounds.width - Metric.buttonWidth) / 2
+        )
     }
 }
 
@@ -251,10 +252,12 @@ extension ChoosingCharacterView: UIScrollViewDelegate {
         let pageWidth = Metric.buttonWidth + Metric.scrollPadding
         let inset = scrollView.contentInset.left
         
-        characterIdentifierRelay.accept(allCharacterButtons[page].identifier)
-        scrollView.setContentOffset(CGPoint(x: CGFloat(page) * pageWidth - inset,
-                                            y: 0),
-                                    animated: true)
+        pageSubject.send(page)
+        
+        scrollView.setContentOffset(
+            CGPoint(x: CGFloat(page) * pageWidth - inset, y: 0),
+            animated: true
+        )
     }
 }
 

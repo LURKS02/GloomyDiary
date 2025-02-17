@@ -5,15 +5,13 @@
 //  Created by 디해 on 10/28/24.
 //
 
+import CombineCocoa
 import ComposableArchitecture
-import Dependencies
 import UIKit
 
 final class ChoosingCharacterViewController: BaseViewController<ChoosingCharacterView> {
     
     let store: StoreOf<ChoosingCharacter>
-    
-    @Dependency(\.logger) var logger
     
     
     // MARK: - Initialize
@@ -23,6 +21,7 @@ final class ChoosingCharacterViewController: BaseViewController<ChoosingCharacte
         super.init()
         
         self.navigationItem.hidesBackButton = true
+        self.navigationController?.delegate = self
     }
     
     @MainActor required init?(coder: NSCoder) {
@@ -37,6 +36,7 @@ final class ChoosingCharacterViewController: BaseViewController<ChoosingCharacte
         
         bind()
         contentView.hideAllComponents()
+        self.navigationController?.delegate = self
     }
 }
 
@@ -46,66 +46,35 @@ final class ChoosingCharacterViewController: BaseViewController<ChoosingCharacte
 extension ChoosingCharacterViewController {
     private func bind() {
         contentView.allCharacterButtons.forEach { button in
-            button.rx.tap
-                .subscribe(onNext: { [weak self] _ in
+            button.tapPublisher
+                .sink { [weak self] in
                     guard let self else { return }
-                    guard let page = contentView.allCharacterButtons.enumerated().compactMap({ (index, characterButton) in
-                        characterButton.identifier == button.identifier ? index : nil
-                    }).first else { return }
-                    
-                    contentView.switchToPage(page)
-                })
-                .disposed(by: rx.disposeBag)
+                    store.send(.view(.didTapCharacter(identifier: button.identifier)))
+                }
+                .store(in: &cancellables)
         }
         
-        contentView.nextButton.rx.tap
-            .do(onNext: { [weak self] _ in
-                guard let title = self?.contentView.nextButton.title(for: .normal),
-                      let selectedCharacter = self?.store.character.name else { return }
-                self?.logger.send(
-                    .tapped,
-                    title,
-                    ["선택한 캐릭터": selectedCharacter]
-                )
-            })
-            .subscribe(onNext: { [weak self] _ in
+        contentView.nextButton.tapPublisher
+            .sink { [weak self] in
                 guard let self else { return }
-                navigateToLetter(with: store.character)
-            })
-            .disposed(by: rx.disposeBag)
+                store.send(.view(.didTapNextButton))
+            }
+            .store(in: &cancellables)
         
-        contentView.characterIdentifierRelay
-            .do(onNext: { [weak self] identifier in
-                self?.logger.send(
-                    .tapped,
-                    "캐릭터 선택",
-                    ["캐릭터": identifier]
-                )
-            })
-            .subscribe(onNext: { [weak self] identifier in
+        contentView.pageSubject
+            .sink { [weak self] page in
                 guard let self else { return }
-                store.send(.characterSelected(identifier: identifier))
-            })
-            .disposed(by: rx.disposeBag)
+                store.send(.view(.didScrollToPage(page)))
+            }
+            .store(in: &cancellables)
         
         observe { [weak self] in
             guard let self else { return }
             
+            self.contentView.switchToPage(store.page)
             self.contentView.spotlight(to: store.character.identifier)
             self.contentView.detailInformationLabel.text = store.character.introduceMessage
         }
-    }
-}
-
-
-// MARK: - Navigation
-
-extension ChoosingCharacterViewController {
-    func navigateToLetter(with character: CounselingCharacter) {
-        let store: StoreOf<Counseling> = Store(initialState: .init(title: store.title, weatherIdentifier: store.weatherIdentifier, emojiIdentifier: store.emojiIdentifier, character: store.character), reducer: { Counseling() })
-        let counselingViewController = CounselingViewController(store: store)
-        navigationController?.delegate = self
-        navigationController?.pushViewController(counselingViewController, animated: true)
     }
 }
 
