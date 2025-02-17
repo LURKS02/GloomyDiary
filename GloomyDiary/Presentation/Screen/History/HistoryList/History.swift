@@ -16,7 +16,7 @@ struct History {
     struct State: Equatable {
         let pageSize: Int = 10
         var page: Int = 0
-        var Sessions: [Session] = []
+        var sessions: [Session] = []
         var isLoading: Bool = false
         var isEndOfPage: Bool = false
     }
@@ -49,18 +49,18 @@ struct History {
                         return await send(.stopFetchingPages)
                     }
                         
-                    await send(.SessionsResponse(state.Sessions + sessions))
+                    await send(.SessionsResponse(state.sessions + sessions))
                 }
                 
             case let .SessionsResponse(sessions):
                 state.isLoading = false
                 
-                state.Sessions = sessions
+                state.sessions = sessions
                 return .none
                 
             case .unload:
                 state.page = 0
-                state.Sessions = []
+                state.sessions = []
                 return .none
                 
             case .stopFetchingPages:

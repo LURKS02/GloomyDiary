@@ -91,7 +91,7 @@ private extension HistoryViewController {
         observe { [weak self] in
             guard let self else { return }
             
-            redrawSnapshot(with: store.Sessions.map { Item(session: $0) }, animated: false)
+            redrawSnapshot(with: store.sessions.map { Item(session: $0) }, animated: false)
             updateContentView()
         }
     }
@@ -223,7 +223,7 @@ extension HistoryViewController {
 
 extension HistoryViewController: CircularTabBarControllerDelegate {
     func tabDidDisappear() {
-        store.send(.unload)
+//        store.send(.unload)
     }
     
     func tabWillAppear() {
