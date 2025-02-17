@@ -37,7 +37,8 @@ final class AppCoordinator {
 
 private extension AppCoordinator {
     func showTutorial() {
-        let mainViewController = CircularTabBarController(tabBarItems: [.home, .history])
+        let tabs = CircularTabBarItemCase.allCases
+        let mainViewController = CircularTabBarController(tabBarItems: tabs.map { $0.value })
         mainViewController.hideCircularTabBar()
         
         guard let originView = mainViewController.view else { return }
@@ -66,8 +67,9 @@ private extension AppCoordinator {
     }
     
     private func createWelcomeViewController() -> UINavigationController {
-        let welcomeViewController = WelcomeViewController()
-        let navigationController = UINavigationController(rootViewController: welcomeViewController)
+        let navigationController = TutorialNavigationController(store: .init(initialState: .init(), reducer: {
+            TutorialNavigation()
+        }))
         navigationController.modalPresentationStyle = .custom
         return navigationController
     }
@@ -88,14 +90,19 @@ private extension AppCoordinator {
     
 private extension AppCoordinator {
     func showHome() {
-        let mainViewController = CircularTabBarController(tabBarItems: [.home, .history])
+        let tabs = CircularTabBarItemCase.allCases
+        let mainViewController = CircularTabBarController(tabBarItems: tabs.map { $0.value })
         window.rootViewController = mainViewController
         window.makeKeyAndVisible()
+        
     }
     
     #if SCROLL_TEST
     func showScrollSetting() {
-        showHome()
+        let tabs = CircularTabBarItemCase.allCases
+        let mainViewController = CircularTabBarController(tabBarItems: tabs.map { $0.value })
+        window.rootViewController = mainViewController
+        window.makeKeyAndVisible()
         
         let debugReadyViewController = DebugReadyViewController()
         debugReadyViewController.modalPresentationStyle = .overFullScreen
