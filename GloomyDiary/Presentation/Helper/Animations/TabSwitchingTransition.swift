@@ -15,7 +15,15 @@ protocol FromTabSwitchAnimatable: UIViewController {
     func playTabDisappearingAnimation() async
 }
 
-final class TabSwitchingTransition: NSObject { }
+final class TabSwitchingTransition: NSObject {
+    let tapDidDisappear: (() -> Void)?
+    let tapWillAppear: (() -> Void)?
+    
+    init(tapDidDisappear: (() -> Void)?, tapWillAppear: (() -> Void)?) {
+        self.tapDidDisappear = tapDidDisappear
+        self.tapWillAppear = tapWillAppear
+    }
+}
 
 extension TabSwitchingTransition: UIViewControllerAnimatedTransitioning {
     func transitionDuration(using transitionContext: (any UIViewControllerContextTransitioning)?) -> TimeInterval {
@@ -39,7 +47,9 @@ extension TabSwitchingTransition: UIViewControllerAnimatedTransitioning {
         
         Task { @MainActor in
             await fromTabSwitchable.playTabDisappearingAnimation()
+            tapDidDisappear?()
             toView.alpha = 1.0
+            tapWillAppear?()
             await toTabSwitchable.playTabAppearingAnimation()
             
             transitionContext.completeTransition(true)

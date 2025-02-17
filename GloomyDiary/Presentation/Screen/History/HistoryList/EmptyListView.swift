@@ -84,18 +84,19 @@ extension EmptyListView {
         
         await withCheckedContinuation { continuation in
             AnimationGroup(
-                animations: [Animation(view: ghostImageView,
-                                       animationCase: .fadeIn,
-                                       duration: 0.2),
-                             Animation(view: ghostImageView,
-                                       animationCase: .transform(.identity),
-                                       duration: 0.2),
-                             Animation(view: introduceLabel,
-                                       animationCase: .fadeIn,
-                                       duration: 0.2),
-                             Animation(view: introduceLabel,
-                                       animationCase: .transform(.identity),
-                                       duration: 0.2)],
+                animations: [
+                    Animation(view: ghostImageView,
+                              animationCase: .fadeIn,
+                              duration: 0.2),
+                    Animation(view: ghostImageView,
+                              animationCase: .transform(.identity),
+                              duration: 0.2),
+                    Animation(view: introduceLabel,
+                              animationCase: .fadeIn,
+                              duration: 0.2),
+                    Animation(view: introduceLabel,
+                              animationCase: .transform(.identity),
+                              duration: 0.2)],
                 mode: .parallel,
                 loop: .once(completion: { continuation.resume() }))
             .run()

@@ -19,6 +19,8 @@ final class CircularTabBarController: UITabBarController {
         }
     }
     
+    weak var circularTabBarDelegate: CircularTabBarControllerDelegate?
+    
     init(tabBarItems: [CircularTabBarItem], currentIndex: Int = 0) {
         self.currentIndex = currentIndex
         self.circularTabBar = CircularTabBar(items: tabBarItems)
@@ -95,7 +97,12 @@ extension CircularTabBarController: UITabBarControllerDelegate {
         animationControllerForTransitionFrom fromVC: UIViewController,
         to toVC: UIViewController
     ) -> (any UIViewControllerAnimatedTransitioning)? {
-        TabSwitchingTransition()
+        let fromDelegate = fromVC.visibleViewController() as? CircularTabBarControllerDelegate
+        let toDelegate = toVC.visibleViewController() as? CircularTabBarControllerDelegate
+        let tabDidDisappear = fromDelegate?.tabDidDisappear
+        let tabWillAppear = toDelegate?.tabWillAppear
+        
+        return TabSwitchingTransition(tapDidDisappear: tabDidDisappear, tapWillAppear: tabWillAppear)
     }
 }
 
