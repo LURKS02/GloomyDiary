@@ -5,25 +5,21 @@
 //  Created by 디해 on 8/5/24.
 //
 
+import CombineCocoa
 import ComposableArchitecture
-import RxSwift
-import RxRelay
-import RxCocoa
-import RxGesture
+import StoreKit
 import UIKit
 
 final class HomeViewController: BaseViewController<HomeView> {
     
-    @Dependency(\.logger) var logger
-    
-    let store: StoreOf<Home>
+    @UIBindable var store: StoreOf<Home>
     
     
     // MARK: - Properties
     
-    private var loopAnimated: Bool = false
+    private var isRunningLoopAnimation: Bool = false
     
-    private var isFirstAppearance: Bool = true
+    private let backgroundTap = UITapGestureRecognizer()
     
     
     // MARK: - Initialize
@@ -49,24 +45,16 @@ final class HomeViewController: BaseViewController<HomeView> {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        if !loopAnimated {
-            defer { loopAnimated = true }
+        if !isRunningLoopAnimation {
             contentView.ghostImageView.playBounce()
-        }
-        
-        if !isFirstAppearance {
-            store.send(.ghostTapped)
+            isRunningLoopAnimation = true
         }
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        if isFirstAppearance {
-            isFirstAppearance = false
-        } else {
-            store.send(.viewDidAppear)
-        }
+        store.send(.view(.viewDidAppear))
     }
 }
 
@@ -75,71 +63,54 @@ final class HomeViewController: BaseViewController<HomeView> {
 
 extension HomeViewController {
     private func bind() {
-        contentView.gradientView.rx.tapGesture()
-            .when(.recognized)
-            .do(onNext: { [weak self] _ in
-                self?.logger.send(.tapped, "GradientView", nil)
-            })
-            .subscribe(onNext: { [weak self] _ in
-                self?.store.send(.ghostTapped)
-            })
-            .disposed(by: rx.disposeBag)
+        contentView.gradientView.addGestureRecognizer(backgroundTap)
         
-        contentView.startButton.rx.tap
-            .do(onNext: { [weak self] _ in
-                guard let title = self?.contentView.startButton.title(for: .normal) else { return }
-                self?.logger.send(.tapped, title, nil)
-            })
-            .subscribe(onNext: { [weak self] _ in
+        backgroundTap.tapPublisher
+            .sink { [weak self] _ in
                 guard let self else { return }
-                self.navigateToCounseling()
-            })
-            .disposed(by: rx.disposeBag)
+                self.store.send(.view(.didTapBackground))
+            }
+            .store(in: &cancellables)
+        
+        contentView.startButton.tapPublisher
+            .sink { [weak self] in
+                guard let self else { return }
+                self.store.send(.view(.didTapStartButton))
+            }
+            .store(in: &cancellables)
+        
+        var transaction = UITransaction()
+        transaction.uiKit.disablesAnimations = true
+        
+        present(item: $store.scope(state: \.destination?.review, action: \.scope.destination.review).transaction(transaction)) { store in
+            let vc = ReviewViewController(store: store)
+            vc.modalPresentationStyle = .overFullScreen
+            return vc
+        }
+        
+        present(item: $store.scope(state: \.destination?.notification, action: \.scope.destination.notification).transaction(transaction)) { store in
+            let vc = LocalNotificationViewController(store: store)
+            vc.modalPresentationStyle = .overFullScreen
+            return vc
+        }
+        
+        present(item: $store.scope(state: \.destination?.counseling, action: \.scope.destination.counseling)) { store in
+            let navigationVC = CounselNavigationController(store: store)
+            navigationVC.modalPresentationStyle = .fullScreen
+            navigationVC.transitioningDelegate = self
+            return navigationVC
+        }
         
         observe { [weak self] in
             guard let self else { return }
+            
             self.contentView.ghostTalkingView.update(text: store.talkingType.description)
             
-            if store.showReviewSuggestion {
-                presentReviewSuggestion()
-                store.send(.hideSuggestions)
-            }
-            
-            if store.showNotificationSuggestion {
-                presentNotificationSuggestion()
-                store.send(.hideSuggestions)
+            if store.isReviewSuggested {
+                guard let windowScene = view.window?.windowScene else { return }
+                AppStore.requestReview(in: windowScene)
             }
         }
-    }
-}
-
-
-// MARK: - Navigation
-
-extension HomeViewController {
-    func presentReviewSuggestion() {
-        let store: StoreOf<Review> = Store(initialState: .init(), reducer: { Review() })
-        let reviewViewController = ReviewViewController(store: store)
-        reviewViewController.modalPresentationStyle = .overFullScreen
-        present(reviewViewController, animated: false)
-    }
-    
-    func presentNotificationSuggestion() {
-        let localNotificationViewController = LocalNotificationViewController()
-        localNotificationViewController.modalPresentationStyle = .overFullScreen
-        present(localNotificationViewController, animated: false)
-    }
-    
-    func navigateToCounseling() {
-        let store: StoreOf<StartCounseling> = Store(initialState: .init(), reducer: { StartCounseling() })
-        let startCounselingViewController = StartCounselingViewController(store: store)
-        startCounselingViewController.contentView.moonImageView.alpha = 1.0
-        let navigationViewController = UINavigationController(rootViewController: startCounselingViewController)
-        
-        navigationViewController.modalPresentationStyle = .fullScreen
-        navigationViewController.transitioningDelegate = self
-        
-        self.present(navigationViewController, animated: true)
     }
 }
 
@@ -178,8 +149,8 @@ extension HomeViewController: ToTransitionable {
             await contentView.playAllComponentsFadeIn(duration: duration)
         }
         
-        store.send(.ghostTapped)
-        store.send(.viewDidAppear)
+        store.send(.view(.didTapBackground))
+        store.send(.view(.viewDidAppear))
     }
 }
 
@@ -206,13 +177,13 @@ extension HomeViewController: UIViewControllerTransitioningDelegate {
     }
 }
 
-extension HomeViewController: ToTabSwitchable {
+extension HomeViewController: ToTabSwitchAnimatable {
     func playTabAppearingAnimation() async {
         await contentView.playAppearingFromLeft()
     }
 }
 
-extension HomeViewController: FromTabSwitchable {
+extension HomeViewController: FromTabSwitchAnimatable {
     func playTabDisappearingAnimation() async {
         await contentView.playDisappearingToRight()
     }
