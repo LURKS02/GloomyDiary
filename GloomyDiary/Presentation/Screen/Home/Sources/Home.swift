@@ -109,7 +109,7 @@ struct Home {
                     
                 case .checkIfReviewRequestable(let lastDate):
                     return .run { send in
-                        guard let lastDate else { return }
+                        guard let lastDate else { return await send(.inner(.requestReview)) }
                         
                         let interval: TimeInterval = 7 * 24 * 60 * 60
                         let currentDate = now
