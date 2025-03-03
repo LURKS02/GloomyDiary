@@ -39,22 +39,37 @@ final class ImageCache {
         return paths[0].appendingPathComponent("images")
     }()
     
-    func readIDs() -> [UUID] {
-        guard let fileURLs = try? fileManager.contentsOfDirectory(at: imageDirectory, includingPropertiesForKeys: nil) else { return [] }
-        
-        return fileURLs.compactMap { url -> UUID? in
-            let fileName = url.lastPathComponent
-            let fileExtension = url.pathExtension
+    func loadImageIDsFromDisk() async -> [UUID] {
+        await withTaskGroup(of: Optional<UUID>.self, returning: [UUID].self) { group in
+            guard let fileURLs = try? fileManager.contentsOfDirectory(
+                at: imageDirectory,
+                includingPropertiesForKeys: nil
+            ) else { return [] }
             
-            guard fileExtension.lowercased() == "heic" else { return nil }
-            
-            if fileName.hasPrefix("image_"),
-               let range = fileName.range(of: "image_") {
-                let uuidPart = fileName[range.upperBound...].dropLast(fileExtension.count + 1)
-                return UUID(uuidString: String(uuidPart))
+            for fileURL in fileURLs {
+                group.addTask {
+                    let fileName = fileURL.lastPathComponent
+                    let fileExtension = fileURL.pathExtension
+                    
+                    guard fileExtension.lowercased() == "heic" else { return nil }
+                    
+                    if fileName.hasPrefix("image_"),
+                       let range = fileName.range(of: "image_") {
+                        let uuidPart = fileName[range.upperBound...].dropLast(fileExtension.count + 1)
+                        return UUID(uuidString: String(uuidPart))
+                    }
+                    
+                    return nil
+                }
             }
             
-            return nil
+            var imageIDs: [UUID] = []
+            for await imageID in group {
+                guard let imageID else { continue }
+                imageIDs.append(imageID)
+            }
+            
+            return imageIDs
         }
     }
     
