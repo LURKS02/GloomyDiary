@@ -15,5 +15,5 @@ protocol CounselingSessionRepository {
     func find(id: UUID) async throws -> Session?
     func save() async throws
     
-    func initialize() async throws
+    func deleteAll() async throws
 }

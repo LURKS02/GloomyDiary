@@ -61,7 +61,7 @@ final class SwiftDataCounselingSessionRepository: CounselingSessionRepository {
         return session.toDomain()
     }
     
-    func initialize() async throws {
+    func deleteAll() async throws {
         let descriptor = FetchDescriptor<CounselingSession>()
         guard let sessions = try? await swiftDataService.fetch(descriptor: descriptor) else { return }
         
