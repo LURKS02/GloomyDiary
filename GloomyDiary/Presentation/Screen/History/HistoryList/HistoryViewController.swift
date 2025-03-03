@@ -192,6 +192,7 @@ extension HistoryViewController {
         self.navigationController?.delegate = self
         let store: StoreOf<HistoryDetail> = Store(initialState: .init(session: item.session),
                                                   reducer: { HistoryDetail() })
+        
         let historyDetailViewController = HistoryDetailViewController(store: store)
         historyDetailViewController.deletionRelay.subscribe(onNext: { [weak self] id in
             guard let self else { return }
@@ -205,7 +206,7 @@ extension HistoryViewController {
                 self.updateContentView()
                 self.contentView.listView.collectionView.layoutIfNeeded()
             }
-            })
+        })
         
         .disposed(by: rx.disposeBag)
         
@@ -223,6 +224,7 @@ extension HistoryViewController {
 
 extension HistoryViewController: CircularTabBarControllerDelegate {
     func tabDidDisappear() {
+        contentView.listView.collectionView.setContentOffset(.zero, animated: false)
 //        store.send(.unload)
     }
     
