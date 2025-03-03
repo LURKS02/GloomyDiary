@@ -35,6 +35,7 @@ struct History {
             case .refresh:
                 state.isLoading = true
                 state.page = 0
+                state.isEndOfPage = false
                 return .run { [state] send in
                     let sessions = try await counselingSessionRepository.fetch(pageNumber: 0, pageSize: state.pageSize)
                     await send(.SessionsResponse(sessions))
