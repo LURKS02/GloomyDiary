@@ -106,16 +106,12 @@ private extension AppCoordinator {
         
         let debugReadyViewController = DebugReadyViewController()
         debugReadyViewController.modalPresentationStyle = .overFullScreen
+        mainViewController.present(debugReadyViewController, animated: false)
+        
         Task {
-            await MainActor.run {
-                mainViewController.present(debugReadyViewController, animated: false)
-            }
             let testEnvironmentManager = TestEnvironmentManager()
+            testEnvironmentManager.delegate = debugReadyViewController
             await testEnvironmentManager.prepareEnvironment()
-    
-            await MainActor.run {
-                debugReadyViewController.dismiss(animated: false)
-            }
         }
     }
     #endif
