@@ -52,7 +52,6 @@ Clone 후 GloomyDiaryExample 스킴을 빌드하여 제한된 기능으로 시�
 
 ### 기술 스택
 Swift, UIKit, TCA, Swift-Dependencies<br>
-RxSwift, RxCocoa, RxRelay, RxGesture<br>
 SwiftData, UserDefaults, OpenAI<br>
 SnapKit, Lottie, Firebase, Amplitude<br>
 
