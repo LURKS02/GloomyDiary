@@ -28,6 +28,10 @@
 <img src="https://github.com/user-attachments/assets/5688e672-52a9-4180-9ce7-5e8ef6e29cd4" width=240>
 
 <br>
+
+<img src="https://github.com/user-attachments/assets/2356e23f-f6cd-4d41-b34a-88b7f0bda549" width=500>
+
+<br>
 <br>
 
 API Key 때문에 실제 AI 응답을 받는 기능은 제한되어 있습니다.<br>
