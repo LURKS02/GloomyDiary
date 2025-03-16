@@ -68,21 +68,12 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "D9995A762D3AE2A8008E6F71"
-            BuildableName = "GloomyDiaryExample.app"
-            BlueprintName = "GloomyDiaryExample"
-            ReferencedContainer = "container:GloomyDiary.xcodeproj">
-         </BuildableReference>
-      </BuildableProductRunnable>
-      <MacroExpansion>
-         <BuildableReference
-            BuildableIdentifier = "primary"
             BlueprintIdentifier = "D97421AD2C5ABE12002E47F9"
             BuildableName = "GloomyDiary.app"
             BlueprintName = "GloomyDiary"
             ReferencedContainer = "container:GloomyDiary.xcodeproj">
          </BuildableReference>
-      </MacroExpansion>
+      </BuildableProductRunnable>
       <CommandLineArguments>
          <CommandLineArgument
             argument = "IDEPreferLogStreaming=YES"
