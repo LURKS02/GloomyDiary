@@ -12,5 +12,5 @@ enum TransitionContentType {
     case frameTransition
     case switchedHierarchyTransition
     case frameTransitionWithLottie(CounselingCharacter)
-    case frameTransitionWithClosure(CounselingCharacter, closure: () async throws -> String)
+    case frameTransitionWithClosure(CounselingCharacter, closure: () async throws -> Session)
 }

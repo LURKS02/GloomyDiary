@@ -223,9 +223,11 @@ extension HomeView {
                       duration: 0.2)
         }
         
-        let pulsingCircleAnimation = Animation(view: pulsingCircleLottieView,
-                                               animationCase: .fade(value: Metric.pulsingCircleAlpha),
-                                               duration: 0.2)
+        let pulsingCircleAnimation = Animation(
+            view: pulsingCircleLottieView,
+            animationCase: .fade(value: Metric.pulsingCircleAlpha),
+            duration: 0.2
+        )
         
         let sparklingAnimation = Animation(view: sparklingLottieView,
                                            animationCase: .fade(value: Metric.sparklingAlpha),
@@ -245,9 +247,10 @@ extension HomeView {
     func playDisappearingToRight() async {
         let transformAnimation = subviews.exclude(gradientView)
             .map {
-            Animation(view: $0,
-                      animationCase: .transform( .init(translationX: 10, y: 0)),
-                      duration: 0.2)
+            Animation(
+                view: $0,
+                animationCase: .transform( .init(translationX: 10, y: 0)),
+                duration: 0.2)
             }
         
         let fadeOutAnimation = subviews

@@ -11,12 +11,15 @@ final class Toast {
     private static var toastWindow: UIWindow?
     
     static func show(text: String) {
-        guard let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene else { return }
+        guard let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+              toastWindow == nil else { return }
         
-        toastWindow = UIWindow(windowScene: scene)
-        toastWindow?.windowLevel = .alert + 1
-        toastWindow?.rootViewController = UIViewController()
-        toastWindow?.isUserInteractionEnabled = false
+        let window = UIWindow(windowScene: scene)
+        self.toastWindow = window
+        
+        window.windowLevel = .alert + 1
+        window.rootViewController = UIViewController()
+        window.isUserInteractionEnabled = false
         
         let messageLabel = UILabel().then {
             $0.text = text
@@ -27,7 +30,7 @@ final class Toast {
             $0.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.3)
         }
         
-        toastWindow?.addSubview(messageLabel)
+        window.addSubview(messageLabel)
         
         messageLabel.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
@@ -39,12 +42,13 @@ final class Toast {
             make.height.equalTo(estimatedHeight)
         }
         
-        toastWindow?.layoutSubviews()
+        window.layoutSubviews()
         messageLabel.applyCircularShape()
-        
-        toastWindow?.makeKeyAndVisible()
+        window.makeKeyAndVisible()
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            guard toastWindow != nil && toastWindow == window else { return }
+            
             AnimationGroup(animations: [.init(view: messageLabel,
                                               animationCase: .fadeOut,
                                               duration: 1.0)],

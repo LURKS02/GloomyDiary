@@ -26,8 +26,8 @@ enum CircularTabBarItemCase: CaseIterable {
             )
             
         case .history:
-            let store = Store(initialState: History.State()) { History() }
-            let viewController = HistoryNavigationController(rootViewController: HistoryViewController(store: store))
+            let store = Store(initialState: HistoryNavigation.State()) { HistoryNavigation() }
+            let viewController = HistoryNavigationController(store: store)
             
             return CircularTabBarItem(
                 viewController: viewController,

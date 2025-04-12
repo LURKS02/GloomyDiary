@@ -152,10 +152,10 @@ extension AnimatedTransition: UIViewControllerAnimatedTransitioning {
                 duration: contentDuration,
                 character: character,
                 perform: closure,
-                completion: { response, result in
-                    if result {
+                completion: { response in
+                    if let response {
                         toViewController.hasValidResult = true
-                        toViewController.store.send(.updateResponse(response ?? ""))
+                        toViewController.store.send(.view(.updateResponse(response)))
                         toViewController.view.layoutIfNeeded()
                         
                         guard let concreteView = toViewController.view as? ResultView else { return .zero }

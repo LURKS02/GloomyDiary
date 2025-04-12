@@ -34,8 +34,8 @@ final class FrameAnimationContentWithClosure: UIView, AnimationContent {
     var successFrame: CGRect
     var failureFrame: CGRect
     let duration: TimeInterval
-    let perform: (() async throws -> String)
-    let completion: ((String?, Bool) -> CGRect)?
+    let perform: (() async throws -> Session)
+    let completion: ((Session?) -> CGRect)?
     
     let middleFrame: CGRect
     
@@ -48,8 +48,8 @@ final class FrameAnimationContentWithClosure: UIView, AnimationContent {
         failureFrame: CGRect,
         duration: TimeInterval,
         character: CounselingCharacter,
-        perform: @escaping (() async throws -> String),
-        completion: ((String?, Bool) -> CGRect)?
+        perform: @escaping (() async throws -> Session),
+        completion: ((Session?) -> CGRect)?
     ) {
         self.component = component
         self.initialFrame = initialFrame
@@ -110,29 +110,27 @@ final class FrameAnimationContentWithClosure: UIView, AnimationContent {
         starLottieView.play()
         await playWaitingViewsFadeIn(duration: calculatedDurations[1])
         
-        let response: String = await {
+        let response: Session? = await {
             do {
                 return try await perform()
             } catch {
                 self.logger.send(.system, error.localizedDescription, nil)
-                return ""
+                return nil
             }
         }()
         
-        let isValidResponse = !response.isEmpty
-        
         if let completion {
-            if isValidResponse {
-                successFrame = completion(response, true)
+            if let response {
+                successFrame = completion(response)
             } else {
-                failureFrame = completion(nil, false)
+                failureFrame = completion(nil)
             }
         }
         
         await playWaitingViewsFadeOut(duration: calculatedDurations[2])
         await playSnapshot(
             duration: calculatedDurations[3],
-            targetFrame: isValidResponse ? successFrame : failureFrame
+            targetFrame: (response != nil) ? successFrame : failureFrame
         )
         
         component.frame = initialFrame
@@ -142,9 +140,10 @@ final class FrameAnimationContentWithClosure: UIView, AnimationContent {
     private func playSnapshot(duration: TimeInterval, targetFrame: CGRect) async {
         await withCheckedContinuation { continuation in
             AnimationGroup(
-                animations: [Animation(view: component,
-                                       animationCase: .frame(targetFrame),
-                                       duration: duration)
+                animations: [
+                    Animation(view: component,
+                              animationCase: .frame(targetFrame),
+                              duration: duration)
                 ],
                 mode: .parallel,
                 loop: .once(completion: { continuation.resume() })
@@ -157,12 +156,13 @@ final class FrameAnimationContentWithClosure: UIView, AnimationContent {
     private func playWaitingViewsFadeIn(duration: TimeInterval) async {
         await withCheckedContinuation { continuation in
             AnimationGroup(
-                animations: [Animation(view: starLottieView,
-                                       animationCase: .fadeIn,
-                                       duration: duration),
-                             Animation(view: readyLabel,
-                                       animationCase: .fadeIn,
-                                       duration: duration)
+                animations: [
+                    Animation(view: starLottieView,
+                              animationCase: .fadeIn,
+                              duration: duration),
+                    Animation(view: readyLabel,
+                              animationCase: .fadeIn,
+                              duration: duration)
                 ],
                 mode: .parallel,
                 loop: .once(completion: { continuation.resume() }))
@@ -174,12 +174,13 @@ final class FrameAnimationContentWithClosure: UIView, AnimationContent {
     private func playWaitingViewsFadeOut(duration: TimeInterval) async {
         await withCheckedContinuation { continuation in
             AnimationGroup(
-                animations: [Animation(view: starLottieView,
-                                       animationCase: .fadeOut,
-                                       duration: duration),
-                             Animation(view: readyLabel,
-                                       animationCase: .fadeOut,
-                                       duration: duration)
+                animations: [
+                    Animation(view: starLottieView,
+                              animationCase: .fadeOut,
+                              duration: duration),
+                    Animation(view: readyLabel,
+                              animationCase: .fadeOut,
+                              duration: duration)
                 ],
                 mode: .parallel,
                 loop: .once(completion: { continuation.resume() }))

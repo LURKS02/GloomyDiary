@@ -15,27 +15,23 @@ final class CounselRepository: CounselRepositoryProtocol {
     @Dependency(\.date.now) var now
     @Dependency(\.uuid) var uuid
     
-    func counsel(
-        to character: CounselingCharacter,
-        title: String,
-        userInput: String,
-        weather: Weather,
-        emoji: Emoji,
-        imageIDs: [UUID]
-    ) async throws -> String {
+    func counsel(with query: Query) async throws -> Session {
         logger.send(.api, "AI 서비스 요청", nil)
-        let response = try await aiService.generate(userInput, character.systemSetting)
-        let session = Session(id: uuid(),
-                              counselor: character,
-                              title: title,
-                              query: userInput,
-                              response: response,
-                              createdAt: now,
-                              weather: weather,
-                              emoji: emoji,
-                              imageIDs: imageIDs)
+        let response = try await aiService.generate(query.body, query.counselor.systemSetting)
+        let session = Session(
+            id: uuid(),
+            counselor: query.counselor,
+            title: query.title,
+            query: query.body,
+            response: response,
+            createdAt: now,
+            weather: query.weather,
+            emoji: query.emoji,
+            imageIDs: query.imageIDs
+        )
+        
         try await counselingSessionRepository.create(session)
         logger.send(.api, "AI 서비스 응답 수신", nil)
-        return response
+        return session
     }
 }
