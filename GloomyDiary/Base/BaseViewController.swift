@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import RxSwift
 
 class BaseViewController<T: UIView>: UIViewController {
     var contentView: T

@@ -94,7 +94,6 @@ private extension AppCoordinator {
         let mainViewController = CircularTabBarController(tabBarItems: tabs.map { $0.value })
         window.rootViewController = mainViewController
         window.makeKeyAndVisible()
-        
     }
     
     #if SCROLL_TEST

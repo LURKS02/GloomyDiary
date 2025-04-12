@@ -9,25 +9,8 @@ import Combine
 import ObjectiveC
 
 import UIKit
-import RxSwift
 
 private var disposeBagKey: UInt8 = 0
-
-extension Reactive where Base: AnyObject {
-    var disposeBag: DisposeBag {
-        get {
-            if let disposeBag = objc_getAssociatedObject(base, &disposeBagKey) as? DisposeBag {
-                return disposeBag
-            }
-            let disposeBag = DisposeBag()
-            objc_setAssociatedObject(base, &disposeBagKey, disposeBag, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
-            return disposeBag
-        }
-        set {
-            objc_setAssociatedObject(base, &disposeBagKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
-        }
-    }
-}
 
 class CancellableHolder: NSObject {
     var cb = Set<AnyCancellable>()
