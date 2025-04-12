@@ -5,16 +5,19 @@
 //  Created by 디해 on 12/21/24.
 //
 
-import Foundation
-import Dependencies
-import UIKit.UIImage
 import AVFoundation
+import Combine
+import Dependencies
+import Foundation
+import UIKit.UIImage
 
 final class TestEnvironmentManager {
     @Dependency(\.counselingSessionRepository) var counselingSessionRepository
     @Dependency(\.imageDownloader) var imageDownloader
     
     weak var delegate: TestEnvironmentManagerDelegate?
+    
+    var cancellables = Set<AnyCancellable>()
     
     private let testImageDirectory: URL = {
         let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
@@ -23,6 +26,10 @@ final class TestEnvironmentManager {
     
     func prepareEnvironment() async {
         do {
+            imageDownloader.progressSubject.sink { [weak self] (progressedCount, totalCount) in
+                self?.delegate?.didUpdateProcess("이미지 다운로드 중...\n\(progressedCount)/\(totalCount)개 완료.")
+            }.store(in: &cancellables)
+            
             delegate?.didUpdateProcess("환경 설정을 시작합니다.")
             try await prepareCounselingSessions()
             delegate?.didUpdateProcess("환경 설정을 완료하였습니다.")
@@ -158,9 +165,6 @@ extension TestEnvironmentManager {
     }
     
     private func createSessions(with imageIDs: [UUID]) async throws {
-        var completedCount = 0
-        let totalCount = (imageIDs.count + 2) / 3
-        
         for index in stride(from: 0, to: imageIDs.count, by: 3) {
             let ids = (0..<3).compactMap { offset in
                 let idIndex = index + offset

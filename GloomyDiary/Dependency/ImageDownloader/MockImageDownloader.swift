@@ -5,9 +5,12 @@
 //  Created by 디해 on 3/11/25.
 //
 
+import Combine
 import UIKit
 
 final class RandomColorImageDownloader {
+    var progressSubject = PassthroughSubject<(Int, Int), Never>()
+    
     func downloadImages() async throws -> [UIImage] {
         return await withTaskGroup(of: UIImage.self) { group in
             var images: [UIImage] = []
@@ -20,6 +23,7 @@ final class RandomColorImageDownloader {
             
             for await image in group {
                 images.append(image)
+                progressSubject.send((images.count, 900))
             }
             
             return images

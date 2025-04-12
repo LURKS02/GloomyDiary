@@ -5,6 +5,7 @@
 //  Created by 디해 on 3/11/25.
 //
 
+import Combine
 import UIKit
 
 final class PicsumV2ImageDownloader {
@@ -18,6 +19,8 @@ final class PicsumV2ImageDownloader {
         return URLSession(configuration: configuration)
     }()
     
+    let progressSubject = PassthroughSubject<(Int, Int), Never>()
+    
     func downloadImages() async throws -> [UIImage] {
         
         let jsons = try await fetchImageJSON(maxPage: maxPage)
@@ -29,7 +32,6 @@ final class PicsumV2ImageDownloader {
 }
 
 extension PicsumV2ImageDownloader {
-    
     private func fetchImageJSON(maxPage: Int) async throws -> [[String: Any]] {
         let baseURL = "https://picsum.photos/v2/list"
         
@@ -86,7 +88,7 @@ extension PicsumV2ImageDownloader {
                 images.append(image)
             }
             
-            print(">>> \(url)")
+            progressSubject.send((images.count, urls.count))
             
 //            try await Task.sleep(nanoseconds: 30 * 1_000_000_000)
         }
