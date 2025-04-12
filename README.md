@@ -28,6 +28,10 @@
 <img src="https://github.com/user-attachments/assets/5688e672-52a9-4180-9ce7-5e8ef6e29cd4" width=240>
 
 <br>
+
+<img src="https://github.com/user-attachments/assets/2356e23f-f6cd-4d41-b34a-88b7f0bda549" width=500>
+
+<br>
 <br>
 
 API Key 때문에 실제 AI 응답을 받는 기능은 제한되어 있습니다.<br>
@@ -41,9 +45,9 @@ Clone 후 GloomyDiaryExample 스킴을 빌드하여 제한된 기능으로 시�
 
 <br>
 
-|개발 기간|인원|앱스토어|
-|-|-|-|
-|2024.07 ~ 진행 중|1인|[<img src="https://github.com/user-attachments/assets/dba5b62c-9db7-4715-b4cc-2b817503b082" height="50">](https://apps.apple.com/us/app/%EC%9A%B8%EB%8B%A4-%EC%9A%B0%EB%A6%AC%EB%93%A4%EC%9D%98-%EC%9D%BC%EA%B8%B0-%EB%8B%A4%EC%9D%B4%EC%96%B4%EB%A6%AC/id6738892165)|
+|개발 기간|인원|Xcode|앱스토어|
+|-|-|-|-|
+|2024.07 ~ 진행 중|1인|16.2|[<img src="https://github.com/user-attachments/assets/dba5b62c-9db7-4715-b4cc-2b817503b082" height="50">](https://apps.apple.com/us/app/%EC%9A%B8%EB%8B%A4-%EC%9A%B0%EB%A6%AC%EB%93%A4%EC%9D%98-%EC%9D%BC%EA%B8%B0-%EB%8B%A4%EC%9D%B4%EC%96%B4%EB%A6%AC/id6738892165)|
 
 
 <br>
