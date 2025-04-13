@@ -10,6 +10,7 @@ import Dependencies
 
 private enum CounselingSessionRepositoryKey: DependencyKey {
     static var liveValue: any CounselingSessionRepository = SwiftDataCounselingSessionRepository()
+    static var testValue: any CounselingSessionRepository = MockCounselingSessionRepository()
 }
 
 extension DependencyValues {
