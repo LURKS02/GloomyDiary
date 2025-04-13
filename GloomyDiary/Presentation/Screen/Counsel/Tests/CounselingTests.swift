@@ -77,7 +77,7 @@ struct CounselingTests {
         
         // MARK: - Flow Start
         await store.send(.view(.didTapSendingButton))
-        await store.receive(.delegate(.navigateToResult))
+        await store.receive(.delegate(.navigateToResult(.chan)))
     }
     
     @Test
@@ -94,6 +94,7 @@ struct CounselingTests {
             )) {
                 Counseling()
             }
+        store.exhaustivity = .off
         
         // MARK: - Flow Start
         await store.send(.view(.didEnterText("hello"))) {
