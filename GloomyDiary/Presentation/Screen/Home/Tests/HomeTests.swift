@@ -8,7 +8,7 @@
 import ComposableArchitecture
 import Testing
 
-@testable import GloomyDiary
+@testable import GloomyDiaryExample
 
 @MainActor
 struct HomeTests {
