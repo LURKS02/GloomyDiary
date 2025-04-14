@@ -9,7 +9,7 @@ import ComposableArchitecture
 import Testing
 import UIKit
 
-@testable import GloomyDiary
+@testable import GloomyDiaryExample
 
 @MainActor
 struct CounselingTests {

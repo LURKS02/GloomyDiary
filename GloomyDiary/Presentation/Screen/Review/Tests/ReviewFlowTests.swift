@@ -9,7 +9,7 @@ import ComposableArchitecture
 import Foundation
 import Testing
 
-@testable import GloomyDiary
+@testable import GloomyDiaryExample
 
 @MainActor
 struct ReviewFlowTests {
