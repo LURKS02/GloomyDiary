@@ -22,12 +22,12 @@ jobs:
             -project GloomyDiary.xcodeproj \
             -scheme GloomyDiaryTests \
             -destination 'platform=iOS Simulator,name=iPhone 16 Pro,OS=18.2' \
-            -enableExperimentalFeature SwiftMacros \
+            -skipMacroValidation \
             test
         
         #   xcodebuild \
         #     -project GloomyDiary.xcodeproj \
         #     -scheme GloomyDiaryExample \
         #     -destination 'platform=iOS Simulator,name=iPhone 16 Pro,OS=18.2' \
-        #     -enableExperimentalFeature SwiftMacros \
+        #     -skipMacroValidation \
         #     clean
