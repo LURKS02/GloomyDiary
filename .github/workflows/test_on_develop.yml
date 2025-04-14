@@ -1,0 +1,19 @@
+
+name: Run Test
+
+on:
+  push:
+    branches: [ develop ]
+  pull_request:
+    branches: [ develop ]
+    
+jobs:
+  build:
+    runs-on: macos-latest
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Start Xcode Build 🛠
+        run: |
+          xcodebuild clean test -project GloomyDiary/GloomyDiary.xcodeproj -scheme GloomyDiary -destination 'platform=iOS Simulator, name=iPhone 16 Pro, OS=18.0'
