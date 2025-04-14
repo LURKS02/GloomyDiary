@@ -17,16 +17,16 @@ jobs:
         run: sudo xcode-select -s /Applications/Xcode_16.2.app
 
       - name: Start Xcode Build 🛠
-        run: 
+        run: |
+          xcodebuild \
+            -project GloomyDiary.xcodeproj \
+            -scheme GloomyDiaryTests \
+            -destination 'platform=iOS Simulator,name=iPhone 16 Pro,OS=18.2' \
+            test
+        
         #   xcodebuild \
         #     -project GloomyDiary.xcodeproj \
         #     -scheme GloomyDiaryExample \
         #     -destination 'platform=iOS Simulator,name=iPhone 16 Pro,OS=18.2' \
         #     -enableExperimentalFeature SwiftMacros \
         #     clean
-
-          xcodebuild \
-            -project GloomyDiary.xcodeproj \
-            -scheme GloomyDiaryTests \
-            -destination 'platform=iOS Simulator,name=iPhone 16 Pro,OS=18.2' \
-            test
