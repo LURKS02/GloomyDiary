@@ -16,4 +16,4 @@ jobs:
       
       - name: Start Xcode Build 🛠
         run: |
-          xcodebuild clean test -project GloomyDiary/GloomyDiary.xcodeproj -scheme GloomyDiary -destination 'platform=iOS Simulator,name=iPhone 16 Pro,OS=18.0'
+          xcodebuild clean test -project GloomyDiary.xcodeproj -scheme GloomyDiary -destination 'platform=iOS Simulator,name=iPhone 16 Pro,OS=18.0'
