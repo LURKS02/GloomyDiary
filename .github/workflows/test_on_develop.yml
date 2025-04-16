@@ -1,0 +1,33 @@
+name: Run Test
+
+on:
+  push:
+    branches: [ develop ]
+  pull_request:
+    branches: [ develop ]
+
+jobs:
+  auto_test:
+    runs-on: macos-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Select Xcode 16.2
+        run: sudo xcode-select -s /Applications/Xcode_16.2.app
+
+      - name: Start Xcode Build 🛠
+        run: |
+          xcodebuild \
+            -project GloomyDiary.xcodeproj \
+            -scheme GloomyDiaryExample \
+            -destination 'platform=iOS Simulator,name=iPhone 16 Pro,OS=18.2' \
+            -skipMacroValidation \
+            clean
+        
+          xcodebuild \
+            -project GloomyDiary.xcodeproj \
+            -scheme GloomyDiaryTests \
+            -destination 'platform=iOS Simulator,name=iPhone 16 Pro,OS=18.2' \
+            -skipMacroValidation \
+            test
