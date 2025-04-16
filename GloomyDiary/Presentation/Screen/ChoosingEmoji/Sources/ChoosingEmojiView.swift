@@ -23,7 +23,10 @@ final class ChoosingEmojiView: UIView {
     // MARK: - Views
 
     private let gradientView = GradientView(
-        colors: [.background(.darkPurple), .background(.mainPurple)],
+        colors: [
+            AppColor.Background.darkPurple.color,
+            AppColor.Background.mainPurple.color
+        ],
         locations: [0.0, 0.5, 1.0]
     )
     
@@ -116,9 +119,9 @@ final class ChoosingEmojiView: UIView {
         allEmojiButtons.forEach { button in
             var configuration = button.configuration
             if button.identifier == identifier {
-                configuration?.background.backgroundColor = .component(.buttonSelectedBlue)
+                configuration?.background.backgroundColor = AppColor.Component.buttonSelectedBlue.color
             } else {
-                configuration?.background.backgroundColor = .component(.buttonPurple)
+                configuration?.background.backgroundColor = AppColor.Component.buttonPurple.color
             }
             button.configuration = configuration
         }

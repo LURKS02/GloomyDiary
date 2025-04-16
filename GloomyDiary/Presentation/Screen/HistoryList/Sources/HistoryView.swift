@@ -47,7 +47,7 @@ final class HistoryView: UIView {
     // MARK: - View Life Cycle
     
     private func setup() {
-        backgroundColor = .background(.mainPurple)
+        backgroundColor = AppColor.Background.mainPurple.color
     }
     
     private func addSubviews() {

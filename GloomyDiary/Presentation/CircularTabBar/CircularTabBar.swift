@@ -19,7 +19,7 @@ final class CircularTabBar: UIView {
     
     private let iconOffset: CGFloat = .deviceAdjustedHeight(40)
     
-    var color: UIColor = .component(.darkPurple)
+    var color: UIColor = AppColor.Component.darkPurple.color
 
     private var isTouchInside: Bool = false
     

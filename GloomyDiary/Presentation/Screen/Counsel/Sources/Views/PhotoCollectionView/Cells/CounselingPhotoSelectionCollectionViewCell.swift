@@ -11,7 +11,7 @@ final class CounselingPhotoSelectionCollectionViewCell: UICollectionViewCell {
     static let identifier: String = "CounselingPhotoSelectionCell"
     
     private let backgroundColorView = UIView().then {
-        $0.backgroundColor = .component(.buttonPurple)
+        $0.backgroundColor = AppColor.Component.buttonPurple.color
         $0.applyCornerRadius(10)
     }
     
@@ -21,7 +21,7 @@ final class CounselingPhotoSelectionCollectionViewCell: UICollectionViewCell {
     
     private let photoIconImageView = UIImageView().then {
         $0.image = UIImage(systemName: "camera.fill")
-        $0.tintColor = .text(.subHighlight)
+        $0.tintColor = AppColor.Text.subHighlight.color
     }
     
     private let countLabel = NormalLabel()
@@ -80,9 +80,9 @@ extension CounselingPhotoSelectionCollectionViewCell {
     func configure(count: Int, maxCount: Int) {
         countLabel.text = "\(count)/\(maxCount)"
         if count == maxCount {
-            countLabel.textColor = .text(.warning)
+            countLabel.textColor = AppColor.Text.warning.color
         } else {
-            countLabel.textColor = .text(.highlight)
+            countLabel.textColor = AppColor.Text.highlight.color
         }
     }
 }

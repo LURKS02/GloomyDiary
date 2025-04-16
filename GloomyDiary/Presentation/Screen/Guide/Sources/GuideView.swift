@@ -23,9 +23,13 @@ final class GuideView: UIView {
     
     // MARK: - Views
     
-    let gradientView = GradientView(colors: [.background(.darkPurple),
-                                             .background(.mainPurple),
-                                             .background(.mainPurple)])
+    let gradientView = GradientView(
+        colors: [
+            AppColor.Background.darkPurple.color,
+            AppColor.Background.mainPurple.color,
+            AppColor.Background.mainPurple.color
+        ]
+    )
     
     let ghostView = GhostView()
     
@@ -109,7 +113,7 @@ final class GuideView: UIView {
     // MARK: - View Life Cycle
     
     private func setup() {
-        backgroundColor = .background(.mainPurple)
+        backgroundColor = AppColor.Background.mainPurple.color
     }
     
     private func addSubviews() {

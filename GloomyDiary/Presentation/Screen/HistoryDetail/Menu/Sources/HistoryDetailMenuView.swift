@@ -26,7 +26,7 @@ final class HistoryDetailMenuView: UIView {
     }
     
     var containerView = UIView().then {
-        $0.backgroundColor = .background(.mainPurple)
+        $0.backgroundColor = AppColor.Background.mainPurple.color
         $0.applyCornerRadius(20)
         $0.alpha = 0.0
     }

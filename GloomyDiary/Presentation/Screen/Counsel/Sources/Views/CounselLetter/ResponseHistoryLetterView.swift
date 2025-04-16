@@ -28,7 +28,7 @@ final class ResponseHistoryLetterView: LetterView {
         
         letterTextView.isEditable = false
         letterTextView.isScrollEnabled = false
-        backgroundColor = .background(.mainPurple)
+        backgroundColor = AppColor.Background.mainPurple.color
     }
     
     override func addSubviews() {

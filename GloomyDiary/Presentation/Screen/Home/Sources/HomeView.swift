@@ -34,9 +34,9 @@ final class HomeView: UIView {
     
     // MARK: - Views
     
-    let gradientView: GradientView = GradientView(colors: [.background(.darkPurple),
-                                                           .background(.mainPurple),
-                                                           .background(.mainPurple)])
+    let gradientView: GradientView = GradientView(colors: [AppColor.Background.darkPurple.color,
+                                                           AppColor.Background.mainPurple.color,
+                                                           AppColor.Background.mainPurple.color])
     
     let moonImageView = UIImageView().then {
         $0.image = UIImage(named: "moon")
@@ -89,7 +89,7 @@ final class HomeView: UIView {
     // MARK: - View Life Cycle
     
     private func setup() {
-        self.backgroundColor = .background(.mainPurple)
+        self.backgroundColor = AppColor.Background.mainPurple.color
     }
     
     private func addSubviews() {

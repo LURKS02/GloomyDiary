@@ -16,7 +16,7 @@ final class QueryHistoryLetterView: LetterView {
         
         letterTextView.isEditable = false
         letterTextView.isScrollEnabled = false
-        backgroundColor = .component(.fogPurple)
+        backgroundColor = AppColor.Component.fogPurple.color
     }
 }
 

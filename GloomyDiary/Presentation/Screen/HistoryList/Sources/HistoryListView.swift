@@ -23,7 +23,13 @@ final class HistoryListView: UIView {
         $0.register(CounselingSessionCollectionViewCell.self, forCellWithReuseIdentifier: CounselingSessionCollectionViewCell.identifier)
     }
     
-    private let gradientBackgroundView = GradientView(colors: [.background(.mainPurple).withAlphaComponent(0.0), .background(.mainPurple)], locations: [0.0, 0.5, 1.0])
+    private let gradientBackgroundView = GradientView(
+        colors: [
+            AppColor.Background.mainPurple.color.withAlphaComponent(0.0),
+            AppColor.Background.mainPurple.color
+        ],
+        locations: [0.0, 0.5, 1.0]
+    )
     
     
     // MARK: - Initialize

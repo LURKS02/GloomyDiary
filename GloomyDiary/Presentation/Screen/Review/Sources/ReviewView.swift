@@ -27,7 +27,7 @@ final class ReviewView: UIView {
     let blurView = UIVisualEffectView()
     
     let sheetBackgroundView = UIView().then {
-        $0.backgroundColor = .background(.mainPurple)
+        $0.backgroundColor = AppColor.Background.mainPurple.color
         $0.layer.cornerRadius = Metric.cornerRadius
     }
     
@@ -47,8 +47,8 @@ final class ReviewView: UIView {
     
     let rejectButton = HorizontalButton().then {
         $0.setTitle("거절하기", for: .normal)
-        $0.setTitleColor(.text(.buttonSubHighlight), for: .normal)
-        $0.backgroundColor = .component(.buttonDisabledPurple)
+        $0.setTitleColor(AppColor.Text.buttonSubHighlight.color, for: .normal)
+        $0.backgroundColor = AppColor.Component.buttonDisabledPurple.color
     }
     
     

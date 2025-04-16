@@ -36,7 +36,10 @@ final class StartCounselingView: UIView {
     }
     
     private let gradientView = GradientView(
-        colors: [.background(.darkPurple), .background(.mainPurple)],
+        colors: [
+            AppColor.Background.darkPurple.color,
+            AppColor.Background.mainPurple.color
+        ],
         locations: [0.0, 0.5, 1.0]
     )
     
@@ -57,7 +60,7 @@ final class StartCounselingView: UIView {
     
     let warningLabel = UILabel().then {
         $0.text = "15자 이하로 작성해주세요."
-        $0.textColor = .text(.warning)
+        $0.textColor = AppColor.Text.warning.color
         $0.font = .온글잎_의연체.body
         $0.textAlignment = .center
     }
@@ -91,7 +94,7 @@ final class StartCounselingView: UIView {
     // MARK: - View Life Cycle
     
     private func setup() {
-        backgroundColor = .background(.mainPurple)
+        backgroundColor = AppColor.Background.mainPurple.color
     }
     
     private func addSubviews() {

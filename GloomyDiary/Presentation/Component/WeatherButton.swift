@@ -44,10 +44,10 @@ final class WeatherButton: UIButton {
 
         var title = AttributedString(weather.name)
         title.font = .온글잎_의연체.title
-        title.foregroundColor = .text(.highlight)
+        title.foregroundColor = AppColor.Text.highlight.color
         configuration.attributedTitle = title
         configuration.titleAlignment = .leading
-        configuration.background.backgroundColor = .component(.buttonPurple)
+        configuration.background.backgroundColor = AppColor.Component.buttonPurple.color
         configuration.contentInsets = NSDirectionalEdgeInsets(top: 9, leading: 14, bottom: 9, trailing: 200)
         
         self.configuration = configuration
@@ -59,7 +59,7 @@ extension WeatherButton {
         super.touchesBegan(touches, with: event)
         
         var configuration = self.configuration
-        configuration?.background.backgroundColor = .component(.buttonSelectedBlue).withAlphaComponent(0.3)
+        configuration?.background.backgroundColor = AppColor.Component.buttonSelectedBlue.color.withAlphaComponent(0.3)
         self.configuration = configuration
         
         feedbackGenerator.prepare()
@@ -77,7 +77,7 @@ extension WeatherButton {
         super.touchesMoved(touches, with: event)
         
         var contiguration = self.configuration
-        configuration?.background.backgroundColor = .component(.buttonSelectedBlue).withAlphaComponent(0.3)
+        configuration?.background.backgroundColor = AppColor.Component.buttonSelectedBlue.color.withAlphaComponent(0.3)
         
         self.configuration = configuration
     }

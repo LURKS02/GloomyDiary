@@ -28,7 +28,7 @@ final class LocalNotificationView: UIView {
     let blurView = UIVisualEffectView()
     
     let sheetBackgroundView = UIView().then {
-        $0.backgroundColor = .background(.mainPurple)
+        $0.backgroundColor = AppColor.Background.mainPurple.color
         $0.layer.cornerRadius = Metric.cornerRadius
         $0.alpha = 0.0
     }
@@ -59,8 +59,8 @@ final class LocalNotificationView: UIView {
     
     let rejectButton = HorizontalButton().then {
         $0.setTitle("아니요..", for: .normal)
-        $0.setTitleColor(.text(.buttonSubHighlight), for: .normal)
-        $0.backgroundColor = .component(.buttonDisabledPurple)
+        $0.setTitleColor(AppColor.Text.buttonSubHighlight.color, for: .normal)
+        $0.backgroundColor = AppColor.Component.buttonDisabledPurple.color
     }
     
     let checkButton = HorizontalButton().then {

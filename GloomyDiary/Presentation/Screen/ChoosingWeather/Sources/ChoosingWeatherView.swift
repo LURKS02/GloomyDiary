@@ -21,7 +21,13 @@ final class ChoosingWeatherView: UIView {
     
     // MARK: - Views
 
-    private let gradientView = GradientView(colors: [.background(.darkPurple), .background(.mainPurple)], locations: [0.0, 0.5, 1.0])
+    private let gradientView = GradientView(
+        colors: [
+            AppColor.Background.darkPurple.color,
+            AppColor.Background.mainPurple.color
+        ],
+        locations: [0.0, 0.5, 1.0]
+    )
     
     private let introduceLabel = NormalLabel().then {
         $0.text = "오늘 날씨는 어땠나요?"
@@ -102,9 +108,9 @@ final class ChoosingWeatherView: UIView {
         allWeatherButtons.forEach { button in
             var configuration = button.configuration
             if button.identifier == identifier {
-                configuration?.background.backgroundColor = .component(.buttonSelectedBlue)
+                configuration?.background.backgroundColor = AppColor.Component.buttonSelectedBlue.color
             } else {
-                configuration?.background.backgroundColor = .component(.buttonPurple)
+                configuration?.background.backgroundColor = AppColor.Component.buttonPurple.color
             }
             button.configuration = configuration
         }

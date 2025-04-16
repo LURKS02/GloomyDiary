@@ -41,10 +41,10 @@ final class EmojiButton: UIButton {
         
         var title = AttributedString(emoji.description)
         title.font = .온글잎_의연체.body
-        title.foregroundColor = .text(.highlight)
+        title.foregroundColor = AppColor.Text.highlight.color
         configuration.attributedTitle = title
         configuration.titleAlignment = .center
-        configuration.background.backgroundColor = .component(.buttonPurple)
+        configuration.background.backgroundColor = AppColor.Component.buttonPurple.color
         configuration.contentInsets = NSDirectionalEdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20)
         
         self.configuration = configuration
@@ -56,17 +56,20 @@ extension EmojiButton {
         super.touchesBegan(touches, with: event)
         
         var configuration = self.configuration
-        configuration?.background.backgroundColor = .component(.buttonSelectedBlue).withAlphaComponent(0.3)
+        configuration?.background.backgroundColor = AppColor.Component.buttonSelectedBlue.color.withAlphaComponent(0.3)
         self.configuration = configuration
         
         feedbackGenerator.prepare()
         feedbackGenerator.impactOccurred()
         
-        AnimationGroup.init(animations: [.init(view: self,
-                                               animationCase: .transform( CGAffineTransform(scaleX: 0.95, y: 0.95)),
-                                               duration: 0.1)],
-                            mode: .parallel,
-                            loop: .once(completion: { }))
+        AnimationGroup(
+            animations: [
+                Animation(view: self,
+                          animationCase: .transform( CGAffineTransform(scaleX: 0.95, y: 0.95)),
+                          duration: 0.1)],
+            mode: .parallel,
+            loop: .once(completion: { })
+        )
         .run()
     }
     
@@ -74,7 +77,7 @@ extension EmojiButton {
         super.touchesMoved(touches, with: event)
         
         var configuration = self.configuration
-        configuration?.background.backgroundColor = .component(.buttonSelectedBlue).withAlphaComponent(0.3)
+        configuration?.background.backgroundColor = AppColor.Component.buttonSelectedBlue.color.withAlphaComponent(0.3)
         
         self.configuration = configuration
     }
@@ -82,22 +85,28 @@ extension EmojiButton {
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesEnded(touches, with: event)
         
-        AnimationGroup.init(animations: [.init(view: self,
-                                               animationCase: .transform( .identity),
-                                               duration: 0.1)],
-                            mode: .parallel,
-                            loop: .once(completion: {} ))
+        AnimationGroup(
+            animations: [
+                Animation(view: self,
+                          animationCase: .transform( .identity),
+                          duration: 0.1)],
+            mode: .parallel,
+            loop: .once(completion: {} )
+        )
         .run()
     }
     
     override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesCancelled(touches, with: event)
         
-        AnimationGroup.init(animations: [.init(view: self,
-                                               animationCase: .transform( .identity),
-                                               duration: 0.1)],
-                            mode: .parallel,
-                            loop: .once(completion: {}))
+        AnimationGroup(
+            animations: [
+                Animation(view: self,
+                          animationCase: .transform( .identity),
+                          duration: 0.1)],
+            mode: .parallel,
+            loop: .once(completion: {})
+        )
         .run()
     }
 }

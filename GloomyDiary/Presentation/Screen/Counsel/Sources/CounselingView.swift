@@ -52,11 +52,11 @@ final class CounselingView: UIView {
     }
     
     private let rightEdgeView = UIView().then {
-        $0.backgroundColor = .background(.mainPurple)
+        $0.backgroundColor = AppColor.Background.mainPurple.color
     }
     
     private let leftEdgeView = UIView().then {
-        $0.backgroundColor = .background(.mainPurple)
+        $0.backgroundColor = AppColor.Background.mainPurple.color
     }
     
     let sendingLetterView: SendingLetterView = SendingLetterView()
@@ -87,7 +87,7 @@ final class CounselingView: UIView {
     
     private func setup() {
         addGestureRecognizer(tapGesture)
-        backgroundColor = .background(.mainPurple)
+        backgroundColor = AppColor.Background.mainPurple.color
         characterGreetingLabel.alpha = 0
         sendingLetterView.alpha = 0
         letterSendingButton.alpha = 0

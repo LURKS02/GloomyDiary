@@ -24,8 +24,8 @@ final class ResultLetterView: LetterView {
     
     private let gradientBackgroundView = GradientView(
         colors: [
-            .component(.buttonPurple).withAlphaComponent(0.0),
-            .component(.buttonPurple)
+            AppColor.Component.buttonPurple.color.withAlphaComponent(0.0),
+            AppColor.Component.buttonPurple.color
         ],
         locations: [0.0, 0.5, 1.0]
     )
@@ -37,7 +37,7 @@ final class ResultLetterView: LetterView {
         super.setup()
         
         letterTextView.isEditable = false
-        backgroundColor = .component(.buttonPurple)
+        backgroundColor = AppColor.Component.buttonPurple.color
     }
     
     override func addSubviews() {

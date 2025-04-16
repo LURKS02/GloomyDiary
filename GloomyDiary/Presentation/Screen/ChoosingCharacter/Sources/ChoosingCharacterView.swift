@@ -26,7 +26,13 @@ final class ChoosingCharacterView: UIView {
     
     // MARK: - Views
     
-    private let gradientView = GradientView(colors: [.background(.darkPurple), .background(.mainPurple)], locations: [0.0, 0.5, 1.0])
+    private let gradientView = GradientView(
+        colors: [
+            AppColor.Background.darkPurple.color,
+            AppColor.Background.mainPurple.color
+        ],
+        locations: [0.0, 0.5, 1.0]
+    )
     
     private let introduceLabel = NormalLabel().then {
         $0.text = """
@@ -81,7 +87,7 @@ final class ChoosingCharacterView: UIView {
     // MARK: - View Life Cycle
     
     private func setup() {
-        backgroundColor = .background(.mainPurple)
+        backgroundColor = AppColor.Background.mainPurple.color
     }
     
     private func addSubviews() {

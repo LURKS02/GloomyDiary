@@ -37,14 +37,14 @@ final class HistoryDetailView: UIView {
     
     private let stateLabel = NormalLabel().then {
         $0.font = .온글잎_의연체.body
-        $0.textColor = .text(.fogHighlight)
+        $0.textColor = AppColor.Text.fogHighlight.color
         $0.textAlignment = .left
     }
     
     let imageScrollView = HistoryDetailImageView(imageSize: UIView.screenWidth - Metric.viewPadding * 2)
     
     private let contentLabel = NormalLabel().then {
-        $0.textColor = .text(.subHighlight)
+        $0.textColor = AppColor.Text.subHighlight.color
         $0.textAlignment = .left
     }
     
@@ -55,7 +55,10 @@ final class HistoryDetailView: UIView {
     private let responseLetterView = ResponseHistoryLetterView()
     
     var gradientBackgroundView = GradientView(
-        colors: [.component(.buttonPurple).withAlphaComponent(0.0), .component(.buttonPurple)],
+        colors: [
+            AppColor.Component.buttonPurple.color.withAlphaComponent(0.0),
+            AppColor.Component.buttonPurple.color
+        ],
         locations: [0.0, 0.5, 1.0]
     )
     
@@ -83,7 +86,7 @@ final class HistoryDetailView: UIView {
     // MARK: - View Life Cycle
 
     private func setup() {
-        backgroundColor = .component(.buttonPurple)
+        backgroundColor = AppColor.Component.buttonPurple.color
     }
     
     private func addSubviews() {

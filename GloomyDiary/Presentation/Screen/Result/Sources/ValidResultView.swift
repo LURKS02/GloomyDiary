@@ -30,7 +30,7 @@ final class ValidResultView: UIView {
     
     let shareButton: HorizontalButton = HorizontalButton().then {
         $0.setTitle("공유하기", for: .normal)
-        $0.setOriginBackgroundColor(with: .component(.blackPurple))
+        $0.setOriginBackgroundColor(with: AppColor.Component.blackPurple.color)
     }
     
     let homeButton: HorizontalButton = HorizontalButton().then {
@@ -53,7 +53,7 @@ final class ValidResultView: UIView {
     // MARK: - View Life Cycle
     
     private func setup() {
-        backgroundColor = .background(.mainPurple)
+        backgroundColor = AppColor.Background.mainPurple.color
     }
     
     private func addSubviews() {

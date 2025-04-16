@@ -45,7 +45,7 @@ final class CharacterButton: UIButton {
         
         var title = AttributedString(character.name)
         title.font = .온글잎_의연체.title
-        title.foregroundColor = .text(.highlight)
+        title.foregroundColor = AppColor.Text.highlight.color
         configuration.attributedTitle = title
         configuration.titleAlignment = .center
         configuration.contentInsets = NSDirectionalEdgeInsets(top: Metric.topInset, leading: Metric.horizontalInset, bottom: Metric.bottomInset, trailing: Metric.horizontalInset)
@@ -56,9 +56,9 @@ final class CharacterButton: UIButton {
             guard var configuration = button.configuration else { return }
             switch button.state {
             case .normal:
-                configuration.background.backgroundColor = .component(.buttonPurple)
+                configuration.background.backgroundColor = AppColor.Component.buttonPurple.color
             case .selected:
-                configuration.background.backgroundColor = .component(.buttonSelectedBlue)
+                configuration.background.backgroundColor = AppColor.Component.buttonSelectedBlue.color
             default:
                 return
             }
@@ -76,33 +76,45 @@ extension CharacterButton {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesBegan(touches, with: event)
         
-        AnimationGroup.init(animations: [.init(view: self,
-                                               animationCase: .transform( CGAffineTransform(scaleX: 0.95, y: 0.95)),
-                                               duration: 0.1)],
-                            mode: .parallel,
-                            loop: .once(completion: { }))
+        AnimationGroup(
+            animations: [
+                Animation(
+                    view: self,
+                    animationCase: 
+                        .transform( CGAffineTransform(scaleX: 0.95, y: 0.95)),
+                    duration: 0.1
+            )],
+            mode: .parallel,
+            loop: .once(completion: { })
+        )
         .run()
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesEnded(touches, with: event)
         
-        AnimationGroup.init(animations: [.init(view: self,
-                                               animationCase: .transform( .identity),
-                                               duration: 0.1)],
-                            mode: .parallel,
-                            loop: .once(completion: {} ))
+        AnimationGroup(
+            animations: [
+                Animation(view: self,
+                          animationCase: .transform( .identity),
+                          duration: 0.1)],
+            mode: .parallel,
+            loop: .once(completion: {} )
+        )
         .run()
     }
     
     override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesCancelled(touches, with: event)
         
-        AnimationGroup.init(animations: [.init(view: self,
-                                               animationCase: .transform( .identity),
-                                               duration: 0.1)],
-                            mode: .parallel,
-                            loop: .once(completion: {}))
+        AnimationGroup(
+            animations: [
+                Animation(view: self,
+                          animationCase: .transform( .identity),
+                          duration: 0.1)],
+            mode: .parallel,
+            loop: .once(completion: {})
+        )
         .run()
     }
 }

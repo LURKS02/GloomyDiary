@@ -27,9 +27,9 @@ final class WelcomeView: UIView {
     
     private let gradientView: GradientView = GradientView(
         colors: [
-            .background(.darkPurple),
-            .background(.mainPurple),
-            .background(.mainPurple)
+            AppColor.Background.darkPurple.color,
+            AppColor.Background.mainPurple.color,
+            AppColor.Background.mainPurple.color
         ]
     )
     
@@ -78,7 +78,7 @@ final class WelcomeView: UIView {
     // MARK: - View Life Cycle
     
     private func setup() {
-        self.backgroundColor = .background(.mainPurple)
+        self.backgroundColor = AppColor.Background.mainPurple.color
     }
     
     private func addSubviews() {

@@ -34,12 +34,12 @@ final class ErrorResultView: UIView {
         네트워크가 잘 연결되어 있는지 확인해보세요.
         잠시 기다렸다가 다시 시도해보세요.
         """
-        $0.textColor = .text(.subHighlight)
+        $0.textColor = AppColor.Text.subHighlight.color
     }
     
     let backButton = HorizontalButton().then {
         $0.setTitle("뒤로가기", for: .normal)
-        $0.setOriginBackgroundColor(with: .component(.blackPurple))
+        $0.setOriginBackgroundColor(with: AppColor.Component.blackPurple.color)
     }
     
     let homeButton = HorizontalButton().then {
@@ -65,7 +65,7 @@ final class ErrorResultView: UIView {
     // MARK: - View Life Cycle
     
     private func setup() {
-        backgroundColor = .background(.mainPurple)
+        backgroundColor = AppColor.Background.mainPurple.color
     }
     
     private func addSubviews() {
