@@ -131,7 +131,7 @@ struct Home {
                 }
                 
             case .scope(.destination(.presented(.review(.delegate(.didRequestReview))))):
-//                state.isReviewSuggested = true
+                state.isReviewSuggested = true
                 return .none
                 
             case .scope(.destination(.dismiss)):
