@@ -24,7 +24,7 @@ final class SendingLetterView: LetterView {
     // MARK: - Views
     
     private let letterImageView = UIImageView().then {
-        $0.image = UIImage(named: "letter")
+        $0.image = AppImage.Component.letter.image
     }
     
     private let letterWritingGuideLabel = NormalLabel().then {
@@ -53,7 +53,7 @@ final class SendingLetterView: LetterView {
         letterImageView.isHidden = false
         letterWritingGuideLabel.isHidden = false
         
-        backgroundColor = AppColor.Component.buttonPurple.color
+        backgroundColor = AppColor.Background.letter.color
     }
     
     override func addSubviews() {
@@ -94,7 +94,7 @@ private extension SendingLetterView {
         letterTextView.isHidden = false
         letterCharacterCountLabel.isHidden = false
         letterCharacterCountLabel.alpha = 0.3
-        letterCharacterCountLabel.textColor = AppColor.Text.highlight.color
+        letterCharacterCountLabel.textColor = AppColor.Text.main.color
         letterTextView.becomeFirstResponder()
     }
 }
@@ -104,12 +104,12 @@ extension SendingLetterView {
         switch state {
         case .empty:
             letterCharacterCountLabel.alpha = 0.3
-            letterCharacterCountLabel.textColor = AppColor.Text.highlight.color
+            letterCharacterCountLabel.textColor = AppColor.Text.main.color
         case .max:
             letterCharacterCountLabel.textColor = AppColor.Text.warning.color
         case .sendable:
             letterCharacterCountLabel.alpha = 0.7
-            letterCharacterCountLabel.textColor = AppColor.Text.highlight.color
+            letterCharacterCountLabel.textColor = AppColor.Text.main.color
         }
     }
 }

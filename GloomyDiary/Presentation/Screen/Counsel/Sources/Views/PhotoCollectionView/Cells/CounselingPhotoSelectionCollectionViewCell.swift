@@ -11,7 +11,7 @@ final class CounselingPhotoSelectionCollectionViewCell: UICollectionViewCell {
     static let identifier: String = "CounselingPhotoSelectionCell"
     
     private let backgroundColorView = UIView().then {
-        $0.backgroundColor = AppColor.Component.buttonPurple.color
+        $0.backgroundColor = AppColor.Background.letter.color
         $0.applyCornerRadius(10)
     }
     
@@ -82,7 +82,7 @@ extension CounselingPhotoSelectionCollectionViewCell {
         if count == maxCount {
             countLabel.textColor = AppColor.Text.warning.color
         } else {
-            countLabel.textColor = AppColor.Text.highlight.color
+            countLabel.textColor = AppColor.Text.main.color
         }
     }
 }

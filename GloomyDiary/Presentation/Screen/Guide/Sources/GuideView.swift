@@ -25,9 +25,9 @@ final class GuideView: UIView {
     
     let gradientView = GradientView(
         colors: [
-            AppColor.Background.darkPurple.color,
-            AppColor.Background.mainPurple.color,
-            AppColor.Background.mainPurple.color
+            AppColor.Background.sub.color,
+            AppColor.Background.main.color,
+            AppColor.Background.main.color
         ]
     )
     
@@ -70,8 +70,6 @@ final class GuideView: UIView {
         """
     }
     
-    private let feedbackGenerator = UIImpactFeedbackGenerator(style: .soft)
-    
     
     // MARK: - Properties
     
@@ -113,7 +111,7 @@ final class GuideView: UIView {
     // MARK: - View Life Cycle
     
     private func setup() {
-        backgroundColor = AppColor.Background.mainPurple.color
+        backgroundColor = AppColor.Background.main.color
     }
     
     private func addSubviews() {
@@ -198,14 +196,5 @@ extension GuideView {
             )
             .run()
         }
-    }
-}
-
-extension GuideView {
-    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        super.touchesEnded(touches, with: event)
-        
-        feedbackGenerator.prepare()
-        feedbackGenerator.impactOccurred()
     }
 }

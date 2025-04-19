@@ -108,9 +108,11 @@ extension ChoosingCharacterViewController: UINavigationControllerDelegate {
         from fromVC: UIViewController,
         to toVC: UIViewController
     ) -> (any UIViewControllerAnimatedTransitioning)? {
-        AnimatedTransition(fromDuration: 0.5,
-                           contentDuration: 2.5,
-                           toDuration: 0.5,
-                           transitionContentType: .frameTransitionWithLottie(store.character))
+        AnimatedTransition(
+            fromDuration: 0.5,
+            contentDuration: 2.5,
+            toDuration: 0.5,
+            transitionContentType: .frameTransitionWithLottie(store.character)
+        )
     }
 }

@@ -17,7 +17,7 @@ class LetterView: UIView {
     
     let letterTextView: UITextView = UITextView().then {
         $0.font = .온글잎_의연체.title
-        $0.textColor = AppColor.Text.highlight.color
+        $0.textColor = AppColor.Text.main.color
         $0.textAlignment = .left
         $0.backgroundColor = .clear
         $0.showsVerticalScrollIndicator = false

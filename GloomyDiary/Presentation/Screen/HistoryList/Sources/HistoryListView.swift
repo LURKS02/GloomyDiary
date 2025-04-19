@@ -25,8 +25,8 @@ final class HistoryListView: UIView {
     
     private let gradientBackgroundView = GradientView(
         colors: [
-            AppColor.Background.mainPurple.color.withAlphaComponent(0.0),
-            AppColor.Background.mainPurple.color
+            AppColor.Background.main.color.withAlphaComponent(0.0),
+            AppColor.Background.main.color
         ],
         locations: [0.0, 0.5, 1.0]
     )

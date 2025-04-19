@@ -21,8 +21,8 @@ enum CircularTabBarItemCase: CaseIterable {
             return CircularTabBarItem(
                 viewController: viewController,
                 title: "홈",
-                normalImage: UIImage(named: "home_unselected")!,
-                selectedImage: UIImage(named: "home_selected")!
+                normalImage: AppImage.TabBar.home.image(isSelected: false),
+                selectedImage: AppImage.TabBar.home.image(isSelected: true)
             )
             
         case .history:
@@ -32,8 +32,8 @@ enum CircularTabBarItemCase: CaseIterable {
             return CircularTabBarItem(
                 viewController: viewController,
                 title: "히스토리",
-                normalImage: UIImage(named: "history_unselected")!,
-                selectedImage: UIImage(named: "history_selected")!
+                normalImage: AppImage.TabBar.history.image(isSelected: false),
+                selectedImage: AppImage.TabBar.history.image(isSelected: true)
             )
         }
     }

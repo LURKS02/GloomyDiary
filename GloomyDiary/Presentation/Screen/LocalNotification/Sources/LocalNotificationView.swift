@@ -28,13 +28,13 @@ final class LocalNotificationView: UIView {
     let blurView = UIVisualEffectView()
     
     let sheetBackgroundView = UIView().then {
-        $0.backgroundColor = AppColor.Background.mainPurple.color
+        $0.backgroundColor = AppColor.Background.main.color
         $0.layer.cornerRadius = Metric.cornerRadius
         $0.alpha = 0.0
     }
     
     let ghostImageView = UIImageView().then {
-        $0.image = UIImage(named: "ghost")
+        $0.image = AppImage.Character.ghost(.normal).image
     }
     
     let notificationLabel = NormalLabel().then {
@@ -59,8 +59,8 @@ final class LocalNotificationView: UIView {
     
     let rejectButton = HorizontalButton().then {
         $0.setTitle("아니요..", for: .normal)
-        $0.setTitleColor(AppColor.Text.buttonSubHighlight.color, for: .normal)
-        $0.backgroundColor = AppColor.Component.buttonDisabledPurple.color
+        $0.setTitleColor(AppColor.Text.reject.color, for: .normal)
+        $0.backgroundColor = AppColor.Component.disabledButton.color
     }
     
     let checkButton = HorizontalButton().then {
@@ -195,7 +195,7 @@ extension LocalNotificationView {
     
     @MainActor
     func showAcceptResult() async {
-        ghostImageView.image = UIImage(named: "happyGhost")
+        ghostImageView.image = AppImage.Character.ghost(.happy).image
         notificationLabel.text = """
         알림이 설정되었어요!
 
@@ -227,7 +227,7 @@ extension LocalNotificationView {
     
     @MainActor
     func showRejectResult() async {
-        ghostImageView.image = UIImage(named: "cryingGhost")
+        ghostImageView.image = AppImage.Character.ghost(.crying).image
         notificationLabel.text = """
         알림을 거절했어요.
 

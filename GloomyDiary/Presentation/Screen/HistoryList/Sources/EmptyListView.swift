@@ -19,7 +19,7 @@ final class EmptyListView: UIView {
     // MARK: - Views
     
     private let ghostImageView = UIImageView().then {
-        $0.image = UIImage(named: "cryingGhost")
+        $0.image = AppImage.Character.ghost(.crying).image
     }
     
     private let introduceLabel = NormalLabel().then {

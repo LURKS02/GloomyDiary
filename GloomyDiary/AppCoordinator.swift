@@ -56,7 +56,7 @@ private extension AppCoordinator {
     
     private func createCoveringView(for originView: UIView) -> UIView {
         return UIView().then {
-            $0.backgroundColor = AppColor.Background.mainPurple.color
+            $0.backgroundColor = AppColor.Background.main.color
             $0.frame = originView.bounds
         }
     }

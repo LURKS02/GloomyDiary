@@ -119,7 +119,7 @@ extension HomeViewController {
 
 extension HomeViewController: FromTransitionable {
     var fromTransitionComponent: UIView? {
-        contentView.moonImageView
+        contentView.skyBadgeImageView
     }
     
     func prepareTransition(duration: TimeInterval) async {

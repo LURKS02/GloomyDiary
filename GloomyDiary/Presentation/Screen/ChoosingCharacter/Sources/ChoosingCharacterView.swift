@@ -28,8 +28,8 @@ final class ChoosingCharacterView: UIView {
     
     private let gradientView = GradientView(
         colors: [
-            AppColor.Background.darkPurple.color,
-            AppColor.Background.mainPurple.color
+            AppColor.Background.sub.color,
+            AppColor.Background.main.color
         ],
         locations: [0.0, 0.5, 1.0]
     )
@@ -87,7 +87,7 @@ final class ChoosingCharacterView: UIView {
     // MARK: - View Life Cycle
     
     private func setup() {
-        backgroundColor = AppColor.Background.mainPurple.color
+        backgroundColor = AppColor.Background.main.color
     }
     
     private func addSubviews() {

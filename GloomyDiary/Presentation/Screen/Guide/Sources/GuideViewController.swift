@@ -17,6 +17,8 @@ final class GuideViewController: BaseViewController<GuideView> {
     
     private let backgroundTap = UITapGestureRecognizer()
     
+    private let generator = UIImpactFeedbackGenerator(style: .soft)
+    
     private var animatedCount = 0
     
     private var animationLimit: Int {
@@ -58,6 +60,7 @@ private extension GuideViewController {
         backgroundTap.tapPublisher
             .sink { [weak self] _ in
                 guard let self else { return }
+                generator.prepare()
                 self.store.send(.view(.didTapBackground))
             }
             .store(in: &cancellables)
@@ -69,6 +72,7 @@ private extension GuideViewController {
             animatedCount = store.animationCount
             
             Task {
+                self.generator.impactOccurred()
                 self.backgroundTap.isEnabled = false
                 await self.contentView.runLabelAnimation(index: self.store.animationCount)
                 self.backgroundTap.isEnabled = true

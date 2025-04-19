@@ -12,7 +12,7 @@ final class StartCounselingView: UIView {
     // MARK: - Metric
     
     private enum Metric {
-        static let moonTopPadding: CGFloat = .deviceAdjustedHeight(97)
+        static let skyBadgeTopPadding: CGFloat = .deviceAdjustedHeight(97)
         static let firstNormalLabelTopPadding: CGFloat = .deviceAdjustedHeight(80)
         static let secondNormalLabelTopPadding: CGFloat = .deviceAdjustedHeight(31)
         static let thirdNormalLabelTopPadding: CGFloat = .deviceAdjustedHeight(22)
@@ -21,7 +21,7 @@ final class StartCounselingView: UIView {
         static let nextButtonTopPadding: CGFloat = .deviceAdjustedHeight(30)
         static let titleTextFieldHeight: CGFloat = 60
         static let titleTextFieldWidth: CGFloat = .deviceAdjustedWidth(312)
-        static let moonImageSize: CGFloat = .deviceAdjustedHeight(43)
+        static let skyBadgeImageSize: CGFloat = .deviceAdjustedHeight(43)
         static let warningLabelPadding: CGFloat = .deviceAdjustedHeight(5)
     }
 
@@ -30,15 +30,15 @@ final class StartCounselingView: UIView {
     
     let containerView = UIView()
     
-    let moonImageView = UIImageView().then {
-        $0.image = UIImage(named: "moon")
+    let skyBadgeImageView = UIImageView().then {
+        $0.image = AppImage.Component.skyBadge.image
         $0.alpha = 0.0
     }
     
     private let gradientView = GradientView(
         colors: [
-            AppColor.Background.darkPurple.color,
-            AppColor.Background.mainPurple.color
+            AppColor.Background.sub.color,
+            AppColor.Background.main.color
         ],
         locations: [0.0, 0.5, 1.0]
     )
@@ -94,14 +94,14 @@ final class StartCounselingView: UIView {
     // MARK: - View Life Cycle
     
     private func setup() {
-        backgroundColor = AppColor.Background.mainPurple.color
+        backgroundColor = AppColor.Background.main.color
     }
     
     private func addSubviews() {
         addSubview(gradientView)
         addSubview(containerView)
         
-        containerView.addSubview(moonImageView)
+        containerView.addSubview(skyBadgeImageView)
         containerView.addSubview(firstNormalLabel)
         containerView.addSubview(secondNormalLabel)
         containerView.addSubview(thirdNormalLabel)
@@ -120,16 +120,16 @@ final class StartCounselingView: UIView {
             make.edges.equalToSuperview()
         }
         
-        moonImageView.snp.makeConstraints { make in
+        skyBadgeImageView.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.top.equalToSuperview().offset(Metric.moonTopPadding)
-            make.height.equalTo(Metric.moonImageSize)
-            make.width.equalTo(Metric.moonImageSize)
+            make.top.equalToSuperview().offset(Metric.skyBadgeTopPadding)
+            make.height.equalTo(Metric.skyBadgeImageSize)
+            make.width.equalTo(Metric.skyBadgeImageSize)
         }
         
         firstNormalLabel.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.top.equalTo(moonImageView.snp.bottom).offset(Metric.firstNormalLabelTopPadding)
+            make.top.equalTo(skyBadgeImageView.snp.bottom).offset(Metric.firstNormalLabelTopPadding)
         }
         
         secondNormalLabel.snp.makeConstraints { make in
@@ -176,18 +176,18 @@ final class StartCounselingView: UIView {
 extension StartCounselingView {
     func hideAllComponents() {
         containerView.subviews.exclude(
-            moonImageView,
+            skyBadgeImageView,
             warningLabel
         ).forEach { $0.alpha = 0.0 }
     }
     
     @MainActor
-    func playMovingMoon(duration: TimeInterval) async {
-        if moonImageView.alpha == 0.0 {
+    func playMovingSkyBadge(duration: TimeInterval) async {
+        if skyBadgeImageView.alpha == 0.0 {
             await withCheckedContinuation { continuation in
                 AnimationGroup(
                     animations: [
-                        Animation(view: moonImageView,
+                        Animation(view: skyBadgeImageView,
                                   animationCase: .fadeIn,
                                   duration: duration)
                     ],
@@ -200,7 +200,7 @@ extension StartCounselingView {
     
     @MainActor
     func playFadeInFirstPart(duration: TimeInterval) async {
-        moonImageView.transform = .identity.translatedBy(x: 0, y: .deviceAdjustedHeight(35))
+        skyBadgeImageView.transform = .identity.translatedBy(x: 0, y: .deviceAdjustedHeight(35))
         
         let percentages: [CGFloat] = [30, 20, 40, 10]
         let calculatedDurations = percentages.map { duration * $0 / 100 }
@@ -208,7 +208,7 @@ extension StartCounselingView {
         await withCheckedContinuation { continuation in
             AnimationGroup(
                 animations: [
-                    Animation(view: moonImageView,
+                    Animation(view: skyBadgeImageView,
                               animationCase: .transform( .identity),
                               duration: calculatedDurations[0]),
                     Animation(view: firstNormalLabel,

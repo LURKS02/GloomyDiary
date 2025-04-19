@@ -12,7 +12,9 @@ import SwiftData
 final class SwiftDataCounselingSessionRepository: CounselingSessionRepository {
     @Dependency(\.logger) var logger
     
-    private let swiftDataService = SwiftDataService<CounselingSession>(modelContainer: AppEnvironment.shared.modelContainer)
+    private let swiftDataService = SwiftDataService<CounselingSession>(
+        modelContainer: AppEnvironment.modelContainer
+    )
     
     func fetch() async throws -> [Session] {
         let descriptor = FetchDescriptor<CounselingSession>(predicate: nil,

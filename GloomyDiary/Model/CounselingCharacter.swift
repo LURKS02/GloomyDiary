@@ -31,6 +31,7 @@ enum CounselingCharacter: String, CaseIterable, Equatable {
         }
     }
     
+    // deprecated
     var imageName: String {
         switch self {
         case .chan:
@@ -42,6 +43,7 @@ enum CounselingCharacter: String, CaseIterable, Equatable {
         }
     }
     
+    // deprecated
     var cryingImageName: String {
         switch self {
         case .chan:

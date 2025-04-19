@@ -17,6 +17,8 @@ final class WelcomeViewController: BaseViewController<WelcomeView> {
     // MARK: - Properties
     
     private let ghostTap = UITapGestureRecognizer()
+    
+    private let generator = UIImpactFeedbackGenerator(style: .light)
 
     
     // MARK: - Initialize
@@ -55,6 +57,7 @@ final class WelcomeViewController: BaseViewController<WelcomeView> {
 
 private extension WelcomeViewController {
     func bind() {
+        generator.prepare()
         contentView.ghostView.addGestureRecognizer(ghostTap)
         contentView.ghostView.isUserInteractionEnabled = true
         
@@ -62,6 +65,7 @@ private extension WelcomeViewController {
             .sink { [weak self] _ in
                 guard let self else { return }
                 store.send(.view(.didTapGhost))
+                generator.impactOccurred()
             }
             .store(in: &cancellables)
     }

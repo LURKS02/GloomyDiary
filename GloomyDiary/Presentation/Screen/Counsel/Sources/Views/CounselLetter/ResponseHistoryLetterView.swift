@@ -28,7 +28,7 @@ final class ResponseHistoryLetterView: LetterView {
         
         letterTextView.isEditable = false
         letterTextView.isScrollEnabled = false
-        backgroundColor = AppColor.Background.mainPurple.color
+        backgroundColor = AppColor.Background.main.color
     }
     
     override func addSubviews() {
@@ -58,7 +58,7 @@ final class ResponseHistoryLetterView: LetterView {
 
 extension ResponseHistoryLetterView {
     func configure(with character: CounselingCharacter, response: String) {
-        characterImageView.image = UIImage(named: character.imageName)
+        characterImageView.image = AppImage.Character.counselor(character, .normal).image
         letterTextView.text = response
     }
 }

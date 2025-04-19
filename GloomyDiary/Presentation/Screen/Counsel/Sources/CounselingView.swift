@@ -52,11 +52,11 @@ final class CounselingView: UIView {
     }
     
     private let rightEdgeView = UIView().then {
-        $0.backgroundColor = AppColor.Background.mainPurple.color
+        $0.backgroundColor = AppColor.Background.main.color
     }
     
     private let leftEdgeView = UIView().then {
-        $0.backgroundColor = AppColor.Background.mainPurple.color
+        $0.backgroundColor = AppColor.Background.main.color
     }
     
     let sendingLetterView: SendingLetterView = SendingLetterView()
@@ -87,7 +87,7 @@ final class CounselingView: UIView {
     
     private func setup() {
         addGestureRecognizer(tapGesture)
-        backgroundColor = AppColor.Background.mainPurple.color
+        backgroundColor = AppColor.Background.main.color
         characterGreetingLabel.alpha = 0
         sendingLetterView.alpha = 0
         letterSendingButton.alpha = 0
@@ -160,7 +160,7 @@ final class CounselingView: UIView {
 
 extension CounselingView {
     func configure(with character: CounselingCharacter) {
-        characterImageView.image = UIImage(named: character.imageName)
+        characterImageView.image = AppImage.Character.counselor(character, .normal).image
         characterGreetingLabel.text = character.greetingMessage
     }
     

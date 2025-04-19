@@ -31,7 +31,7 @@ final class DeleteView: UIView {
     }
     
     private let sheetBackgroundView = UIView().then {
-        $0.backgroundColor = AppColor.Background.mainPurple.color
+        $0.backgroundColor = AppColor.Background.main.color
         $0.layer.cornerRadius = Metric.cornerRadius
         $0.alpha = 0.0
     }
@@ -59,8 +59,9 @@ final class DeleteView: UIView {
     
     let rejectButton = HorizontalButton().then {
         $0.setTitle("아니오", for: .normal)
-        $0.setTitleColor(AppColor.Text.buttonSubHighlight.color, for: .normal)
-        $0.backgroundColor = AppColor.Component.buttonDisabledPurple.color
+        $0.setTitleColor(AppColor.Text.reject.color, for: .normal)
+        $0.backgroundColor = AppColor.Component.disabledButton.color
+        $0.setOriginBackgroundColor(with: AppColor.Component.disabledButton.color)
     }
     
     
@@ -123,7 +124,7 @@ final class DeleteView: UIView {
 
 extension DeleteView {
     func configure(character: CounselingCharacter) {
-        self.characterImageView.image = UIImage(named: character.cryingImageName)
+        self.characterImageView.image = AppImage.Character.counselor(character, .crying).image
     }
 }
 

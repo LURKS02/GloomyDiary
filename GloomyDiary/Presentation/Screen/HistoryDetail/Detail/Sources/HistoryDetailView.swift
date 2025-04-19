@@ -49,15 +49,15 @@ final class HistoryDetailView: UIView {
     }
     
     private let letterImageView = UIImageView().then {
-        $0.image = UIImage(named: "letter")
+        $0.image = AppImage.Component.letter.image
     }
     
     private let responseLetterView = ResponseHistoryLetterView()
     
     var gradientBackgroundView = GradientView(
         colors: [
-            AppColor.Component.buttonPurple.color.withAlphaComponent(0.0),
-            AppColor.Component.buttonPurple.color
+            AppColor.Background.historyCell.color.withAlphaComponent(0.0),
+            AppColor.Background.historyCell.color
         ],
         locations: [0.0, 0.5, 1.0]
     )
@@ -86,7 +86,7 @@ final class HistoryDetailView: UIView {
     // MARK: - View Life Cycle
 
     private func setup() {
-        backgroundColor = AppColor.Component.buttonPurple.color
+        backgroundColor = AppColor.Background.historyCell.color
     }
     
     private func addSubviews() {

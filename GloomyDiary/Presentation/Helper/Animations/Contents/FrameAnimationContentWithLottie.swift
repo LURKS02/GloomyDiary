@@ -16,7 +16,7 @@ final class FrameAnimationContentWithLottie: UIView, AnimationContent {
         static let readyLabelPadding: CGFloat = .deviceAdjustedHeight(50)
     }
     
-    private let starLottieView = LottieAnimationView(name: "stars").then {
+    private let starLottieView = LottieAnimationView(name: AppImage.JSON.stars.name).then {
         $0.frame = .init(x: 0, y: 0, width: Metric.starWidth, height: Metric.starHeight)
         $0.animationSpeed = 2.0
         $0.loopMode = .loop

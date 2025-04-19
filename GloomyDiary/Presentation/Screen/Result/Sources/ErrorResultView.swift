@@ -39,7 +39,7 @@ final class ErrorResultView: UIView {
     
     let backButton = HorizontalButton().then {
         $0.setTitle("뒤로가기", for: .normal)
-        $0.setOriginBackgroundColor(with: AppColor.Component.blackPurple.color)
+        $0.setOriginBackgroundColor(with: AppColor.Component.subHorizontalButton.color)
     }
     
     let homeButton = HorizontalButton().then {
@@ -65,7 +65,7 @@ final class ErrorResultView: UIView {
     // MARK: - View Life Cycle
     
     private func setup() {
-        backgroundColor = AppColor.Background.mainPurple.color
+        backgroundColor = AppColor.Background.main.color
     }
     
     private func addSubviews() {
@@ -106,7 +106,7 @@ final class ErrorResultView: UIView {
     }
     
     func configure(with character: CounselingCharacter) {
-        characterImageView.image = UIImage(named: character.cryingImageName)
+        characterImageView.image = AppImage.Character.counselor(character, .crying).image
     }
 }
 

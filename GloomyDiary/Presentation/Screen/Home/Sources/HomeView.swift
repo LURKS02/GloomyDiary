@@ -25,32 +25,35 @@ final class HomeView: UIView {
         static let pulsingCircleSize: CGFloat = .deviceAdjustedHeight(380)
         static let ghostImageSize: CGFloat = .deviceAdjustedWidth(78)
         
-        static let pulsingCircleAlpha: CGFloat = 0.3
+        static let pulsingCircleAlpha: CGFloat = AppEnvironment.appearanceMode == .dark ? 0.3 : 0.7
         static let pulsingCircleAnimationSpeed: CGFloat = 0.3
-        static let sparklingAlpha: CGFloat = 0.3
         static let sparklingAnimationSpeed: CGFloat = 0.5
     }
     
     
     // MARK: - Views
     
-    let gradientView: GradientView = GradientView(colors: [AppColor.Background.darkPurple.color,
-                                                           AppColor.Background.mainPurple.color,
-                                                           AppColor.Background.mainPurple.color])
+    let gradientView: GradientView = GradientView(
+        colors: [
+            AppColor.Background.sub.color,
+            AppColor.Background.main.color,
+            AppColor.Background.main.color
+        ]
+    )
     
-    let moonImageView = UIImageView().then {
-        $0.image = UIImage(named: "moon")
+    let skyBadgeImageView = UIImageView().then {
+        $0.image = AppImage.Component.skyBadge.image
     }
     
-    let pulsingCircleLottieView = LottieAnimationView(name: "pulsingCircle").then {
+    let pulsingCircleLottieView = LottieAnimationView(name: AppImage.JSON.pulsingCircle.name).then {
         $0.alpha = Metric.pulsingCircleAlpha
         $0.animationSpeed = Metric.pulsingCircleAnimationSpeed
         $0.loopMode = .loop
         $0.play()
     }
     
-    let sparklingLottieView = LottieAnimationView(name: "sparkles").then {
-        $0.alpha = Metric.sparklingAlpha
+    let sparklingLottieView = LottieAnimationView(name: AppImage.JSON.sparkles.name).then {
+        $0.alpha = 1.0
         $0.animationSpeed = Metric.sparklingAnimationSpeed
         $0.contentMode = .scaleToFill
         $0.loopMode = .loop
@@ -89,13 +92,13 @@ final class HomeView: UIView {
     // MARK: - View Life Cycle
     
     private func setup() {
-        self.backgroundColor = AppColor.Background.mainPurple.color
+        self.backgroundColor = AppColor.Background.main.color
     }
     
     private func addSubviews() {
         addSubview(gradientView)
-        addSubview(moonImageView)
         addSubview(pulsingCircleLottieView)
+        addSubview(skyBadgeImageView)
         addSubview(sparklingLottieView)
         addSubview(ghostTalkingView)
         addSubview(ghostImageView)
@@ -107,7 +110,7 @@ final class HomeView: UIView {
             make.edges.equalToSuperview()
         }
         
-        moonImageView.snp.makeConstraints { make in
+        skyBadgeImageView.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
             make.top.equalToSuperview().offset(Metric.moonTopPadding)
             make.height.equalTo(Metric.moonImageSize)
@@ -115,12 +118,12 @@ final class HomeView: UIView {
         }
         
         pulsingCircleLottieView.snp.makeConstraints { make in
-            make.center.equalTo(moonImageView)
+            make.center.equalTo(skyBadgeImageView)
             make.size.equalTo(Metric.pulsingCircleSize)
         }
         
         sparklingLottieView.snp.makeConstraints { make in
-            make.center.equalTo(moonImageView)
+            make.center.equalTo(skyBadgeImageView)
             make.width.equalToSuperview()
         }
         
@@ -153,7 +156,7 @@ extension HomeView {
     
     @MainActor
     func playFadeOutAllComponents(duration: TimeInterval) async {
-        let animations = subviews.exclude(moonImageView, gradientView).map {
+        let animations = subviews.exclude(skyBadgeImageView, gradientView).map {
             Animation(view: $0,
                       animationCase: .fadeOut,
                       duration: duration)
@@ -190,7 +193,7 @@ extension HomeView {
             animations.append(
                 Animation(
                     view: sparklingLottieView,
-                    animationCase: .fade(value: Metric.sparklingAlpha),
+                    animationCase: .fadeIn,
                     duration: duration
                 )
             )
@@ -230,7 +233,7 @@ extension HomeView {
         )
         
         let sparklingAnimation = Animation(view: sparklingLottieView,
-                                           animationCase: .fade(value: Metric.sparklingAlpha),
+                                           animationCase: .fadeIn,
                                            duration: 0.2)
         
         await withCheckedContinuation { continuation in

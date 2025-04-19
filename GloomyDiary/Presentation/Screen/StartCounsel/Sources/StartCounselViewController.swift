@@ -116,7 +116,7 @@ private extension StartCounselViewController {
     
     private func updateContentOffset() {
         if isKeyboardShowing {
-            let translateY = -self.contentView.moonImageView.frame.maxY
+            let translateY = -self.contentView.skyBadgeImageView.frame.maxY
              
             UIView.animate(withDuration: 0.25) {
                 self.contentView.containerView.transform = .identity.translatedBy(x: 0, y: translateY)
@@ -144,16 +144,16 @@ extension StartCounselViewController: FromTransitionable {
 
 extension StartCounselViewController: ToTransitionable {
     var toTransitionComponent: UIView? {
-        contentView.moonImageView
+        contentView.skyBadgeImageView
     }
     
     func completeTransition(duration: TimeInterval) async {
-        contentView.moonImageView.transform = .identity.translatedBy(x: 0, y: .deviceAdjustedHeight(35))
+        contentView.skyBadgeImageView.transform = .identity.translatedBy(x: 0, y: .deviceAdjustedHeight(35))
         
         let percentages: [CGFloat] = [10, 70, 20]
         let calculatedDurations = percentages.map { duration * $0 / 100 }
         
-        await contentView.playMovingMoon(duration: calculatedDurations[0])
+        await contentView.playMovingSkyBadge(duration: calculatedDurations[0])
         await contentView.playFadeInFirstPart(duration: calculatedDurations[1])
         await contentView.playFadeInSecondPart(duration: calculatedDurations[2])
     }

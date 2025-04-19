@@ -45,7 +45,7 @@ final class EmojiButton: UIButton {
         title.foregroundColor = AppColor.Text.main.color
         configuration.attributedTitle = title
         configuration.titleAlignment = .center
-        configuration.background.backgroundColor = AppColor.Component.horizontalButton.color
+        configuration.background.backgroundColor = AppColor.Component.disabledSelectionButton.color
         configuration.contentInsets = NSDirectionalEdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20)
         
         self.configuration = configuration
@@ -57,7 +57,7 @@ extension EmojiButton {
         super.touchesBegan(touches, with: event)
         
         var configuration = self.configuration
-        configuration?.background.backgroundColor = AppColor.Component.selectedButton.color.withAlphaComponent(0.3)
+        configuration?.background.backgroundColor = AppColor.Component.selectedSelectionButton.color.withAlphaComponent(0.3)
         self.configuration = configuration
         
         feedbackGenerator.prepare()
@@ -78,7 +78,7 @@ extension EmojiButton {
         super.touchesMoved(touches, with: event)
         
         var configuration = self.configuration
-        configuration?.background.backgroundColor = AppColor.Component.selectedButton.color.withAlphaComponent(0.3)
+        configuration?.background.backgroundColor = AppColor.Component.selectedSelectionButton.color.withAlphaComponent(0.3)
         
         self.configuration = configuration
     }

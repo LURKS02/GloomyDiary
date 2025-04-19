@@ -28,6 +28,7 @@ final class HistoryDetailImageView: UIView {
     
     private let numberLabel = NormalLabel().then {
         $0.font = .온글잎_의연체.body
+        $0.textColor = .white
     }
     
     private let labelBackgroundView = UIView().then {

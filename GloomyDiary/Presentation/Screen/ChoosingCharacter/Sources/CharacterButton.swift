@@ -57,9 +57,9 @@ final class CharacterButton: UIButton {
             guard var configuration = button.configuration else { return }
             switch button.state {
             case .normal:
-                configuration.background.backgroundColor = AppColor.Component.horizontalButton.color
+                configuration.background.backgroundColor = AppColor.Component.disabledSelectionButton.color
             case .selected:
-                configuration.background.backgroundColor = AppColor.Component.selectedButton.color
+                configuration.background.backgroundColor = AppColor.Component.selectedSelectionButton.color
             default:
                 return
             }

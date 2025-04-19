@@ -14,7 +14,7 @@ final class HorizontalButton: UIButton {
         static let buttonCornerRadius: CGFloat = max(.deviceAdjustedHeight(28), 25)
     }
     
-    private var originBackgroundColor: UIColor = AppColor.Component.buttonPurple.color
+    private var originBackgroundColor: UIColor = AppColor.Component.horizontalButton.color
     
     override var isEnabled: Bool {
         didSet {
@@ -25,7 +25,7 @@ final class HorizontalButton: UIButton {
     override var isHighlighted: Bool {
         didSet {
             if isHighlighted {
-                self.backgroundColor = AppColor.Component.buttonSelectedBlue.color
+                self.backgroundColor = AppColor.Component.selectedHorizontalButton.color
             } else {
                 self.backgroundColor = originBackgroundColor
             }
@@ -46,9 +46,9 @@ final class HorizontalButton: UIButton {
     }
     
     private func setup() {
-        self.setTitleColor(AppColor.Text.highlight.color, for: .normal)
-        self.setTitleColor(AppColor.Text.buttonDisabled.color, for: .disabled)
-        self.backgroundColor = AppColor.Component.buttonPurple.color
+        self.setTitleColor(AppColor.Text.main.color, for: .normal)
+        self.setTitleColor(AppColor.Text.disabled.color, for: .disabled)
+        self.backgroundColor = AppColor.Component.horizontalButton.color
         self.applyCornerRadius(Metric.buttonCornerRadius)
         self.titleLabel?.font = .온글잎_의연체.title
     }
@@ -71,9 +71,9 @@ extension HorizontalButton {
 extension HorizontalButton {
     private func updateAppearance() {
         if isEnabled {
-            self.backgroundColor = AppColor.Component.buttonPurple.color
+            self.backgroundColor = AppColor.Component.horizontalButton.color
         } else {
-            self.backgroundColor = AppColor.Component.buttonDisabledPurple.color
+            self.backgroundColor = AppColor.Component.disabledButton.color
         }
     }
 }

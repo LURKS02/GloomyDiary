@@ -164,7 +164,7 @@ private extension HistoryDetailViewController {
     }
     
     func setupNavigationBar() {
-        guard let image = UIImage(named: "letter") else { return }
+        let image = AppImage.Component.letter.image
         let size: CGFloat = 40
         let titleImage = image.resized(width: size, height: size)
         let imageView = UIImageView(image: titleImage)
@@ -185,8 +185,8 @@ private extension HistoryDetailViewController {
             action: #selector(backButtonTapped)
         )
         
-        moreButton.tintColor = .white
-        backButton.tintColor = .white
+        moreButton.tintColor = AppColor.Component.navigationItem.color
+        backButton.tintColor = AppColor.Component.navigationItem.color
         navigationItem.rightBarButtonItem = moreButton
         navigationItem.leftBarButtonItem = backButton
     }

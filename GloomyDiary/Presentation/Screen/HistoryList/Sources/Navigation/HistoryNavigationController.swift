@@ -32,7 +32,7 @@ final class HistoryNavigationController: NavigationStackController {
         
         let appearance = self.navigationBar.standardAppearance
         appearance.configureWithOpaqueBackground()
-        appearance.backgroundColor = AppColor.Component.buttonPurple.color
+        appearance.backgroundColor = AppColor.Background.historyCell.color
         appearance.shadowColor = .clear
         self.navigationBar.standardAppearance = appearance
         self.navigationBar.scrollEdgeAppearance = appearance

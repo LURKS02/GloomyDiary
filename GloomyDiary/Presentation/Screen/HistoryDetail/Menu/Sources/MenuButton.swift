@@ -38,7 +38,7 @@ final class MenuButton: UIButton {
             var attributedTitle = AttributedString(title)
             
             if button.isHighlighted {
-                attributedTitle.foregroundColor = AppColor.Text.highlight.color
+                attributedTitle.foregroundColor = AppColor.Text.main.color
             } else {
                 attributedTitle.foregroundColor = fontColor
             }

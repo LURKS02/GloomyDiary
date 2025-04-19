@@ -22,7 +22,7 @@ final class GhostView: UIImageView {
     }
     
     private func setup() {
-        self.image = UIImage(named: "ghost")
+        self.image = AppImage.Character.ghost(.normal).image
     }
 }
 
