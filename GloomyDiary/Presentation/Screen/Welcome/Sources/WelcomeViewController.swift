@@ -43,12 +43,14 @@ final class WelcomeViewController: BaseViewController<WelcomeView> {
         self.navigationController?.delegate = self
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         
         Task {
             await contentView.playFadeInAllComponents()
         }
+        
+        store.send(.view(.viewDidAppear))
     }
 }
 

@@ -37,60 +37,27 @@ final class AppCoordinator {
 
 private extension AppCoordinator {
     func showTutorial() {
-        let tabs = CircularTabBarItemCase.allCases
+        let tabs: [CircularTabBarItemCase] = [.home(true), .history]
         let mainViewController = CircularTabBarController(tabBarItems: tabs.map { $0.value })
         mainViewController.hideCircularTabBar()
         
-        guard let originView = mainViewController.view else { return }
-        
-        let coveringView = createCoveringView(for: originView)
-        originView.addSubview(coveringView)
-        
-        configureWindow(with: mainViewController)
-        
-        let welcomeViewController = createWelcomeViewController()
-        
-        guard let selectedViewController = mainViewController.selectedViewController else { return }
-        configureCustomTransition(for: welcomeViewController, in: selectedViewController, coveringView: coveringView)
-    }
-    
-    private func createCoveringView(for originView: UIView) -> UIView {
-        return UIView().then {
-            $0.backgroundColor = AppColor.Background.main.color
-            $0.frame = originView.bounds
+        if let homeVC = mainViewController.selectedViewController as? HomeViewController {
+            let coveringView = UIView().then {
+                $0.backgroundColor = AppColor.Background.main.color
+                $0.frame = UIScreen.main.bounds
+            }
+            homeVC.contentView.addSubview(coveringView)
+            homeVC.coveringView = coveringView
         }
-    }
-    
-    private func configureWindow(with rootViewController: UIViewController) {
-        window.rootViewController = rootViewController
+        
+        window.rootViewController = mainViewController
         window.makeKeyAndVisible()
-    }
-    
-    private func createWelcomeViewController() -> UINavigationController {
-        let navigationController = TutorialNavigationController(store: .init(initialState: .init(), reducer: {
-            TutorialNavigation()
-        }))
-        navigationController.modalPresentationStyle = .custom
-        return navigationController
-    }
-    
-    private func configureCustomTransition(
-        for navigationController: UINavigationController,
-        in viewController: UIViewController,
-        coveringView: UIView
-    ) {
-        guard let delegateViewController = viewController as? UIViewControllerTransitioningDelegate else { return }
-
-        navigationController.transitioningDelegate = delegateViewController
-        viewController.present(navigationController, animated: false) {
-            coveringView.removeFromSuperview()
-        }
     }
 }
     
 private extension AppCoordinator {
     func showHome() {
-        let tabs = CircularTabBarItemCase.allCases
+        let tabs: [CircularTabBarItemCase] = [.home(false), .history]
         let mainViewController = CircularTabBarController(tabBarItems: tabs.map { $0.value })
         window.rootViewController = mainViewController
         window.makeKeyAndVisible()

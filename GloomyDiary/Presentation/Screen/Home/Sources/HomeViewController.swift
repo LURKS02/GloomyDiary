@@ -21,6 +21,10 @@ final class HomeViewController: BaseViewController<HomeView> {
     
     private let backgroundTap = UITapGestureRecognizer()
     
+    var coveringView: UIView?
+    
+    private var tutorialViewController: TutorialNavigationController?
+    
     
     // MARK: - Initialize
     
@@ -101,6 +105,15 @@ extension HomeViewController {
             return navigationVC
         }
         
+        present(item: $store.scope(state: \.destination?.tutorial, action: \.scope.destination.tutorial)) { [weak self] store in
+            guard let self else { return UIViewController() }
+            
+            let navigationVC = TutorialNavigationController(store: store)
+            self.tutorialViewController = navigationVC
+            navigationVC.modalPresentationStyle = .fullScreen
+            return navigationVC
+        }
+        
         observe { [weak self] in
             guard let self else { return }
             
@@ -109,6 +122,12 @@ extension HomeViewController {
             if store.isReviewSuggested {
                 guard let windowScene = view.window?.windowScene else { return }
                 AppStore.requestReview(in: windowScene)
+            }
+            
+            if store.hasShownTutorial {
+                tutorialViewController?.transitioningDelegate = self
+                coveringView?.removeFromSuperview()
+                coveringView = nil
             }
         }
     }

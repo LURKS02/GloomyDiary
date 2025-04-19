@@ -8,14 +8,15 @@
 import ComposableArchitecture
 import UIKit
 
-enum CircularTabBarItemCase: CaseIterable {
-    case home
+enum CircularTabBarItemCase {
+    case home(Bool)
     case history
     
     var value: CircularTabBarItem {
         switch self {
-        case .home:
-            let store = Store(initialState: Home.State()) { Home() }
+        case .home(let tutorial):
+            let store: Store<Home.State, Home.Action> = tutorial ? Store(initialState: Home.State(destination: .tutorial(.init()))) { Home() } : Store(initialState: Home.State()) { Home() }
+            
             let viewController = HomeViewController(store: store)
             
             return CircularTabBarItem(

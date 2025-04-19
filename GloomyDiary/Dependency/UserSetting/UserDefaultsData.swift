@@ -25,6 +25,7 @@ final class UserDefaultsData: UserDatabase {
                 hasReviewed: false,
                 lastReviewDeclinedDate: nil,
                 hasSuggestedNotification: false,
+                appearanceMode: .dark
             )
             guard let encodedData = try? encoder.encode(initialSetting) else { fatalError("initial setting encoding error") }
             self.setting = initialSetting

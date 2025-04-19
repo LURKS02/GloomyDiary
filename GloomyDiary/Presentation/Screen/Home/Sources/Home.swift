@@ -23,6 +23,7 @@ struct Home {
         var showNotificationSuggestion: Bool = false
         var isReviewSuggested: Bool = false
         var isFirstAppearance: Bool = true
+        var hasShownTutorial: Bool = false
     }
     
     enum Action: FeatureAction, Equatable {
@@ -134,6 +135,10 @@ struct Home {
                 state.isReviewSuggested = true
                 return .none
                 
+            case .scope(.destination(.presented(.tutorial(.welcome(.delegate(.removeCoveringView)))))):
+                state.hasShownTutorial = true
+                return .none
+                
             case .scope(.destination(.dismiss)):
                 state.destination = nil
                 return .none
@@ -152,5 +157,6 @@ extension Home {
         case review(Review)
         case notification(LocalNotification)
         case counseling(CounselNavigation)
+        case tutorial(TutorialNavigation)
     }
 }

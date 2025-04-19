@@ -25,6 +25,7 @@ struct Welcome {
     
     enum ViewAction: Equatable {
         case didTapGhost
+        case viewDidAppear
     }
     
     enum InnerAction: Equatable {}
@@ -32,6 +33,7 @@ struct Welcome {
     enum ScopeAction: Equatable {}
     
     enum DelegateAction: Equatable {
+        case removeCoveringView
         case navigateToGuide
     }
     
@@ -40,6 +42,11 @@ struct Welcome {
             switch action {
             case .view(let viewAction):
                 switch viewAction {
+                case .viewDidAppear:
+                    return .run { send in
+                        await send(.delegate(.removeCoveringView))
+                    }
+                    
                 case .didTapGhost:
                     logger.send(.tapped, "튜토리얼: 유령을 클릭했습니다.", nil)
                     
