@@ -1,0 +1,49 @@
+//
+//  FloatingTabBarItemButton.swift
+//  GloomyDiary
+//
+//  Created by 디해 on 4/20/25.
+//
+
+import UIKit
+
+final class FloatingTabBarItemButton: UIButton {
+    private let normalImage: UIImage
+    private let selectedImage: UIImage
+    private let radius: CGFloat
+    
+    init(item: FloatingTabBarItem, radius: CGFloat) {
+        self.normalImage = item.normalImage
+        self.selectedImage = item.selectedImage
+        self.radius = radius
+        
+        super.init(frame: .zero)
+        
+        setup()
+        setupConstraints()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func setup() {
+        setImage(normalImage, for: .normal)
+        setImage(selectedImage, for: .highlighted)
+    }
+    
+    private func setupConstraints() {
+        self.snp.makeConstraints { make in
+            make.height.equalTo(radius)
+            make.width.equalTo(radius)
+        }
+    }
+    
+    func setButtonImage(isHighlighted: Bool) {
+        if isHighlighted {
+            setImage(selectedImage, for: .normal)
+        } else {
+            setImage(normalImage, for: .normal)
+        }
+    }
+}

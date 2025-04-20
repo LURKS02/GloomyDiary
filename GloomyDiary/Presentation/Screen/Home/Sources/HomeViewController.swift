@@ -142,9 +142,9 @@ extension HomeViewController: FromTransitionable {
     }
     
     func prepareTransition(duration: TimeInterval) async {
-        if let circularTabBarControllable = self.tabBarController as? CircularTabBarControllable {
+        if let floatingTabBarController = self.tabBarController as? FloatingTabBarController {
             async let playAllComponentsFadeOut: () = contentView.playFadeOutAllComponents(duration: duration)
-            async let playTabBarFadeOut: () = circularTabBarControllable.hideCircularTabBar(duration: duration)
+            async let playTabBarFadeOut: () = floatingTabBarController.playDisappearingTabBar(duration: duration)
             let _ = await (playAllComponentsFadeOut, playTabBarFadeOut)
         } else {
             await contentView.playFadeOutAllComponents(duration: duration)
@@ -160,9 +160,9 @@ extension HomeViewController: ToTransitionable {
     func completeTransition(duration: TimeInterval) async {
         contentView.hideAllComponents()
         
-        if let circularTabBarControllable = self.tabBarController as? CircularTabBarControllable {
+        if let tabBarController = self.tabBarController as? FloatingTabBarController {
             async let playAllComponentsFadeIn: () = contentView.playAllComponentsFadeIn(duration: duration)
-            async let playTabBarFadeIn: () = circularTabBarControllable.showCircularTabBar(duration: duration)
+            async let playTabBarFadeIn: () = tabBarController.playAppearingTabBar(duration: duration)
             let _ = await (playAllComponentsFadeIn, playTabBarFadeIn)
         } else {
             await contentView.playAllComponentsFadeIn(duration: duration)
@@ -197,13 +197,13 @@ extension HomeViewController: UIViewControllerTransitioningDelegate {
 }
 
 extension HomeViewController: ToTabSwitchAnimatable {
-    func playTabAppearingAnimation() async {
-        await contentView.playAppearingFromLeft()
+    func playTabAppearingAnimation(direction: TabBarDirection) async {
+        await contentView.playAppearing(direction: direction)
     }
 }
 
 extension HomeViewController: FromTabSwitchAnimatable {
-    func playTabDisappearingAnimation() async {
-        await contentView.playDisappearingToRight()
+    func playTabDisappearingAnimation(direction: TabBarDirection) async {
+        await contentView.playDisappearing(direction: direction)
     }
 }

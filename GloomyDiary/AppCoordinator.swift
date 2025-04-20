@@ -37,9 +37,9 @@ final class AppCoordinator {
 
 private extension AppCoordinator {
     func showTutorial() {
-        let tabs: [CircularTabBarItemCase] = [.home(true), .history]
-        let mainViewController = CircularTabBarController(tabBarItems: tabs.map { $0.value })
-        mainViewController.hideCircularTabBar()
+        let tabs: [FloatingTabBarItemCase] = [.home(true), .history, .setting]
+        let mainViewController = FloatingTabBarController(tabBarItems: tabs.map { $0.value })
+        mainViewController.hideTabBar()
         
         if let homeVC = mainViewController.selectedViewController as? HomeViewController {
             let coveringView = UIView().then {
@@ -57,16 +57,16 @@ private extension AppCoordinator {
     
 private extension AppCoordinator {
     func showHome() {
-        let tabs: [CircularTabBarItemCase] = [.home(false), .history]
-        let mainViewController = CircularTabBarController(tabBarItems: tabs.map { $0.value })
+        let tabs: [FloatingTabBarItemCase] = [.home(false), .history, .setting]
+        let mainViewController = FloatingTabBarController(tabBarItems: tabs.map { $0.value })
         window.rootViewController = mainViewController
         window.makeKeyAndVisible()
     }
     
     #if SCROLL_TEST
     func showScrollSetting() {
-        let tabs = CircularTabBarItemCase.allCases
-        let mainViewController = CircularTabBarController(tabBarItems: tabs.map { $0.value })
+        let tabs: [FloatingTabBarItemCase] = [.home(false), .history, .setting]
+        let mainViewController = FloatingTabBarController(tabBarItems: tabs.map { $0.value })
         window.rootViewController = mainViewController
         window.makeKeyAndVisible()
         

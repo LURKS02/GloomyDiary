@@ -72,8 +72,8 @@ final class HistoryViewController: BaseViewController<HistoryView> {
         super.viewWillAppear(animated)
         
         Task { @MainActor in
-            guard let tabBarController = tabBarController as? CircularTabBarControllable else { return }
-            await tabBarController.showCircularTabBar(duration: 0.2)
+            guard let tabBarController = tabBarController as? FloatingTabBarController else { return }
+            await tabBarController.playAppearingTabBar(duration: 0.2)
         }
     }
 }
@@ -185,7 +185,7 @@ extension HistoryViewController: UICollectionViewDelegateFlowLayout {
 
 // MARK: - Tab Switch Delegate
 
-extension HistoryViewController: CircularTabBarControllerDelegate {
+extension HistoryViewController: FloatingTabBarControllerDelegate {
     func tabDidDisappear() {
         contentView.listView.collectionView.setContentOffset(.zero, animated: false)
 //        store.send(.unload)
@@ -241,21 +241,21 @@ extension HistoryViewController: UINavigationControllerDelegate {
 }
 
 extension HistoryViewController: ToTabSwitchAnimatable {
-    func playTabAppearingAnimation() async {
+    func playTabAppearingAnimation(direction: TabBarDirection) async {
         if contentView.showContent {
-            await contentView.listView.playAppearingFromLeft()
+            await contentView.listView.playAppearing(direction: direction)
         } else {
-            await contentView.emptyView.playAppearingFromLeft()
+            await contentView.emptyView.playAppearing(direction: direction)
         }
     }
 }
 
 extension HistoryViewController: FromTabSwitchAnimatable {
-    func playTabDisappearingAnimation() async {
+    func playTabDisappearingAnimation(direction: TabBarDirection) async {
         if contentView.showContent {
-            await contentView.listView.playDisappearingToRight()
+            await contentView.listView.playDisappearing(direction: direction)
         } else {
-            await contentView.emptyView.playDisappearingToRight()
+            await contentView.emptyView.playDisappearing(direction: direction)
         }
     }
 }

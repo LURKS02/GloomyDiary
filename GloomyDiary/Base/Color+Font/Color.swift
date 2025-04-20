@@ -146,6 +146,8 @@ enum AppColor {
         case subHorizontalButton
         case mainPoint
         
+        case tabBarSelectedButton
+        
         case horizontalButton
         case selectedHorizontalButton
         
@@ -180,6 +182,16 @@ enum AppColor {
                     #colorLiteral(red: 0.1568627451, green: 0.1333333333, blue: 0.2117647059, alpha: 1)
                 case .light:
                     #colorLiteral(red: 1, green: 0.937254902, blue: 0.8117647059, alpha: 1)
+                }
+                
+            case .tabBarSelectedButton:
+                switch AppEnvironment.appearanceMode {
+                case .default:
+                    #colorLiteral(red: 1, green: 0.968627451, blue: 0.9215686275, alpha: 1)
+                case .dark:
+                    #colorLiteral(red: 1, green: 0.968627451, blue: 0.9215686275, alpha: 1)
+                case .light:
+                    #colorLiteral(red: 1, green: 0.968627451, blue: 0.9215686275, alpha: 1)
                 }
                 
             case .horizontalButton:

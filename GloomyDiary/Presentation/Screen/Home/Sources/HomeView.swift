@@ -5,8 +5,8 @@
 //  Created by 디해 on 8/5/24.
 //
 
-import UIKit
 import Lottie
+import UIKit
 
 final class HomeView: UIView {
     
@@ -207,12 +207,19 @@ extension HomeView {
     }
     
     @MainActor
-    func playAppearingFromLeft() async {
+    func playAppearing(direction: TabBarDirection) async {
         hideAllComponents()
         
-        self.subviews
-            .exclude(gradientView)
-            .forEach { $0.transform = .identity.translatedBy(x: -10, y: 0) }
+        switch direction {
+        case .left:
+            self.subviews
+                .exclude(gradientView)
+                .forEach { $0.transform = .identity.translatedBy(x: 10, y: 0) }
+        case .right:
+            self.subviews
+                .exclude(gradientView)
+                .forEach { $0.transform = .identity.translatedBy(x: -10, y: 0) }
+        }
         
         let transformAnimation = subviews.exclude(gradientView).map {
             Animation(view: $0,
@@ -247,12 +254,20 @@ extension HomeView {
     }
     
     @MainActor
-    func playDisappearingToRight() async {
+    func playDisappearing(direction: TabBarDirection) async {
+        var translationX = 0.0
+        switch direction {
+        case .left:
+            translationX = -10
+        case .right:
+            translationX = 10
+        }
+        
         let transformAnimation = subviews.exclude(gradientView)
             .map {
             Animation(
                 view: $0,
-                animationCase: .transform( .init(translationX: 10, y: 0)),
+                animationCase: .transform( .init(translationX: translationX, y: 0)),
                 duration: 0.2)
             }
         

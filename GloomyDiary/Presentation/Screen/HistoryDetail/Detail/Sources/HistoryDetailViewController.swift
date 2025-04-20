@@ -62,8 +62,8 @@ final class HistoryDetailViewController: BaseViewController<HistoryDetailView> {
         self.weakNavigationController = navigationController
         
         Task { @MainActor in
-            guard let tabBarController = tabBarController as? CircularTabBarControllable else { return }
-            await tabBarController.hideCircularTabBar(duration: 0.3)
+            guard let tabBarController = tabBarController as? FloatingTabBarController else { return }
+            await tabBarController.playDisappearingTabBar(duration: 0.3)
         }
         
         navigationController?.setNavigationBarHidden(false, animated: true)
@@ -311,8 +311,8 @@ extension HistoryDetailViewController: UINavigationControllerDelegate {
             coordinator.notifyWhenInteractionChanges { context in
                 if context.isCancelled {
                     Task { @MainActor in
-                        guard let tabBarController = navigationController.tabBarController as? CircularTabBarControllable else { return }
-                        await tabBarController.hideCircularTabBar(duration: 0.2)
+                        guard let tabBarController = navigationController.tabBarController as? FloatingTabBarController else { return }
+                        await tabBarController.playDisappearingTabBar(duration: 0.2)
                     }
                 }
             }

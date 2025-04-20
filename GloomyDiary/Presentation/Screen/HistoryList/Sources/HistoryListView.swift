@@ -83,9 +83,16 @@ extension HistoryListView {
     }
     
     @MainActor
-    func playAppearingFromLeft() async {
+    func playAppearing(direction: TabBarDirection) async {
         hideAllComponents()
-        self.collectionView.transform = .identity.translatedBy(x: -10, y: 0)
+        var translatedX = 0.0
+        switch direction {
+        case .left:
+            translatedX = 10
+        case .right:
+            translatedX = -10
+        }
+        self.collectionView.transform = .identity.translatedBy(x: translatedX, y: 0)
         
         await withCheckedContinuation { continuation in
             AnimationGroup(
@@ -103,14 +110,22 @@ extension HistoryListView {
     }
     
     @MainActor
-    func playDisappearingToRight() async {
+    func playDisappearing(direction: TabBarDirection) async {
+        var translatedX = 0.0
+        switch direction {
+        case .left:
+            translatedX = -10
+        case .right:
+            translatedX = 10
+        }
+        
         await withCheckedContinuation { continuation in
             AnimationGroup(
                 animations: [Animation(view: self.collectionView,
                                        animationCase: .fadeOut,
                                        duration: 0.2),
                              Animation(view: self.collectionView,
-                                       animationCase: .transform( .identity.translatedBy(x: 10, y: 0)),
+                                       animationCase: .transform( .identity.translatedBy(x: translatedX, y: 0)),
                                        duration: 0.2)
                 ],
                 mode: .parallel,

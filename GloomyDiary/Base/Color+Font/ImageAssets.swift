@@ -338,6 +338,7 @@ enum AppImage {
     enum TabBar {
         case home
         case history
+        case setting
         
         func image(isSelected: Bool) -> UIImage {
             switch self {
@@ -346,6 +347,9 @@ enum AppImage {
                 return image.withTintColor(AppColor.Component.tabBarItem(isSelected).color)
             case .history:
                 let image = UIImage(named: "history")!
+                return image.withTintColor(AppColor.Component.tabBarItem(isSelected).color)
+            case .setting:
+                let image = UIImage(named: "setting")!
                 return image.withTintColor(AppColor.Component.tabBarItem(isSelected).color)
             }
         }
