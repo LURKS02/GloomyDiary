@@ -32,7 +32,7 @@ struct UserSetting: Codable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.isFirstProcess = try container.decode(Bool.self, forKey: .isFirstProcess)
         self.hasReviewed = try container.decode(Bool.self, forKey: .hasReviewed)
-        self.lastReviewDeclinedDate = try container.decode(Date.self, forKey: .lastReviewDeclinedDate)
+        self.lastReviewDeclinedDate = try container.decodeIfPresent(Date.self, forKey: .lastReviewDeclinedDate)
         self.hasSuggestedNotification = try container.decode(Bool.self, forKey: .hasSuggestedNotification)
         self.appearanceMode = try container.decodeIfPresent(AppearanceMode.self, forKey: .appearanceMode) ?? .default
     }
