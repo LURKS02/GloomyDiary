@@ -37,9 +37,3 @@ struct UserSetting: Codable {
         self.appearanceMode = try container.decodeIfPresent(AppearanceMode.self, forKey: .appearanceMode) ?? .default
     }
 }
-
-enum AppearanceMode: Codable {
-    case `default`
-    case light
-    case dark
-}

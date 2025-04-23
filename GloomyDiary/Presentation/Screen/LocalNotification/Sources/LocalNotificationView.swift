@@ -53,17 +53,15 @@ final class LocalNotificationView: UIView {
         $0.distribution = .fillEqually
     }
     
-    let acceptButton = HorizontalButton().then {
+    let acceptButton = NormalHorizontalButton().then {
         $0.setTitle("좋아요!", for: .normal)
     }
     
-    let rejectButton = HorizontalButton().then {
+    let rejectButton = RejectHorizontalButton().then {
         $0.setTitle("아니요..", for: .normal)
-        $0.setTitleColor(AppColor.Text.reject.color, for: .normal)
-        $0.backgroundColor = AppColor.Component.disabledButton.color
     }
     
-    let checkButton = HorizontalButton().then {
+    let checkButton = NormalHorizontalButton().then {
         $0.setTitle("확인", for: .normal)
     }
     

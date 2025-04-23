@@ -19,16 +19,102 @@ final class SettingViewController: BaseViewController<SettingView> {
     @MainActor required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        bind()
+        
+        navigationController?.delegate = self
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        Task { @MainActor in
+            guard let tabBarController = tabBarController as? FloatingTabBarController else { return }
+            await tabBarController.playAppearingTabBar(duration: 0.2)
+        }
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        navigationController?.delegate = self
+    }
+}
+
+extension SettingViewController {
+    private func bind() {
+        NotificationCenter.default
+            .publisher(for: .themeChanged)
+            .receive(on: RunLoop.main)
+            .sink { [weak self] _ in
+                self?.contentView.changeTheme(with: AppEnvironment.appearanceMode)
+                self?.store.send(.view(.themeChanged(AppEnvironment.appearanceMode)))
+            }
+            .store(in: &cancellables)
+        
+        contentView.menuPublisher
+            .sink { [weak self] settingCase in
+                self?.store.send(.view(.didTapMenuButton(settingCase)))
+            }
+            .store(in: &cancellables)
+        
+        observe { [weak self] in
+            guard let self else { return }
+            
+            self.contentView.configure(with: store.state.settingItems)
+        }
+    }
+}
+
+
+// MARK: - Transition
+
+extension SettingViewController: FromTransitionable {
+    var fromTransitionComponent: UIView? {
+        nil
+    }
+    
+    func prepareTransition(duration: TimeInterval) async {
+        return
+    }
+}
+
+extension SettingViewController: ToTransitionable {
+    var toTransitionComponent: UIView? {
+        nil
+    }
+    
+    func completeTransition(duration: TimeInterval) async {
+        return
+    }
+}
+
+extension SettingViewController: UINavigationControllerDelegate {
+    func navigationController(
+        _ navigationController: UINavigationController,
+        animationControllerFor operation: UINavigationController.Operation,
+        from fromVC: UIViewController,
+        to toVC: UIViewController
+    ) -> (any UIViewControllerAnimatedTransitioning)? {
+        AnimatedTransition(
+            fromDuration: 0.0,
+            toDuration: 0.3,
+            transitionContentType: .normalTransition
+        )
+    }
 }
 
 extension SettingViewController: ToTabSwitchAnimatable {
     func playTabAppearingAnimation(direction: TabBarDirection) async {
-        
+        await contentView.playAppearing(direction: direction)
     }
 }
 
 extension SettingViewController: FromTabSwitchAnimatable {
     func playTabDisappearingAnimation(direction: TabBarDirection) async {
-        
+        await contentView.playDisappearing(direction: direction)
     }
 }

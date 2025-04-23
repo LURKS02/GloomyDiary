@@ -53,7 +53,7 @@ final class ChoosingCharacterView: UIView {
         $0.font = UIView.screenHeight <= 700 ? .온글잎_의연체.body : .온글잎_의연체.title
     }
     
-    let nextButton = HorizontalButton().then {
+    let nextButton = NormalHorizontalButton().then {
         $0.setTitle("다음", for: .normal)
     }
     

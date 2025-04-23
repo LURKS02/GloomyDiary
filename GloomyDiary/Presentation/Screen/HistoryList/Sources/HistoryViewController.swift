@@ -61,6 +61,7 @@ final class HistoryViewController: BaseViewController<HistoryView> {
         super.viewDidLoad()
         
         bind()
+        contentView.themeChanged(with: AppEnvironment.appearanceMode)
         
         navigationController?.setNavigationBarHidden(true, animated: false)
         navigationController?.delegate = self
@@ -84,6 +85,14 @@ final class HistoryViewController: BaseViewController<HistoryView> {
 private extension HistoryViewController {
     func bind() {
         contentView.listView.collectionView.delegate = self
+        
+        NotificationCenter.default
+            .publisher(for: .themeChanged)
+            .receive(on: RunLoop.main)
+            .sink { [weak self] _ in
+                self?.contentView.themeChanged(with: AppEnvironment.appearanceMode)
+            }
+            .store(in: &cancellables)
         
         observe { [weak self] in
             guard let self else { return }
@@ -193,6 +202,7 @@ extension HistoryViewController: FloatingTabBarControllerDelegate {
     
     func tabWillAppear() {
         store.send(.view(.refresh))
+        contentView.listView.collectionView.reloadData()
         
         self.logger.send(
             .tapped,

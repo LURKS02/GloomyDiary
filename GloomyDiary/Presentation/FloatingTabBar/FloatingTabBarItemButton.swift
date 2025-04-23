@@ -8,9 +8,19 @@
 import UIKit
 
 final class FloatingTabBarItemButton: UIButton {
-    private let normalImage: UIImage
-    private let selectedImage: UIImage
+    private var normalImage: UIImage
+    private var selectedImage: UIImage
     private let radius: CGFloat
+    
+    var isSwitched: Bool = false {
+        didSet {
+            if isSwitched {
+                setImage(selectedImage, for: .normal)
+            } else {
+                setImage(normalImage, for: .normal)
+            }
+        }
+    }
     
     init(item: FloatingTabBarItem, radius: CGFloat) {
         self.normalImage = item.normalImage
@@ -40,10 +50,17 @@ final class FloatingTabBarItemButton: UIButton {
     }
     
     func setButtonImage(isHighlighted: Bool) {
-        if isHighlighted {
+        isSwitched = isHighlighted
+    }
+    
+    func changeTheme(with theme: AppearanceMode) {
+        self.selectedImage = selectedImage.withTintColor(AppColor.Component.tabBarItem(true).color(for: theme))
+        self.normalImage = normalImage.withTintColor(AppColor.Component.tabBarItem(false).color(for: theme))
+        
+        setup()
+        
+        if isSwitched {
             setImage(selectedImage, for: .normal)
-        } else {
-            setImage(normalImage, for: .normal)
         }
     }
 }

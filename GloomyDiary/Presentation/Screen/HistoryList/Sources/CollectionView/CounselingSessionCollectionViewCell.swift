@@ -103,6 +103,7 @@ final class CounselingSessionCollectionViewCell: UICollectionViewCell {
         
         imageIDs = []
         cancellableSet.removeAll()
+        themeChanged(with: AppEnvironment.appearanceMode)
     }
     
     private func setup() {
@@ -144,6 +145,13 @@ final class CounselingSessionCollectionViewCell: UICollectionViewCell {
             make.top.equalToSuperview().offset(Metric.cellVerticalPadding)
             make.size.equalTo(37)
         }
+    }
+    
+    private func themeChanged(with theme: AppearanceMode) {
+        titleLabel.textColor = AppColor.Text.main.color(for: theme)
+        stateLabel.textColor = AppColor.Text.fogHighlight.color(for: theme)
+        contentLabel.textColor = AppColor.Text.subHighlight.color(for: theme)
+        self.backgroundColor = AppColor.Background.historyCell.color(for: theme)
     }
 }
 

@@ -23,7 +23,7 @@ final class HistoryListView: UIView {
         $0.register(CounselingSessionCollectionViewCell.self, forCellWithReuseIdentifier: CounselingSessionCollectionViewCell.identifier)
     }
     
-    private let gradientBackgroundView = GradientView(
+    private var gradientBackgroundView = GradientView(
         colors: [
             AppColor.Background.main.color.withAlphaComponent(0.0),
             AppColor.Background.main.color
@@ -71,6 +71,13 @@ final class HistoryListView: UIView {
             make.bottom.equalToSuperview()
             make.height.equalTo(70)
         }
+    }
+    
+    func themeChanged(with theme: AppearanceMode) {
+        self.gradientBackgroundView.updateColors([
+            AppColor.Background.main.color.withAlphaComponent(0.0),
+            AppColor.Background.main.color
+        ])
     }
 }
 

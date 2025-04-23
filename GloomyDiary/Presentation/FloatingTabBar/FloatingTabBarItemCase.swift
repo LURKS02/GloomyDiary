@@ -39,8 +39,8 @@ enum FloatingTabBarItemCase {
             )
             
         case .setting:
-            let store = Store(initialState: Setting.State()) { Setting() }
-            let viewController = SettingViewController(store: store)
+            let store = Store(initialState: SettingNavigation.State()) { SettingNavigation() }
+            let viewController = SettingNavigationController(store: store)
             
             return FloatingTabBarItem(
                 viewController: viewController,

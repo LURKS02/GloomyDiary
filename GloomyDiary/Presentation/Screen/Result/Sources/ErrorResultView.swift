@@ -37,12 +37,11 @@ final class ErrorResultView: UIView {
         $0.textColor = AppColor.Text.subHighlight.color
     }
     
-    let backButton = HorizontalButton().then {
+    let backButton = SubHorizontalButton().then {
         $0.setTitle("뒤로가기", for: .normal)
-        $0.setOriginBackgroundColor(with: AppColor.Component.subHorizontalButton.color)
     }
     
-    let homeButton = HorizontalButton().then {
+    let homeButton = NormalHorizontalButton().then {
         $0.setTitle("홈으로", for: .normal)
     }
     

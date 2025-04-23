@@ -64,6 +64,11 @@ final class EmptyListView: UIView {
             make.top.equalTo(ghostImageView.snp.bottom).offset(15)
         }
     }
+    
+    func themeChanged(with theme: AppearanceMode) {
+        ghostImageView.image = AppImage.Character.ghost(.crying).image
+        introduceLabel.textColor = AppColor.Text.main.color(for: theme)
+    }
 }
 
 

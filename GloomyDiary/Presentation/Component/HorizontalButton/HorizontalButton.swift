@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class HorizontalButton: UIButton {
+class HorizontalButton: UIButton {
     private enum Metric {
         static let buttonWidth: CGFloat = .deviceAdjustedHeight(180)
         static let buttonHeight: CGFloat = max(.deviceAdjustedHeight(56), 50)
@@ -15,22 +15,6 @@ final class HorizontalButton: UIButton {
     }
     
     private var originBackgroundColor: UIColor = AppColor.Component.horizontalButton.color
-    
-    override var isEnabled: Bool {
-        didSet {
-            updateAppearance()
-        }
-    }
-    
-    override var isHighlighted: Bool {
-        didSet {
-            if isHighlighted {
-                self.backgroundColor = AppColor.Component.selectedHorizontalButton.color
-            } else {
-                self.backgroundColor = originBackgroundColor
-            }
-        }
-    }
     
     private let feedbackGenerator = UIImpactFeedbackGenerator(style: .soft)
     
@@ -46,9 +30,6 @@ final class HorizontalButton: UIButton {
     }
     
     private func setup() {
-        self.setTitleColor(AppColor.Text.main.color, for: .normal)
-        self.setTitleColor(AppColor.Text.disabled.color, for: .disabled)
-        self.backgroundColor = AppColor.Component.horizontalButton.color
         self.applyCornerRadius(Metric.buttonCornerRadius)
         self.titleLabel?.font = .온글잎_의연체.title
     }
@@ -65,16 +46,6 @@ extension HorizontalButton {
     func setOriginBackgroundColor(with color: UIColor) {
         originBackgroundColor = color
         self.backgroundColor = color
-    }
-}
-
-extension HorizontalButton {
-    private func updateAppearance() {
-        if isEnabled {
-            self.backgroundColor = AppColor.Component.horizontalButton.color
-        } else {
-            self.backgroundColor = AppColor.Component.disabledButton.color
-        }
     }
 }
 

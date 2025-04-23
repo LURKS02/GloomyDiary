@@ -28,12 +28,11 @@ final class ValidResultView: UIView {
     
     let resultLetterView = ResultLetterView()
     
-    let shareButton: HorizontalButton = HorizontalButton().then {
+    let shareButton: HorizontalButton = SubHorizontalButton().then {
         $0.setTitle("공유하기", for: .normal)
-        $0.setOriginBackgroundColor(with: AppColor.Component.subHorizontalButton.color)
     }
     
-    let homeButton: HorizontalButton = HorizontalButton().then {
+    let homeButton: HorizontalButton = NormalHorizontalButton().then {
         $0.setTitle("홈으로", for: .normal)
     }
     

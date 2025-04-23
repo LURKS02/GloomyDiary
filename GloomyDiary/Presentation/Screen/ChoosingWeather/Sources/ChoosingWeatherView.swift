@@ -39,7 +39,7 @@ final class ChoosingWeatherView: UIView {
         $0.distribution = .fillEqually
     }
     
-    let nextButton = HorizontalButton().then {
+    let nextButton = NormalHorizontalButton().then {
         $0.setTitle("다음", for: .normal)
     }
     

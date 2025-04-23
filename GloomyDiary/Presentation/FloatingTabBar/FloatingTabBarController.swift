@@ -39,6 +39,8 @@ final class FloatingTabBarController: UITabBarController {
         setup()
         addSubviews()
         setupTabBar()
+        
+        bind()
     }
     
     private func setup() {
@@ -66,6 +68,16 @@ final class FloatingTabBarController: UITabBarController {
         }
         
         highlightButtons()
+    }
+    
+    private func bind() {
+        NotificationCenter.default
+            .publisher(for: .themeChanged)
+            .receive(on: RunLoop.main)
+            .sink { [weak self] _ in
+                self?.floatingTabBar.changeTheme(with: AppEnvironment.appearanceMode)
+            }
+            .store(in: &cancellables)
     }
     
     private func highlightButtons() {

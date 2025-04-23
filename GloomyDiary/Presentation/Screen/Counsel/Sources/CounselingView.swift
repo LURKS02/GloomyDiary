@@ -61,7 +61,7 @@ final class CounselingView: UIView {
     
     let sendingLetterView: SendingLetterView = SendingLetterView()
     
-    let letterSendingButton: HorizontalButton = HorizontalButton().then {
+    let letterSendingButton: HorizontalButton = NormalHorizontalButton().then {
         $0.setTitle("편지 보내기", for: .normal)
         $0.isEnabled = false
     }

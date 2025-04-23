@@ -66,4 +66,10 @@ final class HistoryView: UIView {
             make.edges.equalToSuperview()
         }
     }
+    
+    func themeChanged(with theme: AppearanceMode) {
+        backgroundColor = AppColor.Background.main.color(for: theme)
+        listView.themeChanged(with: theme)
+        emptyView.themeChanged(with: theme)
+    }
 }

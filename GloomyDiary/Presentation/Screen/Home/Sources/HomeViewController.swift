@@ -69,6 +69,14 @@ extension HomeViewController {
     private func bind() {
         contentView.gradientView.addGestureRecognizer(backgroundTap)
         
+        NotificationCenter.default
+            .publisher(for: .themeChanged)
+            .receive(on: RunLoop.main)
+            .sink { [weak self] _ in
+                self?.contentView.changeTheme(with: AppEnvironment.appearanceMode)
+            }
+            .store(in: &cancellables)
+        
         backgroundTap.tapPublisher
             .sink { [weak self] _ in
                 guard let self else { return }

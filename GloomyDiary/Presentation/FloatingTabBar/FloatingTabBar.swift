@@ -90,6 +90,12 @@ final class FloatingTabBar: UIView {
         highlightCircleView.applyCircularShape()
     }
     
+    func changeTheme(with theme: AppearanceMode) {
+        backgroundColor = AppColor.Component.mainPoint.color(for: theme)
+        highlightCircleView.backgroundColor = AppColor.Component.tabBarSelectedButton.color(for: theme)
+        tabBarButtons.forEach { $0.changeTheme(with: theme) }
+    }
+    
     func highlightIcon(index: Int, isHighlighted: Bool) {
         tabBarButtons[index].setButtonImage(isHighlighted: isHighlighted)
         

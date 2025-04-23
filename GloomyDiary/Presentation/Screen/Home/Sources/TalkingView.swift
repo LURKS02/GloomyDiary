@@ -55,6 +55,11 @@ final class TalkingView: UIView {
             make.horizontalEdges.equalToSuperview().inset(Metric.horizontalPadding)
         }
     }
+    
+    func changeTheme(with theme: AppearanceMode) {
+        talkingLabel.textColor = AppColor.Text.main.color(for: theme)
+        backgroundColor = AppColor.Component.mainPoint.color(for: theme)
+    }
 }
 
 extension TalkingView {

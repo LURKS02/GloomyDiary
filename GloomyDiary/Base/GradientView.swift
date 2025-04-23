@@ -29,4 +29,10 @@ final class GradientView: UIView {
         super.layoutSubviews()
         gradientLayer.frame = self.bounds
     }
+    
+    func updateColors(_ colors: [UIColor]) {
+        let cgColors = colors.map { $0.cgColor }
+        
+        gradientLayer.colors = cgColors
+    }
 }

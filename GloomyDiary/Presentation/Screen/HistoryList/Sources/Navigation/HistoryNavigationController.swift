@@ -39,6 +39,22 @@ final class HistoryNavigationController: NavigationStackController {
         
         self.interactivePopGestureRecognizer?.isEnabled = true
         self.interactivePopGestureRecognizer?.delegate = self
+        
+        bind()
+    }
+    
+    private func bind() {
+        NotificationCenter.default
+            .publisher(for: .themeChanged)
+            .receive(on: RunLoop.main)
+            .sink { [weak self] _ in
+                guard let self else { return }
+                let appearance = self.navigationBar.standardAppearance
+                appearance.backgroundColor = AppColor.Background.historyCell.color
+                self.navigationBar.standardAppearance = appearance
+                self.navigationBar.scrollEdgeAppearance = appearance
+            }
+            .store(in: &cancellables)
     }
 }
 

@@ -12,7 +12,18 @@ import Foundation
 struct Setting {
     @ObservableState
     struct State: Equatable {
-        
+        var settingItems: [SettingMenuItem] = [
+            SettingMenuItem(
+                settingCase: .version,
+                value: AppEnvironment.appVersion,
+                isNavigatable: false
+            ),
+            SettingMenuItem(
+                settingCase: .theme,
+                value: AppEnvironment.appearanceMode.name,
+                isNavigatable: true
+            )
+        ]
     }
     
     enum Action: FeatureAction, Equatable {
@@ -23,6 +34,8 @@ struct Setting {
     }
     
     enum ViewAction: Equatable {
+        case didTapMenuButton(SettingCase)
+        case themeChanged(AppearanceMode)
     }
     
     enum InnerAction: Equatable {
@@ -31,11 +44,43 @@ struct Setting {
     enum ScopeAction: Equatable {
     }
     
-    enum DelegateAction: Equatable {}
+    enum DelegateAction: Equatable {
+        case navigateToMenu(SettingCase)
+    }
     
     var body: some Reducer<State, Action> {
-        Reduce { state, action in
-            return .none
+        Reduce {
+            state,
+            action in
+            switch action {
+            case .view(let viewAction):
+                switch viewAction {
+                case .didTapMenuButton(let settingCase):
+                    return .run { send in
+                        await send(.delegate(.navigateToMenu(settingCase)))
+                    }
+                    
+                case .themeChanged(let mode):
+                    let settingItems = state.settingItems
+                    
+                    state.settingItems = settingItems.map { item in
+                        if item.settingCase == .theme {
+                            return SettingMenuItem(
+                                settingCase: item.settingCase,
+                                value: AppEnvironment.appearanceMode.name,
+                                isNavigatable: item.isNavigatable
+                            )
+                        } else {
+                            return item
+                        }
+                    }
+                    
+                    return .none
+                }
+                
+            case .delegate:
+                return .none
+            }
         }
     }
 }

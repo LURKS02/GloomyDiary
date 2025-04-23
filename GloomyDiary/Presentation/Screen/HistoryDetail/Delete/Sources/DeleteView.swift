@@ -53,15 +53,12 @@ final class DeleteView: UIView {
         $0.distribution = .fillEqually
     }
     
-    let acceptButton = HorizontalButton().then {
+    let acceptButton = NormalHorizontalButton().then {
         $0.setTitle("네", for: .normal)
     }
     
-    let rejectButton = HorizontalButton().then {
+    let rejectButton = RejectHorizontalButton().then {
         $0.setTitle("아니오", for: .normal)
-        $0.setTitleColor(AppColor.Text.reject.color, for: .normal)
-        $0.backgroundColor = AppColor.Component.disabledButton.color
-        $0.setOriginBackgroundColor(with: AppColor.Component.disabledButton.color)
     }
     
     

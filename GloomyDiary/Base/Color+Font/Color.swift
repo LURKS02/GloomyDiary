@@ -17,9 +17,13 @@ enum AppColor {
         case fogHighlight
         
         var color: UIColor {
+            return color(for: AppEnvironment.appearanceMode)
+        }
+        
+        func color(for mode: AppearanceMode) -> UIColor {
             switch self {
             case .main:
-                switch AppEnvironment.appearanceMode {
+                switch mode {
                 case .default:
                     #colorLiteral(red: 0.2537425756, green: 0.2537425756, blue: 0.2537425756, alpha: 1)
                 case .dark:
@@ -28,7 +32,7 @@ enum AppColor {
                     #colorLiteral(red: 0.2537425756, green: 0.2537425756, blue: 0.2537425756, alpha: 1)
                 }
             case .warning:
-                switch AppEnvironment.appearanceMode {
+                switch mode {
                 case .default:
                     #colorLiteral(red: 1, green: 0.3803921569, blue: 0.5647058824, alpha: 1)
                 case .dark:
@@ -38,7 +42,7 @@ enum AppColor {
                 }
                 
             case .disabled:
-                switch AppEnvironment.appearanceMode {
+                switch mode {
                 case .default:
                     #colorLiteral(red: 0.5098039216, green: 0.5921568627, blue: 0.6980392157, alpha: 1)
                 case .dark:
@@ -48,7 +52,7 @@ enum AppColor {
                 }
                 
             case .reject:
-                switch AppEnvironment.appearanceMode {
+                switch mode {
                 case .default:
                     #colorLiteral(red: 0.5215686275, green: 0.5568627451, blue: 0.6235294118, alpha: 1)
                 case .dark:
@@ -58,7 +62,7 @@ enum AppColor {
                 }
                 
             case .subHighlight:
-                switch AppEnvironment.appearanceMode {
+                switch mode {
                 case .default:
                     #colorLiteral(red: 0.1764705882, green: 0.1764705882, blue: 0.1764705882, alpha: 1)
                 case .dark:
@@ -68,7 +72,7 @@ enum AppColor {
                 }
                 
             case .fogHighlight:
-                switch AppEnvironment.appearanceMode {
+                switch mode {
                 case .default:
                     #colorLiteral(red: 0.5098039216, green: 0.6078431373, blue: 0.6705882353, alpha: 1)
                 case .dark:
@@ -88,9 +92,13 @@ enum AppColor {
         case skeleton
         
         var color: UIColor {
+            color(for: AppEnvironment.appearanceMode)
+        }
+        
+        func color(for mode: AppearanceMode) -> UIColor {
             switch self {
             case .main:
-                switch AppEnvironment.appearanceMode {
+                switch mode {
                 case .default:
                     #colorLiteral(red: 0.8470588235, green: 0.9294117647, blue: 0.9568627451, alpha: 1)
                 case .dark:
@@ -100,7 +108,7 @@ enum AppColor {
                 }
                 
             case .sub:
-                switch AppEnvironment.appearanceMode {
+                switch mode {
                 case .default :
                     #colorLiteral(red: 0.5960784314, green: 0.8392156863, blue: 1, alpha: 1)
                 case .dark:
@@ -110,7 +118,7 @@ enum AppColor {
                 }
                 
             case .letter:
-                switch AppEnvironment.appearanceMode {
+                switch mode {
                 case .default :
                     #colorLiteral(red: 0.9333333333, green: 0.9764705882, blue: 1, alpha: 1)
                 case .dark:
@@ -120,7 +128,7 @@ enum AppColor {
                 }
                 
             case .historyCell:
-                switch AppEnvironment.appearanceMode {
+                switch mode {
                 case .default :
                     #colorLiteral(red: 0.7647058824, green: 0.8823529412, blue: 0.937254902, alpha: 1)
                 case .dark:
@@ -130,7 +138,7 @@ enum AppColor {
                 }
                 
             case .skeleton:
-                switch AppEnvironment.appearanceMode {
+                switch mode {
                 case .default :
                     .white.withAlphaComponent(0.3)
                 case .dark:
@@ -163,9 +171,13 @@ enum AppColor {
         case roundIconLiteral
         
         var color: UIColor {
+            return color(for: AppEnvironment.appearanceMode)
+        }
+        
+        func color(for mode: AppearanceMode) -> UIColor {
             switch self {
             case .subHorizontalButton:
-                switch AppEnvironment.appearanceMode {
+                switch mode {
                 case .default:
                     #colorLiteral(red: 1, green: 0.937254902, blue: 0.8117647059, alpha: 1)
                 case .dark:
@@ -175,7 +187,7 @@ enum AppColor {
                 }
                 
             case .mainPoint:
-                switch AppEnvironment.appearanceMode {
+                switch mode {
                 case .default:
                     #colorLiteral(red: 1, green: 0.937254902, blue: 0.8117647059, alpha: 1)
                 case .dark:
@@ -185,17 +197,17 @@ enum AppColor {
                 }
                 
             case .tabBarSelectedButton:
-                switch AppEnvironment.appearanceMode {
+                switch mode {
                 case .default:
                     #colorLiteral(red: 1, green: 0.968627451, blue: 0.9215686275, alpha: 1)
                 case .dark:
-                    #colorLiteral(red: 1, green: 0.968627451, blue: 0.9215686275, alpha: 1)
+                    #colorLiteral(red: 0.2784313725, green: 0.231372549, blue: 0.3411764706, alpha: 1)
                 case .light:
                     #colorLiteral(red: 1, green: 0.968627451, blue: 0.9215686275, alpha: 1)
                 }
                 
             case .horizontalButton:
-                switch AppEnvironment.appearanceMode {
+                switch mode {
                 case .default:
                     #colorLiteral(red: 0.9529411765, green: 0.9843137255, blue: 1, alpha: 1)
                 case .dark:
@@ -205,7 +217,7 @@ enum AppColor {
                 }
                 
             case .selectedHorizontalButton:
-                switch AppEnvironment.appearanceMode {
+                switch mode {
                 case .default:
                     #colorLiteral(red: 1, green: 0.9568627451, blue: 0.8705882353, alpha: 1)
                 case .dark:
@@ -215,7 +227,7 @@ enum AppColor {
                 }
                 
             case .disabledSelectionButton:
-                switch AppEnvironment.appearanceMode {
+                switch mode {
                 case .default:
                     #colorLiteral(red: 0.8941176471, green: 0.9647058824, blue: 1, alpha: 1)
                 case .dark:
@@ -225,7 +237,7 @@ enum AppColor {
                 }
                 
             case .selectedSelectionButton:
-                switch AppEnvironment.appearanceMode {
+                switch mode {
                 case .default:
                     #colorLiteral(red: 1, green: 0.937254902, blue: 0.8117647059, alpha: 1)
                 case .dark:
@@ -235,7 +247,7 @@ enum AppColor {
                 }
                 
             case .disabledButton:
-                switch AppEnvironment.appearanceMode {
+                switch mode {
                 case .default:
                     #colorLiteral(red: 0.8117647059, green: 0.8823529412, blue: 0.9098039216, alpha: 1)
                 case .dark:
@@ -245,7 +257,7 @@ enum AppColor {
                 }
                 
             case .textFieldBackground:
-                switch AppEnvironment.appearanceMode {
+                switch mode {
                 case .default:
                     #colorLiteral(red: 0.9607843137, green: 0.9803921569, blue: 0.9882352941, alpha: 1)
                 case .dark:
@@ -255,7 +267,7 @@ enum AppColor {
                 }
                 
             case .selectedButton:
-                switch AppEnvironment.appearanceMode {
+                switch mode {
                 case .default:
                     #colorLiteral(red: 1, green: 0.937254902, blue: 0.8117647059, alpha: 1)
                 case .dark:
@@ -265,7 +277,7 @@ enum AppColor {
                 }
                 
             case .navigationItem:
-                switch AppEnvironment.appearanceMode {
+                switch mode {
                 case .default:
                     #colorLiteral(red: 0.5411764706, green: 0.6117647059, blue: 0.6901960784, alpha: 1)
                 case .dark:
@@ -276,27 +288,27 @@ enum AppColor {
                 
             case .tabBarItem(let isSelected):
                 if isSelected {
-                    switch AppEnvironment.appearanceMode {
+                    switch mode {
                     case .default:
-                        #colorLiteral(red: 0.7764705882, green: 0.7019607843, blue: 0.5725490196, alpha: 1)
+                        #colorLiteral(red: 0.6156862745, green: 0.5843137255, blue: 0.5294117647, alpha: 1)
                     case .dark:
                         #colorLiteral(red: 0.9411764706, green: 0.9058823529, blue: 0.8549019608, alpha: 1)
                     case .light:
-                        #colorLiteral(red: 0.7764705882, green: 0.7019607843, blue: 0.5725490196, alpha: 1)
+                        #colorLiteral(red: 0.6156862745, green: 0.5843137255, blue: 0.5294117647, alpha: 1)
                     }
                 } else {
-                    switch AppEnvironment.appearanceMode {
+                    switch mode {
                     case .default:
-                        #colorLiteral(red: 0.9137254902, green: 0.8431372549, blue: 0.7254901961, alpha: 1)
+                        #colorLiteral(red: 0.7764705882, green: 0.7019607843, blue: 0.5725490196, alpha: 1)
                     case .dark:
                         #colorLiteral(red: 0.4, green: 0.3843137255, blue: 0.4196078431, alpha: 1)
                     case .light:
-                        #colorLiteral(red: 0.9137254902, green: 0.8431372549, blue: 0.7254901961, alpha: 1)
+                        #colorLiteral(red: 0.7764705882, green: 0.7019607843, blue: 0.5725490196, alpha: 1)
                     }
                 }
                 
             case .roundIcon:
-                switch AppEnvironment.appearanceMode {
+                switch mode {
                 case .default:
                     #colorLiteral(red: 0.8117647059, green: 0.8666666667, blue: 0.9098039216, alpha: 1)
                 case .dark:
@@ -306,7 +318,7 @@ enum AppColor {
                 }
                 
             case .roundIconLiteral:
-                switch AppEnvironment.appearanceMode {
+                switch mode {
                 case .default:
                     #colorLiteral(red: 0.09803921569, green: 0.09803921569, blue: 0.09803921569, alpha: 1)
                 case .dark:

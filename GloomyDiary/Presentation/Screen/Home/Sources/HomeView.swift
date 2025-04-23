@@ -25,9 +25,12 @@ final class HomeView: UIView {
         static let pulsingCircleSize: CGFloat = .deviceAdjustedHeight(380)
         static let ghostImageSize: CGFloat = .deviceAdjustedWidth(78)
         
-        static let pulsingCircleAlpha: CGFloat = AppEnvironment.appearanceMode == .dark ? 0.3 : 0.7
         static let pulsingCircleAnimationSpeed: CGFloat = 0.3
         static let sparklingAnimationSpeed: CGFloat = 0.5
+        
+        static var pulsingCircleAlpha: CGFloat {
+            AppEnvironment.appearanceMode == .dark ? 0.3 : 0.7
+        }
     }
     
     
@@ -69,7 +72,7 @@ final class HomeView: UIView {
         $0.isUserInteractionEnabled = false
     }
     
-    let startButton = HorizontalButton().then {
+    let startButton = NormalHorizontalButton().then {
         $0.setTitle("편지 쓰기", for: .normal)
     }
     
@@ -143,6 +146,31 @@ final class HomeView: UIView {
             make.centerX.equalToSuperview()
             make.bottom.equalToSuperview().offset(-Metric.buttonBottomPadding)
         }
+    }
+    
+    func changeTheme(with theme: AppearanceMode) {
+        backgroundColor = AppColor.Background.main.color
+        
+        gradientView.updateColors([
+            AppColor.Background.sub.color,
+            AppColor.Background.main.color,
+            AppColor.Background.main.color
+        ])
+        
+        skyBadgeImageView.image = AppImage.Component.skyBadge.image
+        
+        pulsingCircleLottieView.animation = LottieAnimation.named(AppImage.JSON.pulsingCircle.name)
+        pulsingCircleLottieView.alpha = Metric.pulsingCircleAlpha
+        pulsingCircleLottieView.play()
+        
+        sparklingLottieView.animation = LottieAnimation.named(AppImage.JSON.sparkles.name)
+        sparklingLottieView.play()
+        
+        ghostImageView.setup()
+        
+        ghostTalkingView.changeTheme(with: theme)
+        
+        startButton.changeTheme(theme)
     }
 }
 
@@ -267,7 +295,7 @@ extension HomeView {
             .map {
             Animation(
                 view: $0,
-                animationCase: .transform( .init(translationX: translationX, y: 0)),
+                animationCase: .transform(.init(translationX: translationX, y: 0)),
                 duration: 0.2)
             }
         

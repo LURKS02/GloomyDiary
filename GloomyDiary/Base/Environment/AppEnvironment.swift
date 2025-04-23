@@ -29,4 +29,6 @@ enum AppEnvironment {
         
         return userSetting.get(keyPath: \.appearanceMode)
     }()
+    
+    static let appVersion: String = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "알 수 없음"
 }

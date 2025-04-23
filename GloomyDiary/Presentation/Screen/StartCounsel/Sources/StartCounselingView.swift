@@ -69,7 +69,7 @@ final class StartCounselingView: UIView {
         $0.text = "편지의 제목을 지어주세요."
     }
     
-    let nextButton = HorizontalButton().then {
+    let nextButton = NormalHorizontalButton().then {
         $0.setTitle("다음", for: .normal)
     }
     
