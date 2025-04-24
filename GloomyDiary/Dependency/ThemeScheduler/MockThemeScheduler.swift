@@ -18,6 +18,8 @@ final class MockThemeScheduler: ThemeScheduling {
     }
     
     func start() {
+        guard AppEnvironment.appearanceMode == .default else { return }
+        
         timer = Timer.scheduledTimer(withTimeInterval: 3.0, repeats: true, block: { [weak self] _ in
             self?.isDebugNightMode.toggle()
             NotificationCenter.default.post(name: .themeShouldRefresh, object: nil)

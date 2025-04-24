@@ -10,5 +10,5 @@ import Foundation
 protocol ThemeScheduling {
     var resolvedDefault: AppearanceMode { get }
     
-    func start()
+func start()
 }

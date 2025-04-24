@@ -32,7 +32,15 @@ final class HomeView: UIView {
         static var pulsingCircleAlpha: CGFloat {
             @Dependency(\.themeScheduler) var themeScheduler
             
-            return themeScheduler.resolvedDefault == .dark ? 0.3 : 0.7
+            let mode = AppEnvironment.appearanceMode
+            switch mode {
+            case .dark:
+                return 0.3
+            case .light:
+                return 0.7
+            case .default:
+                return themeScheduler.resolvedDefault == .dark ? 0.3 : 0.7
+            }
         }
     }
     

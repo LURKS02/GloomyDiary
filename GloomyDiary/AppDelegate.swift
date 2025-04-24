@@ -49,6 +49,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 self?.updateAppIconForCurrentTime()
             }
             .store(in: &cancellables)
+        
+        NotificationCenter.default
+            .publisher(for: .themeShouldRefreshWithoutAnimation)
+            .receive(on: RunLoop.main)
+            .sink { [weak self] _ in
+                self?.themeScheduler.start()
+            }
+            .store(in: &cancellables)
     }
 }
 

@@ -20,6 +20,8 @@ final class FloatingTabBarController: UITabBarController {
     
     private var previousIndex: Int = 0
     
+    private let generator = UIImpactFeedbackGenerator(style: .medium)
+    
     init(tabBarItems: [FloatingTabBarItem]) {
         self.currentIndex = 0
         self.floatingTabBar = FloatingTabBar(items: tabBarItems)
@@ -61,8 +63,10 @@ final class FloatingTabBarController: UITabBarController {
         floatingTabBar.tabBarButtons.enumerated().forEach { (index, button) in
             button.tapPublisher
                 .sink { [weak self] _ in
+                    self?.generator.prepare()
                     guard let self else { return }
                     self.currentIndex = index
+                    generator.impactOccurred()
                 }
                 .store(in: &cancellables)
         }

@@ -26,6 +26,7 @@ final class SettingViewController: BaseViewController<SettingView> {
         bind()
         
         navigationController?.delegate = self
+        navigationController?.setNavigationBarHidden(true, animated: false)
     }
     
     override func viewWillAppear(_ animated: Bool) {

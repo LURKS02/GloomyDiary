@@ -60,6 +60,18 @@ final class ThemeViewController: BaseViewController<ThemeView> {
 
 extension ThemeViewController {
     private func bind() {
+        NotificationCenter.default
+            .publisher(for: .themeShouldRefresh)
+            .receive(on: RunLoop.main)
+            .sink { [weak self] _ in
+                guard let self,
+                      store.theme == .default else { return }
+                
+                UIView.animate(withDuration: 0.2) {
+                    self.contentView.changeThemeIfNeeded(with: self.store.theme)
+                }
+            }
+            .store(in: &cancellables)
         
         contentView.allModeButtons.forEach { button in
             button.tapPublisher
