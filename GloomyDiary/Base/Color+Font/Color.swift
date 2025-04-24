@@ -5,9 +5,16 @@
 //  Created by 디해 on 8/2/24.
 //
 
+import Dependencies
 import UIKit.UIColor
 
 enum AppColor {
+    static var resolvedDefault: AppearanceMode {
+        @Dependency(\.themeScheduler) var themeScheduler
+        
+        return themeScheduler.resolvedDefault
+    }
+    
     enum Text {
         case main
         case warning
@@ -25,7 +32,7 @@ enum AppColor {
             case .main:
                 switch mode {
                 case .default:
-                    #colorLiteral(red: 0.2537425756, green: 0.2537425756, blue: 0.2537425756, alpha: 1)
+                    color(for: resolvedDefault)
                 case .dark:
                     #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
                 case .light:
@@ -34,7 +41,7 @@ enum AppColor {
             case .warning:
                 switch mode {
                 case .default:
-                    #colorLiteral(red: 1, green: 0.3803921569, blue: 0.5647058824, alpha: 1)
+                    color(for: resolvedDefault)
                 case .dark:
                     #colorLiteral(red: 0.8, green: 0.3058823529, blue: 0.4549019608, alpha: 1)
                 case .light:
@@ -44,7 +51,7 @@ enum AppColor {
             case .disabled:
                 switch mode {
                 case .default:
-                    #colorLiteral(red: 0.5098039216, green: 0.5921568627, blue: 0.6980392157, alpha: 1)
+                    color(for: resolvedDefault)
                 case .dark:
                     #colorLiteral(red: 0.4274509804, green: 0.4, blue: 0.4666666667, alpha: 1)
                 case .light:
@@ -54,7 +61,7 @@ enum AppColor {
             case .reject:
                 switch mode {
                 case .default:
-                    #colorLiteral(red: 0.5215686275, green: 0.5568627451, blue: 0.6235294118, alpha: 1)
+                    color(for: resolvedDefault)
                 case .dark:
                     #colorLiteral(red: 0.6117647059, green: 0.5921568627, blue: 0.6392156863, alpha: 1)
                 case .light:
@@ -64,7 +71,7 @@ enum AppColor {
             case .subHighlight:
                 switch mode {
                 case .default:
-                    #colorLiteral(red: 0.1764705882, green: 0.1764705882, blue: 0.1764705882, alpha: 1)
+                    color(for: resolvedDefault)
                 case .dark:
                     #colorLiteral(red: 0.7568627451, green: 0.7490196078, blue: 0.7725490196, alpha: 1)
                 case .light:
@@ -74,7 +81,7 @@ enum AppColor {
             case .fogHighlight:
                 switch mode {
                 case .default:
-                    #colorLiteral(red: 0.5098039216, green: 0.6078431373, blue: 0.6705882353, alpha: 1)
+                    color(for: resolvedDefault)
                 case .dark:
                     #colorLiteral(red: 0.568627451, green: 0.537254902, blue: 0.6039215686, alpha: 1)
                 case .light:
@@ -100,7 +107,7 @@ enum AppColor {
             case .main:
                 switch mode {
                 case .default:
-                    #colorLiteral(red: 0.8470588235, green: 0.9294117647, blue: 0.9568627451, alpha: 1)
+                    color(for: resolvedDefault)
                 case .dark:
                     #colorLiteral(red: 0.2784313725, green: 0.231372549, blue: 0.3411764706, alpha: 1)
                 case .light:
@@ -110,7 +117,7 @@ enum AppColor {
             case .sub:
                 switch mode {
                 case .default :
-                    #colorLiteral(red: 0.5960784314, green: 0.8392156863, blue: 1, alpha: 1)
+                    color(for: resolvedDefault)
                 case .dark:
                     #colorLiteral(red: 0.1058823529, green: 0.09803921569, blue: 0.2196078431, alpha: 1)
                 case .light:
@@ -120,7 +127,7 @@ enum AppColor {
             case .letter:
                 switch mode {
                 case .default :
-                    #colorLiteral(red: 0.9333333333, green: 0.9764705882, blue: 1, alpha: 1)
+                    color(for: resolvedDefault)
                 case .dark:
                     #colorLiteral(red: 0.1960784314, green: 0.1647058824, blue: 0.2392156863, alpha: 1)
                 case .light:
@@ -130,7 +137,7 @@ enum AppColor {
             case .historyCell:
                 switch mode {
                 case .default :
-                    #colorLiteral(red: 0.7647058824, green: 0.8823529412, blue: 0.937254902, alpha: 1)
+                    color(for: resolvedDefault)
                 case .dark:
                     #colorLiteral(red: 0.1960784314, green: 0.1647058824, blue: 0.2392156863, alpha: 1)
                 case .light:
@@ -140,7 +147,7 @@ enum AppColor {
             case .skeleton:
                 switch mode {
                 case .default :
-                    .white.withAlphaComponent(0.3)
+                    color(for: resolvedDefault)
                 case .dark:
                     .black.withAlphaComponent(0.3)
                 case .light:
@@ -179,7 +186,7 @@ enum AppColor {
             case .subHorizontalButton:
                 switch mode {
                 case .default:
-                    #colorLiteral(red: 1, green: 0.937254902, blue: 0.8117647059, alpha: 1)
+                    color(for: resolvedDefault)
                 case .dark:
                     #colorLiteral(red: 0.137254902, green: 0.1137254902, blue: 0.168627451, alpha: 1)
                 case .light:
@@ -189,7 +196,7 @@ enum AppColor {
             case .mainPoint:
                 switch mode {
                 case .default:
-                    #colorLiteral(red: 1, green: 0.937254902, blue: 0.8117647059, alpha: 1)
+                    color(for: resolvedDefault)
                 case .dark:
                     #colorLiteral(red: 0.1568627451, green: 0.1333333333, blue: 0.2117647059, alpha: 1)
                 case .light:
@@ -199,7 +206,7 @@ enum AppColor {
             case .tabBarSelectedButton:
                 switch mode {
                 case .default:
-                    #colorLiteral(red: 1, green: 0.968627451, blue: 0.9215686275, alpha: 1)
+                    color(for: resolvedDefault)
                 case .dark:
                     #colorLiteral(red: 0.2784313725, green: 0.231372549, blue: 0.3411764706, alpha: 1)
                 case .light:
@@ -209,7 +216,7 @@ enum AppColor {
             case .horizontalButton:
                 switch mode {
                 case .default:
-                    #colorLiteral(red: 0.9529411765, green: 0.9843137255, blue: 1, alpha: 1)
+                    color(for: resolvedDefault)
                 case .dark:
                     #colorLiteral(red: 0.1960784314, green: 0.1647058824, blue: 0.2392156863, alpha: 1)
                 case .light:
@@ -219,7 +226,7 @@ enum AppColor {
             case .selectedHorizontalButton:
                 switch mode {
                 case .default:
-                    #colorLiteral(red: 1, green: 0.9568627451, blue: 0.8705882353, alpha: 1)
+                    color(for: resolvedDefault)
                 case .dark:
                     #colorLiteral(red: 0.3254901961, green: 0.3019607843, blue: 0.4431372549, alpha: 1)
                 case .light:
@@ -229,7 +236,7 @@ enum AppColor {
             case .disabledSelectionButton:
                 switch mode {
                 case .default:
-                    #colorLiteral(red: 0.8941176471, green: 0.9647058824, blue: 1, alpha: 1)
+                    color(for: resolvedDefault)
                 case .dark:
                     #colorLiteral(red: 0.1960784314, green: 0.1647058824, blue: 0.2392156863, alpha: 1)
                 case .light:
@@ -239,7 +246,7 @@ enum AppColor {
             case .selectedSelectionButton:
                 switch mode {
                 case .default:
-                    #colorLiteral(red: 1, green: 0.937254902, blue: 0.8117647059, alpha: 1)
+                    color(for: resolvedDefault)
                 case .dark:
                     #colorLiteral(red: 0.3254901961, green: 0.3019607843, blue: 0.4431372549, alpha: 1)
                 case .light:
@@ -249,7 +256,7 @@ enum AppColor {
             case .disabledButton:
                 switch mode {
                 case .default:
-                    #colorLiteral(red: 0.8117647059, green: 0.8823529412, blue: 0.9098039216, alpha: 1)
+                    color(for: resolvedDefault)
                 case .dark:
                     #colorLiteral(red: 0.2274509804, green: 0.1882352941, blue: 0.2784313725, alpha: 1)
                 case .light:
@@ -259,7 +266,7 @@ enum AppColor {
             case .textFieldBackground:
                 switch mode {
                 case .default:
-                    #colorLiteral(red: 0.9607843137, green: 0.9803921569, blue: 0.9882352941, alpha: 1)
+                    color(for: resolvedDefault)
                 case .dark:
                     #colorLiteral(red: 0.3450980392, green: 0.2901960784, blue: 0.4117647059, alpha: 1)
                 case .light:
@@ -269,7 +276,7 @@ enum AppColor {
             case .selectedButton:
                 switch mode {
                 case .default:
-                    #colorLiteral(red: 1, green: 0.937254902, blue: 0.8117647059, alpha: 1)
+                    color(for: resolvedDefault)
                 case .dark:
                     #colorLiteral(red: 0.3254901961, green: 0.3019607843, blue: 0.4431372549, alpha: 1)
                 case .light:
@@ -279,7 +286,7 @@ enum AppColor {
             case .navigationItem:
                 switch mode {
                 case .default:
-                    #colorLiteral(red: 0.5411764706, green: 0.6117647059, blue: 0.6901960784, alpha: 1)
+                    color(for: resolvedDefault)
                 case .dark:
                     #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
                 case .light:
@@ -290,7 +297,7 @@ enum AppColor {
                 if isSelected {
                     switch mode {
                     case .default:
-                        #colorLiteral(red: 0.6156862745, green: 0.5843137255, blue: 0.5294117647, alpha: 1)
+                        color(for: resolvedDefault)
                     case .dark:
                         #colorLiteral(red: 0.9411764706, green: 0.9058823529, blue: 0.8549019608, alpha: 1)
                     case .light:
@@ -299,7 +306,7 @@ enum AppColor {
                 } else {
                     switch mode {
                     case .default:
-                        #colorLiteral(red: 0.7764705882, green: 0.7019607843, blue: 0.5725490196, alpha: 1)
+                        color(for: resolvedDefault)
                     case .dark:
                         #colorLiteral(red: 0.4, green: 0.3843137255, blue: 0.4196078431, alpha: 1)
                     case .light:
@@ -310,7 +317,7 @@ enum AppColor {
             case .roundIcon:
                 switch mode {
                 case .default:
-                    #colorLiteral(red: 0.8117647059, green: 0.8666666667, blue: 0.9098039216, alpha: 1)
+                    color(for: resolvedDefault)
                 case .dark:
                     #colorLiteral(red: 0.137254902, green: 0.1137254902, blue: 0.168627451, alpha: 1)
                 case .light:
@@ -320,7 +327,7 @@ enum AppColor {
             case .roundIconLiteral:
                 switch mode {
                 case .default:
-                    #colorLiteral(red: 0.09803921569, green: 0.09803921569, blue: 0.09803921569, alpha: 1)
+                    color(for: resolvedDefault)
                 case .dark:
                     #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
                 case .light:

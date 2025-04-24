@@ -53,6 +53,16 @@ private extension ResultViewController {
     func configureValidResult() {
         contentView.showValidResult()
         
+        NotificationCenter.default
+            .publisher(for: .themeShouldRefresh)
+            .receive(on: RunLoop.main)
+            .sink { [weak self] _ in
+                UIView.animate(withDuration: 0.2) {
+                    self?.contentView.changeThemeIfNeeded()
+                }
+            }
+            .store(in: &cancellables)
+        
         contentView.validResultView.resultLetterView.copyButton.tapPublisher
             .sink { [weak self] in
                 self?.store.send(.view(.didTapCopyButton))
@@ -94,6 +104,16 @@ private extension ResultViewController {
     
     func configureErrorResult() {
         contentView.showErrorResult()
+        
+        NotificationCenter.default
+            .publisher(for: .themeShouldRefresh)
+            .receive(on: RunLoop.main)
+            .sink { [weak self] _ in
+                UIView.animate(withDuration: 0.2) {
+                    self?.contentView.changeThemeIfNeeded()
+                }
+            }
+            .store(in: &cancellables)
         
         contentView.errorResultView.backButton.tapPublisher
             .sink { [weak self] in

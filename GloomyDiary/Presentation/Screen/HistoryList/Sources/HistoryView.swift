@@ -67,9 +67,9 @@ final class HistoryView: UIView {
         }
     }
     
-    func themeChanged(with theme: AppearanceMode) {
-        backgroundColor = AppColor.Background.main.color(for: theme)
-        listView.themeChanged(with: theme)
-        emptyView.themeChanged(with: theme)
+    func changeThemeIfNeeded() {
+        backgroundColor = AppColor.Background.main.color
+        listView.changeThemeIfNeeded()
+        emptyView.changeThemeIfNeeded()
     }
 }

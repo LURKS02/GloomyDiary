@@ -65,9 +65,9 @@ final class EmptyListView: UIView {
         }
     }
     
-    func themeChanged(with theme: AppearanceMode) {
+    func changeThemeIfNeeded() {
         ghostImageView.image = AppImage.Character.ghost(.crying).image
-        introduceLabel.textColor = AppColor.Text.main.color(for: theme)
+        introduceLabel.textColor = AppColor.Text.main.color
     }
 }
 

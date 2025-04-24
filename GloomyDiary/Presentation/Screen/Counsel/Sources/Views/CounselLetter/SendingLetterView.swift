@@ -84,6 +84,14 @@ final class SendingLetterView: LetterView {
             make.bottom.equalToSuperview().offset(-Metric.letterCharacterCountLabelBottomPadding)
         }
     }
+    
+    override func changeThemeIfNeeded() {
+        super.changeThemeIfNeeded()
+        
+        backgroundColor = AppColor.Background.letter.color
+        letterImageView.image = AppImage.Component.letter.image
+        letterWritingGuideLabel.changeThemeIfNeeded()
+    }
 }
 
 private extension SendingLetterView {

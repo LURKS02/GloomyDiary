@@ -45,6 +45,16 @@ final class ChoosingEmojiViewController: BaseViewController<ChoosingEmojiView> {
 
 extension ChoosingEmojiViewController {
     private func bind() {
+        NotificationCenter.default
+            .publisher(for: .themeShouldRefresh)
+            .receive(on: RunLoop.main)
+            .sink { [weak self] _ in
+                UIView.animate(withDuration: 0.2) {
+                    self?.contentView.changeThemeIfNeeded()
+                }
+            }
+            .store(in: &cancellables)
+        
         contentView.allEmojiButtons.forEach { button in
             button.tapPublisher
                 .sink { [weak self] in

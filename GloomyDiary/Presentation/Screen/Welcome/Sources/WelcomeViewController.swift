@@ -63,6 +63,16 @@ private extension WelcomeViewController {
         contentView.ghostView.addGestureRecognizer(ghostTap)
         contentView.ghostView.isUserInteractionEnabled = true
         
+        NotificationCenter.default
+            .publisher(for: .themeShouldRefresh)
+            .receive(on: RunLoop.main)
+            .sink { [weak self] _ in
+                UIView.animate(withDuration: 0.2) {
+                    self?.contentView.changeThemeIfNeeded()
+                }
+            }
+            .store(in: &cancellables)
+        
         ghostTap.tapPublisher
             .sink { [weak self] _ in
                 guard let self else { return }

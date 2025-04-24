@@ -53,4 +53,8 @@ class LetterView: UIView {
             make.edges.equalToSuperview().inset(Metric.letterTextViewPadding)
         }
     }
+    
+    func changeThemeIfNeeded() {
+        letterTextView.textColor = AppColor.Text.main.color
+    }
 }

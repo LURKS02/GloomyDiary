@@ -89,6 +89,11 @@ final class HistoryDetailMenuView: UIView {
             make.edges.equalToSuperview().inset(20)
         }
     }
+    
+    func changeThemeIfNeeded() {
+        containerView.backgroundColor = AppColor.Background.main.color
+        menuButtons.forEach { $0.changeThemeIfNeeded() }
+    }
 }
 
 

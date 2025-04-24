@@ -5,9 +5,16 @@
 //  Created by 디해 on 4/17/25.
 //
 
+import Dependencies
 import UIKit
 
 enum AppImage {
+    static var resolvedDefault: AppearanceMode {
+        @Dependency(\.themeScheduler) var themeScheduler
+        
+        return themeScheduler.resolvedDefault
+    }
+    
     enum Character {
         case ghost(Emoji)
         case counselor(CounselingCharacter, Emoji)
@@ -19,13 +26,17 @@ enum AppImage {
         }
         
         var image: UIImage {
+            return image(for: AppEnvironment.appearanceMode)
+        }
+        
+        func image(for mode: AppearanceMode) -> UIImage {
             switch self {
             case .ghost(let emoji):
                 switch emoji {
                 case .normal:
-                    switch AppEnvironment.appearanceMode {
+                    switch mode {
                     case .default:
-                        UIImage(named: "ghost_light")!
+                        image(for: resolvedDefault)
                     case .dark:
                         UIImage(named: "ghost_dark")!
                     case .light:
@@ -33,9 +44,9 @@ enum AppImage {
                     }
                     
                 case .happy:
-                    switch AppEnvironment.appearanceMode {
+                    switch mode {
                     case .default:
-                        UIImage(named: "happyGhost_light")!
+                        image(for: resolvedDefault)
                     case .dark:
                         UIImage(named: "happyGhost_dark")!
                     case .light:
@@ -43,9 +54,9 @@ enum AppImage {
                     }
                     
                 case .crying:
-                    switch AppEnvironment.appearanceMode {
+                    switch mode {
                     case .default:
-                        UIImage(named: "cryingGhost_light")!
+                        image(for: resolvedDefault)
                     case .dark:
                         UIImage(named: "cryingGhost_dark")!
                     case .light:
@@ -58,9 +69,9 @@ enum AppImage {
                 case .chan:
                     switch emoji {
                     case .normal:
-                        switch AppEnvironment.appearanceMode {
+                        switch mode {
                         case .default:
-                            UIImage(named: "chan_light")!
+                            image(for: resolvedDefault)
                         case .dark:
                             UIImage(named: "chan_dark")!
                         case .light:
@@ -68,9 +79,9 @@ enum AppImage {
                         }
                         
                     case .happy:
-                        switch AppEnvironment.appearanceMode {
+                        switch mode {
                         case .default:
-                            UIImage(named: "chan_light")!
+                            image(for: resolvedDefault)
                         case .dark:
                             UIImage(named: "chan_dark")!
                         case .light:
@@ -78,9 +89,9 @@ enum AppImage {
                         }
                         
                     case .crying:
-                        switch AppEnvironment.appearanceMode {
+                        switch mode {
                         case .default:
-                            UIImage(named: "cryingChan_light")!
+                            image(for: resolvedDefault)
                         case .dark:
                             UIImage(named: "cryingChan_dark")!
                         case .light:
@@ -91,9 +102,9 @@ enum AppImage {
                 case .gomi:
                     switch emoji {
                     case .normal:
-                        switch AppEnvironment.appearanceMode {
+                        switch mode {
                         case .default:
-                            UIImage(named: "gomi_light")!
+                            image(for: resolvedDefault)
                         case .dark:
                             UIImage(named: "gomi_dark")!
                         case .light:
@@ -101,9 +112,9 @@ enum AppImage {
                         }
                         
                     case .happy:
-                        switch AppEnvironment.appearanceMode {
+                        switch mode {
                         case .default:
-                            UIImage(named: "gomi_light")!
+                            image(for: resolvedDefault)
                         case .dark:
                             UIImage(named: "gomi_dark")!
                         case .light:
@@ -111,9 +122,9 @@ enum AppImage {
                         }
                         
                     case .crying:
-                        switch AppEnvironment.appearanceMode {
+                        switch mode {
                         case .default:
-                            UIImage(named: "cryingGomi_light")!
+                            image(for: resolvedDefault)
                         case .dark:
                             UIImage(named: "cryingGomi_dark")!
                         case .light:
@@ -124,9 +135,9 @@ enum AppImage {
                 case .beomji:
                     switch emoji {
                     case .normal:
-                        switch AppEnvironment.appearanceMode {
+                        switch mode {
                         case .default:
-                            UIImage(named: "beomji_light")!
+                            image(for: resolvedDefault)
                         case .dark:
                             UIImage(named: "beomji_dark")!
                         case .light:
@@ -134,9 +145,9 @@ enum AppImage {
                         }
                         
                     case .happy:
-                        switch AppEnvironment.appearanceMode {
+                        switch mode {
                         case .default:
-                            UIImage(named: "beomji_light")!
+                            image(for: resolvedDefault)
                         case .dark:
                             UIImage(named: "beomji_dark")!
                         case .light:
@@ -144,9 +155,9 @@ enum AppImage {
                         }
                         
                     case .crying:
-                        switch AppEnvironment.appearanceMode {
+                        switch mode {
                         case .default:
-                            UIImage(named: "cryingBeomji_light")!
+                            image(for: resolvedDefault)
                         case .dark:
                             UIImage(named: "cryingBeomji_dark")!
                         case .light:
@@ -165,11 +176,15 @@ enum AppImage {
         case emoji(Emoji)
         
         var image: UIImage {
+            return image(for: AppEnvironment.appearanceMode)
+        }
+        
+        func image(for mode: AppearanceMode) -> UIImage {
             switch self {
             case .skyBadge:
-                switch AppEnvironment.appearanceMode {
+                switch mode {
                 case .default:
-                    UIImage(named: "sun")!.withTintColor(#colorLiteral(red: 1, green: 0.9058823529, blue: 0.6549019608, alpha: 1))
+                    image(for: resolvedDefault)
                 case .dark:
                     UIImage(named: "moon")!.withTintColor(#colorLiteral(red: 1, green: 0.7960784314, blue: 0.5019607843, alpha: 1))
                 case .light:
@@ -177,9 +192,9 @@ enum AppImage {
                 }
                 
             case .letter:
-                switch AppEnvironment.appearanceMode {
+                switch mode {
                 case .default:
-                    UIImage(named: "letter_light")!
+                    image(for: resolvedDefault)
                 case .dark:
                     UIImage(named: "letter_dark")!
                 case .light:
@@ -189,9 +204,9 @@ enum AppImage {
             case .weather(let weather):
                 switch weather {
                 case .sunny:
-                    switch AppEnvironment.appearanceMode {
+                    switch mode {
                     case .default:
-                        UIImage(named: "sunny_light")!
+                        image(for: resolvedDefault)
                     case .dark:
                         UIImage(named: "sunny_dark")!
                     case .light:
@@ -199,9 +214,9 @@ enum AppImage {
                     }
                     
                 case .rainy:
-                    switch AppEnvironment.appearanceMode {
+                    switch mode {
                     case .default:
-                        UIImage(named: "rainy_light")!
+                        image(for: resolvedDefault)
                     case .dark:
                         UIImage(named: "rainy_dark")!
                     case .light:
@@ -209,9 +224,9 @@ enum AppImage {
                     }
                     
                 case .cloudy:
-                    switch AppEnvironment.appearanceMode {
+                    switch mode {
                     case .default:
-                        UIImage(named: "cloudy_light")!
+                        image(for: resolvedDefault)
                     case .dark:
                         UIImage(named: "cloudy_dark")!
                     case .light:
@@ -219,9 +234,9 @@ enum AppImage {
                     }
                     
                 case .thunder:
-                    switch AppEnvironment.appearanceMode {
+                    switch mode {
                     case .default:
-                        UIImage(named: "thunder_light")!
+                        image(for: resolvedDefault)
                     case .dark:
                         UIImage(named: "thunder_dark")!
                     case .light:
@@ -229,9 +244,9 @@ enum AppImage {
                     }
                     
                 case .snowy:
-                    switch AppEnvironment.appearanceMode {
+                    switch mode {
                     case .default:
-                        UIImage(named: "snowy_light")!
+                        image(for: resolvedDefault)
                     case .dark:
                         UIImage(named: "snowy_dark")!
                     case .light:
@@ -242,9 +257,9 @@ enum AppImage {
             case .emoji(let emoji):
                 switch emoji {
                 case .happy:
-                    switch AppEnvironment.appearanceMode {
+                    switch mode {
                     case .default:
-                        UIImage(named: "happy_light")!
+                        image(for: resolvedDefault)
                     case .dark:
                         UIImage(named: "happy_dark")!
                     case .light:
@@ -252,9 +267,9 @@ enum AppImage {
                     }
                     
                 case .angry:
-                    switch AppEnvironment.appearanceMode {
+                    switch mode {
                     case .default:
-                        UIImage(named: "angry_light")!
+                        image(for: resolvedDefault)
                     case .dark:
                         UIImage(named: "angry_dark")!
                     case .light:
@@ -262,9 +277,9 @@ enum AppImage {
                     }
                     
                 case .confused:
-                    switch AppEnvironment.appearanceMode {
+                    switch mode {
                     case .default:
-                        UIImage(named: "confused_light")!
+                        image(for: resolvedDefault)
                     case .dark:
                         UIImage(named: "confused_dark")!
                     case .light:
@@ -272,9 +287,9 @@ enum AppImage {
                     }
                     
                 case .embarrassed:
-                    switch AppEnvironment.appearanceMode {
+                    switch mode {
                     case .default:
-                        UIImage(named: "embarrassed_light")!
+                        image(for: resolvedDefault)
                     case .dark:
                         UIImage(named: "embarrassed_dark")!
                     case .light:
@@ -282,9 +297,9 @@ enum AppImage {
                     }
                     
                 case .excited:
-                    switch AppEnvironment.appearanceMode {
+                    switch mode {
                     case .default:
-                        UIImage(named: "excited_light")!
+                        image(for: resolvedDefault)
                     case .dark:
                         UIImage(named: "excited_dark")!
                     case .light:
@@ -292,9 +307,9 @@ enum AppImage {
                     }
                     
                 case .hard:
-                    switch AppEnvironment.appearanceMode {
+                    switch mode {
                     case .default:
-                        UIImage(named: "hard_light")!
+                        image(for: resolvedDefault)
                     case .dark:
                         UIImage(named: "hard_dark")!
                     case .light:
@@ -302,9 +317,9 @@ enum AppImage {
                     }
                     
                 case .normal:
-                    switch AppEnvironment.appearanceMode {
+                    switch mode {
                     case .default:
-                        UIImage(named: "normal_light")!
+                        image(for: resolvedDefault)
                     case .dark:
                         UIImage(named: "normal_dark")!
                     case .light:
@@ -312,9 +327,9 @@ enum AppImage {
                     }
                     
                 case .sad:
-                    switch AppEnvironment.appearanceMode {
+                    switch mode {
                     case .default:
-                        UIImage(named: "sad_light")!
+                        image(for: resolvedDefault)
                     case .dark:
                         UIImage(named: "sad_dark")!
                     case .light:
@@ -322,9 +337,9 @@ enum AppImage {
                     }
                     
                 case .surprised:
-                    switch AppEnvironment.appearanceMode {
+                    switch mode {
                     case .default:
-                        UIImage(named: "surprised_light")!
+                        image(for: resolvedDefault)
                     case .dark:
                         UIImage(named: "surprised_dark")!
                     case .light:
@@ -341,6 +356,10 @@ enum AppImage {
         case setting
         
         func image(isSelected: Bool) -> UIImage {
+            return image(isSelected: isSelected, theme: AppEnvironment.appearanceMode)
+        }
+        
+        func image(isSelected: Bool, theme: AppearanceMode) -> UIImage {
             switch self {
             case .home:
                 let image = UIImage(named: "home")!
@@ -361,11 +380,15 @@ enum AppImage {
         case stars
         
         var name: String {
+            return name(for: AppEnvironment.appearanceMode)
+        }
+        
+        func name(for mode: AppearanceMode) -> String {
             switch self {
             case .sparkles:
-                switch AppEnvironment.appearanceMode {
+                switch mode {
                 case .default:
-                    "sparkles_light"
+                    name(for: resolvedDefault)
                 case .dark:
                     "sparkles_dark"
                 case .light:
@@ -373,9 +396,9 @@ enum AppImage {
                 }
                 
             case .pulsingCircle:
-                switch AppEnvironment.appearanceMode {
+                switch mode {
                 case .default:
-                    "pulsingCircle_light"
+                    name(for: resolvedDefault)
                 case .dark:
                     "pulsingCircle_dark"
                 case .light:
@@ -383,9 +406,9 @@ enum AppImage {
                 }
                 
             case .stars:
-                switch AppEnvironment.appearanceMode {
+                switch mode {
                 case .default:
-                    "stars_light"
+                    name(for: resolvedDefault)
                 case .dark:
                     "stars_dark"
                 case .light:

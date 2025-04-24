@@ -45,6 +45,8 @@ final class ErrorResultView: UIView {
         $0.setTitle("홈으로", for: .normal)
     }
     
+    private var character: CounselingCharacter = .chan
+    
     
     // MARK: - Initialize
     
@@ -105,6 +107,16 @@ final class ErrorResultView: UIView {
     }
     
     func configure(with character: CounselingCharacter) {
+        self.character = character
+        characterImageView.image = AppImage.Character.counselor(character, .crying).image
+    }
+    
+    func changeThemeIfNeeded() {
+        backgroundColor = AppColor.Background.main.color
+        informationLabel.changeThemeIfNeeded()
+        subInformationLabel.changeThemeIfNeeded()
+        backButton.changeThemeIfNeeded(with: AppEnvironment.appearanceMode)
+        homeButton.changeThemeIfNeeded()
         characterImageView.image = AppImage.Character.counselor(character, .crying).image
     }
 }

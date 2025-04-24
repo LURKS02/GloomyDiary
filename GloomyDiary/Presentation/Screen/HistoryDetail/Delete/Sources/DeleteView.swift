@@ -22,6 +22,8 @@ final class DeleteView: UIView {
         static let stackViewBottomPadding: CGFloat = .deviceAdjustedHeight(25)
     }
     
+    private var character: CounselingCharacter = .chan
+    
     
     // MARK: - Views
     
@@ -121,7 +123,16 @@ final class DeleteView: UIView {
 
 extension DeleteView {
     func configure(character: CounselingCharacter) {
+        self.character = character
         self.characterImageView.image = AppImage.Character.counselor(character, .crying).image
+    }
+    
+    func changeThemeIfNeeded() {
+        sheetBackgroundView.backgroundColor = AppColor.Background.main.color
+        notificationLabel.changeThemeIfNeeded()
+        acceptButton.changeThemeIfNeeded()
+        rejectButton.changeThemeIfNeeded()
+        characterImageView.image = AppImage.Character.counselor(character, .crying).image
     }
 }
 

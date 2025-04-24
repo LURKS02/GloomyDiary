@@ -5,12 +5,15 @@
 //  Created by 디해 on 8/1/24.
 //
 
-import UIKit
-import FirebaseCore
 import AmplitudeSwift
+import Dependencies
+import FirebaseCore
+import UIKit
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
+    
+    @Dependency(\.themeScheduler) var themeScheduler
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         #if !DEBUG
@@ -18,6 +21,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         #endif
         
         ArrayTransformer.register()
+        themeScheduler.start()
         
         return true
     }

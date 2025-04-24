@@ -17,9 +17,34 @@ final class EmojiButton: UIButton {
     
     let identifier: String
     
+    private let emoji: Emoji
+    
     private let feedbackGenerator = UIImpactFeedbackGenerator(style: .soft)
     
+    private var isPressed: Bool = false {
+        didSet {
+            if isPressed {
+                configuration?.background.backgroundColor = AppColor.Component.selectedSelectionButton.color.withAlphaComponent(0.3)
+            } else {
+                if !isPicked {
+                    configuration?.background.backgroundColor = AppColor.Component.disabledSelectionButton.color
+                }
+            }
+        }
+    }
+    
+    var isPicked: Bool = false {
+        didSet {
+            if isPicked {
+                configuration?.background.backgroundColor = AppColor.Component.selectedSelectionButton.color
+            } else {
+                configuration?.background.backgroundColor = AppColor.Component.disabledSelectionButton.color
+            }
+        }
+    }
+    
     init(emoji: Emoji) {
+        self.emoji = emoji
         self.identifier = emoji.identifier
         super.init(frame: .zero)
         
@@ -45,8 +70,29 @@ final class EmojiButton: UIButton {
         title.foregroundColor = AppColor.Text.main.color
         configuration.attributedTitle = title
         configuration.titleAlignment = .center
-        configuration.background.backgroundColor = AppColor.Component.disabledSelectionButton.color
         configuration.contentInsets = NSDirectionalEdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20)
+        configuration.background.backgroundColor = AppColor.Component.disabledSelectionButton.color
+        
+        self.configuration = configuration
+    }
+    
+    func changeThemeIfNeeded() {
+        let image = AppImage.Component.emoji(emoji).image
+        self.setImage(image.resized(width: Metric.imageSize, height: Metric.imageSize), for: .normal)
+        
+        guard var configuration = self.configuration else { return }
+        var title = AttributedString(emoji.description)
+        title.font = .온글잎_의연체.body
+        title.foregroundColor = AppColor.Text.main.color
+        configuration.attributedTitle = title
+        
+        if isPressed {
+            configuration.background.backgroundColor = AppColor.Component.selectedSelectionButton.color.withAlphaComponent(0.3)
+        } else if isPicked {
+            configuration.background.backgroundColor = AppColor.Component.selectedSelectionButton.color
+        } else {
+            configuration.background.backgroundColor = AppColor.Component.disabledSelectionButton.color
+        }
         
         self.configuration = configuration
     }
@@ -56,9 +102,7 @@ extension EmojiButton {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesBegan(touches, with: event)
         
-        var configuration = self.configuration
-        configuration?.background.backgroundColor = AppColor.Component.selectedSelectionButton.color.withAlphaComponent(0.3)
-        self.configuration = configuration
+        isPressed = true
         
         feedbackGenerator.prepare()
         feedbackGenerator.impactOccurred()
@@ -74,17 +118,17 @@ extension EmojiButton {
         .run()
     }
     
-    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        super.touchesMoved(touches, with: event)
-        
-        var configuration = self.configuration
-        configuration?.background.backgroundColor = AppColor.Component.selectedSelectionButton.color.withAlphaComponent(0.3)
-        
-        self.configuration = configuration
-    }
-    
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesEnded(touches, with: event)
+        
+        guard let touch = touches.first else { return }
+        let location = touch.location(in: self)
+        
+        if bounds.contains(location) {
+            isPicked = true
+        }
+        
+        isPressed = false
         
         AnimationGroup(
             animations: [
@@ -99,6 +143,8 @@ extension EmojiButton {
     
     override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesCancelled(touches, with: event)
+        
+        isPressed = false
         
         AnimationGroup(
             animations: [

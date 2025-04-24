@@ -20,4 +20,8 @@ final class NormalLabel: UILabel {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    func changeThemeIfNeeded() {
+        self.textColor = AppColor.Text.main.color
+    }
 }

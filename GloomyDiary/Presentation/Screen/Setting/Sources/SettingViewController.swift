@@ -47,13 +47,23 @@ final class SettingViewController: BaseViewController<SettingView> {
 extension SettingViewController {
     private func bind() {
         NotificationCenter.default
-            .publisher(for: .themeChanged)
+            .publisher(for: .themeShouldRefresh)
             .receive(on: RunLoop.main)
             .sink { [weak self] _ in
-                self?.contentView.changeTheme(with: AppEnvironment.appearanceMode)
-                self?.store.send(.view(.themeChanged(AppEnvironment.appearanceMode)))
+                UIView.animate(withDuration: 0.2) {
+                    self?.contentView.changeThemeIfNeeded()
+                }
             }
             .store(in: &cancellables)
+        
+        NotificationCenter.default
+            .publisher(for: .themeShouldRefreshWithoutAnimation)
+            .receive(on: RunLoop.main)
+            .sink { [weak self] _ in
+                self?.contentView.changeThemeIfNeeded()
+            }
+            .store(in: &cancellables)
+
         
         contentView.menuPublisher
             .sink { [weak self] settingCase in
@@ -65,6 +75,7 @@ extension SettingViewController {
             guard let self else { return }
             
             self.contentView.configure(with: store.state.settingItems)
+            self.contentView.changeThemeIfNeeded()
         }
     }
 }

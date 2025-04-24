@@ -108,10 +108,10 @@ final class SettingView: UIView {
 }
 
 extension SettingView {
-    func changeTheme(with theme: AppearanceMode) {
-        self.backgroundColor = AppColor.Background.main.color(for: theme)
-        containerView.backgroundColor = AppColor.Background.letter.color(for: theme)
-        menuViews.map { $0.changeTheme(with: theme) }
+    func changeThemeIfNeeded() {
+        self.backgroundColor = AppColor.Background.main.color
+        containerView.backgroundColor = AppColor.Background.letter.color
+        menuViews.forEach { $0.changeThemeIfNeeded() }
     }
     
     func hideAllComponents() {

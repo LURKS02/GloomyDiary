@@ -73,7 +73,7 @@ final class HistoryListView: UIView {
         }
     }
     
-    func themeChanged(with theme: AppearanceMode) {
+    func changeThemeIfNeeded() {
         self.gradientBackgroundView.updateColors([
             AppColor.Background.main.color.withAlphaComponent(0.0),
             AppColor.Background.main.color

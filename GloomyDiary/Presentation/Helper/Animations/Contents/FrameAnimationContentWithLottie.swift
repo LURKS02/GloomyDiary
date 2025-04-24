@@ -28,28 +28,31 @@ final class FrameAnimationContentWithLottie: UIView, AnimationContent {
         $0.alpha = 0.0
     }
     
-    let snapshot: UIView
+    private let character: CounselingCharacter
+    let snapshot: UIImageView
     let initialFrame: CGRect
     let targetFrame: CGRect
     let duration: TimeInterval
     
     init?(
-        _ component: UIView,
         initialFrame: CGRect,
         targetFrame: CGRect,
         duration: TimeInterval,
         character: CounselingCharacter
     ) {
-        guard let snapshot = component.snapshotView(afterScreenUpdates: false) else { return nil }
+        let snapshot = UIImageView(image: AppImage.Character.counselor(character, .normal).image)
         self.snapshot = snapshot
         self.initialFrame = initialFrame
         self.targetFrame = targetFrame
         self.duration = duration
+        self.character = character
         
         super.init(frame: .zero)
         
         setup()
         setupReadyLabel(character: character)
+        
+        bind()
     }
     
     required init?(coder: NSCoder) {
@@ -73,6 +76,26 @@ final class FrameAnimationContentWithLottie: UIView, AnimationContent {
             x: snapshot.center.x,
             y: snapshot.center.y + snapshot.frame.height / 2 + Metric.readyLabelPadding
         )
+    }
+    
+    private func bind() {
+        NotificationCenter.default
+            .publisher(for: .themeShouldRefresh)
+            .receive(on: RunLoop.main)
+            .sink { [weak self] _ in
+                UIView.animate(withDuration: 0.2) {
+                    self?.changeThemeIfNeeded()
+                }
+            }
+            .store(in: &cancellables)
+    }
+    
+    private func changeThemeIfNeeded() {
+        snapshot.image = AppImage.Character.counselor(character, .normal).image
+        starLottieView.animation = LottieAnimation.named(AppImage.JSON.stars.name)
+        starLottieView.play()
+        
+        readyLabel.changeThemeIfNeeded()
     }
 
     @MainActor

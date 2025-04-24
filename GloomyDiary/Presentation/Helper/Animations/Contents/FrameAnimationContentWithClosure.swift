@@ -85,6 +85,8 @@ final class FrameAnimationContentWithClosure: UIView, AnimationContent {
             x: UIView.screenWidth / 2,
             y: middleFrame.maxY + .deviceAdjustedHeight(50)
         )
+        
+        bind()
     }
     
     required init?(coder: NSCoder) {
@@ -99,6 +101,25 @@ final class FrameAnimationContentWithClosure: UIView, AnimationContent {
     private func setupReadyLabel(character: CounselingCharacter) {
         readyLabel.text = character.counselReadyMessage
         readyLabel.sizeToFit()
+    }
+    
+    private func bind() {
+        NotificationCenter.default
+            .publisher(for: .themeShouldRefresh)
+            .receive(on: RunLoop.main)
+            .sink { [weak self] _ in
+                UIView.animate(withDuration: 0.2) {
+                    self?.changeThemeIfNeeded()
+                }
+            }
+            .store(in: &cancellables)
+    }
+    
+    private func changeThemeIfNeeded() {
+        starLottieView.animation = LottieAnimation.named(AppImage.JSON.stars.name)
+        starLottieView.play()
+        
+        readyLabel.changeThemeIfNeeded()
     }
 
     @MainActor

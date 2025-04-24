@@ -142,6 +142,19 @@ final class ChoosingCharacterView: UIView {
         }
     }
     
+    func changeThemeIfNeeded() {
+        backgroundColor = AppColor.Background.main.color
+        gradientView.updateColors([
+            AppColor.Background.sub.color,
+            AppColor.Background.main.color
+        ])
+        introduceLabel.changeThemeIfNeeded()
+        detailInformationLabel.changeThemeIfNeeded()
+        nextButton.changeThemeIfNeeded()
+        
+        allCharacterButtons.forEach { $0.changeThemeIfNeeded() }
+    }
+    
     private func deselectAllButtons() {
         self.allCharacterButtons
             .forEach { $0.isSelected = false }

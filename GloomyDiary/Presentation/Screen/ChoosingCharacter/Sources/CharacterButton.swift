@@ -19,7 +19,10 @@ final class CharacterButton: UIButton {
     
     let identifier: String
     
+    private let character: CounselingCharacter
+    
     init(character: CounselingCharacter) {
+        self.character = character
         self.identifier = character.identifier
         super.init(frame: .zero)
         
@@ -52,6 +55,34 @@ final class CharacterButton: UIButton {
         configuration.contentInsets = NSDirectionalEdgeInsets(top: Metric.topInset, leading: Metric.horizontalInset, bottom: Metric.bottomInset, trailing: Metric.horizontalInset)
         
         self.configuration = configuration
+        
+        let buttonStateHandler: UIButton.ConfigurationUpdateHandler = { button in
+            guard var configuration = button.configuration else { return }
+            switch button.state {
+            case .normal:
+                configuration.background.backgroundColor = AppColor.Component.disabledSelectionButton.color
+            case .selected:
+                configuration.background.backgroundColor = AppColor.Component.selectedSelectionButton.color
+            default:
+                return
+            }
+            
+            UIView.transition(with: self, duration: 0.3, options: .transitionCrossDissolve) {
+                self.configuration? = configuration
+            }
+        }
+        
+        self.configurationUpdateHandler = buttonStateHandler
+    }
+    
+    func changeThemeIfNeeded() {
+        let image = AppImage.Character.counselor(character, .normal).image
+        self.setImage(image.resized(width: Metric.imageSize, height: Metric.imageSize), for: .normal)
+        
+        var title = AttributedString(character.name)
+        title.font = .온글잎_의연체.title
+        title.foregroundColor = AppColor.Text.main.color
+        configuration?.attributedTitle = title
         
         let buttonStateHandler: UIButton.ConfigurationUpdateHandler = { button in
             guard var configuration = button.configuration else { return }

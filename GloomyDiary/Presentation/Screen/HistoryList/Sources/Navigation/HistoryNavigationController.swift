@@ -45,7 +45,24 @@ final class HistoryNavigationController: NavigationStackController {
     
     private func bind() {
         NotificationCenter.default
-            .publisher(for: .themeChanged)
+            .publisher(for: .themeShouldRefresh)
+            .receive(on: RunLoop.main)
+            .sink { [weak self] _ in
+                guard let self else { return }
+                
+                UIView.animate(withDuration: 0.2) {
+                    let appearance = self.navigationBar.standardAppearance
+                    appearance.backgroundColor = AppColor.Background.historyCell.color
+                    self.navigationBar.standardAppearance = appearance
+                    self.navigationBar.scrollEdgeAppearance = appearance
+                    
+                    self.navigationBar.layoutIfNeeded()
+                }
+            }
+            .store(in: &cancellables)
+        
+        NotificationCenter.default
+            .publisher(for: .themeShouldRefreshWithoutAnimation)
             .receive(on: RunLoop.main)
             .sink { [weak self] _ in
                 guard let self else { return }

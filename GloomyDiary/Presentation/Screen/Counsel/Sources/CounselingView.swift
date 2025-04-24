@@ -25,6 +25,8 @@ final class CounselingView: UIView {
         static let sendingLetterBottomPadding: CGFloat = .deviceAdjustedHeight(250)
         static let sendingButtonTopPadding: CGFloat = .deviceAdjustedHeight(25)
     }
+    
+    private var character: CounselingCharacter = .chan
 
     
     // MARK: - Views
@@ -61,7 +63,7 @@ final class CounselingView: UIView {
     
     let sendingLetterView: SendingLetterView = SendingLetterView()
     
-    let letterSendingButton: HorizontalButton = NormalHorizontalButton().then {
+    let letterSendingButton = NormalHorizontalButton().then {
         $0.setTitle("편지 보내기", for: .normal)
         $0.isEnabled = false
     }
@@ -160,6 +162,7 @@ final class CounselingView: UIView {
 
 extension CounselingView {
     func configure(with character: CounselingCharacter) {
+        self.character = character
         characterImageView.image = AppImage.Character.counselor(character, .normal).image
         characterGreetingLabel.text = character.greetingMessage
     }
@@ -183,6 +186,18 @@ extension CounselingView {
         case .sendable:
             letterSendingButton.isEnabled = true
         }
+    }
+    
+    func changeThemeIfNeeded() {
+        backgroundColor = AppColor.Background.main.color
+        
+        characterGreetingLabel.changeThemeIfNeeded()
+        rightEdgeView.backgroundColor = AppColor.Background.main.color
+        leftEdgeView.backgroundColor = AppColor.Background.main.color
+        sendingLetterView.changeThemeIfNeeded()
+        letterSendingButton.changeThemeIfNeeded()
+        
+        characterImageView.image = AppImage.Character.counselor(character, .normal).image
     }
 }
 

@@ -64,4 +64,15 @@ final class ResultLetterView: LetterView {
             make.bottom.equalToSuperview().inset(Metric.copyButtonPadding)
         }
     }
+    
+    override func changeThemeIfNeeded() {
+        super.changeThemeIfNeeded()
+        
+        gradientBackgroundView.updateColors([
+            AppColor.Component.horizontalButton.color.withAlphaComponent(0.0),
+            AppColor.Component.horizontalButton.color
+        ])
+        backgroundColor = AppColor.Background.letter.color
+        copyButton.changeThemeIfNeeded()
+    }
 }

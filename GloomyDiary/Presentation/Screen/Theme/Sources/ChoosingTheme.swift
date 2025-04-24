@@ -39,10 +39,13 @@ struct ChoosingTheme {
     enum ScopeAction: Equatable {}
     
     enum DelegateAction: Equatable {
+        case themeChanged
     }
     
     var body: some Reducer<State, Action> {
-        Reduce { state, action in
+        Reduce {
+            state,
+            action in
             switch action {
             case .view(let viewAction):
                 switch viewAction {
@@ -59,12 +62,13 @@ struct ChoosingTheme {
                     
                 case .didTapSelectButton:
                     let theme = state.theme
-                    return .run { _ in
+                    return .run { send in
                         try userSetting.update(keyPath: \.appearanceMode, value: theme)
                         AppEnvironment.appearanceMode = theme
                         
-                        NotificationCenter.default.post(name: .themeChanged, object: nil)
+                        NotificationCenter.default.post(name: .themeShouldRefreshWithoutAnimation, object: nil)
                         
+                        await send(.delegate(.themeChanged))
                         await dismiss()
                     }
                     
@@ -73,11 +77,15 @@ struct ChoosingTheme {
                         await dismiss()
                     }
                 }
+                
+            case .delegate:
+                return .none
             }
         }
     }
 }
 
 extension Notification.Name {
-    static let themeChanged = Notification.Name("themeChanged")
+    static let themeShouldRefreshWithoutAnimation = Notification.Name("themeShouldRefreshWithoutAnimation")
+    static let themeShouldRefresh = Notification.Name("themeShouldRefresh")
 }

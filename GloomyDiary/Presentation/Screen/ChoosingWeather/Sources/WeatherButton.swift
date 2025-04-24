@@ -16,9 +16,34 @@ final class WeatherButton: UIButton {
     
     let identifier: String
     
+    private let weather: Weather
+    
     private let feedbackGenerator = UIImpactFeedbackGenerator(style: .soft)
     
+    private var isPressed: Bool = false {
+        didSet {
+            if isPressed {
+                configuration?.background.backgroundColor = AppColor.Component.selectedSelectionButton.color.withAlphaComponent(0.3)
+            } else {
+                if !isPicked {
+                    configuration?.background.backgroundColor = AppColor.Component.disabledSelectionButton.color
+                }
+            }
+        }
+    }
+    
+    var isPicked: Bool = false {
+        didSet {
+            if isPicked {
+                configuration?.background.backgroundColor = AppColor.Component.selectedSelectionButton.color
+            } else {
+                configuration?.background.backgroundColor = AppColor.Component.disabledSelectionButton.color
+            }
+        }
+    }
+    
     init(weather: Weather) {
+        self.weather = weather
         self.identifier = weather.identifier
         super.init(frame: .zero)
         
@@ -48,8 +73,29 @@ final class WeatherButton: UIButton {
         title.foregroundColor = AppColor.Text.main.color
         configuration.attributedTitle = title
         configuration.titleAlignment = .leading
-        configuration.background.backgroundColor = AppColor.Component.disabledSelectionButton.color
         configuration.contentInsets = NSDirectionalEdgeInsets(top: 9, leading: 14, bottom: 9, trailing: 200)
+        configuration.background.backgroundColor = AppColor.Component.disabledSelectionButton.color
+        
+        self.configuration = configuration
+    }
+    
+    func changeThemeIfNeeded() {
+        let image = AppImage.Component.weather(weather).image
+        self.setImage(image.resized(width: Metric.imageSize, height: Metric.imageSize), for: .normal)
+        
+        guard var configuration = self.configuration else { return }
+        var title = AttributedString(weather.name)
+        title.font = .온글잎_의연체.title
+        title.foregroundColor = AppColor.Text.main.color
+        configuration.attributedTitle = title
+        
+        if isPressed {
+            configuration.background.backgroundColor = AppColor.Component.selectedSelectionButton.color.withAlphaComponent(0.3)
+        } else if isPicked {
+            configuration.background.backgroundColor = AppColor.Component.selectedSelectionButton.color
+        } else {
+            configuration.background.backgroundColor = AppColor.Component.disabledSelectionButton.color
+        }
         
         self.configuration = configuration
     }
@@ -59,9 +105,7 @@ extension WeatherButton {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesBegan(touches, with: event)
         
-        var configuration = self.configuration
-        configuration?.background.backgroundColor = AppColor.Component.selectedSelectionButton.color.withAlphaComponent(0.3)
-        self.configuration = configuration
+        isPressed = true
         
         feedbackGenerator.prepare()
         feedbackGenerator.impactOccurred()
@@ -79,17 +123,17 @@ extension WeatherButton {
         .run()
     }
     
-    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        super.touchesMoved(touches, with: event)
-        
-        var contiguration = self.configuration
-        configuration?.background.backgroundColor = AppColor.Component.selectedSelectionButton.color.withAlphaComponent(0.3)
-        
-        self.configuration = configuration
-    }
-    
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesEnded(touches, with: event)
+        
+        guard let touch = touches.first else { return }
+        let location = touch.location(in: self)
+        
+        if bounds.contains(location) {
+            isPicked = true
+        }
+        
+        isPressed = false
         
         AnimationGroup(
             animations: [
@@ -106,6 +150,8 @@ extension WeatherButton {
     
     override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesCancelled(touches, with: event)
+        
+        isPressed = false
         
         AnimationGroup(
             animations: [

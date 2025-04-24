@@ -47,4 +47,8 @@ final class MenuButton: UIButton {
             button.configuration = updatedConfiguration
         }
     }
+    
+    func changeThemeIfNeeded() {
+        configure(with: item)
+    }
 }

@@ -53,4 +53,9 @@ final class RoundedIconButton: UIButton {
         
         self.configuration = configuration
     }
+    
+    func changeThemeIfNeeded() {
+        configuration?.background.backgroundColor = AppColor.Component.roundIcon.color
+        configuration?.baseForegroundColor = AppColor.Component.roundIconLiteral.color
+    }
 }

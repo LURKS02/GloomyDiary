@@ -82,9 +82,9 @@ final class SettingMenuView: UIView {
         }
     }
     
-    func changeTheme(with theme: AppearanceMode) {
-        titleLabel.textColor = AppColor.Text.main.color(for: theme)
-        valueLabel.textColor = AppColor.Text.fogHighlight.color(for: theme)
-        chevronImageView.tintColor = AppColor.Text.fogHighlight.color(for: theme)
+    func changeThemeIfNeeded() {
+        titleLabel.textColor = AppColor.Text.main.color
+        valueLabel.textColor = AppColor.Text.fogHighlight.color
+        chevronImageView.tintColor = AppColor.Text.fogHighlight.color
     }
 }

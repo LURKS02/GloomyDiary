@@ -56,9 +56,9 @@ final class TalkingView: UIView {
         }
     }
     
-    func changeTheme(with theme: AppearanceMode) {
-        talkingLabel.textColor = AppColor.Text.main.color(for: theme)
-        backgroundColor = AppColor.Component.mainPoint.color(for: theme)
+    func changeThemeIfNeeded() {
+        talkingLabel.textColor = AppColor.Text.main.color
+        backgroundColor = AppColor.Component.mainPoint.color
     }
 }
 

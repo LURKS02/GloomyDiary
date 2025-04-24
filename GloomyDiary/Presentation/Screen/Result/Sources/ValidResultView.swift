@@ -28,14 +28,15 @@ final class ValidResultView: UIView {
     
     let resultLetterView = ResultLetterView()
     
-    let shareButton: HorizontalButton = SubHorizontalButton().then {
+    let shareButton: SubHorizontalButton = SubHorizontalButton().then {
         $0.setTitle("공유하기", for: .normal)
     }
     
-    let homeButton: HorizontalButton = NormalHorizontalButton().then {
+    let homeButton: NormalHorizontalButton = NormalHorizontalButton().then {
         $0.setTitle("홈으로", for: .normal)
     }
     
+    private var character: CounselingCharacter = .chan
     
     init() {
         super.init(frame: .zero)
@@ -89,6 +90,15 @@ final class ValidResultView: UIView {
     }
     
     func configure(with character: CounselingCharacter) {
+        self.character = character
+        characterImageView.image = AppImage.Character.counselor(character, .normal).image
+    }
+    
+    func changeThemeIfNeeded() {
+        backgroundColor = AppColor.Background.main.color
+        resultLetterView.changeThemeIfNeeded()
+        shareButton.changeThemeIfNeeded(with: AppEnvironment.appearanceMode)
+        homeButton.changeThemeIfNeeded()
         characterImageView.image = AppImage.Character.counselor(character, .normal).image
     }
 }

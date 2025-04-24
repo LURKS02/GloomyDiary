@@ -35,13 +35,12 @@ struct Setting {
     
     enum ViewAction: Equatable {
         case didTapMenuButton(SettingCase)
-        case themeChanged(AppearanceMode)
     }
     
-    enum InnerAction: Equatable {
-    }
+    enum InnerAction: Equatable {}
     
     enum ScopeAction: Equatable {
+        case changeThemeIfNeeded
     }
     
     enum DelegateAction: Equatable {
@@ -59,21 +58,24 @@ struct Setting {
                     return .run { send in
                         await send(.delegate(.navigateToMenu(settingCase)))
                     }
+                }
+                
+            case .scope(let scopeAction):
+                switch scopeAction {
+                    case .changeThemeIfNeeded:
+                        let settingItems = state.settingItems
                     
-                case .themeChanged(let mode):
-                    let settingItems = state.settingItems
-                    
-                    state.settingItems = settingItems.map { item in
-                        if item.settingCase == .theme {
-                            return SettingMenuItem(
-                                settingCase: item.settingCase,
-                                value: AppEnvironment.appearanceMode.name,
-                                isNavigatable: item.isNavigatable
-                            )
-                        } else {
-                            return item
+                        state.settingItems = settingItems.map { item in
+                            if item.settingCase == .theme {
+                                return SettingMenuItem(
+                                    settingCase: item.settingCase,
+                                    value: AppEnvironment.appearanceMode.name,
+                                    isNavigatable: item.isNavigatable
+                                )
+                            } else {
+                                return item
+                            }
                         }
-                    }
                     
                     return .none
                 }

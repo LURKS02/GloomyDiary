@@ -5,6 +5,7 @@
 //  Created by 디해 on 8/5/24.
 //
 
+import Dependencies
 import Lottie
 import UIKit
 
@@ -29,7 +30,9 @@ final class HomeView: UIView {
         static let sparklingAnimationSpeed: CGFloat = 0.5
         
         static var pulsingCircleAlpha: CGFloat {
-            AppEnvironment.appearanceMode == .dark ? 0.3 : 0.7
+            @Dependency(\.themeScheduler) var themeScheduler
+            
+            return themeScheduler.resolvedDefault == .dark ? 0.3 : 0.7
         }
     }
     
@@ -148,7 +151,7 @@ final class HomeView: UIView {
         }
     }
     
-    func changeTheme(with theme: AppearanceMode) {
+    func changeThemeIfNeeded() {
         backgroundColor = AppColor.Background.main.color
         
         gradientView.updateColors([
@@ -168,9 +171,9 @@ final class HomeView: UIView {
         
         ghostImageView.setup()
         
-        ghostTalkingView.changeTheme(with: theme)
+        ghostTalkingView.changeThemeIfNeeded()
         
-        startButton.changeTheme(theme)
+        startButton.changeThemeIfNeeded()
     }
 }
 

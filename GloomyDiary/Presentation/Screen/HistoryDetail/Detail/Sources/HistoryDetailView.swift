@@ -186,6 +186,22 @@ extension HistoryDetailView {
         }
         layoutIfNeeded()
     }
+    
+    func changeThemeIfNeeded() {
+        backgroundColor = AppColor.Background.historyCell.color
+        
+        titleLabel.changeThemeIfNeeded()
+        dateLabel.changeThemeIfNeeded()
+        stateLabel.textColor = AppColor.Text.fogHighlight.color
+        contentLabel.textColor = AppColor.Text.subHighlight.color
+        
+        gradientBackgroundView.updateColors([
+            AppColor.Background.historyCell.color.withAlphaComponent(0.0),
+            AppColor.Background.historyCell.color
+        ])
+        
+        responseLetterView.changeThemeIfNeeded()
+    }
 }
 
 

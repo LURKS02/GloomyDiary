@@ -168,6 +168,22 @@ final class StartCounselingView: UIView {
     func configure(isFirstProcess: Bool) {
         firstNormalLabel.text = isFirstProcess ? "첫 번째 편지를 보내볼까요?" : "반가워요!"
     }
+    
+    func changeThemeIfNeeded() {
+        backgroundColor = AppColor.Background.main.color
+        skyBadgeImageView.image = AppImage.Component.skyBadge.image
+        gradientView.updateColors([
+            AppColor.Background.sub.color,
+            AppColor.Background.main.color
+        ])
+        firstNormalLabel.changeThemeIfNeeded()
+        secondNormalLabel.changeThemeIfNeeded()
+        thirdNormalLabel.changeThemeIfNeeded()
+        titleTextField.changeThemeIfNeeded()
+        warningLabel.textColor = AppColor.Text.warning.color
+        finalNormalLabel.changeThemeIfNeeded()
+        nextButton.changeThemeIfNeeded()
+    }
 }
 
 

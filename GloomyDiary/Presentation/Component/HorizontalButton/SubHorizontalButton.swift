@@ -12,28 +12,28 @@ final class SubHorizontalButton: HorizontalButton {
     
     override var isEnabled: Bool {
         didSet {
-            setBackgroundColor(theme: theme)
+            setBackgroundColor(with: theme)
         }
     }
     
     override var isHighlighted: Bool {
         didSet {
-            setBackgroundColor(theme: theme)
+            setBackgroundColor(with: theme)
         }
     }
     
     override init() {
         super.init()
         
-        setBackgroundColor(theme: theme)
-        setFontColor(theme: theme)
+        setBackgroundColor(with: theme)
+        setFontColor(with: theme)
     }
     
     @MainActor required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func setBackgroundColor(theme: AppearanceMode) {
+    private func setBackgroundColor(with theme: AppearanceMode) {
         if isHighlighted {
             self.backgroundColor = AppColor.Component.selectedHorizontalButton.color(for: theme)
         } else {
@@ -45,14 +45,14 @@ final class SubHorizontalButton: HorizontalButton {
         }
     }
     
-    private func setFontColor(theme: AppearanceMode) {
+    private func setFontColor(with theme: AppearanceMode) {
         self.setTitleColor(AppColor.Text.main.color(for: theme), for: .normal)
         self.setTitleColor(AppColor.Text.disabled.color(for: theme), for: .disabled)
     }
     
-    func changeTheme(_ theme: AppearanceMode) {
+    func changeThemeIfNeeded(with theme: AppearanceMode) {
         self.theme = theme
-        self.setBackgroundColor(theme: theme)
-        self.setFontColor(theme: theme)
+        self.setBackgroundColor(with: theme)
+        self.setFontColor(with: theme)
     }
 }

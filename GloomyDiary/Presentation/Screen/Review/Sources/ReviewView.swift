@@ -20,6 +20,8 @@ final class ReviewView: UIView {
         static let buttonStackViewTopPadding: CGFloat = .deviceAdjustedHeight(45)
         static let buttonStackViewHorizontalPadding: CGFloat = .deviceAdjustedWidth(40)
     }
+    
+    private var character: CounselingCharacter = .chan
 
     
     // MARK: - Views
@@ -66,6 +68,7 @@ final class ReviewView: UIView {
     }
     
     private func configure(with character: CounselingCharacter) {
+        self.character = character
         characterImageView.image = AppImage.Character.counselor(character, .normal).image
         reviewLabel.text = character.reviewRequiringMessage
     }
@@ -111,6 +114,15 @@ final class ReviewView: UIView {
             make.top.equalTo(reviewLabel.snp.bottom).offset(Metric.buttonStackViewTopPadding)
             make.horizontalEdges.equalToSuperview().inset(Metric.buttonStackViewHorizontalPadding)
         }
+    }
+    
+    func changeThemeIfNeeded() {
+        sheetBackgroundView.backgroundColor = AppColor.Background.main.color
+        reviewLabel.changeThemeIfNeeded()
+        acceptButton.changeThemeIfNeeded()
+        rejectButton.changeThemeIfNeeded()
+        
+        characterImageView.image = AppImage.Character.counselor(character, .normal).image
     }
 }
 

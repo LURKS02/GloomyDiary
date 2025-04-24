@@ -15,7 +15,7 @@ enum AppearanceMode: Codable, CaseIterable {
     var name: String {
         switch self {
         case .default:
-            "시스템"
+            "자동"
         case .light:
             "낮"
         case .dark:

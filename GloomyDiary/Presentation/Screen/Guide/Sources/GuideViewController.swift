@@ -57,6 +57,16 @@ private extension GuideViewController {
     func bind() {
         contentView.gradientView.addGestureRecognizer(backgroundTap)
         
+        NotificationCenter.default
+            .publisher(for: .themeShouldRefresh)
+            .receive(on: RunLoop.main)
+            .sink { [weak self] _ in
+                UIView.animate(withDuration: 0.2) {
+                    self?.contentView.changeThemeIfNeeded()
+                }
+            }
+            .store(in: &cancellables)
+        
         backgroundTap.tapPublisher
             .sink { [weak self] _ in
                 guard let self else { return }

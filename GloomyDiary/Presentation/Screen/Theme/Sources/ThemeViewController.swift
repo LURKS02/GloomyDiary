@@ -91,7 +91,7 @@ extension ThemeViewController {
             self.contentView.nameLabel.text = store.theme.name
             self.contentView.informationLabel.text = store.theme.description
             
-            self.changeTheme(with: store.theme)
+            self.changeThemeIfNeeded(with: store.theme)
         }
     }
     
@@ -111,10 +111,10 @@ extension ThemeViewController {
         store.send(.view(.didTapBackButton))
     }
     
-    func changeTheme(with theme: AppearanceMode) {
-        UIView.animate(withDuration: 0.2) {
+    func changeThemeIfNeeded(with theme: AppearanceMode) {
+        UIView.animate(withDuration: 0.15) {
             self.navigationItem.leftBarButtonItem?.tintColor = AppColor.Component.navigationItem.color(for: theme)
-            self.contentView.changeTheme(with: theme)
+            self.contentView.changeThemeIfNeeded(with: theme)
         }
     }
 }

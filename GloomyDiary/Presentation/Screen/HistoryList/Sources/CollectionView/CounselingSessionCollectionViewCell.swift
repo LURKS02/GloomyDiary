@@ -92,6 +92,8 @@ final class CounselingSessionCollectionViewCell: UICollectionViewCell {
         setup()
         addSubviews()
         setupConstraints()
+        
+        bind()
     }
     
     required init?(coder: NSCoder) {
@@ -103,7 +105,6 @@ final class CounselingSessionCollectionViewCell: UICollectionViewCell {
         
         imageIDs = []
         cancellableSet.removeAll()
-        themeChanged(with: AppEnvironment.appearanceMode)
     }
     
     private func setup() {
@@ -147,11 +148,31 @@ final class CounselingSessionCollectionViewCell: UICollectionViewCell {
         }
     }
     
-    private func themeChanged(with theme: AppearanceMode) {
-        titleLabel.textColor = AppColor.Text.main.color(for: theme)
-        stateLabel.textColor = AppColor.Text.fogHighlight.color(for: theme)
-        contentLabel.textColor = AppColor.Text.subHighlight.color(for: theme)
-        self.backgroundColor = AppColor.Background.historyCell.color(for: theme)
+    private func bind() {
+        NotificationCenter.default
+            .publisher(for: .themeShouldRefresh)
+            .receive(on: RunLoop.main)
+            .sink { [weak self] _ in
+                UIView.animate(withDuration: 0.2) {
+                    self?.changeThemeIfNeeded()
+                }
+            }
+            .store(in: &cancellables)
+        
+        NotificationCenter.default
+            .publisher(for: .themeShouldRefreshWithoutAnimation)
+            .receive(on: RunLoop.main)
+            .sink { [weak self] _ in
+                self?.changeThemeIfNeeded()
+            }
+            .store(in: &cancellables)
+    }
+    
+    private func changeThemeIfNeeded() {
+        titleLabel.textColor = AppColor.Text.main.color
+        stateLabel.textColor = AppColor.Text.fogHighlight.color
+        contentLabel.textColor = AppColor.Text.subHighlight.color
+        self.backgroundColor = AppColor.Background.historyCell.color
     }
 }
 

@@ -8,51 +8,48 @@
 import UIKit
 
 final class RejectHorizontalButton: HorizontalButton {
-    private var theme: AppearanceMode = AppEnvironment.appearanceMode
-    
     override var isEnabled: Bool {
         didSet {
-            setBackgroundColor(theme: theme)
+            setBackgroundColor()
         }
     }
     
     override var isHighlighted: Bool {
         didSet {
-            setBackgroundColor(theme: theme)
+            setBackgroundColor()
         }
     }
     
     override init() {
         super.init()
         
-        setBackgroundColor(theme: theme)
-        setFontColor(theme: theme)
+        setBackgroundColor()
+        setFontColor()
     }
     
     @MainActor required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func setBackgroundColor(theme: AppearanceMode) {
+    private func setBackgroundColor() {
         if isHighlighted {
-            self.backgroundColor = AppColor.Component.selectedHorizontalButton.color(for: theme)
+            self.backgroundColor = AppColor.Component.selectedHorizontalButton.color
         } else {
             if isEnabled {
-                self.backgroundColor = AppColor.Component.disabledButton.color(for: theme)
+                self.backgroundColor = AppColor.Component.disabledButton.color
             } else {
-                self.backgroundColor = AppColor.Component.disabledButton.color(for: theme)
+                self.backgroundColor = AppColor.Component.disabledButton.color
             }
         }
     }
     
-    private func setFontColor(theme: AppearanceMode) {
-        self.setTitleColor(AppColor.Text.reject.color(for: theme), for: .normal)
-        self.setTitleColor(AppColor.Text.disabled.color(for: theme), for: .disabled)
+    private func setFontColor() {
+        self.setTitleColor(AppColor.Text.reject.color, for: .normal)
+        self.setTitleColor(AppColor.Text.disabled.color, for: .disabled)
     }
     
-    func changeTheme(_ theme: AppearanceMode) {
-        self.theme = theme
-        self.setBackgroundColor(theme: theme)
-        self.setFontColor(theme: theme)
+    func changeThemeIfNeeded() {
+        self.setBackgroundColor()
+        self.setFontColor()
     }
 }

@@ -72,10 +72,20 @@ final class FloatingTabBarController: UITabBarController {
     
     private func bind() {
         NotificationCenter.default
-            .publisher(for: .themeChanged)
+            .publisher(for: .themeShouldRefresh)
             .receive(on: RunLoop.main)
             .sink { [weak self] _ in
-                self?.floatingTabBar.changeTheme(with: AppEnvironment.appearanceMode)
+                UIView.animate(withDuration: 0.2) {
+                    self?.floatingTabBar.changeThemeIfNeeded()
+                }
+            }
+            .store(in: &cancellables)
+        
+        NotificationCenter.default
+            .publisher(for: .themeShouldRefreshWithoutAnimation)
+            .receive(on: RunLoop.main)
+            .sink { [weak self] _ in
+                self?.floatingTabBar.changeThemeIfNeeded()
             }
             .store(in: &cancellables)
     }

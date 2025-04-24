@@ -122,7 +122,6 @@ extension AnimatedTransition: UIViewControllerAnimatedTransitioning {
             let finalFrame = containerView.convert(toComp.frame, from: toComp.superview)
             
             guard let transitionView = FrameAnimationContentWithLottie(
-                fromComp,
                 initialFrame: initialFrame,
                 targetFrame: finalFrame,
                 duration: contentDuration,

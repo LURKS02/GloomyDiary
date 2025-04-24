@@ -48,4 +48,9 @@ final class RoundTextField: UIView {
             make.bottom.equalToSuperview().inset(5)
         }
     }
+    
+    func changeThemeIfNeeded() {
+        backgroundColor = AppColor.Component.textFieldBackground.color
+        textField.textColor = AppColor.Text.main.color
+    }
 }

@@ -124,6 +124,22 @@ final class WelcomeView: UIView {
             make.bottom.equalToSuperview().inset(Metric.talkingLabelBottomPadding)
         }
     }
+    
+    func changeThemeIfNeeded() {
+        backgroundColor = AppColor.Background.main.color
+        
+        gradientView.updateColors([
+            AppColor.Background.sub.color,
+            AppColor.Background.main.color,
+            AppColor.Background.main.color
+        ])
+        
+        skyBadgeImageView.image = AppImage.Component.skyBadge.image
+        ghostView.image = AppImage.Character.ghost(.normal).image
+        firstNormalLabel.changeThemeIfNeeded()
+        secondNormalLabel.changeThemeIfNeeded()
+        talkingLabel.changeThemeIfNeeded()
+    }
 }
 
 

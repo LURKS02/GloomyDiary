@@ -34,6 +34,6 @@ struct UserSetting: Codable {
         self.hasReviewed = try container.decode(Bool.self, forKey: .hasReviewed)
         self.lastReviewDeclinedDate = try container.decodeIfPresent(Date.self, forKey: .lastReviewDeclinedDate)
         self.hasSuggestedNotification = try container.decode(Bool.self, forKey: .hasSuggestedNotification)
-        self.appearanceMode = try container.decodeIfPresent(AppearanceMode.self, forKey: .appearanceMode) ?? .default
+        self.appearanceMode = try container.decodeIfPresent(AppearanceMode.self, forKey: .appearanceMode) ?? .dark
     }
 }

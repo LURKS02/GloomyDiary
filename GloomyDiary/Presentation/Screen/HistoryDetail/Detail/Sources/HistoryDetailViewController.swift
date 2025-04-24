@@ -56,7 +56,8 @@ final class HistoryDetailViewController: BaseViewController<HistoryDetailView> {
         
         bind()
         
-        setupNavigationBar()
+        setupNavigationBarButton()
+        setupNavigationBarTitle()
         
         navigationController?.delegate = self
         self.weakNavigationController = navigationController
@@ -99,6 +100,20 @@ final class HistoryDetailViewController: BaseViewController<HistoryDetailView> {
 
 private extension HistoryDetailViewController {
     func bind() {
+        NotificationCenter.default
+            .publisher(for: .themeShouldRefresh)
+            .receive(on: RunLoop.main)
+            .sink { [weak self] _ in
+                UIView.animate(withDuration: 0.2) {
+                    self?.contentView.changeThemeIfNeeded()
+                    self?.navigationItem.rightBarButtonItem?.tintColor = AppColor.Component.navigationItem.color
+                    self?.navigationItem.leftBarButtonItem?.tintColor = AppColor.Component.navigationItem.color
+                    
+                    self?.setupNavigationBarTitle()
+                }
+            }
+            .store(in: &cancellables)
+        
         contentView.imageScrollView.imageTapSubject
             .sink(receiveValue: { [weak self] id in
                 guard let self else { return }
@@ -163,14 +178,7 @@ private extension HistoryDetailViewController {
         present(imageViewer, animated: true)
     }
     
-    func setupNavigationBar() {
-        let image = AppImage.Component.letter.image
-        let size: CGFloat = 40
-        let titleImage = image.resized(width: size, height: size)
-        let imageView = UIImageView(image: titleImage)
-        imageView.contentMode = .center
-        self.navigationItem.titleView = imageView
-        
+    func setupNavigationBarButton() {
         let moreButton = UIBarButtonItem(
             image: UIImage(systemName: "ellipsis"),
             style: .plain,
@@ -189,6 +197,15 @@ private extension HistoryDetailViewController {
         backButton.tintColor = AppColor.Component.navigationItem.color
         navigationItem.rightBarButtonItem = moreButton
         navigationItem.leftBarButtonItem = backButton
+    }
+    
+    func setupNavigationBarTitle() {
+        let image = AppImage.Component.letter.image
+        let size: CGFloat = 40
+        let titleImage = image.resized(width: size, height: size)
+        let imageView = UIImageView(image: titleImage)
+        imageView.contentMode = .center
+        self.navigationItem.titleView = imageView
     }
     
     @objc func backButtonTapped() {

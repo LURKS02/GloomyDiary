@@ -70,10 +70,20 @@ extension HomeViewController {
         contentView.gradientView.addGestureRecognizer(backgroundTap)
         
         NotificationCenter.default
-            .publisher(for: .themeChanged)
+            .publisher(for: .themeShouldRefresh)
             .receive(on: RunLoop.main)
             .sink { [weak self] _ in
-                self?.contentView.changeTheme(with: AppEnvironment.appearanceMode)
+                UIView.animate(withDuration: 0.2) {
+                    self?.contentView.changeThemeIfNeeded()
+                }
+            }
+            .store(in: &cancellables)
+        
+        NotificationCenter.default
+            .publisher(for: .themeShouldRefreshWithoutAnimation)
+            .receive(on: RunLoop.main)
+            .sink { [weak self] _ in
+                self?.contentView.changeThemeIfNeeded()
             }
             .store(in: &cancellables)
         

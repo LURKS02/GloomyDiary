@@ -96,6 +96,16 @@ private extension CounselingViewController {
         contentView.photoCollectionView.dragDelegate = self
         contentView.photoCollectionView.dropDelegate = self
         
+        NotificationCenter.default
+            .publisher(for: .themeShouldRefresh)
+            .receive(on: RunLoop.main)
+            .sink { [weak self] _ in
+                UIView.animate(withDuration: 0.2) {
+                    self?.contentView.changeThemeIfNeeded()
+                }
+            }
+            .store(in: &cancellables)
+        
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(keyboardWillShow),

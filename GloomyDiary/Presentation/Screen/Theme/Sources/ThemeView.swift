@@ -151,12 +151,12 @@ final class ThemeView: UIView {
 }
 
 extension ThemeView {
-    func changeTheme(with theme: AppearanceMode) {
+    func changeThemeIfNeeded(with theme: AppearanceMode) {
         backgroundColor = AppColor.Background.letter.color(for: theme)
         titleLabel.textColor = AppColor.Text.main.color(for: theme)
         nameLabel.textColor = AppColor.Text.main.color(for: theme)
         informationLabel.textColor = AppColor.Text.fogHighlight.color(for: theme)
-        selectButton.changeTheme(theme)
+        selectButton.changeThemeIfNeeded(with: theme)
     }
 }
 

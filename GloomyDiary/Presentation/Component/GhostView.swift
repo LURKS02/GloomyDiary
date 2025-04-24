@@ -24,6 +24,10 @@ final class GhostView: UIImageView {
     func setup() {
         self.image = AppImage.Character.ghost(.normal).image
     }
+    
+    func changeThemeIfNeeded() {
+        self.image = AppImage.Character.ghost(.normal).image
+    }
 }
 
 extension GhostView {

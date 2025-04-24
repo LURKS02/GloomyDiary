@@ -40,6 +40,11 @@ struct SettingNavigation {
             case .setting:
                 return .none
                 
+            case .path(.element(id: _, action: .theme(.delegate(.themeChanged)))):
+                return .run { send in
+                    await send(.setting(.scope(.changeThemeIfNeeded)))
+                }
+                
             case .path:
                 return .none
             }

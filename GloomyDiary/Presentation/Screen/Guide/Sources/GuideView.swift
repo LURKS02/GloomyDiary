@@ -155,6 +155,22 @@ final class GuideView: UIView {
             make.top.equalTo(thirdNormalLabel.snp.bottom).offset(Metric.lastLabelTopPadding)
         }
     }
+    
+    func changeThemeIfNeeded() {
+        backgroundColor = AppColor.Background.main.color
+        
+        gradientView.updateColors([
+            AppColor.Background.sub.color,
+            AppColor.Background.main.color,
+            AppColor.Background.main.color
+        ])
+        
+        ghostView.changeThemeIfNeeded()
+        firstNormalLabel.changeThemeIfNeeded()
+        secondNormalLabel.changeThemeIfNeeded()
+        thirdNormalLabel.changeThemeIfNeeded()
+        lastNormalLabel.changeThemeIfNeeded()
+    }
 }
 
 

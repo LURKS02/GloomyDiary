@@ -106,14 +106,23 @@ final class ChoosingWeatherView: UIView {
     
     func spotlight(to identifier: String?) {
         allWeatherButtons.forEach { button in
-            var configuration = button.configuration
             if button.identifier == identifier {
-                configuration?.background.backgroundColor = AppColor.Component.selectedSelectionButton.color
+                button.isPicked = true
             } else {
-                configuration?.background.backgroundColor = AppColor.Component.disabledSelectionButton.color
+                button.isPicked = false
             }
-            button.configuration = configuration
         }
+    }
+    
+    func changeThemeIfNeeded() {
+        gradientView.updateColors([
+            AppColor.Background.sub.color,
+            AppColor.Background.main.color
+        ])
+        
+        introduceLabel.changeThemeIfNeeded()
+        nextButton.changeThemeIfNeeded()
+        allWeatherButtons.forEach { $0.changeThemeIfNeeded() }
     }
 }
 

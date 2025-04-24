@@ -53,9 +53,9 @@ final class FloatingTabBarItemButton: UIButton {
         isSwitched = isHighlighted
     }
     
-    func changeTheme(with theme: AppearanceMode) {
-        self.selectedImage = selectedImage.withTintColor(AppColor.Component.tabBarItem(true).color(for: theme))
-        self.normalImage = normalImage.withTintColor(AppColor.Component.tabBarItem(false).color(for: theme))
+    func changeThemeIfNeeded() {
+        self.selectedImage = selectedImage.withTintColor(AppColor.Component.tabBarItem(true).color)
+        self.normalImage = normalImage.withTintColor(AppColor.Component.tabBarItem(false).color)
         
         setup()
         

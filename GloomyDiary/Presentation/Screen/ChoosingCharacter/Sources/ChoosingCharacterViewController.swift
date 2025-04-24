@@ -45,6 +45,16 @@ final class ChoosingCharacterViewController: BaseViewController<ChoosingCharacte
 
 extension ChoosingCharacterViewController {
     private func bind() {
+        NotificationCenter.default
+            .publisher(for: .themeShouldRefresh)
+            .receive(on: RunLoop.main)
+            .sink { [weak self] _ in
+                UIView.animate(withDuration: 0.2) {
+                    self?.contentView.changeThemeIfNeeded()
+                }
+            }
+            .store(in: &cancellables)
+        
         contentView.allCharacterButtons.forEach { button in
             button.tapPublisher
                 .sink { [weak self] in
