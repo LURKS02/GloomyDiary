@@ -21,6 +21,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         #endif
         
         ArrayTransformer.register()
+        startObservingAppIcon()
         themeScheduler.start()
         
         return true
@@ -39,5 +40,54 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didDiscardSceneSessions sceneSessions: Set<UISceneSession>) {
     }
+    
+    func startObservingAppIcon() {
+        NotificationCenter.default
+            .publisher(for: .themeShouldRefresh)
+            .receive(on: RunLoop.main)
+            .sink { [weak self] _ in
+                self?.updateAppIconForCurrentTime()
+            }
+            .store(in: &cancellables)
+    }
 }
 
+extension AppDelegate {
+    func updateAppIconForCurrentTime() {
+        let mode = AppEnvironment.appearanceMode
+        
+        let targetIcon: String
+        switch mode {
+        case .default:
+            let resolvedMode = themeScheduler.resolvedDefault
+            switch resolvedMode {
+            case .dark:
+                targetIcon = "DarkAppIcon"
+            case .light:
+                targetIcon = "LightAppIcon"
+            case .default:
+                targetIcon = "AppIcon"
+            }
+        case .dark:
+            targetIcon = "DarkAppIcon"
+        case .light:
+            targetIcon = "LightAppIcon"
+        }
+        
+        setIconWithoutAlert(targetIcon)
+    }
+    
+    func setIconWithoutAlert(_ appIconName: String) {
+        if let alternateIconName = UIApplication.shared.alternateIconName,
+           alternateIconName == appIconName { return }
+        
+        if UIApplication.shared.responds(to: #selector(getter: UIApplication.supportsAlternateIcons)) && UIApplication.shared.supportsAlternateIcons {
+            typealias setAlternateIconName = @convention(c) (NSObject, Selector, NSString, @escaping (NSError) -> ()) -> ()
+            let selectorString = "_setAlternateIconName:completionHandler:"
+            let selector = NSSelectorFromString(selectorString)
+            let imp = UIApplication.shared.method(for: selector)
+            let method = unsafeBitCast(imp, to: setAlternateIconName.self)
+            method(UIApplication.shared, selector, appIconName as NSString, { _ in })
+        }
+    }
+}

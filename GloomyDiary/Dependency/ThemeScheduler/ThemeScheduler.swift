@@ -23,6 +23,7 @@ final class ThemeScheduler: ThemeScheduling {
     func start() {
         guard AppEnvironment.appearanceMode == .default else { return }
         
+        applyThemeForCurrentTime()
         scheduleNextThemeChange()
     }
     
