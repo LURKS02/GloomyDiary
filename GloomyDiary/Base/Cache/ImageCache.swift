@@ -25,6 +25,21 @@ final class ImageCache {
         try? fileManager.createDirectory(at: thumbnailDirectory, withIntermediateDirectories: true)
         try? fileManager.createDirectory(at: imageDirectory, withIntermediateDirectories: true)
         memoryCache.totalCostLimit = 5 * 1024 * 1024
+        
+//        listFiles(in: thumbnailDirectory)
+//        listFiles(in: imageDirectory)
+//        
+//        func listFiles(in directory: URL) {
+//            do {
+//                let fileURLs = try FileManager.default.contentsOfDirectory(at: directory, includingPropertiesForKeys: nil)
+//                print("📂 \(directory.lastPathComponent) 폴더에 있는 파일들:")
+//                for fileURL in fileURLs {
+//                    print("– \(fileURL.lastPathComponent)")
+//                }
+//            } catch {
+//                print("디렉토리 내용을 읽는 데 실패: \(error)")
+//            }
+//        }
     }
     
     private let memoryCache = Cache<UUID, UIImage>()
@@ -54,11 +69,11 @@ final class ImageCache {
             if let diskImage = getThumbnailImageFromDisk(forKey: key, pointSize: pointSize) {
                 return diskImage
             }
-            if let prevImage = getThumbnailImageFromDisk(forKey: key, pointSize: pointSize) { return prevImage }
+            if let prevImage = getThumbnailImageFromPrevDisk(forKey: key, pointSize: pointSize) { return prevImage }
             
         case .fromDisk:
             if let diskImage = getThumbnailImageFromDisk(forKey: key, pointSize: pointSize) { return diskImage }
-            if let prevImage = getThumbnailImageFromDisk(forKey: key, pointSize: pointSize) { return prevImage }
+            if let prevImage = getThumbnailImageFromPrevDisk(forKey: key, pointSize: pointSize) { return prevImage }
         }
         
         throw LocalError(message: "Thumbnail image fetch error")
@@ -118,7 +133,7 @@ final class ImageCache {
               let downsampledImage = UIImage.downsample(imageAt: filePath, to: pointSize) else { return nil }
         
         DispatchQueue.global().async { [weak self] in
-            try? self?.saveImageToDisk(image: image)
+            try? self?.saveImageToDisk(key, image: image)
             try? self?.fileManager.removeItem(at: filePath)
         }
         
@@ -140,7 +155,7 @@ final class ImageCache {
         guard let downsampledImage else { return nil }
         
         DispatchQueue.global().async { [weak self] in
-            try? self?.saveImageToDisk(image: image)
+            try? self?.saveImageToDisk(key, image: image)
             try? self?.fileManager.removeItem(at: filePath)
         }
         
