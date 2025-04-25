@@ -11,7 +11,7 @@ import SwiftData
 
 enum AppEnvironment {
     static var modelContainer: ModelContainer = {
-        let schema = Schema([CounselingSession.self])
+        let schema = Schema([SessionData.self])
         let modelConfiguration = ModelConfiguration(
             schema: schema,
             isStoredInMemoryOnly: false
