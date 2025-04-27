@@ -42,11 +42,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func startObservingAppIcon() {
+        updateAppIcon()
+        
         NotificationCenter.default
             .publisher(for: .themeShouldRefresh)
             .receive(on: RunLoop.main)
             .sink { [weak self] _ in
-                self?.updateAppIconForCurrentTime()
+                self?.updateAppIcon()
             }
             .store(in: &cancellables)
         
@@ -55,13 +57,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             .receive(on: RunLoop.main)
             .sink { [weak self] _ in
                 self?.themeScheduler.start()
+                self?.updateAppIcon()
             }
             .store(in: &cancellables)
     }
 }
 
 extension AppDelegate {
-    func updateAppIconForCurrentTime() {
+    func updateAppIcon() {
         let mode = AppEnvironment.appearanceMode
         
         let targetIcon: String
