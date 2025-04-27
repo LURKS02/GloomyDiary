@@ -37,6 +37,7 @@ struct Home {
         case viewDidAppear
         case didTapBackground
         case didTapStartButton
+        case suggestedReview
     }
     
     enum InnerAction: Equatable {
@@ -82,6 +83,10 @@ struct Home {
                 case .didTapStartButton:
                     state.destination = .counseling(.init())
                     logger.send(.tapped, "홈: 편지 쓰기 버튼을 눌러 상담을 시작합니다.", nil)
+                    return .none
+                    
+                case .suggestedReview:
+                    state.isReviewSuggested = false
                     return .none
                 }
                 

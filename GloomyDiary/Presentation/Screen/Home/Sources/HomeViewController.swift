@@ -140,6 +140,7 @@ extension HomeViewController {
             if store.isReviewSuggested {
                 guard let windowScene = view.window?.windowScene else { return }
                 AppStore.requestReview(in: windowScene)
+                store.send(.view(.suggestedReview))
             }
             
             if store.hasShownTutorial {

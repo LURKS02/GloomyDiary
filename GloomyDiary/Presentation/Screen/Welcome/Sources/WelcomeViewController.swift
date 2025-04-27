@@ -48,8 +48,8 @@ final class WelcomeViewController: BaseViewController<WelcomeView> {
         
         Task {
             await contentView.playFadeInAllComponents()
+            ghostTap.isEnabled = true
         }
-        
         store.send(.view(.viewDidAppear))
     }
 }
@@ -62,6 +62,7 @@ private extension WelcomeViewController {
         generator.prepare()
         contentView.ghostView.addGestureRecognizer(ghostTap)
         contentView.ghostView.isUserInteractionEnabled = true
+        ghostTap.isEnabled = false
         
         NotificationCenter.default
             .publisher(for: .themeShouldRefresh)
@@ -76,6 +77,7 @@ private extension WelcomeViewController {
         ghostTap.tapPublisher
             .sink { [weak self] _ in
                 guard let self else { return }
+                ghostTap.isEnabled = false
                 store.send(.view(.didTapGhost))
                 generator.impactOccurred()
             }

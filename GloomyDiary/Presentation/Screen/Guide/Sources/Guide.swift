@@ -48,7 +48,7 @@ struct Guide {
                     state.animationCount += 1
                     logger.send(.tapped, "튜토리얼: 화면을 클릭했습니다.", ["애니메이션 횟수": state.animationCount])
                     
-                    if state.animationCount >= state.animationLimit {
+                    if state.animationCount == state.animationLimit {
                         return .send(.inner(.animationDidEnd))
                     }
                     
