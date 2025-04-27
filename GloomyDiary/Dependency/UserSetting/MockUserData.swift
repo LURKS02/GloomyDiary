@@ -12,7 +12,8 @@ final class MockUserData: UserDatabase {
         \UserSetting.isFirstProcess: true,
         \UserSetting.hasReviewed: false,
         \UserSetting.lastReviewDeclinedDate: nil,
-        \UserSetting.hasSuggestedNotification: true
+        \UserSetting.hasSuggestedNotification: true,
+        \UserSetting.appearanceMode: AppearanceMode.default
     ]
 
     func get<Value>(keyPath: KeyPath<UserSetting, Value>) -> Value {
