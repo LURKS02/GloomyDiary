@@ -22,6 +22,8 @@ final class DeleteView: UIView {
         static let stackViewBottomPadding: CGFloat = .deviceAdjustedHeight(25)
     }
     
+    private var character: CounselingCharacter = .chan
+    
     
     // MARK: - Views
     
@@ -31,7 +33,7 @@ final class DeleteView: UIView {
     }
     
     private let sheetBackgroundView = UIView().then {
-        $0.backgroundColor = .background(.mainPurple)
+        $0.backgroundColor = AppColor.Background.main.color
         $0.layer.cornerRadius = Metric.cornerRadius
         $0.alpha = 0.0
     }
@@ -53,14 +55,12 @@ final class DeleteView: UIView {
         $0.distribution = .fillEqually
     }
     
-    let acceptButton = HorizontalButton().then {
+    let acceptButton = NormalHorizontalButton().then {
         $0.setTitle("네", for: .normal)
     }
     
-    let rejectButton = HorizontalButton().then {
+    let rejectButton = RejectHorizontalButton().then {
         $0.setTitle("아니오", for: .normal)
-        $0.setTitleColor(.text(.buttonSubHighlight), for: .normal)
-        $0.backgroundColor = .component(.buttonDisabledPurple)
     }
     
     
@@ -123,7 +123,16 @@ final class DeleteView: UIView {
 
 extension DeleteView {
     func configure(character: CounselingCharacter) {
-        self.characterImageView.image = UIImage(named: character.cryingImageName)
+        self.character = character
+        self.characterImageView.image = AppImage.Character.counselor(character, .crying).image
+    }
+    
+    func changeThemeIfNeeded() {
+        sheetBackgroundView.backgroundColor = AppColor.Background.main.color
+        notificationLabel.changeThemeIfNeeded()
+        acceptButton.changeThemeIfNeeded()
+        rejectButton.changeThemeIfNeeded()
+        characterImageView.image = AppImage.Character.counselor(character, .crying).image
     }
 }
 

@@ -32,13 +32,46 @@ final class HistoryNavigationController: NavigationStackController {
         
         let appearance = self.navigationBar.standardAppearance
         appearance.configureWithOpaqueBackground()
-        appearance.backgroundColor = .component(.buttonPurple)
+        appearance.backgroundColor = AppColor.Background.historyCell.color
         appearance.shadowColor = .clear
         self.navigationBar.standardAppearance = appearance
         self.navigationBar.scrollEdgeAppearance = appearance
         
         self.interactivePopGestureRecognizer?.isEnabled = true
         self.interactivePopGestureRecognizer?.delegate = self
+        
+        bind()
+    }
+    
+    private func bind() {
+        NotificationCenter.default
+            .publisher(for: .themeShouldRefresh)
+            .receive(on: RunLoop.main)
+            .sink { [weak self] _ in
+                guard let self else { return }
+                
+                UIView.animate(withDuration: 0.2) {
+                    let appearance = self.navigationBar.standardAppearance
+                    appearance.backgroundColor = AppColor.Background.historyCell.color
+                    self.navigationBar.standardAppearance = appearance
+                    self.navigationBar.scrollEdgeAppearance = appearance
+                    
+                    self.navigationBar.layoutIfNeeded()
+                }
+            }
+            .store(in: &cancellables)
+        
+        NotificationCenter.default
+            .publisher(for: .themeShouldRefreshWithoutAnimation)
+            .receive(on: RunLoop.main)
+            .sink { [weak self] _ in
+                guard let self else { return }
+                let appearance = self.navigationBar.standardAppearance
+                appearance.backgroundColor = AppColor.Background.historyCell.color
+                self.navigationBar.standardAppearance = appearance
+                self.navigationBar.scrollEdgeAppearance = appearance
+            }
+            .store(in: &cancellables)
     }
 }
 

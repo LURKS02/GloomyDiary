@@ -12,7 +12,7 @@ import UIKit
 final class RoundTextField: UIView {
     let textField = UITextField().then {
         $0.font = .온글잎_의연체.title
-        $0.textColor = .text(.highlight)
+        $0.textColor = AppColor.Text.main.color
     }
     
     var textPublisher: AnyPublisher<String?, Never> {
@@ -32,7 +32,7 @@ final class RoundTextField: UIView {
     }
     
     private func setup() {
-        self.backgroundColor = .component(.textFieldGray)
+        self.backgroundColor = AppColor.Component.textFieldBackground.color
         self.applyCornerRadius(20)
     }
     
@@ -47,5 +47,10 @@ final class RoundTextField: UIView {
             make.top.equalToSuperview().inset(5)
             make.bottom.equalToSuperview().inset(5)
         }
+    }
+    
+    func changeThemeIfNeeded() {
+        backgroundColor = AppColor.Component.textFieldBackground.color
+        textField.textColor = AppColor.Text.main.color
     }
 }

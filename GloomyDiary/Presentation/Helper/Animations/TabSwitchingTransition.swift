@@ -8,18 +8,20 @@
 import UIKit
 
 protocol ToTabSwitchAnimatable: UIViewController {
-    func playTabAppearingAnimation() async
+    func playTabAppearingAnimation(direction: TabBarDirection) async
 }
 
 protocol FromTabSwitchAnimatable: UIViewController {
-    func playTabDisappearingAnimation() async
+    func playTabDisappearingAnimation(direction: TabBarDirection) async
 }
 
 final class TabSwitchingTransition: NSObject {
+    let direction: TabBarDirection
     let tapDidDisappear: (() -> Void)?
     let tapWillAppear: (() -> Void)?
     
-    init(tapDidDisappear: (() -> Void)?, tapWillAppear: (() -> Void)?) {
+    init(direction: TabBarDirection, tapDidDisappear: (() -> Void)?, tapWillAppear: (() -> Void)?) {
+        self.direction = direction
         self.tapDidDisappear = tapDidDisappear
         self.tapWillAppear = tapWillAppear
     }
@@ -46,11 +48,11 @@ extension TabSwitchingTransition: UIViewControllerAnimatedTransitioning {
         containerView.addSubview(toView)
         
         Task { @MainActor in
-            await fromTabSwitchable.playTabDisappearingAnimation()
+            await fromTabSwitchable.playTabDisappearingAnimation(direction: direction)
             tapDidDisappear?()
             toView.alpha = 1.0
             tapWillAppear?()
-            await toTabSwitchable.playTabAppearingAnimation()
+            await toTabSwitchable.playTabAppearingAnimation(direction: direction)
             
             transitionContext.completeTransition(true)
         }

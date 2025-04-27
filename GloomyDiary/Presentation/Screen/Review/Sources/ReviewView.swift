@@ -20,6 +20,8 @@ final class ReviewView: UIView {
         static let buttonStackViewTopPadding: CGFloat = .deviceAdjustedHeight(45)
         static let buttonStackViewHorizontalPadding: CGFloat = .deviceAdjustedWidth(40)
     }
+    
+    private var character: CounselingCharacter = .chan
 
     
     // MARK: - Views
@@ -27,7 +29,7 @@ final class ReviewView: UIView {
     let blurView = UIVisualEffectView()
     
     let sheetBackgroundView = UIView().then {
-        $0.backgroundColor = .background(.mainPurple)
+        $0.backgroundColor = AppColor.Background.main.color
         $0.layer.cornerRadius = Metric.cornerRadius
     }
     
@@ -41,14 +43,12 @@ final class ReviewView: UIView {
         $0.distribution = .fillEqually
     }
     
-    let acceptButton = HorizontalButton().then {
+    let acceptButton = NormalHorizontalButton().then {
         $0.setTitle("별점 주기", for: .normal)
     }
     
-    let rejectButton = HorizontalButton().then {
+    let rejectButton = RejectHorizontalButton().then {
         $0.setTitle("거절하기", for: .normal)
-        $0.setTitleColor(.text(.buttonSubHighlight), for: .normal)
-        $0.backgroundColor = .component(.buttonDisabledPurple)
     }
     
     
@@ -68,7 +68,8 @@ final class ReviewView: UIView {
     }
     
     private func configure(with character: CounselingCharacter) {
-        characterImageView.image = UIImage(named: character.imageName)
+        self.character = character
+        characterImageView.image = AppImage.Character.counselor(character, .normal).image
         reviewLabel.text = character.reviewRequiringMessage
     }
     
@@ -113,6 +114,15 @@ final class ReviewView: UIView {
             make.top.equalTo(reviewLabel.snp.bottom).offset(Metric.buttonStackViewTopPadding)
             make.horizontalEdges.equalToSuperview().inset(Metric.buttonStackViewHorizontalPadding)
         }
+    }
+    
+    func changeThemeIfNeeded() {
+        sheetBackgroundView.backgroundColor = AppColor.Background.main.color
+        reviewLabel.changeThemeIfNeeded()
+        acceptButton.changeThemeIfNeeded()
+        rejectButton.changeThemeIfNeeded()
+        
+        characterImageView.image = AppImage.Character.counselor(character, .normal).image
     }
 }
 

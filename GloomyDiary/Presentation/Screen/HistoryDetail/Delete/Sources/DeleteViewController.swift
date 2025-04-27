@@ -55,6 +55,16 @@ private extension DeleteViewController {
     func bind() {
         contentView.backgroundView.addGestureRecognizer(backgroundTap)
         
+        NotificationCenter.default
+            .publisher(for: .themeShouldRefresh)
+            .receive(on: RunLoop.main)
+            .sink { [weak self] _ in
+                UIView.animate(withDuration: 0.2) {
+                    self?.contentView.changeThemeIfNeeded()
+                }
+            }
+            .store(in: &cancellables)
+        
         backgroundTap.tapPublisher
             .sink { [weak self] _ in
                 self?.store.send(.view(.didTapBackground))

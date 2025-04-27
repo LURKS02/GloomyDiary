@@ -5,13 +5,19 @@
 //  Created by 디해 on 12/18/24.
 //
 
+import Combine
 import UIKit
 
 final class CounselingPhotoSelectionCollectionViewCell: UICollectionViewCell {
     static let identifier: String = "CounselingPhotoSelectionCell"
     
+    var cancellableSet = Set<AnyCancellable>()
+    
+    private var count: Int = 0
+    private var maxCount: Int = 0
+    
     private let backgroundColorView = UIView().then {
-        $0.backgroundColor = .component(.buttonPurple)
+        $0.backgroundColor = AppColor.Background.letter.color
         $0.applyCornerRadius(10)
     }
     
@@ -21,7 +27,7 @@ final class CounselingPhotoSelectionCollectionViewCell: UICollectionViewCell {
     
     private let photoIconImageView = UIImageView().then {
         $0.image = UIImage(systemName: "camera.fill")
-        $0.tintColor = .text(.subHighlight)
+        $0.tintColor = AppColor.Text.subHighlight.color
     }
     
     private let countLabel = NormalLabel()
@@ -32,10 +38,18 @@ final class CounselingPhotoSelectionCollectionViewCell: UICollectionViewCell {
         setup()
         addSubviews()
         setupConstraints()
+        
+        bind()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        cancellableSet.removeAll()
     }
     
     private func setup() {
@@ -74,15 +88,42 @@ final class CounselingPhotoSelectionCollectionViewCell: UICollectionViewCell {
             make.bottom.equalToSuperview()
         }
     }
+    
+    private func bind() {
+        NotificationCenter.default
+            .publisher(for: .themeShouldRefresh)
+            .receive(on: RunLoop.main)
+            .sink { [weak self] _ in
+                UIView.animate(withDuration: 0.2) {
+                    self?.changeThemeIfNeeded()
+                }
+            }
+            .store(in: &cancellables)
+    }
+    
+    private func changeThemeIfNeeded() {
+        backgroundColorView.backgroundColor = AppColor.Background.letter.color
+        photoIconImageView.tintColor = AppColor.Text.subHighlight.color
+        countLabel.changeThemeIfNeeded()
+        
+        if count == maxCount {
+            countLabel.textColor = AppColor.Text.warning.color
+        } else {
+            countLabel.textColor = AppColor.Text.main.color
+        }
+    }
 }
 
 extension CounselingPhotoSelectionCollectionViewCell {
     func configure(count: Int, maxCount: Int) {
+        self.count = count
+        self.maxCount = maxCount
+        
         countLabel.text = "\(count)/\(maxCount)"
         if count == maxCount {
-            countLabel.textColor = .text(.warning)
+            countLabel.textColor = AppColor.Text.warning.color
         } else {
-            countLabel.textColor = .text(.highlight)
+            countLabel.textColor = AppColor.Text.main.color
         }
     }
 }

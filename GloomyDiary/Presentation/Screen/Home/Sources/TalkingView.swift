@@ -15,7 +15,7 @@ final class TalkingView: UIView {
     }
     
     private let talkingLabel: UILabel = UILabel().then {
-        $0.textColor = .text(.highlight)
+        $0.textColor = AppColor.Text.main.color
         $0.numberOfLines = 0
         $0.textAlignment = .center
         $0.font = .온글잎_의연체.title
@@ -40,7 +40,7 @@ final class TalkingView: UIView {
     // MARK: - View Life Cycle
     
     private func setup() {
-        self.backgroundColor = .component(.darkPurple)
+        self.backgroundColor = AppColor.Component.mainPoint.color
         self.layer.cornerRadius = Metric.cornerRadius
         self.layer.masksToBounds = true
     }
@@ -54,6 +54,11 @@ final class TalkingView: UIView {
             make.verticalEdges.equalToSuperview().inset(Metric.verticalPadding)
             make.horizontalEdges.equalToSuperview().inset(Metric.horizontalPadding)
         }
+    }
+    
+    func changeThemeIfNeeded() {
+        talkingLabel.textColor = AppColor.Text.main.color
+        backgroundColor = AppColor.Component.mainPoint.color
     }
 }
 

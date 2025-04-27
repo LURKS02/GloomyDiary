@@ -27,18 +27,18 @@ final class WelcomeView: UIView {
     
     private let gradientView: GradientView = GradientView(
         colors: [
-            .background(.darkPurple),
-            .background(.mainPurple),
-            .background(.mainPurple)
+            AppColor.Background.sub.color,
+            AppColor.Background.main.color,
+            AppColor.Background.main.color
         ]
     )
     
-    private let moonImageView = UIImageView().then {
-        $0.image = UIImage(named: "moon")
+    private let skyBadgeImageView = UIImageView().then {
+        $0.image = AppImage.Component.skyBadge.image
     }
     
     let ghostView = UIImageView().then {
-        $0.image = UIImage(named: "ghost")
+        $0.image = AppImage.Character.ghost(.normal).image
     }
     
     private let firstNormalLabel = NormalLabel().then {
@@ -78,12 +78,12 @@ final class WelcomeView: UIView {
     // MARK: - View Life Cycle
     
     private func setup() {
-        self.backgroundColor = .background(.mainPurple)
+        self.backgroundColor = AppColor.Background.main.color
     }
     
     private func addSubviews() {
         addSubview(gradientView)
-        addSubview(moonImageView)
+        addSubview(skyBadgeImageView)
         addSubview(ghostView)
         addSubview(firstNormalLabel)
         addSubview(secondNormalLabel)
@@ -95,7 +95,7 @@ final class WelcomeView: UIView {
             make.edges.equalToSuperview()
         }
         
-        moonImageView.snp.makeConstraints { make in
+        skyBadgeImageView.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
             make.top.equalToSuperview().offset(Metric.moonTopPadding)
             make.height.equalTo(Metric.moonImageSize)
@@ -111,7 +111,7 @@ final class WelcomeView: UIView {
         
         firstNormalLabel.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.top.equalTo(moonImageView.snp.bottom).offset(Metric.firstLabelTopPadding)
+            make.top.equalTo(skyBadgeImageView.snp.bottom).offset(Metric.firstLabelTopPadding)
         }
         
         secondNormalLabel.snp.makeConstraints { make in
@@ -123,6 +123,22 @@ final class WelcomeView: UIView {
             make.centerX.equalToSuperview()
             make.bottom.equalToSuperview().inset(Metric.talkingLabelBottomPadding)
         }
+    }
+    
+    func changeThemeIfNeeded() {
+        backgroundColor = AppColor.Background.main.color
+        
+        gradientView.updateColors([
+            AppColor.Background.sub.color,
+            AppColor.Background.main.color,
+            AppColor.Background.main.color
+        ])
+        
+        skyBadgeImageView.image = AppImage.Component.skyBadge.image
+        ghostView.image = AppImage.Character.ghost(.normal).image
+        firstNormalLabel.changeThemeIfNeeded()
+        secondNormalLabel.changeThemeIfNeeded()
+        talkingLabel.changeThemeIfNeeded()
     }
 }
 
@@ -150,7 +166,7 @@ extension WelcomeView {
                     Animation(view: gradientView,
                               animationCase: .fadeIn,
                               duration: 1.0),
-                    Animation(view: moonImageView,
+                    Animation(view: skyBadgeImageView,
                               animationCase: .fadeIn,
                               duration: 0.5)
                 ],
@@ -203,7 +219,7 @@ extension WelcomeView {
         await withCheckedContinuation { continuation in
             AnimationGroup(
                 animations: [
-                    Animation(view: moonImageView,
+                    Animation(view: skyBadgeImageView,
                               animationCase: .fadeOut,
                               duration: duration),
                     Animation(view: firstNormalLabel,

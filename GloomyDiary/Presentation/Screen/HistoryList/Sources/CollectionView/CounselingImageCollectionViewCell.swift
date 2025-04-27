@@ -22,10 +22,8 @@ final class CounselingImageCollectionViewCell: UICollectionViewCell {
         $0.contentMode = .scaleAspectFill
     }
     
-    let lottieView = LottieAnimationView(name: "skeleton").then {
-        $0.contentMode = .scaleAspectFit
-        $0.loopMode = .loop
-        $0.play()
+    let lottieView = UIView().then {
+        $0.backgroundColor = AppColor.Background.skeleton.color
     }
     
     private var workItem: DispatchWorkItem?
@@ -90,7 +88,11 @@ final class CounselingImageCollectionViewCell: UICollectionViewCell {
             DispatchQueue.main.async {
                 guard imageID == self.imageID else { return }
                 self.lottieView.isHidden = true
-                UIView.transition(with: self.imageView, duration: 0.3, options: .transitionCrossDissolve, animations: {
+                UIView.transition(
+                    with: self.imageView,
+                    duration: 0.3,
+                    options: .transitionCrossDissolve,
+                    animations: {
                     self.imageView.image = thumbnailImage
                 })
             }

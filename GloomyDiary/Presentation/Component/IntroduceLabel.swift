@@ -11,7 +11,7 @@ final class NormalLabel: UILabel {
     init() {
         super.init(frame: .zero)
         
-        self.textColor = .text(.highlight)
+        self.textColor = AppColor.Text.main.color
         self.font = .온글잎_의연체.title
         self.textAlignment = .center
         self.numberOfLines = 0
@@ -19,5 +19,9 @@ final class NormalLabel: UILabel {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    func changeThemeIfNeeded() {
+        self.textColor = AppColor.Text.main.color
     }
 }

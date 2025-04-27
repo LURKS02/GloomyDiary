@@ -17,7 +17,7 @@ final class CounselNavigationController: NavigationStackController {
         
         self.init(path: $store.scope(state: \.path, action: \.path)) {
             let vc = StartCounselViewController(store: store.scope(state: \.counsel, action: \.counsel))
-            vc.contentView.moonImageView.alpha = 1.0
+            vc.contentView.skyBadgeImageView.alpha = 1.0
             return vc
         } destination: { store in
             switch store.case {

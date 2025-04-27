@@ -37,25 +37,28 @@ final class HistoryDetailView: UIView {
     
     private let stateLabel = NormalLabel().then {
         $0.font = .온글잎_의연체.body
-        $0.textColor = .text(.fogHighlight)
+        $0.textColor = AppColor.Text.fogHighlight.color
         $0.textAlignment = .left
     }
     
     let imageScrollView = HistoryDetailImageView(imageSize: UIView.screenWidth - Metric.viewPadding * 2)
     
     private let contentLabel = NormalLabel().then {
-        $0.textColor = .text(.subHighlight)
+        $0.textColor = AppColor.Text.subHighlight.color
         $0.textAlignment = .left
     }
     
     private let letterImageView = UIImageView().then {
-        $0.image = UIImage(named: "letter")
+        $0.image = AppImage.Component.letter.image
     }
     
     private let responseLetterView = ResponseHistoryLetterView()
     
     var gradientBackgroundView = GradientView(
-        colors: [.component(.buttonPurple).withAlphaComponent(0.0), .component(.buttonPurple)],
+        colors: [
+            AppColor.Background.historyCell.color.withAlphaComponent(0.0),
+            AppColor.Background.historyCell.color
+        ],
         locations: [0.0, 0.5, 1.0]
     )
     
@@ -83,7 +86,7 @@ final class HistoryDetailView: UIView {
     // MARK: - View Life Cycle
 
     private func setup() {
-        backgroundColor = .component(.buttonPurple)
+        backgroundColor = AppColor.Background.historyCell.color
     }
     
     private func addSubviews() {
@@ -182,6 +185,22 @@ extension HistoryDetailView {
             make.top.equalToSuperview().offset(offset)
         }
         layoutIfNeeded()
+    }
+    
+    func changeThemeIfNeeded() {
+        backgroundColor = AppColor.Background.historyCell.color
+        
+        titleLabel.changeThemeIfNeeded()
+        dateLabel.changeThemeIfNeeded()
+        stateLabel.textColor = AppColor.Text.fogHighlight.color
+        contentLabel.textColor = AppColor.Text.subHighlight.color
+        
+        gradientBackgroundView.updateColors([
+            AppColor.Background.historyCell.color.withAlphaComponent(0.0),
+            AppColor.Background.historyCell.color
+        ])
+        
+        responseLetterView.changeThemeIfNeeded()
     }
 }
 

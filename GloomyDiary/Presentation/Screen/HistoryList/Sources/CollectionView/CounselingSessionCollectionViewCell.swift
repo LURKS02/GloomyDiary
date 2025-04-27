@@ -37,14 +37,14 @@ final class CounselingSessionCollectionViewCell: UICollectionViewCell {
     let containerView = UIView()
     
     let titleLabel = UILabel().then {
-        $0.textColor = .text(.highlight)
+        $0.textColor = AppColor.Text.main.color
         $0.font = .온글잎_의연체.heading
         $0.textAlignment = .left
         $0.numberOfLines = 1
     }
     
     let stateLabel = UILabel().then {
-        $0.textColor = .text(.fogHighlight)
+        $0.textColor = AppColor.Text.fogHighlight.color
         $0.font = .온글잎_의연체.body
         $0.textAlignment = .left
         $0.numberOfLines = 1
@@ -68,7 +68,7 @@ final class CounselingSessionCollectionViewCell: UICollectionViewCell {
     let characterImageView = UIImageView()
     
     let contentLabel = UILabel().then {
-        $0.textColor = .text(.subHighlight)
+        $0.textColor = AppColor.Text.subHighlight.color
         $0.font = .온글잎_의연체.title
         $0.textAlignment = .left
         $0.numberOfLines = 3
@@ -92,6 +92,8 @@ final class CounselingSessionCollectionViewCell: UICollectionViewCell {
         setup()
         addSubviews()
         setupConstraints()
+        
+        bind()
     }
     
     required init?(coder: NSCoder) {
@@ -107,7 +109,7 @@ final class CounselingSessionCollectionViewCell: UICollectionViewCell {
     
     private func setup() {
         self.applyCornerRadius(20)
-        self.backgroundColor = .component(.buttonPurple)
+        self.backgroundColor = AppColor.Background.historyCell.color
         self.imageCollectionView.delegate = self
     }
     
@@ -145,6 +147,33 @@ final class CounselingSessionCollectionViewCell: UICollectionViewCell {
             make.size.equalTo(37)
         }
     }
+    
+    private func bind() {
+        NotificationCenter.default
+            .publisher(for: .themeShouldRefresh)
+            .receive(on: RunLoop.main)
+            .sink { [weak self] _ in
+                UIView.animate(withDuration: 0.2) {
+                    self?.changeThemeIfNeeded()
+                }
+            }
+            .store(in: &cancellables)
+        
+        NotificationCenter.default
+            .publisher(for: .themeShouldRefreshWithoutAnimation)
+            .receive(on: RunLoop.main)
+            .sink { [weak self] _ in
+                self?.changeThemeIfNeeded()
+            }
+            .store(in: &cancellables)
+    }
+    
+    private func changeThemeIfNeeded() {
+        titleLabel.textColor = AppColor.Text.main.color
+        stateLabel.textColor = AppColor.Text.fogHighlight.color
+        contentLabel.textColor = AppColor.Text.subHighlight.color
+        self.backgroundColor = AppColor.Background.historyCell.color
+    }
 }
 
 extension CounselingSessionCollectionViewCell {
@@ -158,7 +187,7 @@ extension CounselingSessionCollectionViewCell {
     func configure(with session: Session) {
         titleLabel.text = session.title
         stateLabel.text = "날씨 \(session.weather.name), \(session.emoji.description)"
-        characterImageView.image = UIImage(named: session.counselor.imageName)
+        characterImageView.image = AppImage.Character.counselor(session.counselor, .normal).image
         contentLabel.text = session.query
         
         resetConstraints(withImages: !session.imageIDs.isEmpty)
@@ -213,7 +242,7 @@ extension CounselingSessionCollectionViewCell {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesBegan(touches, with: event)
         
-        self.backgroundColor = .component(.buttonSelectedBlue).withAlphaComponent(0.3)
+        self.backgroundColor = AppColor.Component.selectedButton.color.withAlphaComponent(0.3)
         
         feedbackGenerator.prepare()
         feedbackGenerator.impactOccurred()
@@ -233,13 +262,13 @@ extension CounselingSessionCollectionViewCell {
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesMoved(touches, with: event)
         
-        self.backgroundColor = .component(.buttonSelectedBlue).withAlphaComponent(0.3)
+        self.backgroundColor = AppColor.Component.selectedButton.color.withAlphaComponent(0.3)
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesEnded(touches, with: event)
         
-        self.backgroundColor = .component(.buttonPurple)
+        self.backgroundColor = AppColor.Background.historyCell.color
         
         AnimationGroup(
             animations: [
@@ -256,7 +285,7 @@ extension CounselingSessionCollectionViewCell {
     override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesCancelled(touches, with: event)
         
-        self.backgroundColor = .component(.buttonPurple)
+        self.backgroundColor = AppColor.Background.historyCell.color
         
         AnimationGroup(
             animations: [

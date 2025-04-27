@@ -61,6 +61,7 @@ final class HistoryViewController: BaseViewController<HistoryView> {
         super.viewDidLoad()
         
         bind()
+        contentView.changeThemeIfNeeded()
         
         navigationController?.setNavigationBarHidden(true, animated: false)
         navigationController?.delegate = self
@@ -72,8 +73,8 @@ final class HistoryViewController: BaseViewController<HistoryView> {
         super.viewWillAppear(animated)
         
         Task { @MainActor in
-            guard let tabBarController = tabBarController as? CircularTabBarControllable else { return }
-            await tabBarController.showCircularTabBar(duration: 0.2)
+            guard let tabBarController = tabBarController as? FloatingTabBarController else { return }
+            await tabBarController.playAppearingTabBar(duration: 0.2)
         }
     }
 }
@@ -84,6 +85,24 @@ final class HistoryViewController: BaseViewController<HistoryView> {
 private extension HistoryViewController {
     func bind() {
         contentView.listView.collectionView.delegate = self
+        
+        NotificationCenter.default
+            .publisher(for: .themeShouldRefresh)
+            .receive(on: RunLoop.main)
+            .sink { [weak self] _ in
+                UIView.animate(withDuration: 0.2) {
+                    self?.contentView.changeThemeIfNeeded()
+                }
+            }
+            .store(in: &cancellables)
+        
+        NotificationCenter.default
+            .publisher(for: .themeShouldRefreshWithoutAnimation)
+            .receive(on: RunLoop.main)
+            .sink { [weak self] _ in
+                self?.contentView.changeThemeIfNeeded()
+            }
+            .store(in: &cancellables)
         
         observe { [weak self] in
             guard let self else { return }
@@ -185,7 +204,7 @@ extension HistoryViewController: UICollectionViewDelegateFlowLayout {
 
 // MARK: - Tab Switch Delegate
 
-extension HistoryViewController: CircularTabBarControllerDelegate {
+extension HistoryViewController: FloatingTabBarControllerDelegate {
     func tabDidDisappear() {
         contentView.listView.collectionView.setContentOffset(.zero, animated: false)
 //        store.send(.unload)
@@ -241,21 +260,21 @@ extension HistoryViewController: UINavigationControllerDelegate {
 }
 
 extension HistoryViewController: ToTabSwitchAnimatable {
-    func playTabAppearingAnimation() async {
+    func playTabAppearingAnimation(direction: TabBarDirection) async {
         if contentView.showContent {
-            await contentView.listView.playAppearingFromLeft()
+            await contentView.listView.playAppearing(direction: direction)
         } else {
-            await contentView.emptyView.playAppearingFromLeft()
+            await contentView.emptyView.playAppearing(direction: direction)
         }
     }
 }
 
 extension HistoryViewController: FromTabSwitchAnimatable {
-    func playTabDisappearingAnimation() async {
+    func playTabDisappearingAnimation(direction: TabBarDirection) async {
         if contentView.showContent {
-            await contentView.listView.playDisappearingToRight()
+            await contentView.listView.playDisappearing(direction: direction)
         } else {
-            await contentView.emptyView.playDisappearingToRight()
+            await contentView.emptyView.playDisappearing(direction: direction)
         }
     }
 }

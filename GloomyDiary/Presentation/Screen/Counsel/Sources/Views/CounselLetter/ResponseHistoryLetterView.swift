@@ -14,6 +14,8 @@ final class ResponseHistoryLetterView: LetterView {
     private enum Metric {
         static let letterTextViewPadding: CGFloat = 30
     }
+    
+    private var character: CounselingCharacter = .chan
 
     
     // MARK: - Views
@@ -28,7 +30,7 @@ final class ResponseHistoryLetterView: LetterView {
         
         letterTextView.isEditable = false
         letterTextView.isScrollEnabled = false
-        backgroundColor = .background(.mainPurple)
+        backgroundColor = AppColor.Background.main.color
     }
     
     override func addSubviews() {
@@ -54,11 +56,19 @@ final class ResponseHistoryLetterView: LetterView {
             make.bottom.equalToSuperview().inset(Metric.letterTextViewPadding)
         }
     }
+    
+    override func changeThemeIfNeeded() {
+        super.changeThemeIfNeeded()
+        
+        backgroundColor = AppColor.Background.main.color
+        characterImageView.image = AppImage.Character.counselor(character, .normal).image
+    }
 }
 
 extension ResponseHistoryLetterView {
     func configure(with character: CounselingCharacter, response: String) {
-        characterImageView.image = UIImage(named: character.imageName)
+        self.character = character
+        characterImageView.image = AppImage.Character.counselor(character, .normal).image
         letterTextView.text = response
     }
 }

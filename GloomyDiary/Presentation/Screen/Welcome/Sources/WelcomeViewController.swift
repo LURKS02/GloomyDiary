@@ -17,6 +17,8 @@ final class WelcomeViewController: BaseViewController<WelcomeView> {
     // MARK: - Properties
     
     private let ghostTap = UITapGestureRecognizer()
+    
+    private let generator = UIImpactFeedbackGenerator(style: .light)
 
     
     // MARK: - Initialize
@@ -41,12 +43,14 @@ final class WelcomeViewController: BaseViewController<WelcomeView> {
         self.navigationController?.delegate = self
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         
         Task {
             await contentView.playFadeInAllComponents()
+            ghostTap.isEnabled = true
         }
+        store.send(.view(.viewDidAppear))
     }
 }
 
@@ -55,13 +59,27 @@ final class WelcomeViewController: BaseViewController<WelcomeView> {
 
 private extension WelcomeViewController {
     func bind() {
+        generator.prepare()
         contentView.ghostView.addGestureRecognizer(ghostTap)
         contentView.ghostView.isUserInteractionEnabled = true
+        ghostTap.isEnabled = false
+        
+        NotificationCenter.default
+            .publisher(for: .themeShouldRefresh)
+            .receive(on: RunLoop.main)
+            .sink { [weak self] _ in
+                UIView.animate(withDuration: 0.2) {
+                    self?.contentView.changeThemeIfNeeded()
+                }
+            }
+            .store(in: &cancellables)
         
         ghostTap.tapPublisher
             .sink { [weak self] _ in
                 guard let self else { return }
+                ghostTap.isEnabled = false
                 store.send(.view(.didTapGhost))
+                generator.impactOccurred()
             }
             .store(in: &cancellables)
     }

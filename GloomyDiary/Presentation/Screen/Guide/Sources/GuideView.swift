@@ -23,9 +23,13 @@ final class GuideView: UIView {
     
     // MARK: - Views
     
-    let gradientView = GradientView(colors: [.background(.darkPurple),
-                                             .background(.mainPurple),
-                                             .background(.mainPurple)])
+    let gradientView = GradientView(
+        colors: [
+            AppColor.Background.sub.color,
+            AppColor.Background.main.color,
+            AppColor.Background.main.color
+        ]
+    )
     
     let ghostView = GhostView()
     
@@ -65,8 +69,6 @@ final class GuideView: UIView {
         보내러 가볼까?
         """
     }
-    
-    private let feedbackGenerator = UIImpactFeedbackGenerator(style: .soft)
     
     
     // MARK: - Properties
@@ -109,7 +111,7 @@ final class GuideView: UIView {
     // MARK: - View Life Cycle
     
     private func setup() {
-        backgroundColor = .background(.mainPurple)
+        backgroundColor = AppColor.Background.main.color
     }
     
     private func addSubviews() {
@@ -153,6 +155,22 @@ final class GuideView: UIView {
             make.top.equalTo(thirdNormalLabel.snp.bottom).offset(Metric.lastLabelTopPadding)
         }
     }
+    
+    func changeThemeIfNeeded() {
+        backgroundColor = AppColor.Background.main.color
+        
+        gradientView.updateColors([
+            AppColor.Background.sub.color,
+            AppColor.Background.main.color,
+            AppColor.Background.main.color
+        ])
+        
+        ghostView.changeThemeIfNeeded()
+        firstNormalLabel.changeThemeIfNeeded()
+        secondNormalLabel.changeThemeIfNeeded()
+        thirdNormalLabel.changeThemeIfNeeded()
+        lastNormalLabel.changeThemeIfNeeded()
+    }
 }
 
 
@@ -194,14 +212,5 @@ extension GuideView {
             )
             .run()
         }
-    }
-}
-
-extension GuideView {
-    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        super.touchesEnded(touches, with: event)
-        
-        feedbackGenerator.prepare()
-        feedbackGenerator.impactOccurred()
     }
 }

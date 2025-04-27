@@ -28,15 +28,15 @@ final class ValidResultView: UIView {
     
     let resultLetterView = ResultLetterView()
     
-    let shareButton: HorizontalButton = HorizontalButton().then {
+    let shareButton: SubHorizontalButton = SubHorizontalButton().then {
         $0.setTitle("공유하기", for: .normal)
-        $0.setOriginBackgroundColor(with: .component(.blackPurple))
     }
     
-    let homeButton: HorizontalButton = HorizontalButton().then {
+    let homeButton: NormalHorizontalButton = NormalHorizontalButton().then {
         $0.setTitle("홈으로", for: .normal)
     }
     
+    private var character: CounselingCharacter = .chan
     
     init() {
         super.init(frame: .zero)
@@ -53,7 +53,7 @@ final class ValidResultView: UIView {
     // MARK: - View Life Cycle
     
     private func setup() {
-        backgroundColor = .background(.mainPurple)
+        backgroundColor = AppColor.Background.main.color
     }
     
     private func addSubviews() {
@@ -90,7 +90,16 @@ final class ValidResultView: UIView {
     }
     
     func configure(with character: CounselingCharacter) {
-        characterImageView.image = UIImage(named: character.imageName)
+        self.character = character
+        characterImageView.image = AppImage.Character.counselor(character, .normal).image
+    }
+    
+    func changeThemeIfNeeded() {
+        backgroundColor = AppColor.Background.main.color
+        resultLetterView.changeThemeIfNeeded()
+        shareButton.changeThemeIfNeeded(with: AppEnvironment.appearanceMode)
+        homeButton.changeThemeIfNeeded()
+        characterImageView.image = AppImage.Character.counselor(character, .normal).image
     }
 }
 

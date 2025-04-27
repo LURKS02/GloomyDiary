@@ -26,7 +26,7 @@ final class MenuButton: UIButton {
         var configuration = Configuration.plain()
         var title = AttributedString(item.name)
         let type = item.type
-        let fontColor: UIColor = (type == .warning) ? .text(.warning) : .text(.subHighlight)
+        let fontColor: UIColor = (type == .warning) ? AppColor.Text.warning.color : AppColor.Text.subHighlight.color
         title.font = .온글잎_의연체.title
         configuration.attributedTitle = title
         self.configuration = configuration
@@ -38,7 +38,7 @@ final class MenuButton: UIButton {
             var attributedTitle = AttributedString(title)
             
             if button.isHighlighted {
-                attributedTitle.foregroundColor = .text(.highlight)
+                attributedTitle.foregroundColor = AppColor.Text.main.color
             } else {
                 attributedTitle.foregroundColor = fontColor
             }
@@ -46,5 +46,9 @@ final class MenuButton: UIButton {
             updatedConfiguration.attributedTitle = attributedTitle
             button.configuration = updatedConfiguration
         }
+    }
+    
+    func changeThemeIfNeeded() {
+        configure(with: item)
     }
 }

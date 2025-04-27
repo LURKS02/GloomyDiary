@@ -21,8 +21,12 @@ final class GhostView: UIImageView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func setup() {
-        self.image = UIImage(named: "ghost")
+    func setup() {
+        self.image = AppImage.Character.ghost(.normal).image
+    }
+    
+    func changeThemeIfNeeded() {
+        self.image = AppImage.Character.ghost(.normal).image
     }
 }
 

@@ -18,14 +18,16 @@ final class ResultLetterView: LetterView {
     
     // MARK: - Views
     
-    let copyButton: RoundedIconButton = RoundedIconButton(size: 35,
-                                                          iconName: "doc.on.doc",
-                                                          iconSize: 15)
+    let copyButton: RoundedIconButton = RoundedIconButton(
+        size: 35,
+        iconName: "doc.on.doc",
+        iconSize: 15
+    )
     
     private let gradientBackgroundView = GradientView(
         colors: [
-            .component(.buttonPurple).withAlphaComponent(0.0),
-            .component(.buttonPurple)
+            AppColor.Component.horizontalButton.color.withAlphaComponent(0.0),
+            AppColor.Component.horizontalButton.color
         ],
         locations: [0.0, 0.5, 1.0]
     )
@@ -37,7 +39,7 @@ final class ResultLetterView: LetterView {
         super.setup()
         
         letterTextView.isEditable = false
-        backgroundColor = .component(.buttonPurple)
+        backgroundColor = AppColor.Background.letter.color
     }
     
     override func addSubviews() {
@@ -61,5 +63,16 @@ final class ResultLetterView: LetterView {
             make.trailing.equalToSuperview().inset(Metric.copyButtonPadding)
             make.bottom.equalToSuperview().inset(Metric.copyButtonPadding)
         }
+    }
+    
+    override func changeThemeIfNeeded() {
+        super.changeThemeIfNeeded()
+        
+        gradientBackgroundView.updateColors([
+            AppColor.Component.horizontalButton.color.withAlphaComponent(0.0),
+            AppColor.Component.horizontalButton.color
+        ])
+        backgroundColor = AppColor.Background.letter.color
+        copyButton.changeThemeIfNeeded()
     }
 }

@@ -9,11 +9,15 @@ import UIKit
 
 final class ResultView: UIView {
     
+    var hasValidResult: Bool = false
+    
     lazy var validResultView = ValidResultView()
     
     lazy var errorResultView = ErrorResultView()
     
     func showValidResult() {
+        hasValidResult = true
+        
         addSubview(validResultView)
         
         validResultView.snp.makeConstraints { make in
@@ -26,6 +30,14 @@ final class ResultView: UIView {
         
         errorResultView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
+        }
+    }
+    
+    func changeThemeIfNeeded() {
+        if hasValidResult {
+            validResultView.changeThemeIfNeeded()
+        } else {
+            errorResultView.changeThemeIfNeeded()
         }
     }
     

@@ -34,17 +34,18 @@ final class ErrorResultView: UIView {
         네트워크가 잘 연결되어 있는지 확인해보세요.
         잠시 기다렸다가 다시 시도해보세요.
         """
-        $0.textColor = .text(.subHighlight)
+        $0.textColor = AppColor.Text.subHighlight.color
     }
     
-    let backButton = HorizontalButton().then {
+    let backButton = SubHorizontalButton().then {
         $0.setTitle("뒤로가기", for: .normal)
-        $0.setOriginBackgroundColor(with: .component(.blackPurple))
     }
     
-    let homeButton = HorizontalButton().then {
+    let homeButton = NormalHorizontalButton().then {
         $0.setTitle("홈으로", for: .normal)
     }
+    
+    private var character: CounselingCharacter = .chan
     
     
     // MARK: - Initialize
@@ -65,7 +66,7 @@ final class ErrorResultView: UIView {
     // MARK: - View Life Cycle
     
     private func setup() {
-        backgroundColor = .background(.mainPurple)
+        backgroundColor = AppColor.Background.main.color
     }
     
     private func addSubviews() {
@@ -106,7 +107,17 @@ final class ErrorResultView: UIView {
     }
     
     func configure(with character: CounselingCharacter) {
-        characterImageView.image = UIImage(named: character.cryingImageName)
+        self.character = character
+        characterImageView.image = AppImage.Character.counselor(character, .crying).image
+    }
+    
+    func changeThemeIfNeeded() {
+        backgroundColor = AppColor.Background.main.color
+        informationLabel.changeThemeIfNeeded()
+        subInformationLabel.changeThemeIfNeeded()
+        backButton.changeThemeIfNeeded(with: AppEnvironment.appearanceMode)
+        homeButton.changeThemeIfNeeded()
+        characterImageView.image = AppImage.Character.counselor(character, .crying).image
     }
 }
 

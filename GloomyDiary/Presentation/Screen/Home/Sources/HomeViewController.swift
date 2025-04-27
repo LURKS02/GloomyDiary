@@ -21,6 +21,10 @@ final class HomeViewController: BaseViewController<HomeView> {
     
     private let backgroundTap = UITapGestureRecognizer()
     
+    var coveringView: UIView?
+    
+    private var tutorialViewController: TutorialNavigationController?
+    
     
     // MARK: - Initialize
     
@@ -65,6 +69,24 @@ extension HomeViewController {
     private func bind() {
         contentView.gradientView.addGestureRecognizer(backgroundTap)
         
+        NotificationCenter.default
+            .publisher(for: .themeShouldRefresh)
+            .receive(on: RunLoop.main)
+            .sink { [weak self] _ in
+                UIView.animate(withDuration: 0.2) {
+                    self?.contentView.changeThemeIfNeeded()
+                }
+            }
+            .store(in: &cancellables)
+        
+        NotificationCenter.default
+            .publisher(for: .themeShouldRefreshWithoutAnimation)
+            .receive(on: RunLoop.main)
+            .sink { [weak self] _ in
+                self?.contentView.changeThemeIfNeeded()
+            }
+            .store(in: &cancellables)
+        
         backgroundTap.tapPublisher
             .sink { [weak self] _ in
                 guard let self else { return }
@@ -101,6 +123,15 @@ extension HomeViewController {
             return navigationVC
         }
         
+        present(item: $store.scope(state: \.destination?.tutorial, action: \.scope.destination.tutorial)) { [weak self] store in
+            guard let self else { return UIViewController() }
+            
+            let navigationVC = TutorialNavigationController(store: store)
+            self.tutorialViewController = navigationVC
+            navigationVC.modalPresentationStyle = .fullScreen
+            return navigationVC
+        }
+        
         observe { [weak self] in
             guard let self else { return }
             
@@ -109,6 +140,13 @@ extension HomeViewController {
             if store.isReviewSuggested {
                 guard let windowScene = view.window?.windowScene else { return }
                 AppStore.requestReview(in: windowScene)
+                store.send(.view(.suggestedReview))
+            }
+            
+            if store.hasShownTutorial {
+                tutorialViewController?.transitioningDelegate = self
+                coveringView?.removeFromSuperview()
+                coveringView = nil
             }
         }
     }
@@ -119,13 +157,13 @@ extension HomeViewController {
 
 extension HomeViewController: FromTransitionable {
     var fromTransitionComponent: UIView? {
-        contentView.moonImageView
+        contentView.skyBadgeImageView
     }
     
     func prepareTransition(duration: TimeInterval) async {
-        if let circularTabBarControllable = self.tabBarController as? CircularTabBarControllable {
+        if let floatingTabBarController = self.tabBarController as? FloatingTabBarController {
             async let playAllComponentsFadeOut: () = contentView.playFadeOutAllComponents(duration: duration)
-            async let playTabBarFadeOut: () = circularTabBarControllable.hideCircularTabBar(duration: duration)
+            async let playTabBarFadeOut: () = floatingTabBarController.playDisappearingTabBar(duration: duration)
             let _ = await (playAllComponentsFadeOut, playTabBarFadeOut)
         } else {
             await contentView.playFadeOutAllComponents(duration: duration)
@@ -141,9 +179,9 @@ extension HomeViewController: ToTransitionable {
     func completeTransition(duration: TimeInterval) async {
         contentView.hideAllComponents()
         
-        if let circularTabBarControllable = self.tabBarController as? CircularTabBarControllable {
+        if let tabBarController = self.tabBarController as? FloatingTabBarController {
             async let playAllComponentsFadeIn: () = contentView.playAllComponentsFadeIn(duration: duration)
-            async let playTabBarFadeIn: () = circularTabBarControllable.showCircularTabBar(duration: duration)
+            async let playTabBarFadeIn: () = tabBarController.playAppearingTabBar(duration: duration)
             let _ = await (playAllComponentsFadeIn, playTabBarFadeIn)
         } else {
             await contentView.playAllComponentsFadeIn(duration: duration)
@@ -178,13 +216,13 @@ extension HomeViewController: UIViewControllerTransitioningDelegate {
 }
 
 extension HomeViewController: ToTabSwitchAnimatable {
-    func playTabAppearingAnimation() async {
-        await contentView.playAppearingFromLeft()
+    func playTabAppearingAnimation(direction: TabBarDirection) async {
+        await contentView.playAppearing(direction: direction)
     }
 }
 
 extension HomeViewController: FromTabSwitchAnimatable {
-    func playTabDisappearingAnimation() async {
-        await contentView.playDisappearingToRight()
+    func playTabDisappearingAnimation(direction: TabBarDirection) async {
+        await contentView.playDisappearing(direction: direction)
     }
 }

@@ -17,7 +17,7 @@ final class FrameAnimationContentWithClosure: UIView, AnimationContent {
         static let middleY: CGFloat = .deviceAdjustedHeight(250)
     }
     
-    private let starLottieView = LottieAnimationView(name: "stars").then {
+    private let starLottieView = LottieAnimationView(name: AppImage.JSON.stars.name).then {
         $0.frame = .init(x: 0, y: 0, width: Metric.starWidth, height: Metric.starHeight)
         $0.animationSpeed = 2.0
         $0.loopMode = .loop
@@ -85,6 +85,8 @@ final class FrameAnimationContentWithClosure: UIView, AnimationContent {
             x: UIView.screenWidth / 2,
             y: middleFrame.maxY + .deviceAdjustedHeight(50)
         )
+        
+        bind()
     }
     
     required init?(coder: NSCoder) {
@@ -99,6 +101,25 @@ final class FrameAnimationContentWithClosure: UIView, AnimationContent {
     private func setupReadyLabel(character: CounselingCharacter) {
         readyLabel.text = character.counselReadyMessage
         readyLabel.sizeToFit()
+    }
+    
+    private func bind() {
+        NotificationCenter.default
+            .publisher(for: .themeShouldRefresh)
+            .receive(on: RunLoop.main)
+            .sink { [weak self] _ in
+                UIView.animate(withDuration: 0.2) {
+                    self?.changeThemeIfNeeded()
+                }
+            }
+            .store(in: &cancellables)
+    }
+    
+    private func changeThemeIfNeeded() {
+        starLottieView.animation = LottieAnimation.named(AppImage.JSON.stars.name)
+        starLottieView.play()
+        
+        readyLabel.changeThemeIfNeeded()
     }
 
     @MainActor

@@ -21,6 +21,14 @@ final class LocalNotificationView: UIView {
         static let buttonStackViewTopPadding: CGFloat = .deviceAdjustedHeight(35)
         static let buttonStackViewHorizontalPadding: CGFloat = .deviceAdjustedWidth(40)
     }
+    
+    enum NotificationState {
+        case accept
+        case reject
+        case none
+    }
+    
+    private var notificationState: NotificationState = .none
 
     
     // MARK: - Views
@@ -28,13 +36,13 @@ final class LocalNotificationView: UIView {
     let blurView = UIVisualEffectView()
     
     let sheetBackgroundView = UIView().then {
-        $0.backgroundColor = .background(.mainPurple)
+        $0.backgroundColor = AppColor.Background.main.color
         $0.layer.cornerRadius = Metric.cornerRadius
         $0.alpha = 0.0
     }
     
     let ghostImageView = UIImageView().then {
-        $0.image = UIImage(named: "ghost")
+        $0.image = AppImage.Character.ghost(.normal).image
     }
     
     let notificationLabel = NormalLabel().then {
@@ -53,17 +61,15 @@ final class LocalNotificationView: UIView {
         $0.distribution = .fillEqually
     }
     
-    let acceptButton = HorizontalButton().then {
+    let acceptButton = NormalHorizontalButton().then {
         $0.setTitle("좋아요!", for: .normal)
     }
     
-    let rejectButton = HorizontalButton().then {
+    let rejectButton = RejectHorizontalButton().then {
         $0.setTitle("아니요..", for: .normal)
-        $0.setTitleColor(.text(.buttonSubHighlight), for: .normal)
-        $0.backgroundColor = .component(.buttonDisabledPurple)
     }
     
-    let checkButton = HorizontalButton().then {
+    let checkButton = NormalHorizontalButton().then {
         $0.setTitle("확인", for: .normal)
     }
     
@@ -119,6 +125,24 @@ final class LocalNotificationView: UIView {
             make.centerX.equalToSuperview()
             make.top.equalTo(notificationLabel.snp.bottom).offset(Metric.buttonStackViewTopPadding)
             make.horizontalEdges.equalToSuperview().inset(Metric.buttonStackViewHorizontalPadding)
+        }
+    }
+    
+    func changeThemeIfNeeded() {
+        sheetBackgroundView.backgroundColor = AppColor.Background.main.color
+        ghostImageView.image = AppImage.Character.ghost(.normal).image
+        notificationLabel.changeThemeIfNeeded()
+        acceptButton.changeThemeIfNeeded()
+        rejectButton.changeThemeIfNeeded()
+        checkButton.changeThemeIfNeeded()
+        
+        switch notificationState {
+        case .accept:
+            ghostImageView.image = AppImage.Character.ghost(.happy).image
+        case .reject:
+            ghostImageView.image = AppImage.Character.ghost(.crying).image
+        case .none:
+            ghostImageView.image = AppImage.Character.ghost(.normal).image
         }
     }
 }
@@ -195,7 +219,8 @@ extension LocalNotificationView {
     
     @MainActor
     func showAcceptResult() async {
-        ghostImageView.image = UIImage(named: "happyGhost")
+        self.notificationState = .accept
+        ghostImageView.image = AppImage.Character.ghost(.happy).image
         notificationLabel.text = """
         알림이 설정되었어요!
 
@@ -227,7 +252,8 @@ extension LocalNotificationView {
     
     @MainActor
     func showRejectResult() async {
-        ghostImageView.image = UIImage(named: "cryingGhost")
+        self.notificationState = .reject
+        ghostImageView.image = AppImage.Character.ghost(.crying).image
         notificationLabel.text = """
         알림을 거절했어요.
 

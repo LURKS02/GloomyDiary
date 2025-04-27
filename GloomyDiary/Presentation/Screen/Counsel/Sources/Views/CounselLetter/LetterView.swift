@@ -17,7 +17,7 @@ class LetterView: UIView {
     
     let letterTextView: UITextView = UITextView().then {
         $0.font = .온글잎_의연체.title
-        $0.textColor = .text(.highlight)
+        $0.textColor = AppColor.Text.main.color
         $0.textAlignment = .left
         $0.backgroundColor = .clear
         $0.showsVerticalScrollIndicator = false
@@ -52,5 +52,9 @@ class LetterView: UIView {
         letterTextView.snp.makeConstraints { make in
             make.edges.equalToSuperview().inset(Metric.letterTextViewPadding)
         }
+    }
+    
+    func changeThemeIfNeeded() {
+        letterTextView.textColor = AppColor.Text.main.color
     }
 }

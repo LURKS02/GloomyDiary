@@ -47,7 +47,7 @@ final class HistoryView: UIView {
     // MARK: - View Life Cycle
     
     private func setup() {
-        backgroundColor = .background(.mainPurple)
+        backgroundColor = AppColor.Background.main.color
     }
     
     private func addSubviews() {
@@ -57,7 +57,7 @@ final class HistoryView: UIView {
     
     private func setupConstraints() {
         listView.snp.makeConstraints { make in
-            make.top.equalTo(self.safeAreaLayoutGuide.snp.top)
+            make.top.equalTo(self.safeAreaLayoutGuide.snp.top).inset(10)
             make.horizontalEdges.equalToSuperview()
             make.bottom.equalToSuperview()
         }
@@ -65,5 +65,11 @@ final class HistoryView: UIView {
         emptyView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
+    }
+    
+    func changeThemeIfNeeded() {
+        backgroundColor = AppColor.Background.main.color
+        listView.changeThemeIfNeeded()
+        emptyView.changeThemeIfNeeded()
     }
 }

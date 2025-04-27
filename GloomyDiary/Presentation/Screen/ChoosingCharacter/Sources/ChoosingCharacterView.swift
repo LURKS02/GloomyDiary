@@ -26,7 +26,13 @@ final class ChoosingCharacterView: UIView {
     
     // MARK: - Views
     
-    private let gradientView = GradientView(colors: [.background(.darkPurple), .background(.mainPurple)], locations: [0.0, 0.5, 1.0])
+    private let gradientView = GradientView(
+        colors: [
+            AppColor.Background.sub.color,
+            AppColor.Background.main.color
+        ],
+        locations: [0.0, 0.5, 1.0]
+    )
     
     private let introduceLabel = NormalLabel().then {
         $0.text = """
@@ -47,7 +53,7 @@ final class ChoosingCharacterView: UIView {
         $0.font = UIView.screenHeight <= 700 ? .온글잎_의연체.body : .온글잎_의연체.title
     }
     
-    let nextButton = HorizontalButton().then {
+    let nextButton = NormalHorizontalButton().then {
         $0.setTitle("다음", for: .normal)
     }
     
@@ -81,7 +87,7 @@ final class ChoosingCharacterView: UIView {
     // MARK: - View Life Cycle
     
     private func setup() {
-        backgroundColor = .background(.mainPurple)
+        backgroundColor = AppColor.Background.main.color
     }
     
     private func addSubviews() {
@@ -134,6 +140,19 @@ final class ChoosingCharacterView: UIView {
                 button.isSelected = true
             }
         }
+    }
+    
+    func changeThemeIfNeeded() {
+        backgroundColor = AppColor.Background.main.color
+        gradientView.updateColors([
+            AppColor.Background.sub.color,
+            AppColor.Background.main.color
+        ])
+        introduceLabel.changeThemeIfNeeded()
+        detailInformationLabel.changeThemeIfNeeded()
+        nextButton.changeThemeIfNeeded()
+        
+        allCharacterButtons.forEach { $0.changeThemeIfNeeded() }
     }
     
     private func deselectAllButtons() {
