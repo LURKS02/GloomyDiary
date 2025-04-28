@@ -19,6 +19,8 @@ final class CounselingSessionCollectionViewCell: UICollectionViewCell {
     
     var cancellableSet = Set<AnyCancellable>()
     
+    private var counselor: CounselingCharacter = .chan
+    
     // MARK: - Metric
     
     private enum Metric {
@@ -173,6 +175,7 @@ final class CounselingSessionCollectionViewCell: UICollectionViewCell {
         stateLabel.textColor = AppColor.Text.fogHighlight.color
         contentLabel.textColor = AppColor.Text.subHighlight.color
         self.backgroundColor = AppColor.Background.historyCell.color
+        characterImageView.image = AppImage.Character.counselor(counselor, .normal).image
     }
 }
 
@@ -185,6 +188,7 @@ extension CounselingSessionCollectionViewCell {
     }
     
     func configure(with session: Session) {
+        counselor = session.counselor
         titleLabel.text = session.title
         stateLabel.text = "날씨 \(session.weather.name), \(session.emoji.description)"
         characterImageView.image = AppImage.Character.counselor(session.counselor, .normal).image
