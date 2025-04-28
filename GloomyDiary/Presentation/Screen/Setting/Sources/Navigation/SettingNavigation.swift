@@ -32,10 +32,20 @@ struct SettingNavigation {
         Reduce { state, action in
             switch action {
             case .setting(.delegate(.navigateToMenu(let settingMenu))):
-                logger.send(.tapped, "설정: \(settingMenu.title) 메뉴를 눌러 이동합니다.", nil)
-                guard let index = AppearanceMode.allCases.firstIndex(of: AppEnvironment.appearanceMode) else { return .none }
-                state.path.append(.theme(.init(theme: AppEnvironment.appearanceMode, page: index)))
-                return .none
+                switch settingMenu {
+                case .version:
+                    return .none
+                    
+                case .theme:
+                    logger.send(.tapped, "설정: \(settingMenu.title) 메뉴를 눌러 이동합니다.", nil)
+                    guard let index = AppearanceMode.allCases.firstIndex(of: AppEnvironment.appearanceMode) else { return .none }
+                    state.path.append(.theme(.init(theme: AppEnvironment.appearanceMode, page: index)))
+                    return .none
+                    
+                case .password:
+                    state.path.append(.password(.init()))
+                    return .none
+                }
                 
             case .setting:
                 return .none
@@ -57,5 +67,6 @@ extension SettingNavigation {
     @Reducer(state: .equatable, action: .equatable)
     enum Path {
         case theme(ChoosingTheme)
+        case password(Password)
     }
 }
