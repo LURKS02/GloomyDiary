@@ -9,77 +9,76 @@ import UIKit
 import ComposableArchitecture
 
 final class AppCoordinator {
-    var window: UIWindow
-    private let isFirstProcess: Bool
+    @Dependency(\.userSetting) var userSetting
+    
+    private let window: UIWindow
+    
+    private var isFirstProcess: Bool {
+        userSetting.get(keyPath: \.isFirstProcess)
+    }
     
     init(window: UIWindow) {
-        @Dependency(\.userSettingRepository) var userSettingRepository
-        
         self.window = window
-        self.isFirstProcess = userSettingRepository.get(keyPath: \.isFirstProcess)
     }
     
     func start() {
         #if SCROLL_TEST
-        showMainView()
+        showScrollSetting()
         
         #else
         if isFirstProcess {
-            showCounselView()
+            showTutorial()
         } else {
-            showMainView()
+            showHome()
         }
         #endif
     }
 }
 
 private extension AppCoordinator {
-    func showCounselView() {
-        let mainViewController = CircularTabBarController(tabBarItems: [.home, .history])
-        mainViewController.hideCircularTabBar()
-        guard let originView = mainViewController.view else { return }
-        let coveringView = UIView().then {
-            $0.backgroundColor = .background(.mainPurple)
-            $0.frame = originView.bounds
+    func showTutorial() {
+        let tabs: [FloatingTabBarItemCase] = [.home(true), .history, .setting]
+        let mainViewController = FloatingTabBarController(tabBarItems: tabs.map { $0.value })
+        mainViewController.hideTabBar()
+        
+        if let homeVC = mainViewController.selectedViewController as? HomeViewController {
+            let coveringView = UIView().then {
+                $0.backgroundColor = AppColor.Background.main.color
+                $0.frame = UIScreen.main.bounds
+            }
+            homeVC.contentView.addSubview(coveringView)
+            homeVC.coveringView = coveringView
         }
         
-        originView.addSubview(coveringView)
         window.rootViewController = mainViewController
         window.makeKeyAndVisible()
-            
-        let welcomeViewController = WelcomeViewController()
-            
-        let navigationViewController = UINavigationController(rootViewController: welcomeViewController)
-        navigationViewController.modalPresentationStyle = .custom
-            
-        guard let selectedViewController = mainViewController.selectedViewController,
-              let animationDelegateViewController =  selectedViewController as? UIViewControllerTransitioningDelegate else { return }
-            
-        navigationViewController.transitioningDelegate = animationDelegateViewController
-        selectedViewController.present(navigationViewController, animated: false) {
-            coveringView.removeFromSuperview()
-        }
+    }
+}
+    
+private extension AppCoordinator {
+    func showHome() {
+        let tabs: [FloatingTabBarItemCase] = [.home(false), .history, .setting]
+        let mainViewController = FloatingTabBarController(tabBarItems: tabs.map { $0.value })
+        window.rootViewController = mainViewController
+        window.makeKeyAndVisible()
     }
     
-    func showMainView() {
-        let mainViewController = CircularTabBarController(tabBarItems: [.home, .history])
+    #if SCROLL_TEST
+    func showScrollSetting() {
+        let tabs: [FloatingTabBarItemCase] = [.home(false), .history, .setting]
+        let mainViewController = FloatingTabBarController(tabBarItems: tabs.map { $0.value })
         window.rootViewController = mainViewController
         window.makeKeyAndVisible()
         
-        #if SCROLL_TEST
         let debugReadyViewController = DebugReadyViewController()
         debugReadyViewController.modalPresentationStyle = .overFullScreen
+        mainViewController.present(debugReadyViewController, animated: false)
+        
         Task {
-            await MainActor.run {
-                mainViewController.present(debugReadyViewController, animated: false)
-            }
             let testEnvironmentManager = TestEnvironmentManager()
+            testEnvironmentManager.delegate = debugReadyViewController
             await testEnvironmentManager.prepareEnvironment()
-    
-            await MainActor.run {
-                debugReadyViewController.dismiss(animated: false)
-            }
         }
-        #endif
     }
+    #endif
 }

@@ -6,7 +6,7 @@
 //
 
 import XCTest
-@testable import GloomyDiary
+@testable import GloomyDiaryExample
 
 final class CacheTests: XCTestCase {
     func test_캐시_등록_조회() throws {

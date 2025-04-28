@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class GradientView: BaseView {
+final class GradientView: UIView {
     private let gradientLayer = CAGradientLayer().then {
         $0.startPoint = CGPoint(x: 0.5, y: 0)
         $0.endPoint = CGPoint(x: 0.5, y: 1)
@@ -17,9 +17,7 @@ final class GradientView: BaseView {
         super.init(frame: .zero)
         
         gradientLayer.colors = colors.map { $0.cgColor }
-        
         if let locations { gradientLayer.locations = locations }
-        
         self.layer.insertSublayer(gradientLayer, at: 0)
     }
     
@@ -30,5 +28,11 @@ final class GradientView: BaseView {
     override func layoutSubviews() {
         super.layoutSubviews()
         gradientLayer.frame = self.bounds
+    }
+    
+    func updateColors(_ colors: [UIColor]) {
+        let cgColors = colors.map { $0.cgColor }
+        
+        gradientLayer.colors = cgColors
     }
 }

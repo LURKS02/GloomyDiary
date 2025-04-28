@@ -25,6 +25,21 @@ final class ImageCache {
         try? fileManager.createDirectory(at: thumbnailDirectory, withIntermediateDirectories: true)
         try? fileManager.createDirectory(at: imageDirectory, withIntermediateDirectories: true)
         memoryCache.totalCostLimit = 5 * 1024 * 1024
+        
+//        listFiles(in: thumbnailDirectory)
+//        listFiles(in: imageDirectory)
+//        
+//        func listFiles(in directory: URL) {
+//            do {
+//                let fileURLs = try FileManager.default.contentsOfDirectory(at: directory, includingPropertiesForKeys: nil)
+//                print("📂 \(directory.lastPathComponent) 폴더에 있는 파일들:")
+//                for fileURL in fileURLs {
+//                    print("– \(fileURL.lastPathComponent)")
+//                }
+//            } catch {
+//                print("디렉토리 내용을 읽는 데 실패: \(error)")
+//            }
+//        }
     }
     
     private let memoryCache = Cache<UUID, UIImage>()
@@ -38,25 +53,6 @@ final class ImageCache {
         let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
         return paths[0].appendingPathComponent("images")
     }()
-    
-    func readIDs() -> [UUID] {
-        guard let fileURLs = try? fileManager.contentsOfDirectory(at: imageDirectory, includingPropertiesForKeys: nil) else { return [] }
-        
-        return fileURLs.compactMap { url -> UUID? in
-            let fileName = url.lastPathComponent
-            let fileExtension = url.pathExtension
-            
-            guard fileExtension.lowercased() == "heic" else { return nil }
-            
-            if fileName.hasPrefix("image_"),
-               let range = fileName.range(of: "image_") {
-                let uuidPart = fileName[range.upperBound...].dropLast(fileExtension.count + 1)
-                return UUID(uuidString: String(uuidPart))
-            }
-            
-            return nil
-        }
-    }
     
     // MARK: - get image
     
@@ -73,11 +69,11 @@ final class ImageCache {
             if let diskImage = getThumbnailImageFromDisk(forKey: key, pointSize: pointSize) {
                 return diskImage
             }
-            if let prevImage = getThumbnailImageFromDisk(forKey: key, pointSize: pointSize) { return prevImage }
+            if let prevImage = getThumbnailImageFromPrevDisk(forKey: key, pointSize: pointSize) { return prevImage }
             
         case .fromDisk:
             if let diskImage = getThumbnailImageFromDisk(forKey: key, pointSize: pointSize) { return diskImage }
-            if let prevImage = getThumbnailImageFromDisk(forKey: key, pointSize: pointSize) { return prevImage }
+            if let prevImage = getThumbnailImageFromPrevDisk(forKey: key, pointSize: pointSize) { return prevImage }
         }
         
         throw LocalError(message: "Thumbnail image fetch error")
@@ -137,7 +133,7 @@ final class ImageCache {
               let downsampledImage = UIImage.downsample(imageAt: filePath, to: pointSize) else { return nil }
         
         DispatchQueue.global().async { [weak self] in
-            try? self?.saveImageToDisk(image: image)
+            try? self?.saveImageToDisk(key, image: image)
             try? self?.fileManager.removeItem(at: filePath)
         }
         
@@ -159,7 +155,7 @@ final class ImageCache {
         guard let downsampledImage else { return nil }
         
         DispatchQueue.global().async { [weak self] in
-            try? self?.saveImageToDisk(image: image)
+            try? self?.saveImageToDisk(key, image: image)
             try? self?.fileManager.removeItem(at: filePath)
         }
         
@@ -219,6 +215,22 @@ final class ImageCache {
         let filePath = thumbnailDirectory.appendingPathComponent("thumbnail_\(id).jpeg")
         
         try jpegData.write(to: filePath)
+    }
+    
+    
+    // MARK: - delete image
+    
+    func deleteAllFiles() throws {
+        let imageURLs = try fileManager.contentsOfDirectory(at: imageDirectory, includingPropertiesForKeys: nil)
+        let thumbnailURLs = try fileManager.contentsOfDirectory(at: thumbnailDirectory, includingPropertiesForKeys: nil)
+        
+        for url in imageURLs {
+            try fileManager.removeItem(at: url)
+        }
+        
+        for url in thumbnailURLs {
+            try fileManager.removeItem(at: url)
+        }
     }
     
     private func deleteSavedFiles(id: UUID) {

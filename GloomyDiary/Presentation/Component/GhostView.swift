@@ -8,9 +8,29 @@
 import Foundation
 import UIKit
 
-final class GhostView: ImageView {
+final class GhostView: UIImageView {
     private let feedbackGenerator = UIImpactFeedbackGenerator(style: .soft)
     
+    init() {
+        super.init(frame: .zero)
+        
+        setup()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    func setup() {
+        self.image = AppImage.Character.ghost(.normal).image
+    }
+    
+    func changeThemeIfNeeded() {
+        self.image = AppImage.Character.ghost(.normal).image
+    }
+}
+
+extension GhostView {
     @MainActor
     func playBounce() {
         AnimationGroup(animations: [.init(view: self,

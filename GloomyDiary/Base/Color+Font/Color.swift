@@ -5,50 +5,335 @@
 //  Created by 디해 on 8/2/24.
 //
 
+import Dependencies
 import UIKit.UIColor
 
-extension UIColor {
-    enum Text: String {
-        case highlight = "FFFFFF"
-        case dark = "66626B"
-        case warning = "CC4E74"
-        case buttonDisabled = "6D6677"
-        case buttonSubHighlight = "9C97A3"
-        case subHighlight = "C1BFC5"
-        case fogHighlight = "91899A"
+enum AppColor {
+    static var resolvedDefault: AppearanceMode {
+        @Dependency(\.themeScheduler) var themeScheduler
+        
+        return themeScheduler.resolvedDefault
     }
     
-    static func text(_ text: Text) -> UIColor {
-        UIColor(hex: text.rawValue)
-    }
-}
-
-extension UIColor {
-    enum Background: String {
-        case mainPurple = "473B57"
-        case darkPurple = "1B1938"
+    enum Text {
+        case main
+        case warning
+        case disabled
+        case reject
+        case subHighlight
+        case fogHighlight
+        
+        var color: UIColor {
+            return color(for: AppEnvironment.appearanceMode)
+        }
+        
+        func color(for mode: AppearanceMode) -> UIColor {
+            switch self {
+            case .main:
+                switch mode {
+                case .default:
+                    color(for: resolvedDefault)
+                case .dark:
+                    #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+                case .light:
+                    #colorLiteral(red: 0.2537425756, green: 0.2537425756, blue: 0.2537425756, alpha: 1)
+                }
+            case .warning:
+                switch mode {
+                case .default:
+                    color(for: resolvedDefault)
+                case .dark:
+                    #colorLiteral(red: 0.8, green: 0.3058823529, blue: 0.4549019608, alpha: 1)
+                case .light:
+                    #colorLiteral(red: 1, green: 0.3803921569, blue: 0.5647058824, alpha: 1)
+                }
+                
+            case .disabled:
+                switch mode {
+                case .default:
+                    color(for: resolvedDefault)
+                case .dark:
+                    #colorLiteral(red: 0.4274509804, green: 0.4, blue: 0.4666666667, alpha: 1)
+                case .light:
+                    #colorLiteral(red: 0.5098039216, green: 0.5921568627, blue: 0.6980392157, alpha: 1)
+                }
+                
+            case .reject:
+                switch mode {
+                case .default:
+                    color(for: resolvedDefault)
+                case .dark:
+                    #colorLiteral(red: 0.6117647059, green: 0.5921568627, blue: 0.6392156863, alpha: 1)
+                case .light:
+                    #colorLiteral(red: 0.5215686275, green: 0.5568627451, blue: 0.6235294118, alpha: 1)
+                }
+                
+            case .subHighlight:
+                switch mode {
+                case .default:
+                    color(for: resolvedDefault)
+                case .dark:
+                    #colorLiteral(red: 0.7568627451, green: 0.7490196078, blue: 0.7725490196, alpha: 1)
+                case .light:
+                    #colorLiteral(red: 0.1764705882, green: 0.1764705882, blue: 0.1764705882, alpha: 1)
+                }
+                
+            case .fogHighlight:
+                switch mode {
+                case .default:
+                    color(for: resolvedDefault)
+                case .dark:
+                    #colorLiteral(red: 0.568627451, green: 0.537254902, blue: 0.6039215686, alpha: 1)
+                case .light:
+                    #colorLiteral(red: 0.5098039216, green: 0.6078431373, blue: 0.6705882353, alpha: 1)
+                }
+            }
+        }
     }
     
-    static func background(_ background: Background) -> UIColor {
-        UIColor(hex: background.rawValue)
-    }
-}
-
-extension UIColor {
-    enum Component: String {
-        case white = "FFFFFF"
-        case blackPurple = "231D2B"
-        case darkPurple = "282236"
-        case fogPurple = "392F46"
-        case buttonPurple = "322A3D"
-        case buttonDisabledPurple = "3A3047"
-        case lightGray = "C7B9B9"
-        case fogGray = "5F5562"
-        case textFieldGray = "584A69"
-        case buttonSelectedBlue = "534D71"
+    enum Background {
+        case main
+        case sub
+        case letter
+        case historyCell
+        case skeleton
+        
+        var color: UIColor {
+            color(for: AppEnvironment.appearanceMode)
+        }
+        
+        func color(for mode: AppearanceMode) -> UIColor {
+            switch self {
+            case .main:
+                switch mode {
+                case .default:
+                    color(for: resolvedDefault)
+                case .dark:
+                    #colorLiteral(red: 0.2784313725, green: 0.231372549, blue: 0.3411764706, alpha: 1)
+                case .light:
+                    #colorLiteral(red: 0.8470588235, green: 0.9294117647, blue: 0.9568627451, alpha: 1)
+                }
+                
+            case .sub:
+                switch mode {
+                case .default :
+                    color(for: resolvedDefault)
+                case .dark:
+                    #colorLiteral(red: 0.1058823529, green: 0.09803921569, blue: 0.2196078431, alpha: 1)
+                case .light:
+                    #colorLiteral(red: 0.5960784314, green: 0.8392156863, blue: 1, alpha: 1)
+                }
+                
+            case .letter:
+                switch mode {
+                case .default :
+                    color(for: resolvedDefault)
+                case .dark:
+                    #colorLiteral(red: 0.1960784314, green: 0.1647058824, blue: 0.2392156863, alpha: 1)
+                case .light:
+                    #colorLiteral(red: 0.9333333333, green: 0.9764705882, blue: 1, alpha: 1)
+                }
+                
+            case .historyCell:
+                switch mode {
+                case .default :
+                    color(for: resolvedDefault)
+                case .dark:
+                    #colorLiteral(red: 0.1960784314, green: 0.1647058824, blue: 0.2392156863, alpha: 1)
+                case .light:
+                    #colorLiteral(red: 0.7647058824, green: 0.8823529412, blue: 0.937254902, alpha: 1)
+                }
+                
+            case .skeleton:
+                switch mode {
+                case .default :
+                    color(for: resolvedDefault)
+                case .dark:
+                    .black.withAlphaComponent(0.3)
+                case .light:
+                    .white.withAlphaComponent(0.3)
+                }
+            }
+        }
     }
     
-    static func component(_ component: Component) -> UIColor {
-        UIColor(hex: component.rawValue)
+    enum Component {
+        case subHorizontalButton
+        case mainPoint
+        
+        case tabBarSelectedButton
+        
+        case horizontalButton
+        case selectedHorizontalButton
+        
+        case disabledSelectionButton
+        case selectedSelectionButton
+        
+        case disabledButton
+        case textFieldBackground
+        case selectedButton
+        case navigationItem
+        case tabBarItem(Bool)
+        case roundIcon
+        case roundIconLiteral
+        
+        var color: UIColor {
+            return color(for: AppEnvironment.appearanceMode)
+        }
+        
+        func color(for mode: AppearanceMode) -> UIColor {
+            switch self {
+            case .subHorizontalButton:
+                switch mode {
+                case .default:
+                    color(for: resolvedDefault)
+                case .dark:
+                    #colorLiteral(red: 0.137254902, green: 0.1137254902, blue: 0.168627451, alpha: 1)
+                case .light:
+                    #colorLiteral(red: 1, green: 0.937254902, blue: 0.8117647059, alpha: 1)
+                }
+                
+            case .mainPoint:
+                switch mode {
+                case .default:
+                    color(for: resolvedDefault)
+                case .dark:
+                    #colorLiteral(red: 0.1568627451, green: 0.1333333333, blue: 0.2117647059, alpha: 1)
+                case .light:
+                    #colorLiteral(red: 1, green: 0.937254902, blue: 0.8117647059, alpha: 1)
+                }
+                
+            case .tabBarSelectedButton:
+                switch mode {
+                case .default:
+                    color(for: resolvedDefault)
+                case .dark:
+                    #colorLiteral(red: 0.2784313725, green: 0.231372549, blue: 0.3411764706, alpha: 1)
+                case .light:
+                    #colorLiteral(red: 1, green: 0.968627451, blue: 0.9215686275, alpha: 1)
+                }
+                
+            case .horizontalButton:
+                switch mode {
+                case .default:
+                    color(for: resolvedDefault)
+                case .dark:
+                    #colorLiteral(red: 0.1960784314, green: 0.1647058824, blue: 0.2392156863, alpha: 1)
+                case .light:
+                    #colorLiteral(red: 0.9529411765, green: 0.9843137255, blue: 1, alpha: 1)
+                }
+                
+            case .selectedHorizontalButton:
+                switch mode {
+                case .default:
+                    color(for: resolvedDefault)
+                case .dark:
+                    #colorLiteral(red: 0.3254901961, green: 0.3019607843, blue: 0.4431372549, alpha: 1)
+                case .light:
+                    #colorLiteral(red: 1, green: 0.9568627451, blue: 0.8705882353, alpha: 1)
+                }
+                
+            case .disabledSelectionButton:
+                switch mode {
+                case .default:
+                    color(for: resolvedDefault)
+                case .dark:
+                    #colorLiteral(red: 0.1960784314, green: 0.1647058824, blue: 0.2392156863, alpha: 1)
+                case .light:
+                    #colorLiteral(red: 0.8941176471, green: 0.9647058824, blue: 1, alpha: 1)
+                }
+                
+            case .selectedSelectionButton:
+                switch mode {
+                case .default:
+                    color(for: resolvedDefault)
+                case .dark:
+                    #colorLiteral(red: 0.3254901961, green: 0.3019607843, blue: 0.4431372549, alpha: 1)
+                case .light:
+                    #colorLiteral(red: 1, green: 0.937254902, blue: 0.8117647059, alpha: 1)
+                }
+                
+            case .disabledButton:
+                switch mode {
+                case .default:
+                    color(for: resolvedDefault)
+                case .dark:
+                    #colorLiteral(red: 0.2274509804, green: 0.1882352941, blue: 0.2784313725, alpha: 1)
+                case .light:
+                    #colorLiteral(red: 0.8117647059, green: 0.8823529412, blue: 0.9098039216, alpha: 1)
+                }
+                
+            case .textFieldBackground:
+                switch mode {
+                case .default:
+                    color(for: resolvedDefault)
+                case .dark:
+                    #colorLiteral(red: 0.3450980392, green: 0.2901960784, blue: 0.4117647059, alpha: 1)
+                case .light:
+                    #colorLiteral(red: 0.9607843137, green: 0.9803921569, blue: 0.9882352941, alpha: 1)
+                }
+                
+            case .selectedButton:
+                switch mode {
+                case .default:
+                    color(for: resolvedDefault)
+                case .dark:
+                    #colorLiteral(red: 0.3254901961, green: 0.3019607843, blue: 0.4431372549, alpha: 1)
+                case .light:
+                    #colorLiteral(red: 1, green: 0.937254902, blue: 0.8117647059, alpha: 1)
+                }
+                
+            case .navigationItem:
+                switch mode {
+                case .default:
+                    color(for: resolvedDefault)
+                case .dark:
+                    #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+                case .light:
+                    #colorLiteral(red: 0.5411764706, green: 0.6117647059, blue: 0.6901960784, alpha: 1)
+                }
+                
+            case .tabBarItem(let isSelected):
+                if isSelected {
+                    switch mode {
+                    case .default:
+                        color(for: resolvedDefault)
+                    case .dark:
+                        #colorLiteral(red: 0.9411764706, green: 0.9058823529, blue: 0.8549019608, alpha: 1)
+                    case .light:
+                        #colorLiteral(red: 0.6156862745, green: 0.5843137255, blue: 0.5294117647, alpha: 1)
+                    }
+                } else {
+                    switch mode {
+                    case .default:
+                        color(for: resolvedDefault)
+                    case .dark:
+                        #colorLiteral(red: 0.4, green: 0.3843137255, blue: 0.4196078431, alpha: 1)
+                    case .light:
+                        #colorLiteral(red: 0.7764705882, green: 0.7019607843, blue: 0.5725490196, alpha: 1)
+                    }
+                }
+                
+            case .roundIcon:
+                switch mode {
+                case .default:
+                    color(for: resolvedDefault)
+                case .dark:
+                    #colorLiteral(red: 0.137254902, green: 0.1137254902, blue: 0.168627451, alpha: 1)
+                case .light:
+                    #colorLiteral(red: 0.8117647059, green: 0.8666666667, blue: 0.9098039216, alpha: 1)
+                }
+                
+            case .roundIconLiteral:
+                switch mode {
+                case .default:
+                    color(for: resolvedDefault)
+                case .dark:
+                    #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+                case .light:
+                    #colorLiteral(red: 0.09803921569, green: 0.09803921569, blue: 0.09803921569, alpha: 1)
+                }
+            }
+        }
     }
 }

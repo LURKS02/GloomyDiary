@@ -8,12 +8,5 @@
 import Foundation
 
 protocol CounselRepositoryProtocol {
-    func counsel(
-        to character: CounselingCharacter,
-        title: String,
-        userInput: String,
-        weather: Weather,
-        emoji: Emoji,
-        imageIDs: [UUID]
-    ) async throws -> String
+    func counsel(with query: Query) async throws -> Session
 }

@@ -1,0 +1,23 @@
+{
+  "images" : [
+    {
+      "filename" : "cryingBeomji.png",
+      "idiom" : "universal",
+      "scale" : "1x"
+    },
+    {
+      "filename" : "제목_없는_아트워크 13.png",
+      "idiom" : "universal",
+      "scale" : "2x"
+    },
+    {
+      "filename" : "제목_없는_아트워크 14.png",
+      "idiom" : "universal",
+      "scale" : "3x"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

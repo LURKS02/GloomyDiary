@@ -8,13 +8,13 @@
 import Foundation
 import SwiftData
 
-typealias CounselingSession = SessionSchemaV2.CounselingSession
+typealias SessionData = SessionSchemaV2.CounselingSession
 
 enum SessionSchemaV1: VersionedSchema {
     static var versionIdentifier = Schema.Version(1, 0, 0)
     
     static var models: [any PersistentModel.Type] {
-        [CounselingSession.self]
+        [SessionSchemaV1.CounselingSession.self]
     }
     
     @Model
@@ -45,7 +45,7 @@ enum SessionSchemaV2: VersionedSchema {
     static var versionIdentifier = Schema.Version(1, 1, 0)
     
     static var models: [any PersistentModel.Type] {
-        [CounselingSession.self]
+        [SessionSchemaV2.CounselingSession.self]
     }
     
     @Model
@@ -58,9 +58,9 @@ enum SessionSchemaV2: VersionedSchema {
         var createdAt: Date
         var weatherIdentifier: String
         var emojiIdentifier: String
-        @Attribute(.transformable(by: ArrayTransformer.name.rawValue)) var images: [String] = []
+        @Attribute(.transformable(by: ArrayTransformer.name.rawValue)) var images: [String]
         
-        init(id: UUID, counselorIdentifier: String, title: String, query: String, response: String, createdAt: Date, weatherIdentifier: String, emojiIdentifier: String, images: [String] = []) {
+        init(id: UUID, counselorIdentifier: String, title: String, query: String, response: String, createdAt: Date, weatherIdentifier: String, emojiIdentifier: String, images: [String]) {
             self.id = id
             self.counselorIdentifier = counselorIdentifier
             self.title = title
@@ -108,7 +108,7 @@ enum SessionMigrationPlan: SchemaMigrationPlan {
         didMigrate: nil)
 }
 
-extension CounselingSession {
+extension SessionData {
     convenience init(session: Session) {
         self.init(id: session.id,
                   counselorIdentifier: session.counselor.identifier,
@@ -135,6 +135,16 @@ extension CounselingSession {
             createdAt: self.createdAt,
             weather: weather,
             emoji: emoji,
-            imageIDs: images.compactMap { UUID(uuidString: $0) })
+            imageIDs: images.compactMap { UUID(uuidString: extractUUID(from: $0)) })
+    }
+    
+    private func extractUUID(from fileName: String) -> String {
+        guard fileName.hasPrefix("image_"), fileName.hasSuffix(".jpg") else {
+            return fileName
+        }
+
+        let startIndex = fileName.index(fileName.startIndex, offsetBy: 6)
+        let endIndex = fileName.index(fileName.endIndex, offsetBy: -4)
+        return String(fileName[startIndex..<endIndex])
     }
 }
