@@ -1,5 +1,5 @@
 //
-//  PasswordViewController.swift
+//  PasswordSettingViewController.swift
 //  GloomyDiary
 //
 //  Created by 디해 on 4/29/25.
@@ -8,7 +8,7 @@
 import ComposableArchitecture
 import UIKit
 
-final class PasswordViewController: BaseViewController<PasswordView> {
+final class PasswordSettingViewController: BaseViewController<PasswordView> {
     
     let store: StoreOf<Password>
     
@@ -43,7 +43,7 @@ final class PasswordViewController: BaseViewController<PasswordView> {
         super.viewWillAppear(animated)
         
         navigationController?.setNavigationBarHidden(false, animated: true)
-        contentView.makeInitialTextFieldFirstResponder()
+        contentView.makeTextFieldFirstResponder()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -76,11 +76,11 @@ final class PasswordViewController: BaseViewController<PasswordView> {
         backgroundTap.tapPublisher
             .sink { [weak self] _ in
                 guard let self else { return }
-                contentView.makeInitialTextFieldFirstResponder()
+                contentView.makeTextFieldFirstResponder()
             }
             .store(in: &cancellables)
         
-        contentView.hiddenInitialTextField.textPublisher
+        contentView.hiddenTextField.textPublisher
             .sink { [weak self] input in
                 guard let input,
                       let self,
@@ -109,7 +109,7 @@ final class PasswordViewController: BaseViewController<PasswordView> {
     }
 }
 
-extension PasswordViewController: FromTransitionable {
+extension PasswordSettingViewController: FromTransitionable {
     var fromTransitionComponent: UIView? {
         nil
     }
@@ -123,7 +123,7 @@ extension PasswordViewController: FromTransitionable {
     }
 }
 
-extension PasswordViewController: ToTransitionable {
+extension PasswordSettingViewController: ToTransitionable {
     var toTransitionComponent: UIView? {
         nil
     }
@@ -146,7 +146,7 @@ extension PasswordViewController: ToTransitionable {
     }
 }
 
-extension PasswordViewController: UINavigationControllerDelegate {
+extension PasswordSettingViewController: UINavigationControllerDelegate {
     func navigationController(
         _ navigationController: UINavigationController,
         animationControllerFor operation: UINavigationController.Operation,

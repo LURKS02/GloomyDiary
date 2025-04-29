@@ -29,7 +29,7 @@ final class PasswordView: UIView {
     
     private var starlightViews: [StarlightView] = []
     
-    let hiddenInitialTextField = UITextField().then {
+    let hiddenTextField = UITextField().then {
         $0.keyboardType = .numberPad
         $0.isHidden = true
     }
@@ -70,7 +70,7 @@ final class PasswordView: UIView {
     private func addSubviews() {
         addSubview(titleLabel)
         addSubview(informationLabel)
-        addSubview(hiddenInitialTextField)
+        addSubview(hiddenTextField)
         addSubview(stackView)
     }
     
@@ -95,12 +95,8 @@ final class PasswordView: UIView {
 }
 
 extension PasswordView {
-    func makeInitialTextFieldFirstResponder() {
-        hiddenInitialTextField.becomeFirstResponder()
-    }
-    
-    func makeCheckTextFieldFirstResponder() {
-        
+    func makeTextFieldFirstResponder() {
+        hiddenTextField.becomeFirstResponder()
     }
     
     func highlightStarlights(number: Int) {
@@ -119,7 +115,7 @@ extension PasswordView {
                                 입력해주세요.
                                 """
         highlightStarlights(number: 0)
-        hiddenInitialTextField.text = ""
+        hiddenTextField.text = ""
     }
     
     func configureForMismatch() {
@@ -130,7 +126,7 @@ extension PasswordView {
                                 """
         informationLabel.textColor = AppColor.Text.warning.color
         highlightStarlights(number: 0)
-        hiddenInitialTextField.text = ""
+        hiddenTextField.text = ""
     }
 }
 

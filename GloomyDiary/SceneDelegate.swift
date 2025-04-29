@@ -13,6 +13,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
     var appCoordinator: AppCoordinator?
     
+    private var hasShownLockScreen = false
+    
     @Dependency(\.logger) var logger
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
@@ -35,6 +37,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 
     func sceneWillEnterForeground(_ scene: UIScene) {
+        guard !hasShownLockScreen else { return }
+        PasswordLockManager.shared.presentLockScreenIfNeeded()
+        hasShownLockScreen = true
+        
         self.logger.send(.app, "포그라운드 진입", nil)
     }
 
