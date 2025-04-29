@@ -29,6 +29,7 @@ final class LockViewController: BaseViewController<LockView> {
         super.viewDidLoad()
         
         bind()
+        store.send(.view(.viewDidLoad))
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -54,6 +55,13 @@ final class LockViewController: BaseViewController<LockView> {
                       input.count <= store.totalPins else { return }
                 
                 store.send(.view(.didEnterPassword(input)))
+            }
+            .store(in: &cancellables)
+        
+        contentView.hintButton.tapPublisher
+            .sink { [weak self] _ in
+                guard let self else { return }
+                contentView.showHint(store.hint)
             }
             .store(in: &cancellables)
         

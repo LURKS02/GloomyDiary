@@ -29,6 +29,21 @@ final class LockView: UIView {
         $0.isHidden = true
     }
     
+    let hintButton: UIButton = UIButton().then {
+        let attributes: [NSAttributedString.Key: Any] = [
+            .font: UIFont.온글잎_의연체.body,
+            .foregroundColor: AppColor.Text.subHighlight.color,
+            .underlineStyle: NSUnderlineStyle.single.rawValue
+        ]
+        let attributedTitle = NSAttributedString(string: "잊어버렸어요", attributes: attributes)
+        $0.setAttributedTitle(attributedTitle, for: .normal)
+    }
+    
+    private let hintLabel = NormalLabel().then {
+        $0.isHidden = true
+        $0.textColor = AppColor.Text.fogHighlight.color
+    }
+    
     private let totalPins: Int
     
     private var isMismatch: Bool = false
@@ -69,6 +84,8 @@ final class LockView: UIView {
         addSubview(informationLabel)
         addSubview(hiddenTextField)
         addSubview(stackView)
+        addSubview(hintButton)
+        addSubview(hintLabel)
     }
     
     private func setupConstraints() {
@@ -89,6 +106,16 @@ final class LockView: UIView {
             make.top.equalTo(informationLabel.snp.bottom).offset(40)
             make.height.equalTo(40)
             make.width.equalTo(205)
+        }
+        
+        hintButton.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.top.equalTo(stackView.snp.bottom).offset(20)
+        }
+        
+        hintLabel.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.top.equalTo(stackView.snp.bottom).offset(20)
         }
     }
 }
@@ -111,11 +138,17 @@ extension LockView {
     func configureForMismatch() {
         isMismatch = true
         informationLabel.text = """
-                                비밀번호가 틀립니다.
+                                비밀번호가 틀렸습니다.
                                 다시 입력해주세요.
                                 """
         informationLabel.textColor = AppColor.Text.warning.color
         highlightStarlights(number: 0)
         hiddenTextField.text = ""
+    }
+    
+    func showHint(_ hint: String) {
+        hintButton.isHidden = true
+        hintLabel.text = hint
+        hintLabel.isHidden = false
     }
 }

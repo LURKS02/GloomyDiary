@@ -10,6 +10,8 @@ import Foundation
 
 @Reducer
 struct PasswordLock {
+    @Dependency(\.userSetting) var userSetting
+    
     enum PasswordState {
         case comfirming
         case mismatch
@@ -18,7 +20,7 @@ struct PasswordLock {
     @ObservableState
     struct State: Equatable {
         let totalPins: Int = 4
-        
+        var hint: String = ""
         var password: String = ""
         var checkFlag: PasswordState = .comfirming
         var prepareForDismiss: Bool = false
@@ -33,6 +35,7 @@ struct PasswordLock {
     
     enum ViewAction: Equatable {
         case didEnterPassword(String)
+        case viewDidLoad
     }
     
     enum InnerAction: Equatable {
@@ -49,6 +52,10 @@ struct PasswordLock {
             switch action {
             case .view(let viewAction):
                 switch viewAction {
+                case .viewDidLoad:
+                    state.hint = userSetting.get(keyPath: \.lockHint)
+                    return .none
+                    
                 case .didEnterPassword(let password):
                     state.password = password
                     guard password.count == state.totalPins else { return .none }

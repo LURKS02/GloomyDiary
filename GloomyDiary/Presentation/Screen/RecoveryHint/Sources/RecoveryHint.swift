@@ -11,6 +11,7 @@ import Foundation
 @Reducer
 struct RecoveryHint {
     @Dependency(\.dismiss) var dismiss
+    @Dependency(\.userSetting) var userSetting
     
     @ObservableState
     struct State: Equatable {
@@ -54,7 +55,11 @@ struct RecoveryHint {
                     }
                     
                 case .didTapNextButton:
+                    let hint = state.hint
                     return .run { _ in
+                        try? userSetting.update(keyPath: \.isLocked, value: true)
+                        try? userSetting.update(keyPath: \.lockHint, value: hint)
+                        
                         await dismiss()
                     }
                     
