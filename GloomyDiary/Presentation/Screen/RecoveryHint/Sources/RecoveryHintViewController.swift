@@ -1,5 +1,5 @@
 //
-//  PasswordViewController.swift
+//  RecoveryHintViewController.swift
 //  GloomyDiary
 //
 //  Created by 디해 on 4/29/25.
@@ -8,17 +8,14 @@
 import ComposableArchitecture
 import UIKit
 
-final class PasswordViewController: BaseViewController<PasswordView> {
+final class RecoveryHintViewController: BaseViewController<RecoveryHintView> {
     
-    let store: StoreOf<Password>
+    let store: StoreOf<RecoveryHint>
     
-    private let backgroundTap = UITapGestureRecognizer()
-    
-    init(store: StoreOf<Password>) {
+    init(store: StoreOf<RecoveryHint>) {
         self.store = store
-        let contentView = PasswordView(totalPins: store.totalPins)
         
-        super.init(contentView)
+        super.init()
     }
     
     @MainActor required init?(coder: NSCoder) {
@@ -32,26 +29,12 @@ final class PasswordViewController: BaseViewController<PasswordView> {
         bind()
         
         navigationController?.delegate = self
-        
-        Task { @MainActor in
-            guard let tabBarController = tabBarController as? FloatingTabBarController else { return }
-            await tabBarController.playDisappearingTabBar(duration: 0.3)
-        }
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        navigationController?.setNavigationBarHidden(false, animated: true)
-        contentView.makeInitialTextFieldFirstResponder()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
-        if isMovingFromParent {
-            navigationController?.setNavigationBarHidden(true, animated: true)
-        }
+        navigationController?.setNavigationBarHidden(true, animated: true)
     }
     
     private func setupNavigationBar() {
@@ -71,45 +54,30 @@ final class PasswordViewController: BaseViewController<PasswordView> {
     }
     
     private func bind() {
-        contentView.addGestureRecognizer(backgroundTap)
-        
-        backgroundTap.tapPublisher
-            .sink { [weak self] _ in
-                guard let self else { return }
-                contentView.makeInitialTextFieldFirstResponder()
+        contentView.hintTextField.textPublisher
+            .sink { [weak self] text in
+                guard let self,
+                      let text else { return }
+                store.send(.view(.didEnterText(text)))
             }
             .store(in: &cancellables)
         
-        contentView.hiddenInitialTextField.textPublisher
-            .sink { [weak self] input in
-                guard let input,
-                      let self,
-                      input.count <= store.totalPins else { return }
-                
-                store.send(.view(.didEnterPassword(input)))
+        contentView.nextButton.tapPublisher
+            .sink { [weak self] in
+                self?.store.send(.view(.didTapNextButton))
+                Toast.show(text: "비밀번호를 설정했습니다.")
             }
             .store(in: &cancellables)
         
         observe { [weak self] in
             guard let self else { return }
-            
-            switch store.checkFlag {
-            case .initial:
-                contentView.highlightStarlights(number: store.initialPassword.count)
-            case .resetForConfirmation:
-                contentView.configureForConfirmation()
-            case .mismatch:
-                contentView.configureForMismatch()
-            case .confirming:
-                contentView.highlightStarlights(number: store.confirmingPassword.count)
-            case .confirmed:
-                navigationController?.delegate = nil
-            }
+            contentView.nextButton.isEnabled = store.isSendable
+            contentView.warningLabel.text = store.warning
         }
     }
 }
 
-extension PasswordViewController: FromTransitionable {
+extension RecoveryHintViewController: FromTransitionable {
     var fromTransitionComponent: UIView? {
         nil
     }
@@ -123,7 +91,7 @@ extension PasswordViewController: FromTransitionable {
     }
 }
 
-extension PasswordViewController: ToTransitionable {
+extension RecoveryHintViewController: ToTransitionable {
     var toTransitionComponent: UIView? {
         nil
     }
@@ -146,7 +114,7 @@ extension PasswordViewController: ToTransitionable {
     }
 }
 
-extension PasswordViewController: UINavigationControllerDelegate {
+extension RecoveryHintViewController: UINavigationControllerDelegate {
     func navigationController(
         _ navigationController: UINavigationController,
         animationControllerFor operation: UINavigationController.Operation,

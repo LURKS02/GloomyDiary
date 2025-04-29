@@ -15,7 +15,7 @@ final class ThemeView: UIView {
         static let buttonHeight: CGFloat = .deviceAdjustedHeight(397)
     }
     
-     let titleLabel = NormalLabel().then {
+    let titleLabel = NormalLabel().then {
         $0.text = "테마 바꾸기"
     }
     

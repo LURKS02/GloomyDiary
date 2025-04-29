@@ -174,6 +174,7 @@ enum AppImage {
         case letter
         case weather(Weather)
         case emoji(Emoji)
+        case starlight(Bool)
         
         var image: UIImage {
             return image(for: AppEnvironment.appearanceMode)
@@ -344,6 +345,27 @@ enum AppImage {
                         UIImage(named: "surprised_dark")!
                     case .light:
                         UIImage(named: "surprised_light")!
+                    }
+                }
+                
+            case .starlight(let isSelected):
+                if isSelected {
+                    switch mode {
+                    case .default:
+                        image(for: resolvedDefault)
+                    case .dark:
+                        UIImage(named: "starlight")!.withTintColor(#colorLiteral(red: 1, green: 0.7960784314, blue: 0.5019607843, alpha: 1))
+                    case .light:
+                        UIImage(named: "starlight")!.withTintColor(#colorLiteral(red: 1, green: 0.9058823529, blue: 0.6549019608, alpha: 1))
+                    }
+                } else {
+                    switch mode {
+                    case .default:
+                        image(for: resolvedDefault)
+                    case .dark:
+                        UIImage(named: "starlight")!.withTintColor(#colorLiteral(red: 0.3843137255, green: 0.3843137255, blue: 0.3843137255, alpha: 1))
+                    case .light:
+                        UIImage(named: "starlight")!.withTintColor(#colorLiteral(red: 0.8509803922, green: 0.8509803922, blue: 0.8509803922, alpha: 1))
                     }
                 }
             }

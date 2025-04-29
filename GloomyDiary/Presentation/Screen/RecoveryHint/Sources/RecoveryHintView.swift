@@ -1,5 +1,5 @@
 //
-//  PasswordView.swift
+//  RecoveryHintView.swift
 //  GloomyDiary
 //
 //  Created by 디해 on 4/29/25.
@@ -7,42 +7,34 @@
 
 import UIKit
 
-final class PasswordView: UIView {
+final class RecoveryHintView: UIView {
     
     private let titleLabel = NormalLabel().then {
-        $0.text = "비밀번호 설정"
+        $0.text = "비밀번호 힌트"
     }
     
     private let informationLabel = NormalLabel().then {
         $0.textColor = AppColor.Text.fogHighlight.color
         $0.text = """
-                  새로운 비밀번호를
-                  입력해주세요.
+                  (옵션)
+                  비밀번호를 잊어버렸을 때
+                  사용할 힌트를 입력해주세요.
                   """
     }
     
-    private let stackView = UIStackView().then {
-        $0.axis = .horizontal
-        $0.distribution = .fillEqually
-        $0.spacing = 15
+    let hintTextField = RoundTextField()
+    
+    let warningLabel = UILabel().then {
+        $0.textColor = AppColor.Text.warning.color
+        $0.font = .온글잎_의연체.body
+        $0.textAlignment = .center
     }
     
-    private var starlightViews: [StarlightView] = []
-    
-    let hiddenInitialTextField = UITextField().then {
-        $0.keyboardType = .numberPad
-        $0.isHidden = true
+    let nextButton = SubHorizontalButton().then {
+        $0.setTitle("완료", for: .normal)
     }
     
-    private let totalPins: Int
-    
-    private var isMismatch: Bool = false
-    
-    
-    // MARK: - Initialize
-    
-    init(totalPins: Int) {
-        self.totalPins = totalPins
+    init() {
         super.init(frame: .zero)
         
         setup()
@@ -56,22 +48,14 @@ final class PasswordView: UIView {
     
     private func setup() {
         backgroundColor = AppColor.Background.letter.color
-        setupStarlights()
-    }
-    
-    private func setupStarlights() {
-        for _ in 0..<totalPins {
-            let starlightView = StarlightView()
-            stackView.addArrangedSubview(starlightView)
-            starlightViews.append(starlightView)
-        }
     }
     
     private func addSubviews() {
         addSubview(titleLabel)
         addSubview(informationLabel)
-        addSubview(hiddenInitialTextField)
-        addSubview(stackView)
+        addSubview(hintTextField)
+        addSubview(nextButton)
+        addSubview(warningLabel)
     }
     
     private func setupConstraints() {
@@ -85,56 +69,26 @@ final class PasswordView: UIView {
             make.centerX.equalToSuperview()
         }
         
-        stackView.snp.makeConstraints { make in
+        hintTextField.snp.makeConstraints { make in
+            make.top.equalTo(informationLabel.snp.bottom).offset(40)
             make.centerX.equalToSuperview()
-            make.top.equalTo(informationLabel.snp.bottom).offset(60)
-            make.height.equalTo(40)
-            make.width.equalTo(205)
+            make.height.equalTo(60)
+            make.width.equalTo(CGFloat.deviceAdjustedWidth(312))
         }
-    }
-}
-
-extension PasswordView {
-    func makeInitialTextFieldFirstResponder() {
-        hiddenInitialTextField.becomeFirstResponder()
-    }
-    
-    func makeCheckTextFieldFirstResponder() {
         
-    }
-    
-    func highlightStarlights(number: Int) {
-        starlightViews.enumerated().forEach { (index, view) in
-            if index < number {
-                view.isSelected = true
-            } else {
-                view.isSelected = false
-            }
+        warningLabel.snp.makeConstraints { make in
+            make.top.equalTo(hintTextField.snp.bottom).offset(20)
+            make.leading.equalTo(hintTextField.snp.leading).offset(10)
         }
-    }
-    
-    func configureForConfirmation() {
-        informationLabel.text = """
-                                다시 한 번
-                                입력해주세요.
-                                """
-        highlightStarlights(number: 0)
-        hiddenInitialTextField.text = ""
-    }
-    
-    func configureForMismatch() {
-        isMismatch = true
-        informationLabel.text = """
-                                비밀번호가 틀립니다.
-                                다시 입력해주세요.
-                                """
-        informationLabel.textColor = AppColor.Text.warning.color
-        highlightStarlights(number: 0)
-        hiddenInitialTextField.text = ""
+        
+        nextButton.snp.makeConstraints { make in
+            make.top.equalTo(hintTextField.snp.bottom).offset(60)
+            make.centerX.equalToSuperview()
+        }
     }
 }
 
-extension PasswordView {
+extension RecoveryHintView {
     @MainActor
     func playAppearingAnimation(duration: TimeInterval) async {
         let targetFrame = CGRect(

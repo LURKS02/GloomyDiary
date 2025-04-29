@@ -55,6 +55,15 @@ struct SettingNavigation {
                     await send(.setting(.scope(.changeThemeIfNeeded)))
                 }
                 
+            case .path(.element(id: _, action: .password(.delegate(.navigateToRecoveryHint)))):
+                state.path.removeLast()
+                state.path.append(.recoveryHint(.init()))
+                return .none
+                
+            case .path(.element(id: _, action: .recoveryHint(.delegate(.dismissAll)))):
+                state.path = StackState()
+                return .none
+                
             case .path:
                 return .none
             }
@@ -68,5 +77,6 @@ extension SettingNavigation {
     enum Path {
         case theme(ChoosingTheme)
         case password(Password)
+        case recoveryHint(RecoveryHint)
     }
 }
