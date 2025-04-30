@@ -22,6 +22,8 @@ struct SettingNavigation {
     enum Action: Equatable {
         case path(StackActionOf<Path>)
         case setting(Setting.Action)
+        
+        case unlockSuccessfully
     }
     
     var body: some Reducer<State, Action> {
@@ -43,8 +45,15 @@ struct SettingNavigation {
                     return .none
                     
                 case .password:
-                    state.path.append(.password(.init()))
-                    return .none
+                    return .run { send in
+                        await MainActor.run {
+                            PasswordLockManager.shared.presentLockScreenIfNeeded(isDismissable: true) {
+                                Task {
+                                    send(.unlockSuccessfully)
+                                }
+                            }
+                        }
+                    }
                 }
                 
             case .setting:
@@ -69,6 +78,10 @@ struct SettingNavigation {
                 return .none
                 
             case .path:
+                return .none
+                
+            case .unlockSuccessfully:
+                state.path.append(.password(.init()))
                 return .none
             }
         }

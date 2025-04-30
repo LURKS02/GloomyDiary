@@ -38,7 +38,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 
     func sceneWillEnterForeground(_ scene: UIScene) {
-        PasswordLockManager.shared.presentLockScreenIfNeeded()
+        PasswordLockManager.shared.presentLockScreenIfNeeded(isDismissable: false)
         hasShownLockScreen = true
         
         self.logger.send(.app, "포그라운드 진입", nil)

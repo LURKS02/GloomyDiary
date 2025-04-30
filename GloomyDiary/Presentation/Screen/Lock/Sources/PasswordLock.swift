@@ -27,6 +27,7 @@ struct PasswordLock {
         var password: String = ""
         var checkFlag: PasswordState = .comfirming
         var prepareForDismiss: Bool = false
+        var didSucceed: Bool = false
     }
     
     enum Action: FeatureAction, Equatable {
@@ -40,6 +41,7 @@ struct PasswordLock {
         case didEnterPassword(String)
         case viewDidLoad
         case viewDidAppear
+        case didTapDismissButton
     }
     
     enum InnerAction: Equatable {
@@ -58,7 +60,7 @@ struct PasswordLock {
             case .view(let viewAction):
                 switch viewAction {
                 case .viewDidLoad:
-                    state.hint = userSetting.get(keyPath: \.lockHint)
+                    state.hint = "힌트: " + userSetting.get(keyPath: \.lockHint)
                     
                     return .run { send in
                         let password = await passwordStore.load() ?? ""
@@ -77,6 +79,7 @@ struct PasswordLock {
                     guard password.count == state.totalPins else { return .none }
                         
                     if password == state.keychainPassword {
+                        state.didSucceed = true
                         return .run { send in
                             try? await Task.sleep(nanoseconds: 100_000_000)
                             await send(.inner(.prepareForDismiss))
@@ -87,6 +90,11 @@ struct PasswordLock {
                             await send(.inner(.changeState(.mismatch)))
                             await send(.inner(.changeState(.comfirming)))
                         }
+                    }
+                    
+                case .didTapDismissButton:
+                    return .run { send in
+                        await send(.inner(.prepareForDismiss))
                     }
                 }
                 

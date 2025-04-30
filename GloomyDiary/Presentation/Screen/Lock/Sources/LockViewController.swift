@@ -14,9 +14,18 @@ final class LockViewController: BaseViewController<LockView> {
     
     private let backgroundTap = UITapGestureRecognizer()
     
-    init(store: StoreOf<PasswordLock>) {
+    var onSuccess: (() -> Void)?
+    
+    var onDismiss: (() -> Void)?
+    
+    private var hasTriggered: Bool = false
+    
+    init(isDismissable: Bool, store: StoreOf<PasswordLock>) {
         self.store = store
-        let contentView = LockView(totalPins: 4)
+        let contentView = LockView(
+            isDismissable: isDismissable,
+            totalPins: store.totalPins
+        )
         
         super.init(contentView)
     }
@@ -71,10 +80,24 @@ final class LockViewController: BaseViewController<LockView> {
             }
             .store(in: &cancellables)
         
+        contentView.dismissButton.tapPublisher
+            .sink { [weak self] _ in
+                guard let self else { return }
+                store.send(.view(.didTapDismissButton))
+            }
+            .store(in: &cancellables)
+        
         observe { [weak self] in
             guard let self else { return }
             
-            guard !store.prepareForDismiss else { return self.dismiss(animated: true) }
+            guard !store.prepareForDismiss else {
+                self.onDismiss?()
+                if store.didSucceed && hasTriggered == false {
+                    hasTriggered = true
+                    self.onSuccess?()
+                }
+                return self.dismiss(animated: true)
+            }
             
             switch store.checkFlag {
             case .comfirming:

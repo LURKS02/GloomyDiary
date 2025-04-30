@@ -18,7 +18,7 @@ final class PasswordLockManager {
     
     private var isShowing: Bool = false
     
-    func presentLockScreenIfNeeded() {
+    func presentLockScreenIfNeeded(isDismissable: Bool, onSuccess: (() -> Void)? = nil) {
         guard !isShowing,
               userSetting.get(keyPath: \.isLocked) == true else { return }
         
@@ -26,8 +26,15 @@ final class PasswordLockManager {
               let window = windowScene.windows.first(where: { $0.isKeyWindow }),
               let rootViewController = window.rootViewController else { return }
         
-        let lockViewController = LockViewController(store: .init(initialState: .init(), reducer: { PasswordLock() } ))
+        let lockViewController = LockViewController(
+            isDismissable: isDismissable,
+            store: .init(initialState: .init(), reducer: { PasswordLock() } )
+        )
         lockViewController.modalPresentationStyle = .fullScreen
+        lockViewController.onSuccess = onSuccess
+        lockViewController.onDismiss = {
+            self.isShowing = false
+        }
         
         rootViewController.present(lockViewController, animated: true) {
             self.isShowing = true

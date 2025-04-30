@@ -44,6 +44,15 @@ final class LockView: UIView {
         $0.textColor = AppColor.Text.fogHighlight.color
     }
     
+    let dismissButton = UIButton().then {
+        let imageConfig = UIImage.SymbolConfiguration(pointSize: 20, weight: .bold)
+        let image = UIImage(systemName: "xmark", withConfiguration: imageConfig)
+        
+        $0.setImage(image, for: .normal)
+        $0.tintColor = AppColor.Component.navigationItem.color
+        $0.backgroundColor = .clear
+    }
+    
     private let totalPins: Int
     
     private var isMismatch: Bool = false
@@ -52,13 +61,15 @@ final class LockView: UIView {
     
     // MARK: - Initialize
     
-    init(totalPins: Int) {
+    init(isDismissable: Bool, totalPins: Int) {
         self.totalPins = totalPins
         super.init(frame: .zero)
         
         setup()
         addSubviews()
         setupConstraints()
+        
+        dismissButton.isHidden = !isDismissable
     }
 
     required init?(coder: NSCoder) {
@@ -86,6 +97,7 @@ final class LockView: UIView {
         addSubview(stackView)
         addSubview(hintButton)
         addSubview(hintLabel)
+        addSubview(dismissButton)
     }
     
     private func setupConstraints() {
@@ -116,6 +128,12 @@ final class LockView: UIView {
         hintLabel.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
             make.top.equalTo(stackView.snp.bottom).offset(20)
+        }
+        
+        dismissButton.snp.makeConstraints { make in
+            make.top.equalTo(self.safeAreaLayoutGuide.snp.top).offset(10)
+            make.leading.equalToSuperview().offset(25)
+            make.size.equalTo(20)
         }
     }
 }
