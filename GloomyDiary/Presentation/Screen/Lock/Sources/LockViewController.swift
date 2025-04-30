@@ -38,6 +38,12 @@ final class LockViewController: BaseViewController<LockView> {
         contentView.makeTextFieldFirstResponder()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        store.send(.view(.viewDidAppear))
+    }
+    
     private func bind() {
         contentView.addGestureRecognizer(backgroundTap)
         

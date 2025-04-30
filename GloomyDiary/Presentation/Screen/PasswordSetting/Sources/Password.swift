@@ -11,6 +11,8 @@ import Foundation
 @Reducer
 struct Password {
     @Dependency(\.dismiss) var dismiss
+    @Dependency(\.passwordStore) var passwordStore
+    @Dependency(\.userSetting) var userSetting
     
     enum PasswordState {
         case initial
@@ -22,6 +24,8 @@ struct Password {
     
     @ObservableState
     struct State: Equatable {
+        @Presents var delete: Alert.State?
+        
         let totalPins: Int = 4
         
         var initialPassword: String = ""
@@ -39,6 +43,7 @@ struct Password {
     enum ViewAction: Equatable {
         case didTapBackButton
         case didEnterPassword(String)
+        case didTapDeleteButton
     }
     
     enum InnerAction: Equatable {
@@ -46,10 +51,14 @@ struct Password {
         case didResetForConfirmation
     }
     
-    enum ScopeAction: Equatable {}
+    @CasePathable
+    enum ScopeAction: Equatable {
+        case delete(PresentationAction<Alert.Action>)
+    }
     
     enum DelegateAction: Equatable {
-        case navigateToRecoveryHint
+        case navigateToRecoveryHint(String)
+        case popPassword
     }
     
     var body: some Reducer<State, Action> {
@@ -61,6 +70,10 @@ struct Password {
                     return .run { _ in
                         await dismiss()
                     }
+                    
+                case .didTapDeleteButton:
+                    state.delete = .init()
+                    return .none
                     
                 case .didEnterPassword(let password):
                     switch state.checkFlag {
@@ -81,12 +94,13 @@ struct Password {
                         guard password.count == state.totalPins else { return .none }
                         
                         if state.initialPassword == state.confirmingPassword {
+                            let password = state.confirmingPassword
+                            
                             return .run { send in
                                 await send(.inner(.changeState(.confirmed)))
                                 try? await Task.sleep(nanoseconds: 100_000_000)
                                 
-                                await send(.delegate(.navigateToRecoveryHint))
-//                                await dismiss()
+                                await send(.delegate(.navigateToRecoveryHint(password)))
                             }
                         } else {
                             return .run { send in
@@ -118,9 +132,30 @@ struct Password {
                     return .none
                 }
                 
+            case .scope(let scopeAction):
+                switch scopeAction {
+                case .delete(.presented(.delegate(.didAccept))):
+                    state.delete = nil
+                    
+                    return .run { send in
+                        passwordStore.delete()
+                        passwordStore.deleteBiometrics()
+                        try? userSetting.update(keyPath: \.isLocked, value: false)
+                        try? userSetting.update(keyPath: \.lockHint, value: "")
+                        
+                        await send(.delegate(.popPassword))
+                    }
+                    
+                case .delete:
+                    return .none
+                }
+                
             case .delegate:
                 return .none
             }
+        }
+        .ifLet(\.$delete, action: \.scope.delete) {
+            Alert()
         }
     }
 }

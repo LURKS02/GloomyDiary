@@ -11,10 +11,12 @@ import Foundation
 @Reducer
 struct RecoveryHint {
     @Dependency(\.dismiss) var dismiss
+    @Dependency(\.passwordStore) var passwordStore
     @Dependency(\.userSetting) var userSetting
     
     @ObservableState
     struct State: Equatable {
+        let password: String
         var hint: String = ""
         var warning: String = ""
         var isSendable: Bool = true
@@ -56,9 +58,12 @@ struct RecoveryHint {
                     
                 case .didTapNextButton:
                     let hint = state.hint
+                    let password = state.password
                     return .run { _ in
                         try? userSetting.update(keyPath: \.isLocked, value: true)
                         try? userSetting.update(keyPath: \.lockHint, value: hint)
+                        passwordStore.save(password: password)
+                        passwordStore.saveWithBiometrics(password: password)
                         
                         await dismiss()
                     }

@@ -9,5 +9,11 @@ import Foundation
 
 protocol PasswordStorable {
     func save(password: String)
-    func load() async throws -> String
+    func saveWithBiometrics(password: String)
+    
+    func load() async -> String?
+    func loadWithBiometrics() async -> String?
+    
+    func delete()
+    func deleteBiometrics()
 }

@@ -14,6 +14,8 @@ final class PasswordSettingViewController: BaseViewController<PasswordView> {
     
     private let backgroundTap = UITapGestureRecognizer()
     
+    private var deleteViewController: UIViewController?
+    
     init(store: StoreOf<Password>) {
         self.store = store
         let contentView = PasswordView(totalPins: store.totalPins)
@@ -90,8 +92,29 @@ final class PasswordSettingViewController: BaseViewController<PasswordView> {
             }
             .store(in: &cancellables)
         
+        contentView.deleteButton.tapPublisher
+            .sink { [weak self] _ in
+                guard let self else { return }
+                store.send(.view(.didTapDeleteButton))
+            }
+            .store(in: &cancellables)
+        
         observe { [weak self] in
             guard let self else { return }
+            
+            if let store = store.scope(state: \.delete, action: \.scope.delete.presented) {
+                guard self.deleteViewController == nil else { return }
+                
+                let vc = AlertViewController(store: store)
+                vc.modalPresentationStyle = .overFullScreen
+                self.deleteViewController = vc
+                present(vc, animated: false)
+            } else {
+                if let deleteViewController = self.deleteViewController {
+                    deleteViewController.dismiss(animated: false)
+                    self.deleteViewController = nil
+                }
+            }
             
             switch store.checkFlag {
             case .initial:

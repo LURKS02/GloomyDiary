@@ -10,6 +10,7 @@ import Foundation
 
 @Reducer
 struct PasswordLock {
+    @Dependency(\.passwordStore) var passwordStore
     @Dependency(\.userSetting) var userSetting
     
     enum PasswordState {
@@ -20,6 +21,8 @@ struct PasswordLock {
     @ObservableState
     struct State: Equatable {
         let totalPins: Int = 4
+        var keychainPassword: String = ""
+        
         var hint: String = ""
         var password: String = ""
         var checkFlag: PasswordState = .comfirming
@@ -36,9 +39,11 @@ struct PasswordLock {
     enum ViewAction: Equatable {
         case didEnterPassword(String)
         case viewDidLoad
+        case viewDidAppear
     }
     
     enum InnerAction: Equatable {
+        case didLoadPassword(String)
         case prepareForDismiss
         case changeState(PasswordState)
     }
@@ -54,13 +59,24 @@ struct PasswordLock {
                 switch viewAction {
                 case .viewDidLoad:
                     state.hint = userSetting.get(keyPath: \.lockHint)
-                    return .none
+                    
+                    return .run { send in
+                        let password = await passwordStore.load() ?? ""
+                        await send(.inner(.didLoadPassword(password)))
+                    }
+                    
+                case .viewDidAppear:
+                    return .run { send in
+                        guard let result = await passwordStore.loadWithBiometrics() else { return }
+                        
+                        await send(.view(.didEnterPassword(result)))
+                    }
                     
                 case .didEnterPassword(let password):
                     state.password = password
                     guard password.count == state.totalPins else { return .none }
                         
-                    if password == "1234" {
+                    if password == state.keychainPassword {
                         return .run { send in
                             try? await Task.sleep(nanoseconds: 100_000_000)
                             await send(.inner(.prepareForDismiss))
@@ -76,6 +92,10 @@ struct PasswordLock {
                 
             case .inner(let innerAction):
                 switch innerAction {
+                case .didLoadPassword(let password):
+                    state.keychainPassword = password
+                    return .none
+                    
                 case .prepareForDismiss:
                     state.prepareForDismiss = true
                     return .none

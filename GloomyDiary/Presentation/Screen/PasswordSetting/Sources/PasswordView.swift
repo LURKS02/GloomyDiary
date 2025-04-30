@@ -34,6 +34,16 @@ final class PasswordView: UIView {
         $0.isHidden = true
     }
     
+    let deleteButton: UIButton = UIButton().then {
+        let attributes: [NSAttributedString.Key: Any] = [
+            .font: UIFont.온글잎_의연체.body,
+            .foregroundColor: AppColor.Text.subHighlight.color,
+            .underlineStyle: NSUnderlineStyle.single.rawValue
+        ]
+        let attributedTitle = NSAttributedString(string: "비밀번호 해제", attributes: attributes)
+        $0.setAttributedTitle(attributedTitle, for: .normal)
+    }
+    
     private let totalPins: Int
     
     private var isMismatch: Bool = false
@@ -72,6 +82,7 @@ final class PasswordView: UIView {
         addSubview(informationLabel)
         addSubview(hiddenTextField)
         addSubview(stackView)
+        addSubview(deleteButton)
     }
     
     private func setupConstraints() {
@@ -90,6 +101,11 @@ final class PasswordView: UIView {
             make.top.equalTo(informationLabel.snp.bottom).offset(60)
             make.height.equalTo(40)
             make.width.equalTo(205)
+        }
+        
+        deleteButton.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.top.equalTo(stackView.snp.bottom).offset(20)
         }
     }
 }

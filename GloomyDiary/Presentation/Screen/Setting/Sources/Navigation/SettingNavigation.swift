@@ -55,9 +55,13 @@ struct SettingNavigation {
                     await send(.setting(.scope(.changeThemeIfNeeded)))
                 }
                 
-            case .path(.element(id: _, action: .password(.delegate(.navigateToRecoveryHint)))):
+            case .path(.element(id: _, action: .password(.delegate(.navigateToRecoveryHint(let password))))):
                 state.path.removeLast()
-                state.path.append(.recoveryHint(.init()))
+                state.path.append(.recoveryHint(.init(password: password)))
+                return .none
+                
+            case .path(.element(id: _, action: .password(.delegate(.popPassword)))):
+                state.path.removeLast()
                 return .none
                 
             case .path(.element(id: _, action: .recoveryHint(.delegate(.dismissAll)))):
