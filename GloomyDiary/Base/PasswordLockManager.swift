@@ -34,7 +34,10 @@ final class PasswordLockManager {
     
     func presentLockScreenIfNeeded(isDismissable: Bool, onSuccess: (() -> Void)? = nil) {
         guard !isShowingLockScreen,
-              userSetting.get(keyPath: \.isLocked) == true else { return }
+              userSetting.get(keyPath: \.isLocked) == true else {
+            onSuccess?()
+            return 
+        }
         
         guard let windowScene = UIApplication.shared.connectedScenes.first(where: { $0 is UIWindowScene }) as? UIWindowScene,
               let window = windowScene.windows.first(where: { $0.isKeyWindow }),
