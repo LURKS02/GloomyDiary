@@ -139,6 +139,24 @@ final class LockView: UIView {
 }
 
 extension LockView {
+    func changeThemeIfNeeded() {
+        backgroundColor = AppColor.Background.letter.color
+        characterImageView.image = AppImage.Character.counselor(randomCharacter, .normal).image
+        
+        informationLabel.textColor = AppColor.Text.fogHighlight.color
+        starlightViews.forEach { $0.changeThemeIfNeeded() }
+        hintLabel.textColor = AppColor.Text.fogHighlight.color
+        dismissButton.tintColor = AppColor.Component.navigationItem.color
+        
+        let attributes: [NSAttributedString.Key: Any] = [
+            .font: UIFont.온글잎_의연체.body,
+            .foregroundColor: AppColor.Text.subHighlight.color,
+            .underlineStyle: NSUnderlineStyle.single.rawValue
+        ]
+        let attributedTitle = NSAttributedString(string: "잊어버렸어요", attributes: attributes)
+        hintButton.setAttributedTitle(attributedTitle, for: .normal)
+    }
+    
     func makeTextFieldFirstResponder() {
         hiddenTextField.becomeFirstResponder()
     }

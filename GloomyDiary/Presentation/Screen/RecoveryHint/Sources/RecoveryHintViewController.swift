@@ -54,6 +54,17 @@ final class RecoveryHintViewController: BaseViewController<RecoveryHintView> {
     }
     
     private func bind() {
+        NotificationCenter.default
+            .publisher(for: .themeShouldRefresh)
+            .receive(on: RunLoop.main)
+            .sink { [weak self] _ in
+                UIView.animate(withDuration: 0.2) {
+                    self?.contentView.changeThemeIfNeeded()
+                    self?.navigationItem.leftBarButtonItem?.tintColor = AppColor.Component.navigationItem.color
+                }
+            }
+            .store(in: &cancellables)
+        
         contentView.hintTextField.textPublisher
             .sink { [weak self] text in
                 guard let self,

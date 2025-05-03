@@ -54,6 +54,16 @@ final class LockViewController: BaseViewController<LockView> {
     }
     
     private func bind() {
+        NotificationCenter.default
+            .publisher(for: .themeShouldRefresh)
+            .receive(on: RunLoop.main)
+            .sink { [weak self] _ in
+                UIView.animate(withDuration: 0.2) {
+                    self?.contentView.changeThemeIfNeeded()
+                }
+            }
+            .store(in: &cancellables)
+        
         contentView.addGestureRecognizer(backgroundTap)
         
         backgroundTap.tapPublisher
@@ -68,7 +78,6 @@ final class LockViewController: BaseViewController<LockView> {
                 guard let input,
                       let self,
                       input.count <= store.totalPins else { return }
-                
                 store.send(.view(.didEnterPassword(input)))
             }
             .store(in: &cancellables)

@@ -65,7 +65,7 @@ final class PasswordView: UIView {
     }
     
     private func setup() {
-        backgroundColor = AppColor.Background.letter.color
+        backgroundColor = AppColor.Background.main.color
         setupStarlights()
     }
     
@@ -111,6 +111,26 @@ final class PasswordView: UIView {
 }
 
 extension PasswordView {
+    func changeThemeIfNeeded() {
+        backgroundColor = AppColor.Background.main.color
+        titleLabel.changeThemeIfNeeded()
+        
+        if isMismatch {
+            informationLabel.textColor = AppColor.Text.warning.color
+        } else {
+            informationLabel.textColor = AppColor.Text.fogHighlight.color
+        }
+        starlightViews.forEach { $0.changeThemeIfNeeded() }
+        
+        let attributes: [NSAttributedString.Key: Any] = [
+            .font: UIFont.온글잎_의연체.body,
+            .foregroundColor: AppColor.Text.subHighlight.color,
+            .underlineStyle: NSUnderlineStyle.single.rawValue
+        ]
+        let attributedTitle = NSAttributedString(string: "비밀번호 해제", attributes: attributes)
+        deleteButton.setAttributedTitle(attributedTitle, for: .normal)
+    }
+    
     func makeTextFieldFirstResponder() {
         hiddenTextField.becomeFirstResponder()
     }

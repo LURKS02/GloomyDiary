@@ -84,6 +84,15 @@ final class AlertView: UIView {
 }
 
 extension AlertView {
+    func changeThemeIfNeeded() {
+        sheetBackgroundView.backgroundColor = AppColor.Background.main.color
+        notificationLabel.changeThemeIfNeeded()
+        acceptButton.changeThemeIfNeeded()
+        rejectButton.changeThemeIfNeeded()
+    }
+}
+
+extension AlertView {
     @MainActor
     func playFadeInAnimation() async {
         sheetBackgroundView.transform = .identity.scaledBy(x: 0.75, y: 0.75)

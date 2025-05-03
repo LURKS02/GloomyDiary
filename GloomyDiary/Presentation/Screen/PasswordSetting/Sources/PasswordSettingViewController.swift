@@ -46,6 +46,7 @@ final class PasswordSettingViewController: BaseViewController<PasswordView> {
         
         navigationController?.setNavigationBarHidden(false, animated: true)
         contentView.makeTextFieldFirstResponder()
+        contentView.changeThemeIfNeeded()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -74,6 +75,17 @@ final class PasswordSettingViewController: BaseViewController<PasswordView> {
     
     private func bind() {
         contentView.addGestureRecognizer(backgroundTap)
+        
+        NotificationCenter.default
+            .publisher(for: .themeShouldRefresh)
+            .receive(on: RunLoop.main)
+            .sink { [weak self] _ in
+                UIView.animate(withDuration: 0.2) {
+                    self?.contentView.changeThemeIfNeeded()
+                    self?.navigationItem.leftBarButtonItem?.tintColor = AppColor.Component.navigationItem.color
+                }
+            }
+            .store(in: &cancellables)
         
         backgroundTap.tapPublisher
             .sink { [weak self] _ in

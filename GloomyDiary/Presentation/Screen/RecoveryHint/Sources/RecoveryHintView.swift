@@ -47,7 +47,7 @@ final class RecoveryHintView: UIView {
     }
     
     private func setup() {
-        backgroundColor = AppColor.Background.letter.color
+        backgroundColor = AppColor.Background.main.color
     }
     
     private func addSubviews() {
@@ -85,6 +85,18 @@ final class RecoveryHintView: UIView {
             make.top.equalTo(hintTextField.snp.bottom).offset(60)
             make.centerX.equalToSuperview()
         }
+    }
+}
+
+extension RecoveryHintView {
+    func changeThemeIfNeeded() {
+        backgroundColor = AppColor.Background.main.color
+        
+        titleLabel.changeThemeIfNeeded()
+        informationLabel.textColor = AppColor.Text.fogHighlight.color
+        hintTextField.changeThemeIfNeeded()
+        warningLabel.textColor = AppColor.Text.warning.color
+        nextButton.changeThemeIfNeeded(with: AppEnvironment.appearanceMode)
     }
 }
 
