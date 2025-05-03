@@ -28,6 +28,8 @@
 		D93569DA2DB18DEA00C23237 /* stars_light.json in Resources */ = {isa = PBXBuildFile; fileRef = D93569D82DB18DEA00C23237 /* stars_light.json */; };
 		D9356A2C2DB5622E00C23237 /* AppearanceMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9356A2B2DB5622E00C23237 /* AppearanceMode.swift */; };
 		D9356A2D2DB5622E00C23237 /* AppearanceMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9356A2B2DB5622E00C23237 /* AppearanceMode.swift */; };
+		D939D9282DC6A6B70080BF08 /* Extension+Bundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = D939D9272DC6A6B70080BF08 /* Extension+Bundle.swift */; };
+		D939D9292DC6A6B70080BF08 /* Extension+Bundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = D939D9272DC6A6B70080BF08 /* Extension+Bundle.swift */; };
 		D95A29CD2CFCF08C0007A71A /* LocalError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95A29CC2CFCF08C0007A71A /* LocalError.swift */; };
 		D95A32DC2D00DCF50007A71A /* 온글잎 의연체.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D95A32DB2D00DCF50007A71A /* 온글잎 의연체.ttf */; };
 		D95A41B12D08AFFA0007A71A /* Extension+CGFloat.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95A41B02D08AFFA0007A71A /* Extension+CGFloat.swift */; };
@@ -150,6 +152,7 @@
 		D93569CC2DB0D31500C23237 /* pulsingCircle_light.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = pulsingCircle_light.json; sourceTree = "<group>"; };
 		D93569D82DB18DEA00C23237 /* stars_light.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = stars_light.json; sourceTree = "<group>"; };
 		D9356A2B2DB5622E00C23237 /* AppearanceMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppearanceMode.swift; sourceTree = "<group>"; };
+		D939D9272DC6A6B70080BF08 /* Extension+Bundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+Bundle.swift"; sourceTree = "<group>"; };
 		D94350B62D36A60000659380 /* CacheTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheTests.swift; sourceTree = "<group>"; };
 		D95A29CC2CFCF08C0007A71A /* LocalError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalError.swift; sourceTree = "<group>"; };
 		D95A32DB2D00DCF50007A71A /* 온글잎 의연체.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "온글잎 의연체.ttf"; sourceTree = "<group>"; };
@@ -489,6 +492,7 @@
 				D95C18242CCE98E000055C7C /* Extension+String.swift */,
 				D95A41B02D08AFFA0007A71A /* Extension+CGFloat.swift */,
 				D9998B8C2D3C319500FADEE2 /* Extension+Array.swift */,
+				D939D9272DC6A6B70080BF08 /* Extension+Bundle.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -809,6 +813,7 @@
 				D95C181F2CCE7E1C00055C7C /* Presentable.swift in Sources */,
 				D95C18212CCE7E5A00055C7C /* PresentingDisappearable.swift in Sources */,
 				D9609F512CC0426B005E8F0C /* Extension+Date.swift in Sources */,
+				D939D9292DC6A6B70080BF08 /* Extension+Bundle.swift in Sources */,
 				D9D9E0C12C6B9E400095792A /* GradientView.swift in Sources */,
 				D95A29CD2CFCF08C0007A71A /* LocalError.swift in Sources */,
 				D99BF17C2CBEC14E00465718 /* CounselingSession.swift in Sources */,
@@ -857,6 +862,7 @@
 				D9995A932D3AE2A8008E6F71 /* Presentable.swift in Sources */,
 				D9995A962D3AE2A8008E6F71 /* PresentingDisappearable.swift in Sources */,
 				D9995A982D3AE2A8008E6F71 /* Extension+Date.swift in Sources */,
+				D939D9282DC6A6B70080BF08 /* Extension+Bundle.swift in Sources */,
 				D9995A992D3AE2A8008E6F71 /* GradientView.swift in Sources */,
 				D9995A9B2D3AE2A8008E6F71 /* LocalError.swift in Sources */,
 				D9995A9C2D3AE2A8008E6F71 /* CounselingSession.swift in Sources */,
@@ -1531,7 +1537,7 @@
 			repositoryURL = "https://github.com/amplitude/Amplitude-Swift";
 			requirement = {
 				kind = exactVersion;
-				version = 1.11.0;
+				version = 1.12.0;
 			};
 		};
 		D9FCFF9F2CB9A86600A53A14 /* XCRemoteSwiftPackageReference "OpenAI" */ = {
