@@ -117,6 +117,8 @@
 		D9CF37962CF39C5500B1A92D /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = D9CF37952CF39C5500B1A92D /* FirebaseAnalytics */; };
 		D9CF37982CF39C5500B1A92D /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = D9CF37972CF39C5500B1A92D /* FirebaseCrashlytics */; };
 		D9CF38422CF4D1EA00B1A92D /* AmplitudeSwift in Frameworks */ = {isa = PBXBuildFile; productRef = D9CF38412CF4D1EA00B1A92D /* AmplitudeSwift */; };
+		D9D6C0AA2DC126780021BB97 /* PasswordLockManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D6C0A92DC126780021BB97 /* PasswordLockManager.swift */; };
+		D9D6C0AB2DC126780021BB97 /* PasswordLockManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D6C0A92DC126780021BB97 /* PasswordLockManager.swift */; };
 		D9D9E00E2C5C1C2E0095792A /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D9E00B2C5C1C2E0095792A /* Color.swift */; };
 		D9D9E00F2C5C1C2E0095792A /* Font.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D9E00C2C5C1C2E0095792A /* Font.swift */; };
 		D9D9E0122C5C1C340095792A /* Extension+UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D9E0102C5C1C340095792A /* Extension+UIColor.swift */; };
@@ -192,6 +194,7 @@
 		D9BF60B02CCE31C8001C9D2B /* DismissedAppearable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DismissedAppearable.swift; sourceTree = "<group>"; };
 		D9CF31912CED096500B1A92D /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
 		D9CF37922CF39BAC00B1A92D /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		D9D6C0A92DC126780021BB97 /* PasswordLockManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordLockManager.swift; sourceTree = "<group>"; };
 		D9D9E00B2C5C1C2E0095792A /* Color.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		D9D9E00C2C5C1C2E0095792A /* Font.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Font.swift; sourceTree = "<group>"; };
 		D9D9E0102C5C1C340095792A /* Extension+UIColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Extension+UIColor.swift"; sourceTree = "<group>"; };
@@ -531,6 +534,7 @@
 				D9185F1B2D466C2300936684 /* BaseViewController.swift */,
 				D95A29CC2CFCF08C0007A71A /* LocalError.swift */,
 				D9356A2B2DB5622E00C23237 /* AppearanceMode.swift */,
+				D9D6C0A92DC126780021BB97 /* PasswordLockManager.swift */,
 			);
 			path = Base;
 			sourceTree = "<group>";
@@ -842,6 +846,7 @@
 				D95C18252CCE98E000055C7C /* Extension+String.swift in Sources */,
 				D9BF60B12CCE31C8001C9D2B /* DismissedAppearable.swift in Sources */,
 				D9BF60672CC6DC37001C9D2B /* CounselRepositoryKey.swift in Sources */,
+				D9D6C0AA2DC126780021BB97 /* PasswordLockManager.swift in Sources */,
 				D9BF60612CC6C580001C9D2B /* AppEnvironment.swift in Sources */,
 				D97421B22C5ABE12002E47F9 /* AppDelegate.swift in Sources */,
 				D973F4052D2EDD27003F36E8 /* ArrayTransformer.swift in Sources */,
@@ -891,6 +896,7 @@
 				D9995AF12D3AE2A8008E6F71 /* Extension+String.swift in Sources */,
 				D9995AF52D3AE2A8008E6F71 /* DismissedAppearable.swift in Sources */,
 				D9995AF82D3AE2A8008E6F71 /* CounselRepositoryKey.swift in Sources */,
+				D9D6C0AB2DC126780021BB97 /* PasswordLockManager.swift in Sources */,
 				D9995AF92D3AE2A8008E6F71 /* AppEnvironment.swift in Sources */,
 				D9995AFA2D3AE2A8008E6F71 /* AppDelegate.swift in Sources */,
 				D9995AFB2D3AE2A8008E6F71 /* ArrayTransformer.swift in Sources */,
@@ -982,7 +988,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -1043,7 +1049,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
@@ -1182,7 +1188,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -1242,7 +1248,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = ZT2M7655AF;
+				DEVELOPMENT_TEAM = "";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = GloomyDiary/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "울다";
