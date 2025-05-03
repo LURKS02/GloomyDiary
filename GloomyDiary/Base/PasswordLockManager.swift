@@ -36,12 +36,14 @@ final class PasswordLockManager {
         guard !isShowingLockScreen,
               userSetting.get(keyPath: \.isLocked) == true else {
             onSuccess?()
-            return 
+            return
         }
         
         guard let windowScene = UIApplication.shared.connectedScenes.first(where: { $0 is UIWindowScene }) as? UIWindowScene,
               let window = windowScene.windows.first(where: { $0.isKeyWindow }),
               let rootViewController = window.rootViewController else { return }
+        
+        self.isShowingLockScreen = true
         
         let lockViewController = LockViewController(
             isDismissable: isDismissable,
@@ -53,8 +55,6 @@ final class PasswordLockManager {
             self.isShowingLockScreen = false
         }
         
-        rootViewController.present(lockViewController, animated: true) {
-            self.isShowingLockScreen = true
-        }
+        rootViewController.present(lockViewController, animated: true)
     }
 }

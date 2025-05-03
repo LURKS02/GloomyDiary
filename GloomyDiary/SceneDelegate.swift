@@ -32,16 +32,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     func sceneDidBecomeActive(_ scene: UIScene) {
         LocalNotificationService.shared.scheduleDailyNotifications(for: 60)
-        PasswordLockManager.shared.toggleMaskingWindow(false)
     }
 
     func sceneWillResignActive(_ scene: UIScene) {
-        PasswordLockManager.shared.toggleMaskingWindow(true)
     }
 
     func sceneWillEnterForeground(_ scene: UIScene) {
-        PasswordLockManager.shared.presentLockScreenIfNeeded(isDismissable: false)
         PasswordLockManager.shared.toggleMaskingWindow(false)
+        PasswordLockManager.shared.presentLockScreenIfNeeded(isDismissable: false)
         hasShownLockScreen = true
         
         self.logger.send(.app, "포그라운드 진입", nil)
