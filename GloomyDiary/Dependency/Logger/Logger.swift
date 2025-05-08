@@ -15,17 +15,26 @@ struct Logger {
         return nil
         
         #else
+        guard Bundle.main.isAppStore else { return nil }
+        
         guard let path = Bundle.main.path(forResource: "Keys", ofType: "plist"),
               let dict = NSDictionary(contentsOfFile: path) as? [String: Any],
               let key = dict["AmplitudeAPIKey"] as? String
-        else { fatalError("Amplitude Key not found") }
+        else { return nil }
         
-        return Amplitude(
+        @Dependency(\.userSetting) var userSetting
+        
+        let amplitude = Amplitude(
             configuration: Configuration(
-            apiKey: key,
-            autocapture: []
+                apiKey: key,
+                autocapture: [.appLifecycles]
             )
         )
+        let userID = userSetting.get(keyPath: \.userID)
+        print(">>> \(userID)")
+        amplitude.setUserId(userId: userID.uuidString)
+        
+        return amplitude
         #endif
     }()
     
@@ -42,11 +51,11 @@ private enum LoggerKey: DependencyKey {
         return
         
         #else
-        var message = ""
+        var logMessage = message
         if let type {
-            message = "[\(type.keyword)] \(message) \(type.description)" }
-        else { message = message }
-        Logger.amplitude?.track(eventType: message, eventProperties: parameters)
+            logMessage = "[\(type.keyword)] \(message) \(type.description)"
+        }
+        Logger.amplitude?.track(eventType: logMessage, eventProperties: parameters)
         return
         #endif
     })

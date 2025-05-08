@@ -19,8 +19,11 @@ final class UserDefaultsData: UserDatabase {
         if let savedData,
            let savedSetting = try? decoder.decode(UserSetting.self, from: savedData) {
             self.setting = savedSetting
+            guard let encodedData = try? encoder.encode(savedSetting) else { fatalError("initial setting encoding error") }
+            userDefaults.set(encodedData, forKey: key)
         } else {
             let initialSetting = UserSetting(
+                userID: UUID(),
                 isFirstProcess: true,
                 hasReviewed: false,
                 lastReviewDeclinedDate: nil,

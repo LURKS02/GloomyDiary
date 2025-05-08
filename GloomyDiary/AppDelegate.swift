@@ -8,16 +8,21 @@
 import AmplitudeSwift
 import Dependencies
 import FirebaseCore
+import FirebaseCrashlytics
 import UIKit
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
     @Dependency(\.themeScheduler) var themeScheduler
+    @Dependency(\.userSetting) var userSetting
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         #if !DEBUG
-        FirebaseApp.configure()
+        if Bundle.main.isAppStore {
+            FirebaseApp.configure()
+            Crashlytics.crashlytics().setUserID(userSetting.get(keyPath: \.userID).uuidString)
+        }
         #endif
         
         ArrayTransformer.register()
