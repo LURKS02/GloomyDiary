@@ -39,6 +39,8 @@ final class PasswordSettingViewController: BaseViewController<PasswordView> {
             guard let tabBarController = tabBarController as? FloatingTabBarController else { return }
             await tabBarController.playDisappearingTabBar(duration: 0.3)
         }
+        
+        store.send(.view(.viewDidLoad))
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -113,6 +115,8 @@ final class PasswordSettingViewController: BaseViewController<PasswordView> {
         
         observe { [weak self] in
             guard let self else { return }
+            
+            contentView.deleteButton.isHidden = store.isDeleteButtonHidden
             
             if let store = store.scope(state: \.delete, action: \.scope.delete.presented) {
                 guard self.deleteViewController == nil else { return }

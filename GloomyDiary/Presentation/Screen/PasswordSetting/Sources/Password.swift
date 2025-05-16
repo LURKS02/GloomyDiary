@@ -31,6 +31,7 @@ struct Password {
         var initialPassword: String = ""
         var confirmingPassword: String = ""
         var checkFlag: PasswordState = .initial
+        var isDeleteButtonHidden: Bool = true
     }
     
     enum Action: FeatureAction, Equatable {
@@ -41,6 +42,7 @@ struct Password {
     }
     
     enum ViewAction: Equatable {
+        case viewDidLoad
         case didTapBackButton
         case didEnterPassword(String)
         case didTapDeleteButton
@@ -66,6 +68,14 @@ struct Password {
             switch action {
             case .view(let viewAction):
                 switch viewAction {
+                case .viewDidLoad:
+                    let isLocked = userSetting.get(keyPath: \.isLocked)
+                    
+                    if isLocked {
+                        state.isDeleteButtonHidden = false
+                    }
+                    return .none
+                    
                 case .didTapBackButton:
                     return .run { _ in
                         await dismiss()
