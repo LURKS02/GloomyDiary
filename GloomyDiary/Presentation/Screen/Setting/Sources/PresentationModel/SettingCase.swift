@@ -10,6 +10,7 @@ import Foundation
 enum SettingCase {
     case version
     case theme
+    case password
     
     var title: String {
         switch self {
@@ -17,6 +18,8 @@ enum SettingCase {
             "앱 버전"
         case .theme:
             "테마"
+        case .password:
+            "비밀번호 설정"
         }
     }
 }

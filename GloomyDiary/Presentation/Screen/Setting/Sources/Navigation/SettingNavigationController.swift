@@ -21,6 +21,10 @@ final class SettingNavigationController: NavigationStackController {
             switch store.case {
             case .theme(let store):
                 ThemeViewController(store: store)
+            case .password(let store):
+                PasswordSettingViewController(store: store)
+            case .recoveryHint(let store):
+                RecoveryHintViewController(store: store)
             }
         }
         
