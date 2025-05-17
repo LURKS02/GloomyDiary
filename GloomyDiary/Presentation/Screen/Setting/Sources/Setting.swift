@@ -22,6 +22,11 @@ struct Setting {
                 settingCase: .theme,
                 value: AppEnvironment.appearanceMode.name,
                 isNavigatable: true
+            ),
+            SettingMenuItem(
+                settingCase: .password,
+                value: "",
+                isNavigatable: true
             )
         ]
     }

@@ -2,6 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>NSFaceIDUsageDescription</key>
+	<string>비밀번호를 불러오기 위해 Face ID 인증이 필요합니다.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>온글잎 의연체.ttf</string>

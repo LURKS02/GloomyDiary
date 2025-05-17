@@ -14,6 +14,8 @@ struct UserSetting: Codable {
     var lastReviewDeclinedDate: Date?
     var hasSuggestedNotification: Bool
     var appearanceMode: AppearanceMode
+    var isLocked: Bool
+    var lockHint: String
     
     init(
         userID: UUID,
@@ -21,7 +23,9 @@ struct UserSetting: Codable {
         hasReviewed: Bool,
         lastReviewDeclinedDate: Date?,
         hasSuggestedNotification: Bool,
-        appearanceMode: AppearanceMode
+        appearanceMode: AppearanceMode,
+        isLocked: Bool,
+        lockHint: String
     ) {
         self.userID = userID
         self.isFirstProcess = isFirstProcess
@@ -29,6 +33,8 @@ struct UserSetting: Codable {
         self.lastReviewDeclinedDate = lastReviewDeclinedDate
         self.hasSuggestedNotification = hasSuggestedNotification
         self.appearanceMode = appearanceMode
+        self.isLocked = isLocked
+        self.lockHint = lockHint
     }
     
     init(from decoder: any Decoder) throws {
@@ -39,5 +45,7 @@ struct UserSetting: Codable {
         self.lastReviewDeclinedDate = try container.decodeIfPresent(Date.self, forKey: .lastReviewDeclinedDate)
         self.hasSuggestedNotification = try container.decode(Bool.self, forKey: .hasSuggestedNotification)
         self.appearanceMode = try container.decodeIfPresent(AppearanceMode.self, forKey: .appearanceMode) ?? .dark
+        self.isLocked = try container.decodeIfPresent(Bool.self, forKey: .isLocked) ?? false
+        self.lockHint = try container.decodeIfPresent(String.self, forKey: .lockHint) ?? ""
     }
 }
