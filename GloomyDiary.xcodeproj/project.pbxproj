@@ -1083,7 +1083,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.3.0;
+				MARKETING_VERSION = 1.3.1;
 				OTHER_LDFLAGS = "-ObjC";
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.terranav.gloomydiary;
@@ -1119,7 +1119,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.3.0;
+				MARKETING_VERSION = 1.3.1;
 				OTHER_LDFLAGS = "-ObjC";
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.terranav.gloomydiary;
@@ -1223,7 +1223,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.3.0;
+				MARKETING_VERSION = 1.3.1;
 				OTHER_LDFLAGS = "-ObjC";
 				OTHER_SWIFT_FLAGS = "-D\"SCROLL_TEST\"";
 				PRODUCT_BUNDLE_IDENTIFIER = com.terranav.gloomydiary;
@@ -1248,7 +1248,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = ZT2M7655AF;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = GloomyDiary/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "울다";
@@ -1260,7 +1260,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.3.0;
+				MARKETING_VERSION = 1.3.1;
 				OTHER_LDFLAGS = "-ObjC";
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.terranav.gloomydiary;
@@ -1297,7 +1297,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.3.0;
+				MARKETING_VERSION = 1.3.1;
 				OTHER_LDFLAGS = "-ObjC";
 				OTHER_SWIFT_FLAGS = "-D\"SCROLL_TEST\"";
 				PRODUCT_BUNDLE_IDENTIFIER = com.terranav.gloomydiary;
@@ -1333,7 +1333,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.3.0;
+				MARKETING_VERSION = 1.3.1;
 				OTHER_LDFLAGS = "-ObjC";
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.terranav.gloomydiary;
