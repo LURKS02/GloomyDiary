@@ -39,6 +39,15 @@ Clone 후 GloomyDiaryExample 스킴을 빌드하여 제한된 기능으로 시�
 
 <br>
 
+<img width="275" height="341" alt="스크린샷 2025-08-18 오후 2 27 19" src="https://github.com/user-attachments/assets/fa28f93c-89f0-4f8f-912d-06cf045dab09" />
+
+(예시 이미지 입니다.)
+
+빌드 시 Macro “ComposableArchitectureMacros” from package ..." 와 같은 메시지가 뜬다면<br>
+모두 "Trust and Enable" 처리 후 빌드 해주세요.
+
+<br>
+
 <br>
 
 ## 프로젝트 정보
